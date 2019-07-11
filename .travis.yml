@@ -3,16 +3,15 @@ solution: ext_compiler.sln
 dotnet: 2.1.502
 mono: none
 
-
-
-before_install:
-  - sudo apt-get install nunit-console
+envs:
+  - SOLUTION=ext_compiler.sln
+  - BUILD_CONFIG=Release
 
 install:
-  - dotnet restore ext_compiler.sln
+  - dotnet restore 
 
 script:
-  - dotnet build ext_compiler.sln -c Release
+  - dotnet build $SOLUTION -c $BUILD_CONFIG
 
 after_script:
-  - dotnet test ext_compiler.sln
+  - dotnet test $SOLUTION

@@ -16,4 +16,4 @@ script:
   - dotnet publish ext_compiler_tests/ /p:Configuration=Release
 
 after_script:
-  - nunit-console ext_compiler_tests/bin/Release/netcoreapp2.1/publish/ext_compiler_tests.dll
+  - dotnet test ext_compiler_tests/bin/Release/netcoreapp2.1/publish/ext_compiler_tests.dll

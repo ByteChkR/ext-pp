@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Resources;
 using ext_compiler.extensions;
 
 namespace ext_compiler
@@ -10,16 +11,24 @@ namespace ext_compiler
     {
         public static string IncludeStatement = "#include";
         public static string TypeGenKeyword = "#type";
-        //public static string ErrorStatement = "#error";
-        //public static string WarningStatement = "#warning";
+        public static string ErrorStatement = "#error";
+        public static string WarningStatement = "#warning";
+        public static string IfStatement = "#if";
+        public static string ElseIfStatement = "#elseif";
+        public static string ElseStatement = "#else";
+        public static string EndIfStatement = "#endif";
+        public static string DefineStatement = "#define";
+        public static string UndefineStatement = "#undefine";
 
-        public string key
-        {
-            get { return filepath + GenParamAppendix; }
-        }
+
+
+        
         public string filepath;
         public string[] source = new string[0];
         public string[] genParam;
+        public string[] includes;
+        public string key => filepath + GenParamAppendix;
+
 
         public string GenParamAppendix
         {
@@ -30,7 +39,6 @@ namespace ext_compiler
                 return gp;
             }
         }
-        public string[] includes;
         public SourceScript(string path, string[] genParams)
         {
             this.genParam = genParams;
@@ -50,7 +58,26 @@ namespace ext_compiler
 
         }
 
+        public void RemoveStatementLines(string statement)
+        {
+            List<string> ret = source.ToList();
+            for (int i = ret.Count-1; i >=0; i--)
+            {
+                if (ret[i].Trim().StartsWith(statement))
+                {
+                    ret.RemoveAt(i);
+                }
+            }
 
+            source = ret.ToArray();
+        }
+
+        public static string[] GetValues(string statement)
+        {
+            string[] ret = statement.Split(' ');
+            return ret.SubArray(1, ret.Length - 1);
+
+        }
 
         private bool LoadSource(string path, string typeGenKeyword, string[] genParams = null)
         {
@@ -81,7 +108,7 @@ namespace ext_compiler
 
         }
 
-        private void ReplaceKeyWord(string replacement, string keyword)
+        public void ReplaceKeyWord(string replacement, string keyword)
         {
 
             for (int i = 0; i < source.Length; i++)
@@ -110,13 +137,17 @@ namespace ext_compiler
             return subgparams;
         }
 
-        public static List<string> RemoveIncludeStatements(List<string> source)
+
+        public static List<string> RemoveStatements(List<string> source, string[] statements)
         {
 
-            Console.WriteLine("Post Processing Include Statements..");
+            Console.WriteLine("Post Processing Statements..");
             for (int i = source.Count - 1; i >= 0; i--)
             {
-                if (source[i].StartsWith(SourceScript.IncludeStatement)) source.RemoveAt(i);
+                for (int j = 0; j < statements.Length; j++)
+                {
+                    if (source[i].StartsWith(statements[j])) source.RemoveAt(i);
+                }
             }
             return source;
         }
@@ -151,7 +182,7 @@ namespace ext_compiler
 
         public string[] FindStatements(string statement)
         {
-            return source.ToList().Where(x => x.StartsWith(statement)).ToArray();
+            return source.ToList().Where(x => x.Trim().StartsWith(statement)).ToArray();
         }
     }
 }

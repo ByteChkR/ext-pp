@@ -10,7 +10,7 @@ namespace ext_compiler
     {
         public static string[] CompileFile(string path)
         {
-            
+
             string[] ret = CompileTree(LoadSourceTree(path));
 
             Console.WriteLine("Compilation DONE!");
@@ -20,16 +20,55 @@ namespace ext_compiler
         private static string[] CompileTree(List<SourceScript> tree)
         {
             List<string> ret = new List<string>();
+            ConditionalResolver.ResolveConditions(tree, new Dictionary<string, bool>());
+            ProcessWarningsAndErrors(tree);
+
+
             for (int i = tree.Count - 1; i >= 0; i--)
             {
                 Console.WriteLine("Compiling File: " + tree[i].filepath);
+                
                 ret.AddRange(tree[i].source);
             }
 
-            return SourceScript.RemoveIncludeStatements(ret).ToArray();
+            return SourceScript.RemoveStatements(ret, new[] { SourceScript.WarningStatement, SourceScript.ErrorStatement }).ToArray();
         }
 
 
+
+        private static void ProcessWarningsAndErrors(List<SourceScript> tree)
+        {
+            foreach (var sourceScript in tree)
+            {
+                ProcessWarningsAndErrors(sourceScript);
+            }
+        }
+
+        private static void ProcessWarningsAndErrors(SourceScript script)
+        {
+            Console.WriteLine("Processing Warnings and Errors");
+            List<string> warnings = script.FindStatements(SourceScript.WarningStatement).ToList();
+            for (int i = 0; i < warnings.Count; i++)
+            {
+                Console.WriteLine("Warning(" + script.filepath + "): " + SourceScript.GetValues(warnings[i]).Unpack(' '));
+            }
+            List<string> errs = script.FindStatements(SourceScript.ErrorStatement).ToList();
+            for (int i = 0; i < errs.Count; i++)
+            {
+                Console.WriteLine("Error: (" + script.filepath + "): " + SourceScript.GetValues(errs[i]).Unpack(' '));
+            }
+
+            if (errs.Count != 0)
+            {
+                Exception e = new Exception("One or more errors in source code.");
+                e.Data.Add("warnings", warnings);
+                e.Data.Add("errors", errs);
+
+                throw e;
+            }
+            script.RemoveStatementLines(SourceScript.WarningStatement);
+            script.RemoveStatementLines(SourceScript.ErrorStatement);
+        }
 
 
         public static List<SourceScript> LoadSourceTree(string file)
@@ -37,9 +76,13 @@ namespace ext_compiler
             file = Path.GetFullPath(file);
             List<SourceScript> ret = new List<SourceScript>();
             Console.WriteLine("Creating Source Dependency Tree..");
-            return LoadSourceTree(file, ret);
+            LoadSourceTree(file, ret);
+
+
+
+            return ret;
         }
-        private static List<SourceScript> LoadSourceTree(string file, List<SourceScript> sources, string[] genParams = null)
+        private static void LoadSourceTree(string file, List<SourceScript> sources, string[] genParams = null)
         {
             SourceScript ss;
 
@@ -58,7 +101,6 @@ namespace ext_compiler
                 LoadSourceTree(ss, sources);
             }
 
-            return sources;
         }
 
         private static void LoadSourceTree(SourceScript script, List<SourceScript> sources)

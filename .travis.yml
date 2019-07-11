@@ -3,7 +3,7 @@ solution: ext_compiler.sln
 dotnet: 2.1.502
 mono: none
 
-envs:
+env:
   - SOLUTION="ext_compiler.sln"
   - BUILDCONFIG="Release"
 

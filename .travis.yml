@@ -4,14 +4,14 @@ dotnet: 2.1.502
 mono: none
 
 envs:
-  - SOLUTION=ext_compiler.sln
-  - BUILD_CONFIG=Release
+  - SOLUTION="ext_compiler.sln"
+  - BUILDCONFIG="Release"
 
 install:
   - dotnet restore 
 
 script:
-  - dotnet build $SOLUTION -c $BUILD_CONFIG
+  - dotnet build $SOLUTION -c $BUILDCONFIG
 
 after_script:
   - dotnet test $SOLUTION

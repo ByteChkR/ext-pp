@@ -25,11 +25,11 @@ namespace ext_compiler
                 }
                 else if (args[i] == "-tgen" || args[i] == "-typeGenericKeyword")
                 {
-                    ExtensionCompiler.TypeGenKeyword = args[i + 1];
+                    SourceScript.TypeGenKeyword = args[i + 1];
                 }
                 else if (args[i] == "-inc" || args[i] == "-includeStatement")
                 {
-                    ExtensionCompiler.IncludeStatement = args[i + 1];
+                    SourceScript.IncludeStatement = args[i + 1];
                 }
             }
 

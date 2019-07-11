@@ -7,7 +7,7 @@ Small program to artificially extend a programming language with include stateme
 ext_compiler.dll [-option VALUE]
 
 ### Options:
-* -i/-input <InputFile>
-* -o/-output <OutputFile>
-* -tgen/-typeGenericKeyword <typeGenericKeyword>
-* -inc/-includeStatement <includeStatement>
+* -i/-input [InputFile]
+* -o/-output [OutputFile]
+* -tgen/-typeGenericKeyword [typeGenericKeyword]
+* -inc/-includeStatement [includeStatement]

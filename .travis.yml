@@ -1,7 +1,7 @@
 language: csharp
 solution: ext_compiler.sln
 dotnet: 2.1.502
-
+mono: none
 
 before_install:
   - sudo apt-get install nunit-console

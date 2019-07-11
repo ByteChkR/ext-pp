@@ -9,4 +9,4 @@ before_script:
   - nuget restore ext_compiler.sln
 after_script:
   - dotnet publish ext_compiler_tests/ /p:Configuration=Release
-  - nunit-console ext_compiler_tests/bin/Release/netcoreapp2.1/publish/ADL.UnitTests.dll
+  - nunit-console ext_compiler_tests/bin/Release/netcoreapp2.1/publish/ext_compiler_tests.dll

@@ -10,7 +10,7 @@ namespace ext_compiler
     {
         public static string[] CompileFile(string path)
         {
-            path = Path.GetFullPath(path);
+            
             string[] ret = CompileTree(LoadSourceTree(path));
 
             Console.WriteLine("Compilation DONE!");
@@ -32,8 +32,9 @@ namespace ext_compiler
 
 
 
-        private static List<SourceScript> LoadSourceTree(string file)
+        public static List<SourceScript> LoadSourceTree(string file)
         {
+            file = Path.GetFullPath(file);
             List<SourceScript> ret = new List<SourceScript>();
             Console.WriteLine("Creating Source Dependency Tree..");
             return LoadSourceTree(file, ret);

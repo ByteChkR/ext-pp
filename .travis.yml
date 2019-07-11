@@ -1,0 +1,12 @@
+language: csharp
+solution: ext_compiler.sln
+dotnet: 2.1.502
+
+
+before_install:
+  - sudo apt-get install nunit-console
+before_script:
+  - nuget restore ext_compiler.sln
+after_script:
+  - dotnet publish ext_compiler_tests/ /p:Configuration=Release
+  - nunit-console ext_compiler_tests/bin/Release/netcoreapp2.1/publish/ADL.UnitTests.dll

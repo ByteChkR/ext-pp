@@ -1,5 +1,5 @@
 # ext-compiler
-Small program to artificially extend a programming language with include statements and static generics
+Small external text preprocessor that can introduce artificial static generics* different preprocessor keywords like #define #include #if and more to any kind of text file. Its main purpose is to keep me from copying my errors around when writing different opencl kernels.
 
 ## Status:
 Master: [![Build Status](https://travis-ci.com/ByteChkR/ext-compiler.svg?branch=master)](https://travis-ci.com/ByteChkR/ext-compiler)  

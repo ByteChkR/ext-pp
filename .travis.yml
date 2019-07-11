@@ -3,9 +3,13 @@ solution: ext_compiler.sln
 dotnet: 2.1.502
 mono: none
 
-env:
-  - SOLUTION="ext_compiler.sln"
-  - BUILDCONFIG="Release"
+matrix:
+  include:
+    - dotnet: 2.1.502
+      mono: none
+      env:
+        - SOLUTION="ext_compiler.sln"
+        - BUILDCONFIG="Release"
 
 install:
   - dotnet restore 

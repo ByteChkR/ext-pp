@@ -6,7 +6,7 @@ namespace ext_pp
 {
     internal static class Extensions
     {
-
+        
         public static string Unpack(this IEnumerable<string> arr)
         {
             string s = "";

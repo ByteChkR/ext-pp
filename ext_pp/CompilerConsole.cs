@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using ADL;
 using ADL.Configs;
 using ADL.Crash;
@@ -13,13 +12,11 @@ using MatchType = ADL.MatchType;
 
 namespace ext_pp
 {
-    public static class CompilerConsole
+    public class CompilerConsole
     {
-        
 
-        static void Main(string[] args)
+        public CompilerConsole(string[] args)
         {
-            InitADL();
 
             #region Preinformation
 
@@ -29,7 +26,7 @@ namespace ext_pp
             {
                 vset = true;
                 int idx = args.ToList().IndexOf(isShort ? "-v" : "--verbosity");
-                if (!int.TryParse(args[idx+1], out var level))
+                if (!int.TryParse(args[idx + 1], out var level))
                 {
                     Logger.Log(DebugLevel.WARNINGS, "Verbosity level needs to be a positive number.", Verbosity.ALWAYS_SEND);
                 }
@@ -49,18 +46,42 @@ namespace ext_pp
                 {
                     Settings.VerbosityLevel = Verbosity.SILENT;
                 }
-                else if(vset && Settings.VerbosityLevel > 0)
+                else if (vset && Settings.VerbosityLevel > 0)
                     Logger.Log(DebugLevel.WARNINGS, "Writing to console. paired with log output. the output may only be usable for testing purposes.", Verbosity.ALWAYS_SEND);
 
             }
 
             #endregion
+            ProcessInput(args, out string input, out string output, out Dictionary<string, bool> defs);
+
+            Logger.Log(DebugLevel.LOGS, "Input file: " + input, Verbosity.ALWAYS_SEND);
+            Logger.Log(DebugLevel.LOGS, "Output file: " + output, Verbosity.ALWAYS_SEND);
 
 
-            Dictionary<string, bool> defs = new Dictionary<string, bool>();
-            string input = "";
-            string output = "";
+            string[] source = ExtensionProcessor.CompileFile(input, defs);
 
+
+            if (Settings.WriteToConsole)
+            {
+                foreach (var s in source)
+                {
+                    Console.WriteLine(s);
+                }
+            }
+            else
+            {
+                if (File.Exists(output))
+                    File.Delete(output);
+                File.WriteAllLines(output, source);
+            }
+
+        }
+
+        public static bool ProcessInput(string[] args, out string input, out string output, out Dictionary<string, bool> defs)
+        {
+            defs = new Dictionary<string, bool>();
+            input = output = "";
+            
             #region Argument Analysis
 
             for (int i = 0; i < args.Length - 1; i++)
@@ -174,6 +195,7 @@ namespace ext_pp
 
                     int idx = args[i].IndexOf(':') + 1;
                     string prop = args[i].Substring(idx);
+                    
                     if (!Settings.KeyWordHandles.ContainsKey(prop))
                     {
                         Logger.Log(DebugLevel.WARNINGS, "Invalid Property Key.",
@@ -226,31 +248,20 @@ namespace ext_pp
 #if DEBUG
                 Console.ReadLine();
 #endif
-                return;
+                return false;
             }
-
             #endregion
 
-            Logger.Log(DebugLevel.LOGS, "Input file: " + input, Verbosity.ALWAYS_SEND);
-            Logger.Log(DebugLevel.LOGS, "Output file: " + output, Verbosity.ALWAYS_SEND);
+            return true;
 
 
-            string[] source = ExtensionProcessor.CompileFile(input);
+        }
 
+        static void Main(string[] args)
+        {
+            InitADL();
 
-            if (Settings.WriteToConsole)
-            {
-                foreach (var s in source)
-                {
-                    Console.WriteLine(s);
-                }
-            }
-            else
-            {
-                if (File.Exists(output))
-                    File.Delete(output);
-                File.WriteAllLines(output, source);
-            }
+            CompilerConsole cc = new CompilerConsole(args);
 
 #if DEBUG
             Console.ReadLine();
@@ -261,7 +272,7 @@ namespace ext_pp
 
         static void InitADL()
         {
-            
+
             CrashHandler.Initialize((int)DebugLevel.ERRORS, false);
             Debug.LoadConfig((AdlConfig)new AdlConfig().GetStandard());
             Debug.SetAllPrefixes("[ERRORS]", "[WARNINGS]", "[LOGS]");
@@ -272,7 +283,7 @@ namespace ext_pp
                 -1,
                 MatchType.MatchAll,
                 true);
-            
+
             Debug.AddOutputStream(lts);
 
         }

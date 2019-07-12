@@ -63,10 +63,8 @@ namespace ext_pp
                     Logger.Log(DebugLevel.LOGS, "Found Conditional Statement: " + line, Verbosity.LEVEL5);
                     if (EvaluateConditionalStatements(currentGlobal, line))
                     {
-
                         if (elseisValid) elseisValid = false;
                         solvedFile.AddRange(script.Source.SubArray(i + 1, size));
-
                     }
                     else
                     {
@@ -90,12 +88,9 @@ namespace ext_pp
                         {
                             elseisValid = false;
                             solvedFile.AddRange(script.Source.SubArray(i + 1, size));
-
                         }
                         i += size;
-
                         foundConditions = true;
-
                     }
                     else
                     {
@@ -134,10 +129,14 @@ namespace ext_pp
                     if (openIf > 0)
                         openIf--;
                     else
+                    {
+
                         Logger.Crash(new Exception("the endif statement: " +
-                                            Settings.EndIfStatement +
-                                            " must be preceeded with " +
-                                            Settings.IfStatement));
+                                                   Settings.EndIfStatement +
+                                                   " must be preceeded with " +
+                                                   Settings.IfStatement), false);
+                        return false;
+                    }
                 }
                 else if (Settings.ResolveDefine &&
                          line.StartsWith(Settings.DefineStatement))

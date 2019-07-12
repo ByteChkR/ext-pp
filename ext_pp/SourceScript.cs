@@ -302,9 +302,7 @@ namespace ext_pp
                 SourceScript a = sources[idx];
                 sources.RemoveAt(idx);
                 sources.AddFile(a, true);
-
                 Logger.Log(DebugLevel.LOGS, "Fixing Source Order", Verbosity.LEVEL3);
-
             }
 
             return sucess;

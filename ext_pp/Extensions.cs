@@ -4,10 +4,10 @@ using System.Threading;
 
 namespace ext_compiler.extensions
 {
-    public static class Extensions
+    internal static class Extensions
     {
 
-        public static string Unpack(this string[] arr, char seperator=',')
+        public static string Unpack(this string[] arr, char seperator = ',')
         {
             string s = "";
             for (int i = 0; i < arr.Length; i++)
@@ -19,11 +19,17 @@ namespace ext_compiler.extensions
             return s;
         }
 
+        public static string[] GetStatementValues(this string statement)
+        {
+            string[] ret = statement.Split(' ');
+            return ret.SubArray(1, ret.Length - 1);
+        }
+
 
         public static T[] SubArray<T>(this T[] arr, int start, int length)
         {
             T[] ret = new T[length];
-            for (int i = start; i < start+length; i++)
+            for (int i = start; i < start + length; i++)
             {
                 ret[i - start] = arr[i];
             }

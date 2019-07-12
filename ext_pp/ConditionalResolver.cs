@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ext_compiler.extensions;
+using ext_compiler.settings;
 
 namespace ext_compiler
 {
@@ -10,7 +11,7 @@ namespace ext_compiler
 
         public static void ResolveConditions(List<SourceScript> tree, Dictionary<string, bool> globalTable = null)
         {
-            Console.WriteLine("Resolving Conditions in file tree");
+            Logger.Log(DebugLevel.LOGS, "Resolving Conditions in file tree", Verbosity.LEVEL2);
             if (globalTable == null)
                 globalTable = new Dictionary<string, bool>();
 
@@ -24,13 +25,13 @@ namespace ext_compiler
         public static void ResolveConditions(SourceScript script, Dictionary<string, bool> globalTable)
         {
 
-            Console.WriteLine("Resolving conditions in file: " + script.key);
+            Logger.Log(DebugLevel.LOGS, "Resolving conditions in file: " + script.key, Verbosity.LEVEL2);
             ResolveConditions(script, globalTable, 1);
         }
 
         private static void ResolveConditions(SourceScript script, Dictionary<string, bool> currentGlobal, int pass)
         {
-            Console.WriteLine("Condition Resolver Pass: " + pass);
+            Logger.Log(DebugLevel.LOGS, "Condition Resolver Pass: " + pass, Verbosity.LEVEL4);
             List<string> l = new List<string>();
             int openIf = 0;
             bool foundConditions = false;
@@ -38,9 +39,10 @@ namespace ext_compiler
             for (int i = 0; i < script.source.Length; i++)
             {
                 string line = script.source[i].Trim();
-                if (line.StartsWith(SourceScript.IfStatement))
+                if (line.StartsWith(ExtensionProcessor.settings.Keywords.IfStatement))
                 {
                     int size = GetBlockSize(script.source, i);
+                    Logger.Log(DebugLevel.LOGS, "Found Conditional Statement: " + line, Verbosity.LEVEL5);
                     if (EvaluateConditionalStatements(currentGlobal, line))
                     {
 
@@ -52,17 +54,20 @@ namespace ext_compiler
                     {
                         elseisValid = true;
                     }
+
                     openIf++;
                     i += size;
                     foundConditions = true;
 
                 }
-                else if (line.StartsWith(SourceScript.ElseIfStatement))
+                else if (line.StartsWith(ExtensionProcessor.settings.Keywords.ElseIfStatement))
                 {
 
                     if (openIf > 0)
                     {
                         int size = GetBlockSize(script.source, i);
+
+                        Logger.Log(DebugLevel.LOGS, "Found Conditional Statement: " + line, Verbosity.LEVEL5);
                         if (elseisValid && EvaluateConditionalStatements(currentGlobal, line))
                         {
 
@@ -77,16 +82,17 @@ namespace ext_compiler
                     }
                     else
                         throw new Exception("the else if statement: " +
-                                            SourceScript.ElseIfStatement +
+                                            ExtensionProcessor.settings.Keywords.ElseIfStatement +
                                             " must be preceeded with " +
-                                            SourceScript.IfStatement);
+                                            ExtensionProcessor.settings.Keywords.IfStatement);
 
                 }
-                else if (line.StartsWith(SourceScript.ElseStatement))
+                else if (line.StartsWith(ExtensionProcessor.settings.Keywords.ElseStatement))
                 {
                     if (openIf > 0)
                     {
                         int size = GetBlockSize(script.source, i);
+                        Logger.Log(DebugLevel.LOGS, "Found Conditional Else Statement: " + line, Verbosity.LEVEL5);
                         if (elseisValid)
                             l.AddRange(script.source.SubArray(i + 1, size));
 
@@ -95,28 +101,31 @@ namespace ext_compiler
                     }
                     else
                         throw new Exception("the else statement: " +
-                                            SourceScript.ElseStatement +
+                                            ExtensionProcessor.settings.Keywords.ElseStatement +
                                             " must be preceeded with " +
-                                            SourceScript.IfStatement);
+                                            ExtensionProcessor.settings.Keywords.IfStatement);
                 }
-                else if (line.StartsWith(SourceScript.EndIfStatement))
+                else if (line.StartsWith(ExtensionProcessor.settings.Keywords.EndIfStatement))
                 {
                     if (openIf > 0)
                         openIf--;
                     else
                         throw new Exception("the endif statement: " +
-                                            SourceScript.EndIfStatement +
+                                            ExtensionProcessor.settings.Keywords.EndIfStatement +
                                             " must be preceeded with " +
-                                            SourceScript.IfStatement);
+                                            ExtensionProcessor.settings.Keywords.IfStatement);
                 }
-                else if (line.StartsWith(SourceScript.DefineStatement))
+                else if (ExtensionProcessor.settings.ResolveDefine &&
+                         line.StartsWith(ExtensionProcessor.settings.Keywords.DefineStatement))
                 {
-                    DefineInGlobalTable(currentGlobal, SourceScript.GetValues(line));
+
+                    DefineInGlobalTable(currentGlobal, line.GetStatementValues());
                     l.Add(script.source[i]);
                 }
-                else if (line.StartsWith(SourceScript.UndefineStatement))
+                else if (ExtensionProcessor.settings.ResolveUnDefine &&
+                         line.StartsWith(ExtensionProcessor.settings.Keywords.UndefineStatement))
                 {
-                    UnDefineInGlobalTable(currentGlobal, SourceScript.GetValues(line));
+                    UnDefineInGlobalTable(currentGlobal, line.GetStatementValues());
                     l.Add(script.source[i]);
                 }
                 else
@@ -135,6 +144,8 @@ namespace ext_compiler
 
         private static bool EvaluateConditionalStatements(Dictionary<string, bool> globalTable, string statement)
         {
+            Logger.Log(DebugLevel.LOGS, "Evaluating Conditional Statement", Verbosity.LEVEL6);
+
             string[] cs = statement.Split(" ");
 
             bool ret = true;
@@ -148,16 +159,22 @@ namespace ext_compiler
 
         private static bool EvaluateExpression(Dictionary<string, bool> globalTable, string expression)
         {
-            return globalTable.ContainsKey(expression) && globalTable[expression];
+            Logger.Log(DebugLevel.LOGS, "Evaluating Expression: " + expression, Verbosity.LEVEL7);
+            bool val = globalTable.ContainsKey(expression) && globalTable[expression];
+            Logger.Log(DebugLevel.LOGS, "Expression Evaluated: " + val, Verbosity.LEVEL7);
+
+            return val;
         }
 
         private static void DefineInGlobalTable(Dictionary<string, bool> globalTable, string[] defines)
         {
+            Logger.Log(DebugLevel.LOGS, "Defining Symbols: " + defines.Unpack(), Verbosity.LEVEL5);
             SetInGlobalTable(globalTable, defines, true);
         }
 
         private static void UnDefineInGlobalTable(Dictionary<string, bool> globalTable, string[] defines)
         {
+            Logger.Log(DebugLevel.LOGS, "Undefining Symbols: " + defines.Unpack(), Verbosity.LEVEL5);
             SetInGlobalTable(globalTable, defines, false);
         }
 
@@ -180,19 +197,19 @@ namespace ext_compiler
             for (int i = start + 1; i < source.Length; i++)
             {
                 string line = source[i].Trim();
-                if (line.StartsWith(SourceScript.IfStatement))
+                if (line.StartsWith(ExtensionProcessor.settings.Keywords.IfStatement))
                 {
                     i += GetBlockSize(source, i);
                     tolerance++;
                 }
 
-                else if (line.StartsWith(SourceScript.EndIfStatement) ||
-                         line.StartsWith(SourceScript.ElseIfStatement) ||
-                         line.StartsWith(SourceScript.ElseStatement))
+                else if (line.StartsWith(ExtensionProcessor.settings.Keywords.EndIfStatement) ||
+                         line.StartsWith(ExtensionProcessor.settings.Keywords.ElseIfStatement) ||
+                         line.StartsWith(ExtensionProcessor.settings.Keywords.ElseStatement))
                 {
                     if (tolerance == 0)
                         return i - start - 1;
-                    if (line.StartsWith(SourceScript.EndIfStatement)) tolerance--;
+                    if (line.StartsWith(ExtensionProcessor.settings.Keywords.EndIfStatement)) tolerance--;
                 }
             }
 

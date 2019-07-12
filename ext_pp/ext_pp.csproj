@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Version>0.0.0.1</Version>
+    <Company>Tim Akermann</Company>
+    <Authors>Tim Akermann</Authors>
+    <Product>External PreProcessor</Product>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="ADL">
+      <HintPath>..\..\ADL\ADL\ADL\bin\Release\netstandard2.0\ADL.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

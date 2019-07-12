@@ -14,7 +14,7 @@ namespace ext_compiler.tests
         public void Setup()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            MethodPrecompiler.PrecompileClass(typeof(ExtensionCompiler));
+            MethodPrecompiler.PrecompileClass(typeof(ExtensionProcessor));
             MethodPrecompiler.PrecompileClass(typeof(SourceScript));
         }
 
@@ -22,7 +22,7 @@ namespace ext_compiler.tests
         public void IncludeCircular()
         {
             Assert.AreEqual(
-                ExtensionCompiler.LoadSourceTree("includecircular.cl").Count, 
+                ExtensionProcessor.LoadSourceTree("includecircular.cl").Count, 
                 3);
             
         }
@@ -31,7 +31,7 @@ namespace ext_compiler.tests
         public void IncludeGenericCircular()
         {
             Assert.AreEqual(
-                ExtensionCompiler.LoadSourceTree("genericincludepassthrough.cl").Count, 
+                ExtensionProcessor.LoadSourceTree("genericincludepassthrough.cl").Count, 
                 5);
         }
 
@@ -39,7 +39,7 @@ namespace ext_compiler.tests
         public void TypePassing()
         {
             Assert.AreEqual(
-                ExtensionCompiler.LoadSourceTree("typePassing.cl").Count, 
+                ExtensionProcessor.LoadSourceTree("typePassing.cl").Count, 
                 4);
         }
     }

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ext_compiler", "ext_compiler\ext_compiler.csproj", "{7A956F8B-247B-4B32-90E5-56C8D8E15CE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ext_pp", "ext_pp\ext_pp.csproj", "{7A956F8B-247B-4B32-90E5-56C8D8E15CE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ext_compiler_tests", "ext_compiler_tests\ext_compiler_tests.csproj", "{4A134578-D442-4996-A07A-9A05BED69517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ext_pp_tests", "ext_pp_tests\ext_pp_tests.csproj", "{4A134578-D442-4996-A07A-9A05BED69517}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

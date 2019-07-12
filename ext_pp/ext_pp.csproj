@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <Reference Include="ADL">
-      <HintPath>..\..\ADL\ADL\ADL\bin\Release\netstandard2.0\ADL.dll</HintPath>
+      <HintPath>res\ADL.dll</HintPath>
     </Reference>
   </ItemGroup>
 

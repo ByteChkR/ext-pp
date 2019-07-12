@@ -36,3 +36,16 @@ dotnet ext_pp.dll [-option VALUE]
 	-kw:e|--keyWord:e [errorStatement]
 	-kw:i|--keyWord:i [includeStatement]
 	-kw:t|--keyWord:t [typeGenStatement]
+
+## Supported Statements:
+	#include <path/to/file> <#type0> <#type1> ... <#typeN>
+	#define <VAR> <VAR2> ...
+	#undefine <VAR> <VAR2> ...
+	#if <VAR> <VAR2> ... (only AND supported at this moment)
+	#elseif <VAR> <VAR2> ... (only AND supported at this moment)
+	#else
+	(#endif)
+	#error <Error Description>
+	#warning <Warning Description>
+	#typeN (The value to use instead of type when writing generic code)
+		can also rename function names dynamically

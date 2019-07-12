@@ -1,4 +1,4 @@
-﻿namespace ext_compiler.settings
+﻿namespace ext_pp.settings
 {
     public class Keywords
     {

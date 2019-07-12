@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ext_compiler.extensions;
-using ext_compiler.settings;
+using ext_pp.settings;
 
-namespace ext_compiler
+namespace ext_pp
 {
     public static class ExtensionProcessor
     {
@@ -16,10 +15,11 @@ namespace ext_compiler
         public static string[] CompileFile(string path, Dictionary<string, bool> globalTable = null)
         {
 
-            List<SourceScript> ss = LoadSourceTree(path, globalTable);
+            bool sucess = LoadSourceTree(path, out var ss, globalTable);
             string[] ret = CompileTree(ss);
+            Logger.Log(DebugLevel.LOGS, sucess ? "Compilation DONE!" : "One or more errors in compilation",
+                Verbosity.ALWAYS_SEND);
 
-            Logger.Log(DebugLevel.LOGS, "Compilation DONE!", Verbosity.ALWAYS_SEND);
             return ret;
         }
 
@@ -31,16 +31,16 @@ namespace ext_compiler
 
             for (int i = tree.Count - 1; i >= 0; i--)
             {
-                Logger.Log(DebugLevel.LOGS, "Compiling File: " + tree[i].filepath, Verbosity.LEVEL1);
+                Logger.Log(DebugLevel.LOGS, "Compiling File: " + tree[i].Filepath, Verbosity.LEVEL1);
 
-                ret.AddRange(tree[i].source);
+                ret.AddRange(tree[i].Source);
             }
 
             return SourceScript.RemoveStatements(ret, settings.CleanUpList.ToArray()).ToArray();
         }
 
         #endregion
-        
+
         #region Warnings and Errors
 
         private static void ProcessWarningsAndErrors(List<SourceScript> tree)
@@ -63,7 +63,7 @@ namespace ext_compiler
                 warnings = script.FindStatements(settings.Keywords.WarningStatement).ToList();
                 for (int i = 0; i < warnings.Count; i++)
                 {
-                    Logger.Log(DebugLevel.WARNINGS, "Warning: (" + script.filepath + "): " + warnings[i].GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
+                    Logger.Log(DebugLevel.WARNINGS, "Warning: (" + script.Filepath + "): " + warnings[i].GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
                 }
             }
 
@@ -73,7 +73,7 @@ namespace ext_compiler
                 errs = script.FindStatements(settings.Keywords.ErrorStatement).ToList();
                 for (int i = 0; i < errs.Count; i++)
                 {
-                    Logger.Log(DebugLevel.ERRORS, "Error: (" + script.filepath + "): " + errs[i].GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
+                    Logger.Log(DebugLevel.ERRORS, "Error: (" + script.Filepath + "): " + errs[i].GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
                 }
             }
 
@@ -92,67 +92,75 @@ namespace ext_compiler
 
         #region Loading and Processing
 
-        
 
 
-        public static List<SourceScript> LoadSourceTree(string file, Dictionary<string, bool> globalTable=null)
+
+        public static bool LoadSourceTree(string file, out List<SourceScript> tree, Dictionary<string, bool> globalTable = null)
         {
+            if (!File.Exists(file))
+            {
+                Logger.Crash(new FileNotFoundException(file + "not found"));
+            }
+
             file = Path.GetFullPath(file);
-            List<SourceScript> ret = new List<SourceScript>();
+            tree = new List<SourceScript>();
             Logger.Log(DebugLevel.LOGS, "Creating Source Dependency Tree..", Verbosity.LEVEL1);
-            LoadSourceTree(file, ret, globalTable);
-            return ret;
+
+            return LoadSourceTree(file, tree, globalTable);
         }
-        private static void LoadSourceTree(string file, List<SourceScript> sources, Dictionary<string, bool> globalTable, string[] genParams = null)
+        private static bool LoadSourceTree(string file, List<SourceScript> sources, Dictionary<string, bool> globalTable, string[] genParams = null)
         {
             SourceScript ss;
 
             if (genParams == null)
             {
-                Logger.Log(DebugLevel.LOGS,"Preparing Compilation of " + file,Verbosity.LEVEL2 );
+                Logger.Log(DebugLevel.LOGS, "Preparing Compilation of " + file, Verbosity.LEVEL2);
                 ss = new SourceScript(file, new string[0]);
-                LoadSourceTree(ss, sources, globalTable);
+                return LoadSourceTree(ss, sources, globalTable);
             }
             else
             {
                 Logger.Log(DebugLevel.LOGS, "Preparing Compilation of " + file + " with generic types", Verbosity.LEVEL2);
                 ss = new SourceScript(file, genParams);
-                LoadSourceTree(ss, sources, globalTable);
+                return LoadSourceTree(ss, sources, globalTable);
             }
 
         }
 
-        private static void LoadSourceTree(SourceScript script, List<SourceScript> sources, Dictionary<string, bool> globalTable)
+        private static bool LoadSourceTree(SourceScript script, List<SourceScript> sources, Dictionary<string, bool> globalTable)
         {
-            if (!sources.ContainsFile(script.key))
+            bool sucess = true;
+            if (!sources.ContainsFile(script.Key))
             {
                 if (globalTable == null) globalTable = new Dictionary<string, bool>();
                 script.Load();
-                if (settings.ResolveConditions) ConditionalResolver.ResolveConditions(script, globalTable);
+                if (settings.ResolveConditions) sucess &= ConditionalResolver.ResolveConditions(script, globalTable);
                 if (settings.ResolveGenerics) script.ResolveGenericParams();
-                sources.Add(script, true);
+                sources.AddFile(script, true);
                 if (settings.ResolveIncludes)
                 {
                     script.DiscoverIncludes();
-                    for (int i = 0; i < script.includes.Length; i++)
+                    for (int i = 0; i < script.Includes.Length; i++)
                     {
-                        Logger.Log(DebugLevel.LOGS, "processing include statement: " + script.includes[i], Verbosity.LEVEL3);
-                        string f = script.GetSourceFileFromIncludeStatement(script.includes[i], Path.GetDirectoryName(script.filepath), out string[] gparams);
+                        Logger.Log(DebugLevel.LOGS, "processing include statement: " + script.Includes[i], Verbosity.LEVEL3);
+                        string f = script.GetSourceFileFromIncludeStatement(script.Includes[i], Path.GetDirectoryName(script.Filepath), out string[] gparams);
 
-                        LoadSourceTree(f, sources, globalTable, gparams);
+                        sucess &= LoadSourceTree(f, sources, globalTable, gparams);
                     }
                 }
             }
             else
             {
-                int idx = sources.IndexOf(script.key);
+                int idx = sources.IndexOfFile(script.Key);
                 SourceScript a = sources[idx];
                 sources.RemoveAt(idx);
-                sources.Add(a);
+                sources.AddFile(a, true);
 
                 Logger.Log(DebugLevel.LOGS, "Fixing Source Order", Verbosity.LEVEL3);
 
             }
+
+            return sucess;
         }
 
         #endregion

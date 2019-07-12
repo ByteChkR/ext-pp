@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
-using ext_compiler.settings;
+using ext_pp.settings;
 
-namespace ext_compiler
+namespace ext_pp
 {
     public static class Logger
     {
@@ -17,10 +17,10 @@ namespace ext_compiler
             Log((int)mask, message, level);
         }
 
-        public static void Crash(Exception ex)
+        public static void Crash(Exception ex, bool throwEx=true)
         {
             ADL.Crash.CrashHandler.Log(ex);
-            throw ex;
+            if(throwEx)throw ex;
         }
     }
 }

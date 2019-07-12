@@ -8,11 +8,10 @@ using ADL;
 using ADL.Configs;
 using ADL.Crash;
 using ADL.Streams;
-using ext_compiler.extensions;
-using ext_compiler.settings;
+using ext_pp.settings;
 using MatchType = ADL.MatchType;
 
-namespace ext_compiler
+namespace ext_pp
 {
     public static class CompilerConsole
     {
@@ -240,6 +239,10 @@ namespace ext_compiler
             {
                 Logger.Log(DebugLevel.ERRORS, "Invalid Command.", Verbosity.ALWAYS_SEND);
                 Logger.Log(DebugLevel.LOGS, Settings.HelpText, Verbosity.ALWAYS_SEND);
+
+#if DEBUG
+                Console.ReadLine();
+#endif
                 return;
             }
 

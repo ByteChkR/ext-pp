@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace ext_compiler.settings
+namespace ext_pp.settings
 {
     public static class PropertyHelper<T>
     {

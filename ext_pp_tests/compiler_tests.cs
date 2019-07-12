@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using ext_compiler;
+using ext_pp;
 using NUnit.Framework;
 
-namespace ext_compiler.tests
+namespace ext_pp.tests
 {
     public class Tests
     {

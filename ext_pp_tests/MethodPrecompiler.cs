@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace ext_compiler.tests
+namespace ext_pp.tests
 {
 
     public static class MethodPrecompiler

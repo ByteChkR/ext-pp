@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Resources;
-using ext_compiler.extensions;
-using ext_compiler.settings;
+using ext_pp.settings;
 
-namespace ext_compiler
+namespace ext_pp
 {
     public class SourceScript
     {
 
-        public string filepath;
-        public string[] source = new string[0];
-        public string[] genParam;
-        public string[] includes;
-        public string key => filepath + GenParamAppendix;
+        public string Filepath;
+        public string[] Source = new string[0];
+        private readonly string[] _genParam;
+        public string[] Includes;
+        public string Key => Filepath + GenParamAppendix;
 
 
         public string GenParamAppendix
         {
             get
             {
-                string gp = genParam.Unpack();
-                if (genParam != null && genParam.Length > 0) gp = "." + gp;
+                string gp = _genParam.Unpack();
+                if (_genParam != null && _genParam.Length > 0) gp = "." + gp;
                 return gp;
             }
         }
@@ -62,8 +61,8 @@ namespace ext_compiler
 
         public SourceScript(string path, string[] genParams)
         {
-            this.genParam = genParams;
-            filepath = path;
+            this._genParam = genParams;
+            Filepath = path;
         }
 
 
@@ -78,13 +77,13 @@ namespace ext_compiler
         public void DiscoverIncludes()
         {
             Logger.Log(DebugLevel.LOGS, "Discovering Include Statements.", Verbosity.LEVEL2);
-            includes = FindStatements(ExtensionProcessor.settings.Keywords.IncludeStatement);
+            Includes = FindStatements(ExtensionProcessor.settings.Keywords.IncludeStatement);
         }
 
 
         public void ResolveGenericParams()
         {
-            if (genParam != null)
+            if (_genParam != null)
             {
                 Logger.Log(DebugLevel.LOGS, "Resolving Generic Parameters", Verbosity.LEVEL2);
                 ResolveGenerics();
@@ -94,11 +93,11 @@ namespace ext_compiler
         private bool LoadSource()
         {
 
-            source = new string[0];
-            if (File.Exists(filepath))
+            Source = new string[0];
+            if (File.Exists(Filepath))
             {
-                Logger.Log(DebugLevel.LOGS, "Loading File: " + filepath, Verbosity.LEVEL3);
-                source = File.ReadAllLines(filepath);
+                Logger.Log(DebugLevel.LOGS, "Loading File: " + Filepath, Verbosity.LEVEL3);
+                Source = File.ReadAllLines(Filepath);
 
 
                 return true;
@@ -109,9 +108,9 @@ namespace ext_compiler
 
         private void ResolveGenerics()
         {
-            for (int i = genParam.Length - 1; i >= 0; i--)
+            for (int i = _genParam.Length - 1; i >= 0; i--)
             {
-                ReplaceKeyWord(genParam[i],
+                ReplaceKeyWord(_genParam[i],
                     ExtensionProcessor.settings.Keywords.TypeGenKeyword + i);
             }
 
@@ -120,11 +119,11 @@ namespace ext_compiler
         public void ReplaceKeyWord(string replacement, string keyword)
         {
 
-            for (int i = 0; i < source.Length; i++)
+            for (int i = 0; i < Source.Length; i++)
             {
-                if (source[i].Contains(keyword))
+                if (Source[i].Contains(keyword))
                 {
-                    source[i] = source[i].Replace(keyword, replacement);
+                    Source[i] = Source[i].Replace(keyword, replacement);
                 }
             }
 
@@ -135,7 +134,7 @@ namespace ext_compiler
 
         public void RemoveStatementLines(string statement)
         {
-            List<string> ret = source.ToList();
+            List<string> ret = Source.ToList();
             for (int i = ret.Count - 1; i >= 0; i--)
             {
                 if (ret[i].Trim().StartsWith(statement))
@@ -144,7 +143,7 @@ namespace ext_compiler
                 }
             }
 
-            source = ret.ToArray();
+            Source = ret.ToArray();
         }
 
 
@@ -181,7 +180,7 @@ namespace ext_compiler
 
         public string[] FindStatements(string statement)
         {
-            return source.ToList().Where(x => x.Trim().StartsWith(statement)).ToArray();
+            return Source.ToList().Where(x => x.Trim().StartsWith(statement)).ToArray();
         }
     }
 }

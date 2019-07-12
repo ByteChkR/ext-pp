@@ -1,70 +1,71 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
-namespace ext_compiler.extensions
+namespace ext_pp
 {
     internal static class Extensions
     {
 
-        public static string Unpack(this string[] arr)
+        public static string Unpack(this IEnumerable<string> arr)
         {
             string s = "";
-            for (int i = 0; i < arr.Length; i++)
+            for (int i = 0; i < arr.Count(); i++)
             {
-                s += arr[i];
-                if (i < arr.Length - 1) s += ExtensionProcessor.settings.Keywords.Separator;
+                s += arr.ElementAt(i);
+                if (i < arr.Count() - 1) s += ExtensionProcessor.settings.Keywords.Separator;
             }
 
             return s;
         }
 
-        public static string[] Pack(this string arr)
+        public static IEnumerable<string> Pack(this string arr)
         {
             return arr.Split(ExtensionProcessor.settings.Keywords.Separator);
         }
 
         public static string[] GetStatementValues(this string statement)
         {
+            if (string.IsNullOrEmpty(statement)) return new string[0];
+
             string[] ret = statement.Split(ExtensionProcessor.settings.Keywords.Separator);
-            return ret.SubArray(1, ret.Length - 1);
+
+            return ret.SubArray(1, ret.Length - 1).ToArray();
         }
 
 
-        public static T[] SubArray<T>(this T[] arr, int start, int length)
+        public static IEnumerable<T> SubArray<T>(this IEnumerable<T> arr, int start, int length)
         {
             T[] ret = new T[length];
             for (int i = start; i < start + length; i++)
             {
-                ret[i - start] = arr[i];
+                ret.SetValue(arr.ElementAt(i), i - start);
             }
 
             return ret;
         }
 
-        public static T[] SubArray<T>(this T[] arr, int length)
+        public static IEnumerable<T> SubArray<T>(this IEnumerable<T> arr, int length)
         {
             return SubArray(arr, 0, length);
         }
 
-        public static void Add(this List<SourceScript> list, SourceScript script, bool CheckForExistingKey)
+        public static void AddFile(this List<SourceScript> list, SourceScript script, bool CheckForExistingKey)
         {
-
-            if (CheckForExistingKey && list.ContainsFile(script.key)) return;
+            if (CheckForExistingKey && list.ContainsFile(script.Key)) return;
             list.Add(script);
 
         }
 
         public static bool ContainsFile(this List<SourceScript> files, string key)
         {
-            return files.Count(x => x.key == key) > 0;
+            return IndexOfFile(files, key) != -1;
         }
 
-        public static int IndexOf(this List<SourceScript> files, string key)
+        public static int IndexOfFile(this List<SourceScript> files, string key)
         {
             for (int i = 0; i < files.Count; i++)
             {
-                if (files[i].key == key) return i;
+                if (files[i].Key == key) return i;
             }
 
             return -1;

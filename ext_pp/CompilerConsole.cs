@@ -44,10 +44,12 @@ namespace ext_compiler
             #region Preinformation
 
             bool isShort = false;
+            bool vset = false;
             if ((isShort = args.Contains("-v")) || args.Contains("--verbosity"))
             {
+                vset = true;
                 int idx = args.ToList().IndexOf(isShort ? "-v" : "--verbosity");
-                if (!int.TryParse(args[idx], out var level))
+                if (!int.TryParse(args[idx+1], out var level))
                 {
                     Logger.Log(DebugLevel.WARNINGS, "Enable Warnings flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
                 }
@@ -63,7 +65,7 @@ namespace ext_compiler
             {
                 Logger.Log(DebugLevel.LOGS, "Writing to console. ", Verbosity.LEVEL1);
                 ExtensionProcessor.settings.WriteToConsole = true;
-                if (ExtensionProcessor.settings.VerbosityLevel > 0)
+                if (!vset && ExtensionProcessor.settings.VerbosityLevel > 0)
                 {
                     ExtensionProcessor.settings.VerbosityLevel = Verbosity.SILENT;
                 }

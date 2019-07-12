@@ -1,5 +1,5 @@
 language: csharp
-solution: ext_compiler.sln
+solution: ext_pp.sln
 dotnet: 2.1.502
 mono: none
 
@@ -8,7 +8,7 @@ matrix:
     - dotnet: 2.1.502
       mono: none
       env:
-        - SOLUTION="ext_compiler.sln"
+        - SOLUTION="ext_pp.sln"
         - BUILDCONFIG="Release"
 
 install:

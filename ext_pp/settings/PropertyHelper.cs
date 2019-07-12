@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace ext_pp.settings
 {
+    public static class PropertyHelper
+    {
+        public static FieldInfo GetFieldInfo(Type t, string name)
+        {
+            return t.GetField(name);
+        }
+    }
+
     public static class PropertyHelper<T>
     {
+        
         public static PropertyInfo GetPropertyInfo<TValue>(
             Expression<Func<T, TValue>> selector)
         {

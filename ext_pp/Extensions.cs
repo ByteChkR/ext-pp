@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ext_pp.settings;
 
 namespace ext_pp
 {
@@ -12,7 +13,7 @@ namespace ext_pp
             for (int i = 0; i < arr.Count(); i++)
             {
                 s += arr.ElementAt(i);
-                if (i < arr.Count() - 1) s += ExtensionProcessor.settings.Keywords.Separator;
+                if (i < arr.Count() - 1) s += Settings.Separator;
             }
 
             return s;
@@ -20,14 +21,14 @@ namespace ext_pp
 
         public static IEnumerable<string> Pack(this string arr)
         {
-            return arr.Split(ExtensionProcessor.settings.Keywords.Separator);
+            return arr.Split(Settings.Separator);
         }
 
         public static string[] GetStatementValues(this string statement)
         {
             if (string.IsNullOrEmpty(statement)) return new string[0];
 
-            string[] ret = statement.Split(ExtensionProcessor.settings.Keywords.Separator);
+            string[] ret = statement.Split(Settings.Separator);
 
             return ret.SubArray(1, ret.Length - 1).ToArray();
         }

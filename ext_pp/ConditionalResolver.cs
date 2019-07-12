@@ -57,7 +57,7 @@ namespace ext_pp
             for (int i = 0; i < script.Source.Length; i++)
             {
                 string line = script.Source[i].Trim();
-                if (line.StartsWith(ExtensionProcessor.settings.Keywords.IfStatement))
+                if (line.StartsWith(Settings.IfStatement))
                 {
                     int size = GetBlockSize(script.Source, i);
                     Logger.Log(DebugLevel.LOGS, "Found Conditional Statement: " + line, Verbosity.LEVEL5);
@@ -78,7 +78,7 @@ namespace ext_pp
                     foundConditions = true;
 
                 }
-                else if (line.StartsWith(ExtensionProcessor.settings.Keywords.ElseIfStatement))
+                else if (line.StartsWith(Settings.ElseIfStatement))
                 {
 
                     if (openIf > 0)
@@ -100,15 +100,15 @@ namespace ext_pp
                     else
                     {
                         Logger.Crash(new Exception("the else if statement: " +
-                                                   ExtensionProcessor.settings.Keywords.ElseIfStatement +
+                                                   Settings.ElseIfStatement +
                                                    " must be preceeded with " +
-                                                   ExtensionProcessor.settings.Keywords.IfStatement), false);
+                                                   Settings.IfStatement), false);
                         return false;
                     }
 
 
                 }
-                else if (line.StartsWith(ExtensionProcessor.settings.Keywords.ElseStatement))
+                else if (line.StartsWith(Settings.ElseStatement))
                 {
                     if (openIf > 0)
                     {
@@ -123,30 +123,30 @@ namespace ext_pp
                     else
                     {
                         Logger.Crash(new Exception("the else statement: " +
-                                                   ExtensionProcessor.settings.Keywords.ElseStatement +
+                                                   Settings.ElseStatement +
                                                    " must be preceeded with " +
-                                                   ExtensionProcessor.settings.Keywords.IfStatement), false);
+                                                   Settings.IfStatement), false);
                         return false;
                     }
                 }
-                else if (line.StartsWith(ExtensionProcessor.settings.Keywords.EndIfStatement))
+                else if (line.StartsWith(Settings.EndIfStatement))
                 {
                     if (openIf > 0)
                         openIf--;
                     else
                         Logger.Crash(new Exception("the endif statement: " +
-                                            ExtensionProcessor.settings.Keywords.EndIfStatement +
+                                            Settings.EndIfStatement +
                                             " must be preceeded with " +
-                                            ExtensionProcessor.settings.Keywords.IfStatement));
+                                            Settings.IfStatement));
                 }
-                else if (ExtensionProcessor.settings.ResolveDefine &&
-                         line.StartsWith(ExtensionProcessor.settings.Keywords.DefineStatement))
+                else if (Settings.ResolveDefine &&
+                         line.StartsWith(Settings.DefineStatement))
                 {
                     DefineInGlobalTable(currentGlobal, line.GetStatementValues());
                     solvedFile.Add(script.Source[i]);
                 }
-                else if (ExtensionProcessor.settings.ResolveUnDefine &&
-                         line.StartsWith(ExtensionProcessor.settings.Keywords.UndefineStatement))
+                else if (Settings.ResolveUnDefine &&
+                         line.StartsWith(Settings.UndefineStatement))
                 {
                     UnDefineInGlobalTable(currentGlobal, line.GetStatementValues());
                     solvedFile.Add(script.Source[i]);
@@ -220,19 +220,19 @@ namespace ext_pp
             for (int i = start + 1; i < source.Length; i++)
             {
                 string line = source[i].Trim();
-                if (line.StartsWith(ExtensionProcessor.settings.Keywords.IfStatement))
+                if (line.StartsWith(Settings.IfStatement))
                 {
                     i += GetBlockSize(source, i);
                     tolerance++;
                 }
 
-                else if (line.StartsWith(ExtensionProcessor.settings.Keywords.EndIfStatement) ||
-                         line.StartsWith(ExtensionProcessor.settings.Keywords.ElseIfStatement) ||
-                         line.StartsWith(ExtensionProcessor.settings.Keywords.ElseStatement))
+                else if (line.StartsWith(Settings.EndIfStatement) ||
+                         line.StartsWith(Settings.ElseIfStatement) ||
+                         line.StartsWith(Settings.ElseStatement))
                 {
                     if (tolerance == 0)
                         return i - start - 1;
-                    if (line.StartsWith(ExtensionProcessor.settings.Keywords.EndIfStatement)) tolerance--;
+                    if (line.StartsWith(Settings.EndIfStatement)) tolerance--;
                 }
             }
 

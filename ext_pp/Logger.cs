@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Diagnostics;
+using ADL.Streams;
 using ext_pp.settings;
 
 namespace ext_pp
 {
     public static class Logger
     {
+        
         public static void Log(int mask, string message, Verbosity level)
         {
-            if (level <= ExtensionProcessor.settings.VerbosityLevel)
+            if (level <= Settings.VerbosityLevel)
                 ADL.Debug.Log(mask, "[" + Enum.GetName(typeof(Verbosity), level) + "]" + message);
         }
 

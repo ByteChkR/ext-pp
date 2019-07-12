@@ -14,14 +14,14 @@ namespace ext_pp.tests
         public void Setup()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            MethodPrecompiler.PrecompileClass(typeof(ExtensionProcessor));
-            MethodPrecompiler.PrecompileClass(typeof(SourceScript));
+            //MethodPrecompiler.PrecompileClass(typeof(ExtensionProcessor));
+            //MethodPrecompiler.PrecompileClass(typeof(SourceScript));
         }
 
         [Test]
         public void IncludeCircular()
         {
-            bool ret = ExtensionProcessor.LoadSourceTree("includecircular.cl", out List<SourceScript> tree);
+            bool ret = SourceScript.LoadSourceTree("includecircular.cl", out List<SourceScript> tree);
             Assert.AreEqual(
                 tree.Count, 
                 3);
@@ -31,7 +31,7 @@ namespace ext_pp.tests
         [Test]
         public void IncludeGenericCircular()
         {
-            bool ret = ExtensionProcessor.LoadSourceTree("genericincludepassthrough.cl", out List<SourceScript> tree);
+            bool ret = SourceScript.LoadSourceTree("genericincludepassthrough.cl", out List<SourceScript> tree);
             Assert.AreEqual(
                 tree.Count, 
                 5);
@@ -41,7 +41,7 @@ namespace ext_pp.tests
         [Test]
         public void TypePassing()
         {
-            bool ret = ExtensionProcessor.LoadSourceTree("typePassing.cl", out List<SourceScript> tree);
+            bool ret = SourceScript.LoadSourceTree("typePassing.cl", out List<SourceScript> tree);
             Assert.AreEqual(
                 tree.Count, 
                 4);

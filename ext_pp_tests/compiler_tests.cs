@@ -21,26 +21,31 @@ namespace ext_pp.tests
         [Test]
         public void IncludeCircular()
         {
+            bool ret = ExtensionProcessor.LoadSourceTree("includecircular.cl", out List<SourceScript> tree);
             Assert.AreEqual(
-                ExtensionProcessor.LoadSourceTree("includecircular.cl").Count, 
+                tree.Count, 
                 3);
-            
+            Assert.IsTrue(ret);
         }
 
         [Test]
         public void IncludeGenericCircular()
         {
+            bool ret = ExtensionProcessor.LoadSourceTree("genericincludepassthrough.cl", out List<SourceScript> tree);
             Assert.AreEqual(
-                ExtensionProcessor.LoadSourceTree("genericincludepassthrough.cl").Count, 
+                tree.Count, 
                 5);
+            Assert.IsTrue(ret);
         }
 
         [Test]
         public void TypePassing()
         {
+            bool ret = ExtensionProcessor.LoadSourceTree("typePassing.cl", out List<SourceScript> tree);
             Assert.AreEqual(
-                ExtensionProcessor.LoadSourceTree("typePassing.cl").Count, 
+                tree.Count, 
                 4);
+            Assert.IsTrue(ret);
         }
     }
 }

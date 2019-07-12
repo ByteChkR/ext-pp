@@ -17,6 +17,9 @@
     <Reference Include="ADL">
       <HintPath>res\ADL.dll</HintPath>
     </Reference>
+    <Reference Include="ADL.Crash">
+      <HintPath>res\ADL.Crash.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

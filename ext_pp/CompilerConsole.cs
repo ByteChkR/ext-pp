@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using ADL;
 using ADL.Configs;
+using ADL.Crash;
 using ADL.Streams;
 using ext_compiler.extensions;
 using ext_compiler.settings;
@@ -272,6 +273,8 @@ namespace ext_compiler
 
         static void InitADL()
         {
+            
+            CrashHandler.Initialize((int)DebugLevel.ERRORS, false);
             Debug.LoadConfig((AdlConfig)new AdlConfig().GetStandard());
             Debug.SetAllPrefixes("[ERRORS]", "[WARNINGS]", "[LOGS]");
             Debug.CheckForUpdates = false;
@@ -281,6 +284,7 @@ namespace ext_compiler
                 -1,
                 MatchType.MatchAll,
                 true);
+            
             Debug.AddOutputStream(lts);
 
         }

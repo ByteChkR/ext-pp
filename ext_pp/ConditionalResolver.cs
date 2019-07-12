@@ -81,10 +81,10 @@ namespace ext_compiler
 
                     }
                     else
-                        throw new Exception("the else if statement: " +
+                        Logger.Crash(new Exception("the else if statement: " +
                                             ExtensionProcessor.settings.Keywords.ElseIfStatement +
                                             " must be preceeded with " +
-                                            ExtensionProcessor.settings.Keywords.IfStatement);
+                                            ExtensionProcessor.settings.Keywords.IfStatement));
 
                 }
                 else if (line.StartsWith(ExtensionProcessor.settings.Keywords.ElseStatement))
@@ -100,20 +100,20 @@ namespace ext_compiler
                         foundConditions = true;
                     }
                     else
-                        throw new Exception("the else statement: " +
+                        Logger.Crash(new Exception("the else statement: " +
                                             ExtensionProcessor.settings.Keywords.ElseStatement +
                                             " must be preceeded with " +
-                                            ExtensionProcessor.settings.Keywords.IfStatement);
+                                            ExtensionProcessor.settings.Keywords.IfStatement));
                 }
                 else if (line.StartsWith(ExtensionProcessor.settings.Keywords.EndIfStatement))
                 {
                     if (openIf > 0)
                         openIf--;
                     else
-                        throw new Exception("the endif statement: " +
+                        Logger.Crash(new Exception("the endif statement: " +
                                             ExtensionProcessor.settings.Keywords.EndIfStatement +
                                             " must be preceeded with " +
-                                            ExtensionProcessor.settings.Keywords.IfStatement);
+                                            ExtensionProcessor.settings.Keywords.IfStatement));
                 }
                 else if (ExtensionProcessor.settings.ResolveDefine &&
                          line.StartsWith(ExtensionProcessor.settings.Keywords.DefineStatement))
@@ -212,7 +212,11 @@ namespace ext_compiler
                 }
             }
 
-            throw new Exception("Invalid usage of If statement");
+            Logger.Crash(new Exception("Invalid usage of If statement")
+            {
+                Data = { { "source", source }, { "start", start } }
+            });
+            return -1; //Not getting here since it crashes in Logger.Crash
         }
 
     }

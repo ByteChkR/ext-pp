@@ -83,7 +83,7 @@ namespace ext_compiler
                 e.Data.Add("warnings", warnings);
                 e.Data.Add("errors", errs);
 
-                throw e;
+                Logger.Crash(e);
             }
         }
 

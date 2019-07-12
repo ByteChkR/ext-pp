@@ -71,7 +71,7 @@ namespace ext_compiler
         {
             if (!LoadSource())
             {
-                throw new Exception("Could not load Source file");
+                Logger.Crash(new Exception("Could not load Source file"));
             }
         }
 
@@ -111,7 +111,7 @@ namespace ext_compiler
         {
             for (int i = genParam.Length - 1; i >= 0; i--)
             {
-                ReplaceKeyWord(genParam[i], 
+                ReplaceKeyWord(genParam[i],
                     ExtensionProcessor.settings.Keywords.TypeGenKeyword + i);
             }
 
@@ -131,7 +131,7 @@ namespace ext_compiler
 
 
         }
-        
+
 
         public void RemoveStatementLines(string statement)
         {
@@ -148,7 +148,7 @@ namespace ext_compiler
         }
 
 
-        
+
 
         public string GetSourceFileFromIncludeStatement(string statement, string dir, out string[] genParams)
         {
@@ -169,7 +169,7 @@ namespace ext_compiler
             Directory.SetCurrentDirectory(dir);
             if (!File.Exists(file))
             {
-                throw new Exception("Could not find include file");
+                Logger.Crash(new Exception("Could not find include file " + file));
             }
             else
             {

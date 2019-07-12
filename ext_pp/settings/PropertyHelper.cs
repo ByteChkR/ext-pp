@@ -19,7 +19,8 @@ namespace ext_compiler.settings
                 case ExpressionType.MemberAccess:
                     return (PropertyInfo)((MemberExpression)body).Member;
                 default:
-                    throw new InvalidOperationException();
+                    Logger.Crash(new InvalidOperationException());
+                    return null;
             }
         }
 
@@ -36,7 +37,8 @@ namespace ext_compiler.settings
                 case ExpressionType.MemberAccess:
                     return (FieldInfo)((MemberExpression)body).Member;
                 default:
-                    throw new InvalidOperationException();
+                    Logger.Crash(new InvalidOperationException());
+                    return null;
             }
         }
     }

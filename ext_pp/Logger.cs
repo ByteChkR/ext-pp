@@ -16,5 +16,11 @@ namespace ext_compiler
         {
             Log((int)mask, message, level);
         }
+
+        public static void Crash(Exception ex)
+        {
+            ADL.Crash.CrashHandler.Log(ex);
+            throw ex;
+        }
     }
 }

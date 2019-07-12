@@ -16,15 +16,21 @@ namespace ext_compiler
 
             for (int i = 0; i < tree.Count; i++)
             {
-                Console.WriteLine("Resolving Conditions in file " + tree[i].filepath);
-                ResolveConditions(tree[i], globalTable, 1);
+                ResolveConditions(tree[i], globalTable);
             }
 
         }
 
+        public static void ResolveConditions(SourceScript script, Dictionary<string, bool> globalTable)
+        {
+
+            Console.WriteLine("Resolving conditions in file: " + script.key);
+            ResolveConditions(script, globalTable, 1);
+        }
+
         private static void ResolveConditions(SourceScript script, Dictionary<string, bool> currentGlobal, int pass)
         {
-            Console.WriteLine("Pass: " + pass);
+            Console.WriteLine("Condition Resolver Pass: " + pass);
             List<string> l = new List<string>();
             int openIf = 0;
             bool foundConditions = false;
@@ -106,10 +112,12 @@ namespace ext_compiler
                 else if (line.StartsWith(SourceScript.DefineStatement))
                 {
                     DefineInGlobalTable(currentGlobal, SourceScript.GetValues(line));
+                    l.Add(script.source[i]);
                 }
                 else if (line.StartsWith(SourceScript.UndefineStatement))
                 {
                     UnDefineInGlobalTable(currentGlobal, SourceScript.GetValues(line));
+                    l.Add(script.source[i]);
                 }
                 else
                 {
@@ -120,8 +128,9 @@ namespace ext_compiler
 
             script.source = l.ToArray();
 
-            if (foundConditions) ResolveConditions(script, currentGlobal,pass+1);
-            
+            if (foundConditions)
+                ResolveConditions(script, currentGlobal, pass + 1);
+
         }
 
         private static bool EvaluateConditionalStatements(Dictionary<string, bool> globalTable, string statement)
@@ -163,7 +172,7 @@ namespace ext_compiler
             }
         }
 
-        
+
 
         private static int GetBlockSize(string[] source, int start)
         {
@@ -182,7 +191,7 @@ namespace ext_compiler
                          line.StartsWith(SourceScript.ElseStatement))
                 {
                     if (tolerance == 0)
-                        return i - start-1;
+                        return i - start - 1;
                     if (line.StartsWith(SourceScript.EndIfStatement)) tolerance--;
                 }
             }

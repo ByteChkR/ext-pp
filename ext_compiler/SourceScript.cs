@@ -22,7 +22,7 @@ namespace ext_compiler
 
 
 
-        
+
         public string filepath;
         public string[] source = new string[0];
         public string[] genParam;
@@ -51,26 +51,24 @@ namespace ext_compiler
             {
                 throw new Exception("Could not load Source file");
             }
+        }
 
+        public void DiscoverIncludes()
+        {
             Console.WriteLine("Discovering Include Statements.");
             includes = FindStatements(SourceScript.IncludeStatement);
-
-
         }
 
-        public void RemoveStatementLines(string statement)
+        public void ResolveGenericParams()
         {
-            List<string> ret = source.ToList();
-            for (int i = ret.Count-1; i >=0; i--)
+            if (genParam != null)
             {
-                if (ret[i].Trim().StartsWith(statement))
-                {
-                    ret.RemoveAt(i);
-                }
+                Console.WriteLine("Resolving Generic Parameters");
+                ResolveGenerics(genParam, SourceScript.TypeGenKeyword);
             }
-
-            source = ret.ToArray();
         }
+
+       
 
         public static string[] GetValues(string statement)
         {
@@ -87,10 +85,7 @@ namespace ext_compiler
             {
                 Console.WriteLine("Loading File: " + path);
                 source = File.ReadAllLines(path);
-                if (genParams != null)
-                {
-                    ResolveGenerics(genParams, typeGenKeyword);
-                }
+
 
                 return true;
             }
@@ -137,16 +132,30 @@ namespace ext_compiler
             return subgparams;
         }
 
+        public void RemoveStatementLines(string statement)
+        {
+            List<string> ret = source.ToList();
+            for (int i = ret.Count - 1; i >= 0; i--)
+            {
+                if (ret[i].Trim().StartsWith(statement))
+                {
+                    ret.RemoveAt(i);
+                }
+            }
+
+            source = ret.ToArray();
+        }
+
 
         public static List<string> RemoveStatements(List<string> source, string[] statements)
         {
 
-            Console.WriteLine("Post Processing Statements..");
+            Console.WriteLine("Removing Leftover Statements");
             for (int i = source.Count - 1; i >= 0; i--)
             {
                 for (int j = 0; j < statements.Length; j++)
                 {
-                    if (source[i].StartsWith(statements[j])) source.RemoveAt(i);
+                    if (source[i].Trim().StartsWith(statements[j])) source.RemoveAt(i);
                 }
             }
             return source;
@@ -154,7 +163,7 @@ namespace ext_compiler
 
         public string GetSourceFileFromIncludeStatement(string statement, string dir, out string[] genParams)
         {
-            string file = statement.Remove(0, IncludeStatement.Length).Trim();
+            string file = statement.Trim().Remove(0, IncludeStatement.Length).Trim();
             int idx = file.IndexOf(' ');
             genParams = null;
             if (idx != -1)

@@ -8,6 +8,7 @@ namespace ext_compiler
 {
     public static class ExtensionCompiler
     {
+        private static Dictionary<string, bool> defs = new Dictionary<string, bool>();
         public static string[] CompileFile(string path)
         {
 
@@ -20,18 +21,17 @@ namespace ext_compiler
         private static string[] CompileTree(List<SourceScript> tree)
         {
             List<string> ret = new List<string>();
-            ConditionalResolver.ResolveConditions(tree, new Dictionary<string, bool>());
             ProcessWarningsAndErrors(tree);
 
 
             for (int i = tree.Count - 1; i >= 0; i--)
             {
                 Console.WriteLine("Compiling File: " + tree[i].filepath);
-                
+
                 ret.AddRange(tree[i].source);
             }
 
-            return SourceScript.RemoveStatements(ret, new[] { SourceScript.WarningStatement, SourceScript.ErrorStatement }).ToArray();
+            return SourceScript.RemoveStatements(ret, new[] { SourceScript.WarningStatement, SourceScript.ErrorStatement, SourceScript.DefineStatement, SourceScript.UndefineStatement, SourceScript.IncludeStatement }).ToArray();
         }
 
 
@@ -66,8 +66,6 @@ namespace ext_compiler
 
                 throw e;
             }
-            script.RemoveStatementLines(SourceScript.WarningStatement);
-            script.RemoveStatementLines(SourceScript.ErrorStatement);
         }
 
 
@@ -77,9 +75,6 @@ namespace ext_compiler
             List<SourceScript> ret = new List<SourceScript>();
             Console.WriteLine("Creating Source Dependency Tree..");
             LoadSourceTree(file, ret);
-
-
-
             return ret;
         }
         private static void LoadSourceTree(string file, List<SourceScript> sources, string[] genParams = null)
@@ -94,8 +89,6 @@ namespace ext_compiler
             }
             else
             {
-
-
                 Console.WriteLine("Preparing Compilation of " + file + " with generic types");
                 ss = new SourceScript(file, genParams);
                 LoadSourceTree(ss, sources);
@@ -108,14 +101,16 @@ namespace ext_compiler
             if (!sources.ContainsFile(script.key))
             {
                 script.Load();
+                ConditionalResolver.ResolveConditions(script, new Dictionary<string, bool>());
+                script.ResolveGenericParams();
+                script.DiscoverIncludes();
                 sources.Add(script, true);
                 for (int i = 0; i < script.includes.Length; i++)
                 {
-
+                    Console.WriteLine("processing include statement: " + script.includes[i]);
                     string f = script.GetSourceFileFromIncludeStatement(script.includes[i], Path.GetDirectoryName(script.filepath), out string[] gparams);
 
                     LoadSourceTree(f, sources, gparams);
-
                 }
             }
             else

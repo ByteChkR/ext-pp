@@ -12,6 +12,6 @@
         public string EndIfStatement = "#endif";
         public string DefineStatement = "#define";
         public string UndefineStatement = "#undefine";
-
+        public char Separator = ' ';
     }
 }

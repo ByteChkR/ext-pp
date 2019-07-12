@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using ADL;
 using ADL.Configs;
@@ -14,13 +15,69 @@ namespace ext_compiler
 {
     public static class CompilerConsole
     {
+        private static Dictionary<string, FieldInfo> _keyWordHandles = null;
+
+        private static Dictionary<string, FieldInfo> KeyWordHandles => _keyWordHandles ?? (_keyWordHandles = GetInfo());
+
+        private static Dictionary<string, FieldInfo> GetInfo()
+        {
+            return new Dictionary<string, FieldInfo>()
+            {
+
+                {"d", PropertyHelper<Keywords>.GetFieldInfo(x=>x.DefineStatement)},
+                {"u", PropertyHelper<Keywords>.GetFieldInfo(x=>x.UndefineStatement)},
+                {"if", PropertyHelper<Keywords>.GetFieldInfo(x=>x.IfStatement)},
+                {"elif", PropertyHelper<Keywords>.GetFieldInfo(x=>x.ElseIfStatement)},
+                {"else", PropertyHelper<Keywords>.GetFieldInfo(x=>x.ElseStatement)},
+                {"eif", PropertyHelper<Keywords>.GetFieldInfo(x=>x.EndIfStatement)},
+                {"w", PropertyHelper<Keywords>.GetFieldInfo(x=>x.WarningStatement)},
+                {"e", PropertyHelper<Keywords>.GetFieldInfo(x=>x.ErrorStatement)},
+                {"i", PropertyHelper<Keywords>.GetFieldInfo(x=>x.IncludeStatement)},
+                {"t", PropertyHelper<Keywords>.GetFieldInfo(x=>x.TypeGenKeyword)},
+
+            };
+        }
+
         static void Main(string[] args)
         {
+            #region Preinformation
+
+            bool isShort = false;
+            if ((isShort = args.Contains("-v")) || args.Contains("--verbosity"))
+            {
+                int idx = args.ToList().IndexOf(isShort ? "-v" : "--verbosity");
+                if (!int.TryParse(args[idx], out var level))
+                {
+                    Logger.Log(DebugLevel.WARNINGS, "Enable Warnings flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                }
+                else
+                {
+                    ExtensionProcessor.settings.VerbosityLevel = (Verbosity)level;
+
+                    Logger.Log(DebugLevel.LOGS, "Enable Warnings flag set to " + ExtensionProcessor.settings.VerbosityLevel, Verbosity.LEVEL1);
+                }
+            }
+
+            if (args.Contains("-2c") || args.Contains("--writeToConsole"))
+            {
+                Logger.Log(DebugLevel.LOGS, "Writing to console. ", Verbosity.LEVEL1);
+                ExtensionProcessor.settings.WriteToConsole = true;
+                if (ExtensionProcessor.settings.VerbosityLevel > 0)
+                {
+                    ExtensionProcessor.settings.VerbosityLevel = Verbosity.SILENT;
+                }
+            }
+
+            #endregion
+
             InitADL();
 
             Dictionary<string, bool> defs = new Dictionary<string, bool>();
             string input = "";
             string output = "";
+
+            #region Argument Analysis
+
             for (int i = 0; i < args.Length - 1; i++)
             {
                 if (args[i] == "-i" || args[i] == "--input")
@@ -114,17 +171,37 @@ namespace ext_compiler
                         Logger.Log(DebugLevel.LOGS, "Enable Warnings flag set to " + ExtensionProcessor.settings.EnableWarnings, Verbosity.LEVEL1);
                     }
                 }
-                else if (args[i] == "-v" || args[i] == "--verbosity")
+                else if (args[i] == "-ss" || args[i] == "--setSeparator")
                 {
-                    if (!int.TryParse(args[i + 1], out var level))
+                    if (!char.TryParse(args[i + 1], out ExtensionProcessor.settings.Keywords.Separator))
                     {
-                        Logger.Log(DebugLevel.WARNINGS, "Enable Warnings flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                        Logger.Log(DebugLevel.WARNINGS, "Invalid Separator. Only one character.",
+                            Verbosity.ALWAYS_SEND);
                     }
                     else
                     {
-                        ExtensionProcessor.settings.VerbosityLevel = (Verbosity)level;
-                        Logger.Log(DebugLevel.LOGS, "Enable Warnings flag set to " + ExtensionProcessor.settings.VerbosityLevel, Verbosity.LEVEL1);
+                        Logger.Log(DebugLevel.LOGS, "Separator " + ExtensionProcessor.settings.Keywords.Separator,
+                            Verbosity.LEVEL1);
                     }
+                }
+                else if (args[i].StartsWith("-kw") || args[i].StartsWith("--keyWord"))
+                {
+
+                    int idx = args[i].IndexOf(':') + 1;
+                    string prop = args[i].Substring(idx);
+                    if (!KeyWordHandles.ContainsKey(prop))
+                    {
+                        Logger.Log(DebugLevel.WARNINGS, "Invalid Property Key.",
+                            Verbosity.ALWAYS_SEND);
+                    }
+                    else
+                    {
+                        FieldInfo pi = KeyWordHandles[prop];
+                        Logger.Log(DebugLevel.LOGS, "Property set: " + pi.Name + "=" + args[i + 1],
+                            Verbosity.LEVEL1);
+                        pi.SetValue(ExtensionProcessor.settings.Keywords, args[i + 1]);
+                    }
+
                 }
                 else if (args[i] == "-def" || args[i] == "--defines")
                 {
@@ -152,22 +229,39 @@ namespace ext_compiler
                     }
                 }
             }
+            #endregion
 
-            if (input == "" || output == "")
+            #region CheckErrors
+
+            if (input == "" || (output == "" && !ExtensionProcessor.settings.WriteToConsole))
             {
                 Logger.Log(DebugLevel.ERRORS, "Invalid Command.", Verbosity.ALWAYS_SEND);
                 Logger.Log(DebugLevel.LOGS, Settings.HelpText, Verbosity.ALWAYS_SEND);
                 return;
             }
+
+            #endregion
+
             Logger.Log(DebugLevel.LOGS, "Input file: " + input, Verbosity.ALWAYS_SEND);
             Logger.Log(DebugLevel.LOGS, "Output file: " + output, Verbosity.ALWAYS_SEND);
 
 
             string[] source = ExtensionProcessor.CompileFile(input);
 
-            if (File.Exists(output))
-                File.Delete(output);
-            File.WriteAllLines(output, source);
+
+            if (ExtensionProcessor.settings.WriteToConsole)
+            {
+                foreach (var s in source)
+                {
+                    Console.WriteLine(s);
+                }
+            }
+            else
+            {
+                if (File.Exists(output))
+                    File.Delete(output);
+                File.WriteAllLines(output, source);
+            }
 
 #if DEBUG
             Console.ReadLine();

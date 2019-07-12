@@ -7,9 +7,9 @@
         /// </summary>
         SILENT=0,
         /// <summary>
-        /// Only critical errors
+        /// Only critical errors and general information
         /// </summary>
-        ALWAYS_SEND = 1,
+        ALWAYS_SEND,
         LEVEL1,
         LEVEL2,
         LEVEL3,

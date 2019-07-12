@@ -7,21 +7,26 @@ namespace ext_compiler.extensions
     internal static class Extensions
     {
 
-        public static string Unpack(this string[] arr, char seperator = ',')
+        public static string Unpack(this string[] arr)
         {
             string s = "";
             for (int i = 0; i < arr.Length; i++)
             {
                 s += arr[i];
-                if (i < arr.Length - 1) s += seperator;
+                if (i < arr.Length - 1) s += ExtensionProcessor.settings.Keywords.Separator;
             }
 
             return s;
         }
 
+        public static string[] Pack(this string arr)
+        {
+            return arr.Split(ExtensionProcessor.settings.Keywords.Separator);
+        }
+
         public static string[] GetStatementValues(this string statement)
         {
-            string[] ret = statement.Split(' ');
+            string[] ret = statement.Split(ExtensionProcessor.settings.Keywords.Separator);
             return ret.SubArray(1, ret.Length - 1);
         }
 

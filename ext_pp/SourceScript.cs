@@ -10,9 +10,6 @@ namespace ext_compiler
 {
     public class SourceScript
     {
-        
-
-
 
         public string filepath;
         public string[] source = new string[0];
@@ -30,15 +27,49 @@ namespace ext_compiler
                 return gp;
             }
         }
+
+        #region Static
+
+        private static string[] ResolveGenericIncludes(string[] gparam, string[] subgparams)
+        {
+            for (int i = 0; i < subgparams.Length; i++)
+            {
+                if (subgparams[i].StartsWith(ExtensionProcessor.settings.Keywords.IncludeStatement))
+                {
+                    string prm = subgparams[i].Trim();
+                    int gennr = Int32.Parse(prm.Substring(ExtensionProcessor.settings.Keywords.TypeGenKeyword.Length + 1, prm.Length - ExtensionProcessor.settings.Keywords.TypeGenKeyword.Length));
+                    subgparams[i] = gparam[gennr];
+                }
+            }
+
+            return subgparams;
+        }
+        public static List<string> RemoveStatements(List<string> source, string[] statements)
+        {
+
+            Logger.Log(DebugLevel.LOGS, "Removing Leftover Statements", Verbosity.LEVEL2);
+            for (int i = source.Count - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < statements.Length; j++)
+                {
+                    if (source[i].Trim().StartsWith(statements[j])) source.RemoveAt(i);
+                }
+            }
+            return source;
+        }
+        #endregion
+
+
         public SourceScript(string path, string[] genParams)
         {
             this.genParam = genParams;
             filepath = path;
         }
 
+
         public void Load()
         {
-            if (!LoadSource(filepath, ExtensionProcessor.settings.Keywords.TypeGenKeyword, genParam))
+            if (!LoadSource())
             {
                 throw new Exception("Could not load Source file");
             }
@@ -50,27 +81,24 @@ namespace ext_compiler
             includes = FindStatements(ExtensionProcessor.settings.Keywords.IncludeStatement);
         }
 
+
         public void ResolveGenericParams()
         {
             if (genParam != null)
             {
                 Logger.Log(DebugLevel.LOGS, "Resolving Generic Parameters", Verbosity.LEVEL2);
-                ResolveGenerics(genParam, ExtensionProcessor.settings.Keywords.TypeGenKeyword);
+                ResolveGenerics();
             }
         }
 
-       
-
-        
-
-        private bool LoadSource(string path, string typeGenKeyword, string[] genParams = null)
+        private bool LoadSource()
         {
 
             source = new string[0];
-            if (File.Exists(path))
+            if (File.Exists(filepath))
             {
-                Logger.Log(DebugLevel.LOGS, "Loading File: " + path, Verbosity.LEVEL3);
-                source = File.ReadAllLines(path);
+                Logger.Log(DebugLevel.LOGS, "Loading File: " + filepath, Verbosity.LEVEL3);
+                source = File.ReadAllLines(filepath);
 
 
                 return true;
@@ -79,11 +107,12 @@ namespace ext_compiler
         }
 
 
-        private void ResolveGenerics(string[] genTypes, string typeGenKeyword)
+        private void ResolveGenerics()
         {
-            for (int i = genTypes.Length - 1; i >= 0; i--)
+            for (int i = genParam.Length - 1; i >= 0; i--)
             {
-                ReplaceKeyWord(genTypes[i], typeGenKeyword + i);
+                ReplaceKeyWord(genParam[i], 
+                    ExtensionProcessor.settings.Keywords.TypeGenKeyword + i);
             }
 
         }
@@ -102,20 +131,7 @@ namespace ext_compiler
 
 
         }
-        private static string[] ResolveGenericIncludes(string[] gparam, string[] subgparams)
-        {
-            for (int i = 0; i < subgparams.Length; i++)
-            {
-                if (subgparams[i].StartsWith(ExtensionProcessor.settings.Keywords.IncludeStatement))
-                {
-                    string prm = subgparams[i].Trim();
-                    int gennr = Int32.Parse(prm.Substring(ExtensionProcessor.settings.Keywords.TypeGenKeyword.Length + 1, prm.Length - ExtensionProcessor.settings.Keywords.TypeGenKeyword.Length));
-                    subgparams[i] = gparam[gennr];
-                }
-            }
-
-            return subgparams;
-        }
+        
 
         public void RemoveStatementLines(string statement)
         {
@@ -132,30 +148,19 @@ namespace ext_compiler
         }
 
 
-        public static List<string> RemoveStatements(List<string> source, string[] statements)
-        {
-
-            Logger.Log(DebugLevel.LOGS, "Removing Leftover Statements", Verbosity.LEVEL2);
-            for (int i = source.Count - 1; i >= 0; i--)
-            {
-                for (int j = 0; j < statements.Length; j++)
-                {
-                    if (source[i].Trim().StartsWith(statements[j])) source.RemoveAt(i);
-                }
-            }
-            return source;
-        }
+        
 
         public string GetSourceFileFromIncludeStatement(string statement, string dir, out string[] genParams)
         {
             string file = statement.Trim().Remove(0, ExtensionProcessor.settings.Keywords.IncludeStatement.Length).Trim();
-            int idx = file.IndexOf(' ');
+            int idx = file.IndexOf(ExtensionProcessor.settings.Keywords.Separator);
             genParams = null;
             if (idx != -1)
             {
                 genParams =
                     file.Substring(idx + 1, file.Length - idx - 1)
-                        .Split(',').Select(x => x.Trim()).ToArray();
+                        .Split(ExtensionProcessor.settings.Keywords.Separator)
+                        .Select(x => x.Trim()).ToArray();
                 file = file.Substring(0, idx);
 
             }

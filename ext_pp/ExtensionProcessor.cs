@@ -9,11 +9,13 @@ namespace ext_compiler
 {
     public static class ExtensionProcessor
     {
-        internal static Settings settings = new Settings();
-        
-        public static string[] CompileFile(string path, Dictionary<string, bool> globalTable=null)
+        public static Settings settings = new Settings();
+
+        #region Compile
+
+        public static string[] CompileFile(string path, Dictionary<string, bool> globalTable = null)
         {
-            
+
             List<SourceScript> ss = LoadSourceTree(path, globalTable);
             string[] ret = CompileTree(ss);
 
@@ -37,7 +39,9 @@ namespace ext_compiler
             return SourceScript.RemoveStatements(ret, settings.CleanUpList.ToArray()).ToArray();
         }
 
-
+        #endregion
+        
+        #region Warnings and Errors
 
         private static void ProcessWarningsAndErrors(List<SourceScript> tree)
         {
@@ -59,7 +63,7 @@ namespace ext_compiler
                 warnings = script.FindStatements(settings.Keywords.WarningStatement).ToList();
                 for (int i = 0; i < warnings.Count; i++)
                 {
-                    Logger.Log(DebugLevel.WARNINGS, "Warning: (" + script.filepath + "): " + warnings[i].GetStatementValues().Unpack(' '), Verbosity.ALWAYS_SEND);
+                    Logger.Log(DebugLevel.WARNINGS, "Warning: (" + script.filepath + "): " + warnings[i].GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
                 }
             }
 
@@ -69,7 +73,7 @@ namespace ext_compiler
                 errs = script.FindStatements(settings.Keywords.ErrorStatement).ToList();
                 for (int i = 0; i < errs.Count; i++)
                 {
-                    Logger.Log(DebugLevel.ERRORS, "Error: (" + script.filepath + "): " + errs[i].GetStatementValues().Unpack(' '), Verbosity.ALWAYS_SEND);
+                    Logger.Log(DebugLevel.ERRORS, "Error: (" + script.filepath + "): " + errs[i].GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
                 }
             }
 
@@ -82,6 +86,13 @@ namespace ext_compiler
                 throw e;
             }
         }
+
+
+        #endregion
+
+        #region Loading and Processing
+
+        
 
 
         public static List<SourceScript> LoadSourceTree(string file, Dictionary<string, bool> globalTable=null)
@@ -144,6 +155,7 @@ namespace ext_compiler
             }
         }
 
+        #endregion
 
     }
 }

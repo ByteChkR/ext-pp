@@ -16,6 +16,7 @@ namespace ext_compiler.settings
         public bool EnableErrors = true;
         public Verbosity VerbosityLevel = Verbosity.ALWAYS_SEND;
         public Keywords Keywords = new Keywords();
+        public bool WriteToConsole = false;
 
 
         public List<string> CleanUpList

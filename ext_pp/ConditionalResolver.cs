@@ -118,7 +118,6 @@ namespace ext_compiler
                 else if (ExtensionProcessor.settings.ResolveDefine &&
                          line.StartsWith(ExtensionProcessor.settings.Keywords.DefineStatement))
                 {
-
                     DefineInGlobalTable(currentGlobal, line.GetStatementValues());
                     l.Add(script.source[i]);
                 }
@@ -146,10 +145,10 @@ namespace ext_compiler
         {
             Logger.Log(DebugLevel.LOGS, "Evaluating Conditional Statement", Verbosity.LEVEL6);
 
-            string[] cs = statement.Split(" ");
+            string[] cs = statement.GetStatementValues();
 
             bool ret = true;
-            for (int i = 1; i < cs.Length; i++)
+            for (int i = 0; i < cs.Length; i++)
             {
                 ret &= EvaluateExpression(globalTable, cs[i]);
             }

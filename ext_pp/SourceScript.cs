@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Resources;
 using ext_pp.settings;
 
 namespace ext_pp
@@ -10,18 +9,21 @@ namespace ext_pp
     public class SourceScript
     {
 
-        public string Filepath;
-        public string[] Source = new string[0];
+        public readonly string Filepath;
         private readonly string[] _genParam;
-        public string[] Includes;
+
+        public string[] Source = new string[0];
         public string Key => Filepath + GenParamAppendix;
 
 
-        public string GenParamAppendix
+        private string[] _includes;
+
+
+        private string GenParamAppendix
         {
             get
             {
-                string gp = _genParam.Unpack();
+                var gp = _genParam.Unpack();
                 if (_genParam != null && _genParam.Length > 0) gp = "." + gp;
                 return gp;
             }
@@ -31,14 +33,12 @@ namespace ext_pp
 
         private static string[] ResolveGenericIncludes(string[] gparam, string[] subgparams)
         {
-            for (int i = 0; i < subgparams.Length; i++)
+            for (var i = 0; i < subgparams.Length; i++)
             {
-                if (subgparams[i].StartsWith(Settings.IncludeStatement))
-                {
-                    string prm = subgparams[i].Trim();
-                    int gennr = Int32.Parse(prm.Substring(Settings.TypeGenKeyword.Length + 1, prm.Length - Settings.TypeGenKeyword.Length));
-                    subgparams[i] = gparam[gennr];
-                }
+                if (!subgparams[i].StartsWith(Settings.IncludeStatement)) continue;
+                var prm = subgparams[i].Trim();
+                var gennr = int.Parse(prm.Substring(Settings.TypeGenKeyword.Length + 1, prm.Length - Settings.TypeGenKeyword.Length));
+                subgparams[i] = gparam[gennr];
             }
 
             return subgparams;
@@ -47,11 +47,11 @@ namespace ext_pp
         {
 
             Logger.Log(DebugLevel.LOGS, "Removing Leftover Statements", Verbosity.LEVEL2);
-            for (int i = source.Count - 1; i >= 0; i--)
+            for (var i = source.Count - 1; i >= 0; i--)
             {
-                for (int j = 0; j < statements.Length; j++)
+                foreach (var t in statements)
                 {
-                    if (source[i].Trim().StartsWith(statements[j])) source.RemoveAt(i);
+                    if (source[i].Trim().StartsWith(t)) source.RemoveAt(i);
                 }
             }
             return source;
@@ -61,98 +61,103 @@ namespace ext_pp
 
         public SourceScript(string path, string[] genParams)
         {
-            this._genParam = genParams;
+            _genParam = genParams;
             Filepath = path;
         }
 
 
-        public void Load()
+
+
+        private bool ResolveConditionals(Dictionary<string, bool> glob)
         {
-            if (!LoadSource())
+            Logger.Log(DebugLevel.LOGS, "Resolving conditions in file: " + Key, Verbosity.LEVEL2);
+
+            return ConditionalResolver.ResolveConditions(this, glob);
+        }
+
+        private void DiscoverIncludes()
+        {
+            Logger.Log(DebugLevel.LOGS, "Discovering Include Statements.", Verbosity.LEVEL2);
+            _includes = FindStatements(Settings.IncludeStatement);
+        }
+
+
+        private bool Load()
+        {
+
+            bool ret;
+            if (!(ret = LoadSource()))
             {
                 Logger.Crash(new Exception("Could not load Source file"));
             }
-        }
 
-        public void DiscoverIncludes()
-        {
-            Logger.Log(DebugLevel.LOGS, "Discovering Include Statements.", Verbosity.LEVEL2);
-            Includes = FindStatements(Settings.IncludeStatement);
-        }
-
-
-        public void ResolveGenericParams()
-        {
-            if (_genParam != null)
-            {
-                Logger.Log(DebugLevel.LOGS, "Resolving Generic Parameters", Verbosity.LEVEL2);
-                ResolveGenerics();
-            }
+            return ret;
         }
 
         private bool LoadSource()
         {
 
             Source = new string[0];
-            if (File.Exists(Filepath))
-            {
-                Logger.Log(DebugLevel.LOGS, "Loading File: " + Filepath, Verbosity.LEVEL3);
-                Source = File.ReadAllLines(Filepath);
+            if (!File.Exists(Filepath)) return false;
+            Logger.Log(DebugLevel.LOGS, "Loading File: " + Filepath, Verbosity.LEVEL3);
+            Source = File.ReadAllLines(Filepath);
 
 
-                return true;
-            }
-            return false;
+            return true;
         }
 
 
         private void ResolveGenerics()
         {
-            for (int i = _genParam.Length - 1; i >= 0; i--)
+            if (_genParam != null && _genParam.Length > 0)
             {
-                ReplaceKeyWord(_genParam[i],
-                    Settings.TypeGenKeyword + i);
+                Logger.Log(DebugLevel.LOGS, "Resolving Generic Parameters", Verbosity.LEVEL2);
+
+                for (var i = _genParam.Length - 1; i >= 0; i--)
+                {
+                    ReplaceKeyWord(_genParam[i],
+                        Settings.TypeGenKeyword + i);
+                }
+            }
+            else
+            {
+                Logger.Log(DebugLevel.LOGS, "No Generic Parameters found", Verbosity.LEVEL2);
+
             }
 
         }
 
-        public void ReplaceKeyWord(string replacement, string keyword)
+        private void ReplaceKeyWord(string replacement, string keyword)
         {
 
-            for (int i = 0; i < Source.Length; i++)
+            for (var i = 0; i < Source.Length; i++)
             {
                 if (Source[i].Contains(keyword))
                 {
                     Source[i] = Source[i].Replace(keyword, replacement);
                 }
             }
-
-
-
         }
 
 
-        public void RemoveStatementLines(string statement)
+        //public void RemoveStatementLines(string statement)
+        //{
+        //    List<string> ret = Source.ToList();
+        //    for (int i = ret.Count - 1; i >= 0; i--)
+        //    {
+        //        if (ret[i].Trim().StartsWith(statement))
+        //        {
+        //            ret.RemoveAt(i);
+        //        }
+        //    }
+
+        //    Source = ret.ToArray();
+        //}
+
+        private string GetIncludeSourcePath(string statement, out string[] genParams)
         {
-            List<string> ret = Source.ToList();
-            for (int i = ret.Count - 1; i >= 0; i--)
-            {
-                if (ret[i].Trim().StartsWith(statement))
-                {
-                    ret.RemoveAt(i);
-                }
-            }
-
-            Source = ret.ToArray();
-        }
-
-
-
-
-        public string GetSourceFileFromIncludeStatement(string statement, string dir, out string[] genParams)
-        {
-            string file = statement.Trim().Remove(0, Settings.IncludeStatement.Length).Trim();
-            int idx = file.IndexOf(Settings.Separator);
+            var file = statement.Trim().Remove(0, Settings.IncludeStatement.Length).Trim();
+            var idx = file.IndexOf(Settings.Separator);
             genParams = null;
             if (idx != -1)
             {
@@ -163,9 +168,8 @@ namespace ext_pp
                 file = file.Substring(0, idx);
 
             }
-
-            string p = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(dir);
+            var p = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Filepath));
             if (!File.Exists(file))
             {
                 Logger.Crash(new Exception("Could not find include file " + file));
@@ -178,7 +182,7 @@ namespace ext_pp
             return file;
         }
 
-        public string[] FindStatements(string statement)
+        private string[] FindStatements(string statement)
         {
             return Source.ToList().Where(x => x.Trim().StartsWith(statement)).ToArray();
         }
@@ -187,43 +191,33 @@ namespace ext_pp
 
         #region Warnings and Errors
 
-        private static void ProcessWarningsAndErrors(List<SourceScript> tree)
-        {
-            Logger.Log(DebugLevel.LOGS, "Processing Warnings and Errors", Verbosity.LEVEL1);
 
-            if (!Settings.EnableErrors && !Settings.EnableWarnings)
-                return;
-            foreach (var sourceScript in tree)
-            {
-                ProcessWarningsAndErrors(sourceScript);
-            }
-        }
-
-        private static void ProcessWarningsAndErrors(SourceScript script)
+        public void ProcessWarningsAndErrors()
         {
-            List<string> warnings = new List<string>();
+            var warnings = new List<string>();
             if (Settings.EnableWarnings)
             {
-                warnings = script.FindStatements(Settings.WarningStatement).ToList();
-                for (int i = 0; i < warnings.Count; i++)
+                warnings = FindStatements(Settings.WarningStatement).ToList();
+                foreach (var t in warnings)
                 {
-                    Logger.Log(DebugLevel.WARNINGS, "Warning: (" + script.Filepath + "): " + warnings[i].GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
+                    Logger.Log(DebugLevel.WARNINGS, "Warning: (" + Filepath + "): " + t.GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
                 }
             }
 
-            List<string> errs = new List<string>();
+            var errs = new List<string>();
             if (Settings.EnableErrors)
             {
-                errs = script.FindStatements(Settings.ErrorStatement).ToList();
-                for (int i = 0; i < errs.Count; i++)
+                errs = FindStatements(Settings.ErrorStatement).ToList();
+
+                foreach (var t in errs)
                 {
-                    Logger.Log(DebugLevel.ERRORS, "Error: (" + script.Filepath + "): " + errs[i].GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
+                    Logger.Log(DebugLevel.ERRORS, "Error: (" + Filepath + "): " + t.GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
                 }
             }
 
             if (errs.Count != 0)
             {
-                Exception e = new Exception("One or more errors in source code.");
+                var e = new Exception("One or more errors in source code.");
                 e.Data.Add("warnings", warnings);
                 e.Data.Add("errors", errs);
 
@@ -251,11 +245,14 @@ namespace ext_pp
             file = Path.GetFullPath(file);
             tree = new List<SourceScript>();
             Logger.Log(DebugLevel.LOGS, "Creating Source Dependency Tree..", Verbosity.LEVEL1);
-            bool sucess = LoadSourceTree(file, tree, globalTable);
-            ProcessWarningsAndErrors(tree);
-            return sucess;
+            var success = LoadSourceTree(file, tree, null, globalTable);
+
+            return success;
         }
-        private static bool LoadSourceTree(string file, List<SourceScript> sources, Dictionary<string, bool> globalTable, string[] genParams = null)
+
+
+
+        private static bool LoadSourceTree(string file, List<SourceScript> sources, string[] genParams, Dictionary<string, bool> globalTable)
         {
             SourceScript ss;
 
@@ -276,36 +273,39 @@ namespace ext_pp
 
         private static bool LoadSourceTree(SourceScript script, List<SourceScript> sources, Dictionary<string, bool> globalTable)
         {
-            bool sucess = true;
+            var success = true;
             if (!sources.ContainsFile(script.Key))
             {
                 if (globalTable == null) globalTable = new Dictionary<string, bool>();
-                script.Load();
-                if (Settings.ResolveConditions) sucess &= ConditionalResolver.ResolveConditions(script, globalTable);
-                if (Settings.ResolveGenerics) script.ResolveGenericParams();
-                sources.AddFile(script, true);
-                if (Settings.ResolveIncludes)
+                success &= script.Load();
+                if (Settings.ResolveConditions)
                 {
-                    script.DiscoverIncludes();
-                    for (int i = 0; i < script.Includes.Length; i++)
-                    {
-                        Logger.Log(DebugLevel.LOGS, "processing include statement: " + script.Includes[i], Verbosity.LEVEL3);
-                        string f = script.GetSourceFileFromIncludeStatement(script.Includes[i], Path.GetDirectoryName(script.Filepath), out string[] gparams);
+                    Logger.Log(DebugLevel.LOGS, "Resolving conditions in file: " + script.Key, Verbosity.LEVEL2);
+                    success &= script.ResolveConditionals(globalTable);
 
-                        sucess &= LoadSourceTree(f, sources, globalTable, gparams);
-                    }
+                }
+                if (Settings.ResolveGenerics) script.ResolveGenerics();
+                sources.AddFile(script, true);
+                script.ProcessWarningsAndErrors();
+                if (!Settings.ResolveIncludes) return success;
+                script.DiscoverIncludes();
+                foreach (var t in script._includes)
+                {
+                    Logger.Log(DebugLevel.LOGS, "processing include statement: " + t, Verbosity.LEVEL3);
+                    var f = script.GetIncludeSourcePath(t, out var gparams);
+
+                    success &= LoadSourceTree(f, sources, gparams, globalTable);
                 }
             }
             else
             {
-                int idx = sources.IndexOfFile(script.Key);
-                SourceScript a = sources[idx];
+                var idx = sources.IndexOfFile(script.Key);
+                var a = sources[idx];
                 sources.RemoveAt(idx);
                 sources.AddFile(a, true);
                 Logger.Log(DebugLevel.LOGS, "Fixing Source Order", Verbosity.LEVEL3);
             }
-
-            return sucess;
+            return success;
         }
 
         #endregion

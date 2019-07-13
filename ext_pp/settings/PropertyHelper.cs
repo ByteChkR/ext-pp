@@ -11,6 +11,11 @@ namespace ext_pp.settings
         {
             return t.GetField(name);
         }
+
+        public static PropertyInfo GetPropertyInfo(Type t, string name)
+        {
+            return t.GetRuntimeProperty(name);
+        }
     }
 
     public static class PropertyHelper<T>

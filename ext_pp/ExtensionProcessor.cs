@@ -14,9 +14,11 @@ namespace ext_pp
         public static string[] CompileFile(string path, Dictionary<string, bool> globalTable = null)
         {
 
-            bool sucess = SourceScript.LoadSourceTree(path, out var ss, globalTable);
-            string[] ret = CompileTree(ss);
-            Logger.Log(DebugLevel.LOGS, sucess ? "Compilation DONE!" : "One or more errors in compilation",
+            var success = SourceScript.LoadSourceTree(path, out var ss, globalTable);
+
+
+            var ret = CompileTree(ss);
+            Logger.Log(DebugLevel.LOGS, success ? "Compilation DONE!" : "One or more errors in compilation",
                 Verbosity.ALWAYS_SEND);
 
             return ret;
@@ -24,13 +26,13 @@ namespace ext_pp
 
         private static string[] CompileTree(List<SourceScript> tree)
         {
-            List<string> ret = new List<string>();
+            var ret = new List<string>();
             
 
-            for (int i = tree.Count - 1; i >= 0; i--)
+            for (var i = tree.Count - 1; i >= 0; i--)
             {
                 Logger.Log(DebugLevel.LOGS, "Compiling File: " + tree[i].Filepath, Verbosity.LEVEL1);
-
+                
                 ret.AddRange(tree[i].Source);
             }
 

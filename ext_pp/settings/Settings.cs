@@ -58,7 +58,7 @@ namespace ext_pp.settings
         {
             get
             {
-                List<string> ret = new List<string>();
+                var ret = new List<string>();
 
                 if (!ResolveConditions) ResolveDefine = ResolveUnDefine = false;
 

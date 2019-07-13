@@ -23,9 +23,9 @@ namespace ext_pp
                 return true;
             }
 
-            for (int i = 0; i < tree.Count; i++)
+            foreach (var t in tree)
             {
-                if (!ResolveConditions(tree[i], globalTable)) return false;
+                if (!ResolveConditions(t, globalTable)) return false;
             }
 
             return true;
@@ -51,24 +51,24 @@ namespace ext_pp
         {
             Logger.Log(DebugLevel.LOGS, "Condition Resolver Pass: " + pass, Verbosity.LEVEL4);
             List<string> solvedFile = new List<string>();
-            int openIf = 0;
-            bool foundConditions = false;
-            bool elseisValid = false;
-            for (int i = 0; i < script.Source.Length; i++)
+            var openIf = 0;
+            var foundConditions = false;
+            var elseIsValid = false;
+            for (var i = 0; i < script.Source.Length; i++)
             {
-                string line = script.Source[i].Trim();
+                var line = script.Source[i].Trim();
                 if (line.StartsWith(Settings.IfStatement))
                 {
-                    int size = GetBlockSize(script.Source, i);
+                    var size = GetBlockSize(script.Source, i);
                     Logger.Log(DebugLevel.LOGS, "Found Conditional Statement: " + line, Verbosity.LEVEL5);
                     if (EvaluateConditionalStatements(currentGlobal, line))
                     {
-                        if (elseisValid) elseisValid = false;
+                        if (elseIsValid) elseIsValid = false;
                         solvedFile.AddRange(script.Source.SubArray(i + 1, size));
                     }
                     else
                     {
-                        elseisValid = true;
+                        elseIsValid = true;
                     }
 
                     openIf++;
@@ -81,12 +81,12 @@ namespace ext_pp
 
                     if (openIf > 0)
                     {
-                        int size = GetBlockSize(script.Source, i);
+                        var size = GetBlockSize(script.Source, i);
 
                         Logger.Log(DebugLevel.LOGS, "Found Conditional Statement: " + line, Verbosity.LEVEL5);
-                        if (elseisValid && EvaluateConditionalStatements(currentGlobal, line))
+                        if (elseIsValid && EvaluateConditionalStatements(currentGlobal, line))
                         {
-                            elseisValid = false;
+                            elseIsValid = false;
                             solvedFile.AddRange(script.Source.SubArray(i + 1, size));
                         }
                         i += size;
@@ -96,7 +96,7 @@ namespace ext_pp
                     {
                         Logger.Crash(new Exception("the else if statement: " +
                                                    Settings.ElseIfStatement +
-                                                   " must be preceeded with " +
+                                                   " must be preceded with " +
                                                    Settings.IfStatement), false);
                         return false;
                     }
@@ -107,9 +107,9 @@ namespace ext_pp
                 {
                     if (openIf > 0)
                     {
-                        int size = GetBlockSize(script.Source, i);
+                        var size = GetBlockSize(script.Source, i);
                         Logger.Log(DebugLevel.LOGS, "Found Conditional Else Statement: " + line, Verbosity.LEVEL5);
-                        if (elseisValid)
+                        if (elseIsValid)
                             solvedFile.AddRange(script.Source.SubArray(i + 1, size));
 
                         i += size;
@@ -119,7 +119,7 @@ namespace ext_pp
                     {
                         Logger.Crash(new Exception("the else statement: " +
                                                    Settings.ElseStatement +
-                                                   " must be preceeded with " +
+                                                   " must be preceded with " +
                                                    Settings.IfStatement), false);
                         return false;
                     }
@@ -133,7 +133,7 @@ namespace ext_pp
 
                         Logger.Crash(new Exception("the endif statement: " +
                                                    Settings.EndIfStatement +
-                                                   " must be preceeded with " +
+                                                   " must be preceded with " +
                                                    Settings.IfStatement), false);
                         return false;
                     }
@@ -159,30 +159,22 @@ namespace ext_pp
 
             script.Source = solvedFile.ToArray();
 
-            if (foundConditions)
-                return ResolveConditions(script, currentGlobal, pass + 1);
-            return true;
+            return !foundConditions || ResolveConditions(script, currentGlobal, pass + 1);
         }
 
-        private static bool EvaluateConditionalStatements(Dictionary<string, bool> globalTable, string statement)
+        private static bool EvaluateConditionalStatements(IReadOnlyDictionary<string, bool> globalTable, string statement)
         {
             Logger.Log(DebugLevel.LOGS, "Evaluating Conditional Statement", Verbosity.LEVEL6);
 
-            string[] cs = statement.GetStatementValues().ToArray();
+            var cs = statement.GetStatementValues().ToArray();
 
-            bool ret = true;
-            for (int i = 0; i < cs.Length; i++)
-            {
-                ret &= EvaluateExpression(globalTable, cs[i]);
-            }
-
-            return ret;
+            return cs.Aggregate(true, (current, t) => current & EvaluateExpression(globalTable, t));
         }
 
-        private static bool EvaluateExpression(Dictionary<string, bool> globalTable, string expression)
+        private static bool EvaluateExpression(IReadOnlyDictionary<string, bool> globalTable, string expression)
         {
             Logger.Log(DebugLevel.LOGS, "Evaluating Expression: " + expression, Verbosity.LEVEL7);
-            bool val = globalTable.ContainsKey(expression) && globalTable[expression];
+            var val = globalTable.ContainsKey(expression) && globalTable[expression];
             Logger.Log(DebugLevel.LOGS, "Expression Evaluated: " + val, Verbosity.LEVEL7);
 
             return val;
@@ -190,35 +182,37 @@ namespace ext_pp
 
         private static void DefineInGlobalTable(Dictionary<string, bool> globalTable, string[] defines)
         {
+            if (globalTable == null) throw new ArgumentNullException(nameof(globalTable));
             Logger.Log(DebugLevel.LOGS, "Defining Symbols: " + defines.Unpack(), Verbosity.LEVEL5);
             SetInGlobalTable(globalTable, defines, true);
         }
 
         private static void UnDefineInGlobalTable(Dictionary<string, bool> globalTable, string[] defines)
         {
+            if (globalTable == null) throw new ArgumentNullException(nameof(globalTable));
             Logger.Log(DebugLevel.LOGS, "Undefining Symbols: " + defines.Unpack(), Verbosity.LEVEL5);
             SetInGlobalTable(globalTable, defines, false);
         }
 
 
 
-        private static void SetInGlobalTable(Dictionary<string, bool> globalTable, string[] defines, bool set)
+        private static void SetInGlobalTable(IDictionary<string, bool> globalTable, IEnumerable<string> defines, bool set)
         {
-            for (int i = 0; i < defines.Length; i++)
+            foreach (var t in defines)
             {
-                if (globalTable.ContainsKey(defines[i])) globalTable[defines[i]] = set;
-                else globalTable.Add(defines[i], set);
+                if (globalTable.ContainsKey(t)) globalTable[t] = set;
+                else globalTable.Add(t, set);
             }
         }
 
 
 
-        private static int GetBlockSize(string[] source, int start)
+        private static int GetBlockSize(IReadOnlyList<string> source, int start)
         {
-            int tolerance = 0;
-            for (int i = start + 1; i < source.Length; i++)
+            var tolerance = 0;
+            for (var i = start + 1; i < source.Count; i++)
             {
-                string line = source[i].Trim();
+                var line = source[i].Trim();
                 if (line.StartsWith(Settings.IfStatement))
                 {
                     i += GetBlockSize(source, i);

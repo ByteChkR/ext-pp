@@ -9,11 +9,12 @@ namespace ext_pp
         
         public static string Unpack(this IEnumerable<string> arr)
         {
-            string s = "";
-            for (int i = 0; i < arr.Count(); i++)
+            var s = "";
+            var enumerable = arr as string[] ?? arr.ToArray();
+            for (var i = 0; i < enumerable.Count(); i++)
             {
-                s += arr.ElementAt(i);
-                if (i < arr.Count() - 1) s += Settings.Separator;
+                s += enumerable.ElementAt(i);
+                if (i < enumerable.Count() - 1) s += Settings.Separator;
             }
 
             return s;
@@ -28,7 +29,7 @@ namespace ext_pp
         {
             if (string.IsNullOrEmpty(statement)) return new string[0];
 
-            string[] ret = statement.Split(Settings.Separator);
+            var ret = statement.Split(Settings.Separator);
 
             return ret.SubArray(1, ret.Length - 1).ToArray();
         }
@@ -36,10 +37,11 @@ namespace ext_pp
 
         public static IEnumerable<T> SubArray<T>(this IEnumerable<T> arr, int start, int length)
         {
-            T[] ret = new T[length];
-            for (int i = start; i < start + length; i++)
+            var ret = new T[length];
+            var enumerable = arr as T[] ?? arr.ToArray();
+            for (var i = start; i < start + length; i++)
             {
-                ret.SetValue(arr.ElementAt(i), i - start);
+                ret.SetValue(enumerable.ElementAt(i), i - start);
             }
 
             return ret;
@@ -50,9 +52,9 @@ namespace ext_pp
             return SubArray(arr, 0, length);
         }
 
-        public static void AddFile(this List<SourceScript> list, SourceScript script, bool CheckForExistingKey)
+        public static void AddFile(this List<SourceScript> list, SourceScript script, bool checkForExistingKey)
         {
-            if (CheckForExistingKey && list.ContainsFile(script.Key)) return;
+            if (checkForExistingKey && list.ContainsFile(script.Key)) return;
             list.Add(script);
 
         }
@@ -64,7 +66,7 @@ namespace ext_pp
 
         public static int IndexOfFile(this List<SourceScript> files, string key)
         {
-            for (int i = 0; i < files.Count; i++)
+            for (var i = 0; i < files.Count; i++)
             {
                 if (files[i].Key == key) return i;
             }

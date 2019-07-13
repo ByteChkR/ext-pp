@@ -20,12 +20,12 @@ namespace ext_pp
 
             #region Preinformation
 
-            bool isShort = false;
-            bool vset = false;
+            var vset = false;
+            var isShort = false;
             if ((isShort = args.Contains("-v")) || args.Contains("--verbosity"))
             {
                 vset = true;
-                int idx = args.ToList().IndexOf(isShort ? "-v" : "--verbosity");
+                var idx = args.ToList().IndexOf(isShort ? "-v" : "--verbosity");
                 if (!int.TryParse(args[idx + 1], out var level))
                 {
                     Logger.Log(DebugLevel.WARNINGS, "Verbosity level needs to be a positive number.", Verbosity.ALWAYS_SEND);
@@ -52,13 +52,13 @@ namespace ext_pp
             }
 
             #endregion
-            ProcessInput(args, out string input, out string output, out Dictionary<string, bool> defs);
+            ProcessInput(args, out var input, out var output, out var defs);
 
             Logger.Log(DebugLevel.LOGS, "Input file: " + input, Verbosity.ALWAYS_SEND);
             Logger.Log(DebugLevel.LOGS, "Output file: " + output, Verbosity.ALWAYS_SEND);
 
 
-            string[] source = ExtensionProcessor.CompileFile(input, defs);
+            var source = ExtensionProcessor.CompileFile(input, defs);
 
 
             if (Settings.WriteToConsole)
@@ -84,155 +84,190 @@ namespace ext_pp
             
             #region Argument Analysis
 
-            for (int i = 0; i < args.Length - 1; i++)
+            for (var i = 0; i < args.Length - 1; i++)
             {
-                if (args[i] == "-i" || args[i] == "--input")
+                switch (args[i])
                 {
-                    string dirname = Path.GetDirectoryName(args[i + 1]);
-                    if (dirname != "") Directory.SetCurrentDirectory(dirname);
-                    input = args[i + 1];
-                }
-                else if (args[i] == "-o" || args[i] == "--output")
-                {
-                    output = args[i + 1];
-                }
-                else if (args[i] == "-rd" || args[i] == "--resolveDefine")
-                {
-                    if (!bool.TryParse(args[i + 1], out Settings.ResolveDefine))
+                    case "-i":
+                    case "--input":
                     {
-                        Logger.Log(DebugLevel.WARNINGS, "Resolve Define flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                        var dirname = Path.GetDirectoryName(args[i + 1]);
+                        if (dirname != "") Directory.SetCurrentDirectory(dirname);
+                        input = args[i + 1];
+                        break;
                     }
-                    else
-                    {
-                        Logger.Log(DebugLevel.LOGS, "Resolve Define flag set to " + Settings.ResolveDefine, Verbosity.LEVEL1);
-                    }
-                }
-                else if (args[i] == "-ru" || args[i] == "--resolveUndefine")
-                {
-                    if (!bool.TryParse(args[i + 1], out Settings.ResolveUnDefine))
-                    {
-                        Logger.Log(DebugLevel.WARNINGS, "Resolve Undefine flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
-                    }
-                    else
-                    {
-                        Logger.Log(DebugLevel.LOGS, "Resolve Undefine flag set to " + Settings.ResolveUnDefine, Verbosity.LEVEL1);
-                    }
-                }
-                else if (args[i] == "-rc" || args[i] == "--resolveConditions")
-                {
-                    if (!bool.TryParse(args[i + 1], out Settings.ResolveConditions))
-                    {
-                        Logger.Log(DebugLevel.WARNINGS, "Resolve Conditions flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
-                    }
-                    else
-                    {
-                        if (!Settings.ResolveConditions)
-                        {
-                            Settings.ResolveDefine = Settings.ResolveUnDefine = false;
-                        }
-                        Logger.Log(DebugLevel.LOGS, "Resolve Conditions flag set to " + Settings.ResolveConditions, Verbosity.LEVEL1);
-                    }
-                }
-                else if (args[i] == "-ri" || args[i] == "--resolveInclude")
-                {
-                    if (!bool.TryParse(args[i + 1], out Settings.ResolveIncludes))
-                    {
-                        Logger.Log(DebugLevel.WARNINGS, "Resolve Includes flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
-                    }
-                    else
-                    {
-                        Logger.Log(DebugLevel.LOGS, "Resolve Includes flag set to " + Settings.ResolveIncludes, Verbosity.LEVEL1);
-                    }
-                }
-                else if (args[i] == "-rg" || args[i] == "--resolveGenerics")
-                {
-                    if (!bool.TryParse(args[i + 1], out Settings.ResolveGenerics))
-                    {
-                        Logger.Log(DebugLevel.WARNINGS, "Resolve Generics flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
-                    }
-                    else
-                    {
-                        Logger.Log(DebugLevel.LOGS, "Resolve Generics flag set to " + Settings.ResolveGenerics, Verbosity.LEVEL1);
-                    }
-                }
-                else if (args[i] == "-ee" || args[i] == "--enableErrors")
-                {
-                    if (!bool.TryParse(args[i + 1], out Settings.EnableErrors))
-                    {
-                        Logger.Log(DebugLevel.WARNINGS, "Enable Errors flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
-                    }
-                    else
-                    {
-                        Logger.Log(DebugLevel.LOGS, "Enable Errors flag set to " + Settings.EnableErrors, Verbosity.LEVEL1);
-                    }
-                }
-                else if (args[i] == "-ee" || args[i] == "--enableWarnings")
-                {
-                    if (!bool.TryParse(args[i + 1], out Settings.EnableErrors))
-                    {
-                        Logger.Log(DebugLevel.WARNINGS, "Enable Warnings flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
-                    }
-                    else
-                    {
-                        Logger.Log(DebugLevel.LOGS, "Enable Warnings flag set to " + Settings.EnableWarnings, Verbosity.LEVEL1);
-                    }
-                }
-                else if (args[i] == "-ss" || args[i] == "--setSeparator")
-                {
-                    if (!char.TryParse(args[i + 1], out Settings.Separator))
-                    {
-                        Logger.Log(DebugLevel.WARNINGS, "Invalid Separator. Only one character.",
-                            Verbosity.ALWAYS_SEND);
-                    }
-                    else
-                    {
-                        Logger.Log(DebugLevel.LOGS, "Separator " + Settings.Separator,
-                            Verbosity.LEVEL1);
-                    }
-                }
-                else if (args[i].StartsWith("-kw") || args[i].StartsWith("--keyWord"))
-                {
 
-                    int idx = args[i].IndexOf(':') + 1;
-                    string prop = args[i].Substring(idx);
+                    case "-o":
+                    case "--output":
+                        output = args[i + 1];
+                        break;
+                    case "-rd":
+                    case "--resolveDefine":
+                    {
+                        if (!bool.TryParse(args[i + 1], out Settings.ResolveDefine))
+                        {
+                            Logger.Log(DebugLevel.WARNINGS, "Resolve Define flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                        }
+                        else
+                        {
+                            Logger.Log(DebugLevel.LOGS, "Resolve Define flag set to " + Settings.ResolveDefine, Verbosity.LEVEL1);
+                        }
+
+                        break;
+                    }
+
+                    case "-ru":
+                    case "--resolveUndefine":
+                    {
+                        if (!bool.TryParse(args[i + 1], out Settings.ResolveUnDefine))
+                        {
+                            Logger.Log(DebugLevel.WARNINGS, "Resolve Undefine flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                        }
+                        else
+                        {
+                            Logger.Log(DebugLevel.LOGS, "Resolve Undefine flag set to " + Settings.ResolveUnDefine, Verbosity.LEVEL1);
+                        }
+
+                        break;
+                    }
+
+                    case "-rc":
+                    case "--resolveConditions":
+                    {
+                        if (!bool.TryParse(args[i + 1], out Settings.ResolveConditions))
+                        {
+                            Logger.Log(DebugLevel.WARNINGS, "Resolve Conditions flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                        }
+                        else
+                        {
+                            if (!Settings.ResolveConditions)
+                            {
+                                Settings.ResolveDefine = Settings.ResolveUnDefine = false;
+                            }
+                            Logger.Log(DebugLevel.LOGS, "Resolve Conditions flag set to " + Settings.ResolveConditions, Verbosity.LEVEL1);
+                        }
+
+                        break;
+                    }
+
+                    case "-ri":
+                    case "--resolveInclude":
+                    {
+                        if (!bool.TryParse(args[i + 1], out Settings.ResolveIncludes))
+                        {
+                            Logger.Log(DebugLevel.WARNINGS, "Resolve Includes flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                        }
+                        else
+                        {
+                            Logger.Log(DebugLevel.LOGS, "Resolve Includes flag set to " + Settings.ResolveIncludes, Verbosity.LEVEL1);
+                        }
+
+                        break;
+                    }
+
+                    case "-rg":
+                    case "--resolveGenerics":
+                    {
+                        if (!bool.TryParse(args[i + 1], out Settings.ResolveGenerics))
+                        {
+                            Logger.Log(DebugLevel.WARNINGS, "Resolve Generics flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                        }
+                        else
+                        {
+                            Logger.Log(DebugLevel.LOGS, "Resolve Generics flag set to " + Settings.ResolveGenerics, Verbosity.LEVEL1);
+                        }
+
+                        break;
+                    }
+
+                    case "-ee":
+                    case "--enableErrors":
+                    {
+                        if (!bool.TryParse(args[i + 1], out Settings.EnableErrors))
+                        {
+                            Logger.Log(DebugLevel.WARNINGS, "Enable Errors flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                        }
+                        else
+                        {
+                            Logger.Log(DebugLevel.LOGS, "Enable Errors flag set to " + Settings.EnableErrors, Verbosity.LEVEL1);
+                        }
+
+                        break;
+                    }
+
+                    default:
+                    {
+                        if (args[i] == "-ee" || args[i] == "--enableWarnings")
+                        {
+                            if (!bool.TryParse(args[i + 1], out Settings.EnableErrors))
+                            {
+                                Logger.Log(DebugLevel.WARNINGS, "Enable Warnings flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                            }
+                            else
+                            {
+                                Logger.Log(DebugLevel.LOGS, "Enable Warnings flag set to " + Settings.EnableWarnings, Verbosity.LEVEL1);
+                            }
+                        }
+                        else if (args[i] == "-ss" || args[i] == "--setSeparator")
+                        {
+                            if (!char.TryParse(args[i + 1], out Settings.Separator))
+                            {
+                                Logger.Log(DebugLevel.WARNINGS, "Invalid Separator. Only one character.",
+                                    Verbosity.ALWAYS_SEND);
+                            }
+                            else
+                            {
+                                Logger.Log(DebugLevel.LOGS, "Separator " + Settings.Separator,
+                                    Verbosity.LEVEL1);
+                            }
+                        }
+                        else if (args[i].StartsWith("-kw") || args[i].StartsWith("--keyWord"))
+                        {
+
+                            int idx = args[i].IndexOf(':') + 1;
+                            string prop = args[i].Substring(idx);
                     
-                    if (!Settings.KeyWordHandles.ContainsKey(prop))
-                    {
-                        Logger.Log(DebugLevel.WARNINGS, "Invalid Property Key.",
-                            Verbosity.ALWAYS_SEND);
-                    }
-                    else
-                    {
-                        FieldInfo pi = Settings.KeyWordHandles[prop];
-                        Logger.Log(DebugLevel.LOGS, "Property set: " + pi.Name + "=" + args[i + 1],
-                            Verbosity.LEVEL1);
-                        pi.SetValue(null, args[i + 1]);
-                    }
+                            if (!Settings.KeyWordHandles.ContainsKey(prop))
+                            {
+                                Logger.Log(DebugLevel.WARNINGS, "Invalid Property Key.",
+                                    Verbosity.ALWAYS_SEND);
+                            }
+                            else
+                            {
+                                FieldInfo pi = Settings.KeyWordHandles[prop];
+                                Logger.Log(DebugLevel.LOGS, "Property set: " + pi.Name + "=" + args[i + 1],
+                                    Verbosity.LEVEL1);
+                                pi.SetValue(null, args[i + 1]);
+                            }
 
-                }
-                else if (args[i] == "-def" || args[i] == "--defines")
-                {
-
-                    for (int j = i + 1; j < args.Length; j++)
-                    {
-                        if (args[j].StartsWith('-'))
+                        }
+                        else if (args[i] == "-def" || args[i] == "--defines")
                         {
-                            i = j;
-                            break;
+
+                            for (int j = i + 1; j < args.Length; j++)
+                            {
+                                if (args[j].StartsWith('-'))
+                                {
+                                    i = j;
+                                    break;
+                                }
+
+                                if (!defs.ContainsKey(args[j]))
+                                {
+                                    defs.Add(args[j], true);
+                                }
+                                else if (!defs[args[j]])
+                                    defs[args[j]] = true;
+
+                            }
+                            Logger.Log(DebugLevel.LOGS, "Added " + defs.Count + " Global Definitions", Verbosity.LEVEL1);
+                            foreach (var def in defs)
+                            {
+                                Logger.Log(DebugLevel.LOGS, "Added Global Definition " + def.Key + ": " + def.Value.ToString(), Verbosity.LEVEL2);
+                            }
                         }
 
-                        if (!defs.ContainsKey(args[j]))
-                        {
-                            defs.Add(args[j], true);
-                        }
-                        else if (!defs[args[j]])
-                            defs[args[j]] = true;
-
-                    }
-                    Logger.Log(DebugLevel.LOGS, "Added " + defs.Count + " Global Definitions", Verbosity.LEVEL1);
-                    foreach (var def in defs)
-                    {
-                        Logger.Log(DebugLevel.LOGS, "Added Global Definition " + def.Key + ": " + def.Value.ToString(), Verbosity.LEVEL2);
+                        break;
                     }
                 }
             }
@@ -240,7 +275,7 @@ namespace ext_pp
 
             #region CheckErrors
 
-            if (input == "" || (output == "" && !Settings.WriteToConsole))
+            if (input == "" || output == "" && !Settings.WriteToConsole)
             {
                 Logger.Log(DebugLevel.ERRORS, "Invalid Command.", Verbosity.ALWAYS_SEND);
                 Logger.Log(DebugLevel.LOGS, Settings.HelpText, Verbosity.ALWAYS_SEND);
@@ -257,11 +292,11 @@ namespace ext_pp
 
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            InitADL();
+            InitAdl();
 
-            CompilerConsole cc = new CompilerConsole(args);
+            var cc = new CompilerConsole(args);
 
 #if DEBUG
             Console.ReadLine();
@@ -269,8 +304,7 @@ namespace ext_pp
         }
 
 
-
-        static void InitADL()
+        private static void InitAdl()
         {
 
             CrashHandler.Initialize((int)DebugLevel.ERRORS, false);
@@ -278,7 +312,7 @@ namespace ext_pp
             Debug.SetAllPrefixes("[ERRORS]", "[WARNINGS]", "[LOGS]");
             Debug.CheckForUpdates = false;
             Debug.AdlWarningMask = (int)DebugLevel.WARNINGS;
-            LogTextStream lts = new LogTextStream(
+            var lts = new LogTextStream(
                 Console.OpenStandardOutput(),
                 -1,
                 MatchType.MatchAll,

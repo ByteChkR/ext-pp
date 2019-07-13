@@ -18,6 +18,7 @@ namespace ext_pp.settings
         public static bool EnableErrors = true;
         public static Verbosity VerbosityLevel = Verbosity.ALWAYS_SEND;
         public static bool WriteToConsole = false;
+        public static bool LogToFile = false;
 
 
         private static Dictionary<string, FieldInfo> _keyWordHandles = null;

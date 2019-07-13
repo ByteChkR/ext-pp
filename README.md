@@ -27,6 +27,7 @@ dotnet ext_pp.dll [-option VALUE]
 	-ss|--setSeparator [char]
 	-n|--negation [char]
 	-2c|--writeToConsole
+	-l2f|--logToFile [path]
 	-kw:d|--keyWord:d [defineStatement]
 	-kw:u|--keyWord:u [unDefineStatement]
 	-kw:if|--keyWord:if [ifStatement]

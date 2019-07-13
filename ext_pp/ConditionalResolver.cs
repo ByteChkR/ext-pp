@@ -168,7 +168,123 @@ namespace ext_pp
 
             var cs = statement.GetStatementValues().ToArray();
 
-            return cs.Aggregate(true, (current, t) => current & EvaluateExpression(globalTable, t));
+            bool result = EvaluateBrackets(globalTable, statement);
+
+
+            //foreach (var s in cs) result = result & EvaluateExpression(globalTable, s);
+            return result;
+        }
+
+        private static bool EvaluateBrackets(IReadOnlyDictionary<string, bool> globalTable, string statement)
+        {
+            Logger.Log(DebugLevel.LOGS, "Evaluating Conditional Statement", Verbosity.LEVEL6);
+
+            var cs = statement.GetStatementValues().ToArray();
+
+            List<string> temp = new List<string>();
+            for (int i = 0; i < cs.Length; i++)
+            {
+                if (cs[i] == "||" || cs[i] == "&&") continue;
+                string line = cs[i];
+
+
+                if (line.StartsWith("||") || line.StartsWith("&&"))
+                {
+                    temp.Add(line.Substring(0, 2));
+                    temp.Add(line = line.Substring(2, line.Length - 2));
+
+                }
+                else if (line.EndsWith("||") || line.EndsWith("&&"))
+                {
+                    temp.Add(line = line.Substring(0, line.Length - 2));
+                    temp.Add(cs[i].Substring(cs[i].Length - 2, 2));
+                }
+                else
+                    temp.Add(cs[i]);
+
+            }
+
+            cs = temp.ToArray();
+            bool ret = true;
+            bool isOr = false;
+            bool expectOperator = false;
+            for (int i = 0; i < cs.Length; i++)
+            {
+                if (cs[i] == "||")
+                {
+                    isOr = true;
+                    expectOperator = false;
+                }
+                else if (cs[i] == "&&")
+                {
+                    isOr = false;
+                    expectOperator = false;
+                }
+                else
+                {
+                    var isSingleOBracket = false;
+                    if ((isSingleOBracket = cs[i] == "(") || cs[i].StartsWith('('))
+                    {
+                        if (isSingleOBracket)
+                        {
+                            i++;
+                        }
+                        expectOperator = true;
+                        int size = GetClosingBracket(cs, i);
+                        bool tmp = EvaluateBrackets(globalTable, cs.SubArray(i, size).Unpack());
+                        if (isOr) ret |= tmp;
+                        else ret &= tmp;
+                        i += size;
+                    }
+                    else
+                    {
+                        if (expectOperator)
+                        {
+                            isOr = false; //default is AND
+                        }
+                        expectOperator = true;
+                        bool tmp = EvaluateExpression(globalTable, cs[i]);
+                        if (isOr) ret |= tmp;
+                        else ret &= tmp;
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+        private static int GetClosingBracket(string[] statement, int startingbracket)
+        {
+            var tolerance = 0;
+            for (var i = startingbracket + 1; i < statement.Length; i++)
+            {
+                var line = statement[i];
+                if (line.StartsWith('('))
+                {
+                    i += GetClosingBracket(statement, i);
+                    while (line.StartsWith('('))
+                    {
+                        line = line.Substring(0, line.Length - 1);
+                        tolerance++;
+                    }
+                }
+                if (line.EndsWith(')'))
+                {
+                    if (tolerance == 0)
+                        return i - startingbracket + 1;
+                    while (line.EndsWith(')'))
+                    {
+                        line = line.Substring(0, line.Length - 1);
+                        tolerance--;
+                    }
+                }
+            }
+
+            Logger.Crash(new Exception("Invalid usage of Brackets in an expression")
+            {
+                Data = { { "statement", statement }, { "startingbracket", startingbracket } }
+            });
+            return -1; //Not getting here since it crashes in Logger.Crash
         }
 
         private static bool EvaluateExpression(IReadOnlyDictionary<string, bool> globalTable, string expression)

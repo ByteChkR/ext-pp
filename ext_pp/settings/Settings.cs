@@ -38,7 +38,6 @@ namespace ext_pp.settings
                 {"e", PropertyHelper.GetFieldInfo(typeof(Settings), nameof(ErrorStatement))},
                 {"i", PropertyHelper.GetFieldInfo(typeof(Settings), nameof(IncludeStatement))},
                 {"t", PropertyHelper.GetFieldInfo(typeof(Settings), nameof(TypeGenKeyword))},
-
             };
         }
 
@@ -52,6 +51,7 @@ namespace ext_pp.settings
         public static string EndIfStatement = "#endif";
         public static string DefineStatement = "#define";
         public static string UndefineStatement = "#undefine";
+        public static char NegateStatement = '!';
         public static char Separator = ' ';
 
         public static List<string> CleanUpList

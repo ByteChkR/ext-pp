@@ -174,7 +174,15 @@ namespace ext_pp
         private static bool EvaluateExpression(IReadOnlyDictionary<string, bool> globalTable, string expression)
         {
             Logger.Log(DebugLevel.LOGS, "Evaluating Expression: " + expression, Verbosity.LEVEL7);
+
+            bool neg = expression.StartsWith(Settings.NegateStatement);
+            if (expression == Settings.NegateStatement.ToString())
+                Logger.Crash(new InvalidOperationException("A Negation should be followed immediately with a variable"));
+            if (neg) expression = expression.Substring(1, expression.Length - 1);
+
             var val = globalTable.ContainsKey(expression) && globalTable[expression];
+
+            val = neg ? !val : val;
             Logger.Log(DebugLevel.LOGS, "Expression Evaluated: " + val, Verbosity.LEVEL7);
 
             return val;
@@ -193,7 +201,6 @@ namespace ext_pp
             Logger.Log(DebugLevel.LOGS, "Undefining Symbols: " + defines.Unpack(), Verbosity.LEVEL5);
             SetInGlobalTable(globalTable, defines, false);
         }
-
 
 
         private static void SetInGlobalTable(IDictionary<string, bool> globalTable, IEnumerable<string> defines, bool set)

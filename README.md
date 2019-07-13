@@ -25,6 +25,7 @@ dotnet ext_pp.dll [-option VALUE]
 	-def|--defines [DefineSymbols]  
 	-v|--verbosity [0(Silent)-10(Maximum Debug Log)]
 	-ss|--setSeparator [char]
+	-n|--negation [char]
 	-2c|--writeToConsole
 	-kw:d|--keyWord:d [defineStatement]
 	-kw:u|--keyWord:u [unDefineStatement]
@@ -49,3 +50,4 @@ dotnet ext_pp.dll [-option VALUE]
 	#warning <Warning Description>
 	#typeN (The value to use instead of type when writing generic code)
 		can also rename function names dynamically
+	!<VAR1> = NOT VAR1

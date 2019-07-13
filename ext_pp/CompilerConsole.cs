@@ -221,7 +221,20 @@ namespace ext_pp
                                     Verbosity.LEVEL1);
                             }
                         }
-                        else if (args[i].StartsWith("-kw") || args[i].StartsWith("--keyWord"))
+                        else if (args[i] == "-n" || args[i] == "--negation")
+                        {
+                            if (!char.TryParse(args[i + 1], out Settings.NegateStatement))
+                            {
+                                Logger.Log(DebugLevel.WARNINGS, "Invalid Negation. Only one character.",
+                                    Verbosity.ALWAYS_SEND);
+                            }
+                            else
+                            {
+                                Logger.Log(DebugLevel.LOGS, "Negation " + Settings.Separator,
+                                    Verbosity.LEVEL1);
+                            }
+                        }
+                            else if (args[i].StartsWith("-kw") || args[i].StartsWith("--keyWord"))
                         {
 
                             int idx = args[i].IndexOf(':') + 1;

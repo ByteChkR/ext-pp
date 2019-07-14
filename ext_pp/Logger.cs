@@ -7,10 +7,11 @@ namespace ext_pp
 {
     public static class Logger
     {
-        
+        internal static Verbosity _level;
+
         public static void Log(int mask, string message, Verbosity level)
         {
-            if (level <= Settings.VerbosityLevel)
+            if (level <= _level)
                 ADL.Debug.Log(mask, "[" + Enum.GetName(typeof(Verbosity), level) + "]" + message);
         }
 

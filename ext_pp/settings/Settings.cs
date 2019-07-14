@@ -4,26 +4,26 @@ using System.Reflection;
 
 namespace ext_pp.settings
 {
-    public static class Settings
+    public class Settings
     {
         public static string HelpText =
             "Parameter:\r\n-i|--input <path>\r\n-o|--output <path>\r\n Optional Parameter:	\t-rd|--resolveDefine [true|false]  \r\n\t-ru|--resolveUndefine [true|false]  \r\n\t-rc|--resolveConditions [true|false]  \r\n\t-ri|--resolveInclude [true|false]  \r\n\t-rg|--resolveGenerics [true|false]  \r\n\t-ee|--enableErrors [true|false]  \r\n\t-ew|--enableWarnings [true|false]  \r\n\t-def|--defines [DefineSymbols]  \r\n\t-v|--verbosity [0(Silent)-10(Maximum Debug Log)]\r\n\t-ss|--setSeparator [char]\r\n\t-2c|--writeToConsole\r\n\t-kw:d|--keyWord:d [defineStatement]\r\n\t-kw:u|--keyWord:u [unDefineStatement]\r\n\t-kw:if|--keyWord:if [ifStatement]\r\n\t-kw:elif|--keyWord:elif [elseIfStatement]\r\n\t-kw:else|--keyWord:else [elseStatement]\r\n\t-kw:eif|--keyWord:eif [endIfStatement]\r\n\t-kw:w|--keyWord:w [warningStatement]\r\n\t-kw:e|--keyWord:e [errorStatement]\r\n\t-kw:i|--keyWord:i [includeStatement]\r\n\t-kw:t|--keyWord:t [typeGenStatement]";
 
-        public static bool ResolveDefine = true;
-        public static bool ResolveUnDefine = true;
-        public static bool ResolveConditions = true;
-        public static bool ResolveIncludes = true;
-        public static bool ResolveGenerics = true;
-        public static bool EnableWarnings = true;
-        public static bool EnableErrors = true;
-        public static Verbosity VerbosityLevel = Verbosity.ALWAYS_SEND;
-        public static bool WriteToConsole = false;
-        public static bool LogToFile = false;
+        public bool ResolveDefine = true;
+        public bool ResolveUnDefine = true;
+        public bool ResolveConditions = true;
+        public bool ResolveIncludes = true;
+        public bool ResolveGenerics = true;
+        public bool EnableWarnings = true;
+        public bool EnableErrors = true;
+        public Verbosity VerbosityLevel = Verbosity.ALWAYS_SEND;
+        public bool WriteToConsole = false;
+        public bool LogToFile = false;
 
 
-        private static Dictionary<string, FieldInfo> _keyWordHandles = null;
+        private Dictionary<string, FieldInfo> _keyWordHandles = null;
 
-        public static Dictionary<string, FieldInfo> KeyWordHandles => _keyWordHandles ?? (_keyWordHandles = GetInfo());
+        public Dictionary<string, FieldInfo> KeyWordHandles => _keyWordHandles ?? (_keyWordHandles = GetInfo());
 
         private static Dictionary<string, FieldInfo> GetInfo()
         {
@@ -42,20 +42,22 @@ namespace ext_pp.settings
             };
         }
 
-        public static string IncludeStatement = "#include";
-        public static string TypeGenKeyword = "#type";
-        public static string ErrorStatement = "#error";
-        public static string WarningStatement = "#warning";
-        public static string IfStatement = "#if";
-        public static string ElseIfStatement = "#elseif";
-        public static string ElseStatement = "#else";
-        public static string EndIfStatement = "#endif";
-        public static string DefineStatement = "#define";
-        public static string UndefineStatement = "#undefine";
-        public static char NegateStatement = '!';
-        public static char Separator = ' ';
+        public string IncludeStatement = "#include";
+        public string TypeGenKeyword = "#type";
+        public string ErrorStatement = "#error";
+        public string WarningStatement = "#warning";
+        public string IfStatement = "#if";
+        public string ElseIfStatement = "#elseif";
+        public string ElseStatement = "#else";
+        public string EndIfStatement = "#endif";
+        public string DefineStatement = "#define";
+        public string UndefineStatement = "#undefine";
+        public string NotOperator = "!";
+        public string AndOperator = "&&";
+        public string OrOperator = "||";
+        public string Separator = " ";
 
-        public static List<string> CleanUpList
+        public List<string> CleanUpList
         {
             get
             {
@@ -65,7 +67,7 @@ namespace ext_pp.settings
 
                 if (ResolveUnDefine) ret.Add(UndefineStatement);
                 if (ResolveDefine) ret.Add(DefineStatement);
-                if (ResolveConditions) ret.AddRange(new []
+                if (ResolveConditions) ret.AddRange(new[]
                 {
                     IfStatement ,
                     ElseIfStatement,

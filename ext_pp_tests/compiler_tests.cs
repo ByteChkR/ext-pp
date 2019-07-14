@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using ext_pp;
+using ext_pp.settings;
 using NUnit.Framework;
 
 namespace ext_pp.tests
@@ -21,31 +22,31 @@ namespace ext_pp.tests
         [Test]
         public void IncludeCircular()
         {
-            bool ret = SourceScript.LoadSourceTree("includecircular.cl", out List<SourceScript> tree);
+            PreProcessor pp = new PreProcessor(new Settings());
+            var ret = pp.Process("includecircular.cl", new Definitions());
             Assert.AreEqual(
-                tree.Count, 
+                ret.Length, 
                 3);
-            Assert.IsTrue(ret);
         }
 
         [Test]
         public void IncludeGenericCircular()
         {
-            bool ret = SourceScript.LoadSourceTree("genericincludepassthrough.cl", out List<SourceScript> tree);
+            PreProcessor pp = new PreProcessor(new Settings());
+            var ret = pp.Process("genericincludepassthrough.cl", new Definitions());
             Assert.AreEqual(
-                tree.Count, 
+                ret.Length, 
                 5);
-            Assert.IsTrue(ret);
         }
 
         [Test]
         public void TypePassing()
         {
-            bool ret = SourceScript.LoadSourceTree("typePassing.cl", out List<SourceScript> tree);
+            PreProcessor pp = new PreProcessor(new Settings());
+            var ret = pp.Compile("typePassing.cl", new Definitions());
             Assert.AreEqual(
-                tree.Count, 
+                ret.Length, 
                 4);
-            Assert.IsTrue(ret);
         }
     }
 }

@@ -14,15 +14,16 @@ namespace ext_pp
 {
     public class CompilerConsole
     {
+        private readonly Settings _settings;
 
         public CompilerConsole(string[] args)
         {
-
+            _settings = new Settings();
             InitAdl();
             #region Preinformation
 
             var isShort = false;
-            
+
 
             var vset = false;
             if ((isShort = args.Contains("-v")) || args.Contains("--verbosity"))
@@ -35,9 +36,9 @@ namespace ext_pp
                 }
                 else
                 {
-                    Settings.VerbosityLevel = (Verbosity)level;
+                    _settings.VerbosityLevel = (Verbosity)level;
 
-                    Logger.Log(DebugLevel.LOGS, "Verbosity Level set to " + Settings.VerbosityLevel, Verbosity.LEVEL1);
+                    Logger.Log(DebugLevel.LOGS, "Verbosity Level set to " + _settings.VerbosityLevel, Verbosity.LEVEL1);
                 }
             }
             isShort = false;
@@ -54,16 +55,16 @@ namespace ext_pp
             if (args.Contains("-2c") || args.Contains("--writeToConsole"))
             {
                 Logger.Log(DebugLevel.LOGS, "Writing to console. ", Verbosity.LEVEL1);
-                Settings.WriteToConsole = true;
-                if (!vset && Settings.VerbosityLevel > 0)
+                _settings.WriteToConsole = true;
+                if (!vset && _settings.VerbosityLevel > 0)
                 {
-                    Settings.VerbosityLevel = Verbosity.SILENT;
+                    _settings.VerbosityLevel = Verbosity.SILENT;
                 }
-                else if (vset && Settings.VerbosityLevel > 0)
+                else if (vset && _settings.VerbosityLevel > 0)
                     Logger.Log(DebugLevel.WARNINGS, "Writing to console. paired with log output. the output may only be usable for testing purposes.", Verbosity.ALWAYS_SEND);
 
             }
-            
+
 
 
 
@@ -76,11 +77,11 @@ namespace ext_pp
 
 
 
+            PreProcessor pp = new PreProcessor(_settings);
+            var source = pp.Compile(input, new Definitions(defs));
 
-            var source = ExtensionProcessor.CompileFile(input, defs);
 
-
-            if (Settings.WriteToConsole)
+            if (_settings.WriteToConsole)
             {
                 if (output != "")
                 {
@@ -109,7 +110,7 @@ namespace ext_pp
             Debug.AddOutputStream(lts);
         }
 
-        public static bool ProcessInput(string[] args, out string input, out string output, out Dictionary<string, bool> defs)
+        public bool ProcessInput(string[] args, out string input, out string output, out Dictionary<string, bool> defs)
         {
             defs = new Dictionary<string, bool>();
             input = output = "";
@@ -137,13 +138,13 @@ namespace ext_pp
                     case "-rd":
                     case "--resolveDefine":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.ResolveDefine))
+                            if (!bool.TryParse(args[i + 1], out _settings.ResolveDefine))
                             {
                                 Logger.Log(DebugLevel.WARNINGS, "Resolve Define flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
                             }
                             else
                             {
-                                Logger.Log(DebugLevel.LOGS, "Resolve Define flag set to " + Settings.ResolveDefine, Verbosity.LEVEL1);
+                                Logger.Log(DebugLevel.LOGS, "Resolve Define flag set to " + _settings.ResolveDefine, Verbosity.LEVEL1);
                             }
 
                             break;
@@ -152,13 +153,13 @@ namespace ext_pp
                     case "-ru":
                     case "--resolveUndefine":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.ResolveUnDefine))
+                            if (!bool.TryParse(args[i + 1], out _settings.ResolveUnDefine))
                             {
                                 Logger.Log(DebugLevel.WARNINGS, "Resolve Undefine flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
                             }
                             else
                             {
-                                Logger.Log(DebugLevel.LOGS, "Resolve Undefine flag set to " + Settings.ResolveUnDefine, Verbosity.LEVEL1);
+                                Logger.Log(DebugLevel.LOGS, "Resolve Undefine flag set to " + _settings.ResolveUnDefine, Verbosity.LEVEL1);
                             }
 
                             break;
@@ -167,17 +168,17 @@ namespace ext_pp
                     case "-rc":
                     case "--resolveConditions":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.ResolveConditions))
+                            if (!bool.TryParse(args[i + 1], out _settings.ResolveConditions))
                             {
                                 Logger.Log(DebugLevel.WARNINGS, "Resolve Conditions flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
                             }
                             else
                             {
-                                if (!Settings.ResolveConditions)
+                                if (!_settings.ResolveConditions)
                                 {
-                                    Settings.ResolveDefine = Settings.ResolveUnDefine = false;
+                                    _settings.ResolveDefine = _settings.ResolveUnDefine = false;
                                 }
-                                Logger.Log(DebugLevel.LOGS, "Resolve Conditions flag set to " + Settings.ResolveConditions, Verbosity.LEVEL1);
+                                Logger.Log(DebugLevel.LOGS, "Resolve Conditions flag set to " + _settings.ResolveConditions, Verbosity.LEVEL1);
                             }
 
                             break;
@@ -186,13 +187,13 @@ namespace ext_pp
                     case "-ri":
                     case "--resolveInclude":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.ResolveIncludes))
+                            if (!bool.TryParse(args[i + 1], out _settings.ResolveIncludes))
                             {
                                 Logger.Log(DebugLevel.WARNINGS, "Resolve Includes flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
                             }
                             else
                             {
-                                Logger.Log(DebugLevel.LOGS, "Resolve Includes flag set to " + Settings.ResolveIncludes, Verbosity.LEVEL1);
+                                Logger.Log(DebugLevel.LOGS, "Resolve Includes flag set to " + _settings.ResolveIncludes, Verbosity.LEVEL1);
                             }
 
                             break;
@@ -201,13 +202,13 @@ namespace ext_pp
                     case "-rg":
                     case "--resolveGenerics":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.ResolveGenerics))
+                            if (!bool.TryParse(args[i + 1], out _settings.ResolveGenerics))
                             {
                                 Logger.Log(DebugLevel.WARNINGS, "Resolve Generics flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
                             }
                             else
                             {
-                                Logger.Log(DebugLevel.LOGS, "Resolve Generics flag set to " + Settings.ResolveGenerics, Verbosity.LEVEL1);
+                                Logger.Log(DebugLevel.LOGS, "Resolve Generics flag set to " + _settings.ResolveGenerics, Verbosity.LEVEL1);
                             }
 
                             break;
@@ -216,13 +217,13 @@ namespace ext_pp
                     case "-ee":
                     case "--enableErrors":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.EnableErrors))
+                            if (!bool.TryParse(args[i + 1], out _settings.EnableErrors))
                             {
                                 Logger.Log(DebugLevel.WARNINGS, "Enable Errors flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
                             }
                             else
                             {
-                                Logger.Log(DebugLevel.LOGS, "Enable Errors flag set to " + Settings.EnableErrors, Verbosity.LEVEL1);
+                                Logger.Log(DebugLevel.LOGS, "Enable Errors flag set to " + _settings.EnableErrors, Verbosity.LEVEL1);
                             }
 
                             break;
@@ -232,40 +233,45 @@ namespace ext_pp
                         {
                             if (args[i] == "-ee" || args[i] == "--enableWarnings")
                             {
-                                if (!bool.TryParse(args[i + 1], out Settings.EnableErrors))
+                                if (!bool.TryParse(args[i + 1], out _settings.EnableErrors))
                                 {
                                     Logger.Log(DebugLevel.WARNINGS, "Enable Warnings flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
                                 }
                                 else
                                 {
-                                    Logger.Log(DebugLevel.LOGS, "Enable Warnings flag set to " + Settings.EnableWarnings, Verbosity.LEVEL1);
+                                    Logger.Log(DebugLevel.LOGS, "Enable Warnings flag set to " + _settings.EnableWarnings, Verbosity.LEVEL1);
                                 }
                             }
                             else if (args[i] == "-ss" || args[i] == "--setSeparator")
                             {
-                                if (!char.TryParse(args[i + 1], out Settings.Separator))
-                                {
-                                    Logger.Log(DebugLevel.WARNINGS, "Invalid Separator. Only one character.",
-                                        Verbosity.ALWAYS_SEND);
-                                }
-                                else
-                                {
-                                    Logger.Log(DebugLevel.LOGS, "Separator " + Settings.Separator,
-                                        Verbosity.LEVEL1);
-                                }
+                                _settings.Separator = args[i + 1];
+                                Logger.Log(DebugLevel.LOGS, "Separator " + _settings.Separator,
+                                    Verbosity.LEVEL1);
+
                             }
-                            else if (args[i] == "-n" || args[i] == "--negation")
+                            else if (args[i] == "-nO" || args[i] == "--notOperator")
                             {
-                                if (!char.TryParse(args[i + 1], out Settings.NegateStatement))
-                                {
-                                    Logger.Log(DebugLevel.WARNINGS, "Invalid Negation. Only one character.",
-                                        Verbosity.ALWAYS_SEND);
-                                }
-                                else
-                                {
-                                    Logger.Log(DebugLevel.LOGS, "Negation " + Settings.Separator,
-                                        Verbosity.LEVEL1);
-                                }
+
+                                _settings.NotOperator = args[i + 1];
+                                Logger.Log(DebugLevel.LOGS, "Not Operator: " + _settings.NotOperator,
+                                    Verbosity.LEVEL1);
+
+                            }
+                            else if (args[i] == "-aO" || args[i] == "--andOperator")
+                            {
+
+                                _settings.AndOperator = args[i + 1];
+                                Logger.Log(DebugLevel.LOGS, "And Operator: " + _settings.NotOperator,
+                                    Verbosity.LEVEL1);
+
+                            }
+                            else if (args[i] == "-oo" || args[i] == "--orOperator")
+                            {
+
+                                _settings.OrOperator = args[i + 1];
+                                Logger.Log(DebugLevel.LOGS, "Or Operator: " + _settings.NotOperator,
+                                    Verbosity.LEVEL1);
+
                             }
                             else if (args[i].StartsWith("-kw") || args[i].StartsWith("--keyWord"))
                             {
@@ -273,14 +279,14 @@ namespace ext_pp
                                 int idx = args[i].IndexOf(':') + 1;
                                 string prop = args[i].Substring(idx);
 
-                                if (!Settings.KeyWordHandles.ContainsKey(prop))
+                                if (!_settings.KeyWordHandles.ContainsKey(prop))
                                 {
                                     Logger.Log(DebugLevel.WARNINGS, "Invalid Property Key.",
                                         Verbosity.ALWAYS_SEND);
                                 }
                                 else
                                 {
-                                    FieldInfo pi = Settings.KeyWordHandles[prop];
+                                    FieldInfo pi = _settings.KeyWordHandles[prop];
                                     Logger.Log(DebugLevel.LOGS, "Property set: " + pi.Name + "=" + args[i + 1],
                                         Verbosity.LEVEL1);
                                     pi.SetValue(null, args[i + 1]);
@@ -321,7 +327,7 @@ namespace ext_pp
 
             #region CheckErrors
 
-            if (input == "" || output == "" && !Settings.WriteToConsole)
+            if (input == "" || output == "" && !_settings.WriteToConsole)
             {
                 Logger.Log(DebugLevel.ERRORS, "Invalid Command.", Verbosity.ALWAYS_SEND);
                 Logger.Log(DebugLevel.LOGS, Settings.HelpText, Verbosity.ALWAYS_SEND);
@@ -340,7 +346,6 @@ namespace ext_pp
 
         private static void Main(string[] args)
         {
-
             var cc = new CompilerConsole(args);
 
 #if DEBUG

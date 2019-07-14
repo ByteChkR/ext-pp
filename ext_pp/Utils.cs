@@ -37,10 +37,8 @@ namespace ext_pp
         public static bool FileExists(string currentPath, string file)
         {
             var p = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(currentPath));
+            Directory.SetCurrentDirectory(currentPath);
             var ret = File.Exists(file);
-
-
             Directory.SetCurrentDirectory(p);
             return ret;
         }

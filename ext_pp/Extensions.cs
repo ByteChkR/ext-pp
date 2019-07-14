@@ -7,29 +7,29 @@ namespace ext_pp
     internal static class Extensions
     {
         
-        public static string Unpack(this IEnumerable<string> arr)
+        public static string Unpack(this IEnumerable<string> arr, string separator)
         {
             var s = "";
             var enumerable = arr as string[] ?? arr.ToArray();
             for (var i = 0; i < enumerable.Count(); i++)
             {
                 s += enumerable.ElementAt(i);
-                if (i < enumerable.Count() - 1) s += Settings.Separator;
+                if (i < enumerable.Count() - 1) s += separator;
             }
 
             return s;
         }
 
-        public static IEnumerable<string> Pack(this string arr)
+        public static IEnumerable<string> Pack(this string arr, string separator)
         {
-            return arr.Split(Settings.Separator);
+            return arr.Split(separator);
         }
 
-        public static string[] GetStatementValues(this string statement)
+        public static string[] GetStatementValues(this string statement, string separator)
         {
             if (string.IsNullOrEmpty(statement)) return new string[0];
 
-            var ret = statement.Split(Settings.Separator);
+            var ret = statement.Split(separator);
 
             return ret.SubArray(1, ret.Length - 1).ToArray();
         }

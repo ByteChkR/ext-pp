@@ -7,6 +7,7 @@ using ADL;
 using ADL.Configs;
 using ADL.Crash;
 using ADL.Streams;
+using ext_pp.plugins;
 using ext_pp.settings;
 using MatchType = ADL.MatchType;
 
@@ -14,73 +15,74 @@ namespace ext_pp
 {
     public class CompilerConsole
     {
+        private readonly Settings _settings;
+        private readonly string CLIHeader = "\n\next_pp version: " + Assembly.GetExecutingAssembly().GetName().Version+ "\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n";
+
 
         public CompilerConsole(string[] args)
         {
-
+            _settings = new Settings();
             InitAdl();
             #region Preinformation
 
-            var isShort = false;
-            
-
             var vset = false;
+            var isShort = false;
             if ((isShort = args.Contains("-v")) || args.Contains("--verbosity"))
             {
                 vset = true;
                 var idx = args.ToList().IndexOf(isShort ? "-v" : "--verbosity");
                 if (!int.TryParse(args[idx + 1], out var level))
                 {
-                    Logger.Log(DebugLevel.WARNINGS, "Verbosity level needs to be a positive number.", Verbosity.ALWAYS_SEND);
+                    Logger.Log(DebugLevel.WARNINGS, "Could not read Verbosity: " + args[idx + 1], Verbosity.ALWAYS_SEND);
                 }
                 else
                 {
-                    Settings.VerbosityLevel = (Verbosity)level;
-
-                    Logger.Log(DebugLevel.LOGS, "Verbosity Level set to " + Settings.VerbosityLevel, Verbosity.LEVEL1);
+                    Logger.VerbosityLevel = (Verbosity)level;
                 }
             }
+
+
+
+
+            Logger.Log(DebugLevel.LOGS, CLIHeader, Verbosity.ALWAYS_SEND);
+
+
             isShort = false;
             string lf = "";
             if ((isShort = args.Contains("-l2f")) || args.Contains("--logToFile"))
             {
                 var idx = args.ToList().IndexOf(isShort ? "-l2f" : "--logToFile");
                 lf = args[idx + 1];
-
-                Logger.Log(DebugLevel.LOGS, "Log File is set to " + lf, Verbosity.LEVEL1);
                 AddLogOutput(lf);
+                Logger.Log(DebugLevel.LOGS, "Log to file flag found and path set to: " + lf, Verbosity.LEVEL1);
             }
 
             if (args.Contains("-2c") || args.Contains("--writeToConsole"))
             {
-                Logger.Log(DebugLevel.LOGS, "Writing to console. ", Verbosity.LEVEL1);
-                Settings.WriteToConsole = true;
-                if (!vset && Settings.VerbosityLevel > 0)
+                _settings.WriteToConsole = true;
+                if (!vset && Logger.VerbosityLevel > 0)
                 {
-                    Settings.VerbosityLevel = Verbosity.SILENT;
+                    Logger.VerbosityLevel = Verbosity.SILENT;
                 }
-                else if (vset && Settings.VerbosityLevel > 0)
-                    Logger.Log(DebugLevel.WARNINGS, "Writing to console. paired with log output. the output may only be usable for testing purposes.", Verbosity.ALWAYS_SEND);
-
+                else if (vset && Logger.VerbosityLevel > 0)
+                {
+                    Logger.Log(DebugLevel.WARNINGS, "Writing to console while explicitly turning on verbosity makes the console output unusable" + lf, Verbosity.LEVEL1);
+                }
+                Logger.Log(DebugLevel.LOGS, "Log to file flag found and set ", Verbosity.LEVEL1);
             }
-            
-
-
 
             #endregion
-            ProcessInput(args, out var input, out var output, out var defs);
-
-            Logger.Log(DebugLevel.LOGS, "Input file: " + input, Verbosity.ALWAYS_SEND);
-            Logger.Log(DebugLevel.LOGS, "Output file: " + output, Verbosity.ALWAYS_SEND);
 
 
+            ProcessInput(args, out var input, out var output, out var defs, out var chain);
 
 
+            PreProcessor pp = new PreProcessor(_settings);
+            pp.SetFileProcessingChain(chain);
+            var source = pp.Compile(input, new Definitions(defs));
 
-            var source = ExtensionProcessor.CompileFile(input, defs);
 
-
-            if (Settings.WriteToConsole)
+            if (_settings.WriteToConsole)
             {
                 if (output != "")
                 {
@@ -109,11 +111,18 @@ namespace ext_pp
             Debug.AddOutputStream(lts);
         }
 
-        public static bool ProcessInput(string[] args, out string input, out string output, out Dictionary<string, bool> defs)
+        public bool ProcessInput(string[] args, out string input, out string output, out Dictionary<string, bool> defs, out List<IPlugin> chain)
         {
             defs = new Dictionary<string, bool>();
             input = output = "";
-
+            Dictionary<Type, IPlugin> _chain = new Dictionary<Type, IPlugin>()
+            {
+                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin(_settings)},
+                {typeof(ConditionalPlugin), new ConditionalPlugin(_settings)},
+                { typeof(IncludePlugin), new IncludePlugin(_settings)},
+                { typeof(WarningPlugin), new WarningPlugin(_settings)},
+                { typeof(ErrorPlugin), new ErrorPlugin(_settings)}
+            };
 
             #region Argument Analysis
 
@@ -124,9 +133,16 @@ namespace ext_pp
                     case "-i":
                     case "--input":
                         {
-                            var dirname = Path.GetDirectoryName(args[i + 1]);
-                            if (dirname != "") Directory.SetCurrentDirectory(dirname);
-                            input = args[i + 1];
+                            if (File.Exists(args[i + 1]))
+                            {
+                                var dirname = Path.GetDirectoryName(args[i + 1]);
+                                if (dirname != "") Directory.SetCurrentDirectory(dirname);
+                                input = args[i + 1];
+                            }
+                            else
+                            {
+                                Logger.Log(DebugLevel.ERRORS, "Could not read Input Path: " + args[i + 1], Verbosity.ALWAYS_SEND);
+                            }
                             break;
                         }
 
@@ -134,80 +150,76 @@ namespace ext_pp
                     case "--output":
                         output = args[i + 1];
                         break;
-                    case "-rd":
-                    case "--resolveDefine":
+                    case "-ed":
+                    case "--enableDefine":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.ResolveDefine))
-                            {
-                                Logger.Log(DebugLevel.WARNINGS, "Resolve Define flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
-                            }
-                            else
-                            {
-                                Logger.Log(DebugLevel.LOGS, "Resolve Define flag set to " + Settings.ResolveDefine, Verbosity.LEVEL1);
-                            }
+
+                            Logger.Log(DebugLevel.LOGS, "Enable Define Flag set to: " + args[i + 1], Verbosity.LEVEL1);
+                            _settings.Set("eDef", args[i + 1]);
 
                             break;
                         }
 
-                    case "-ru":
-                    case "--resolveUndefine":
+                    case "-eu":
+                    case "--enableUndefine":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.ResolveUnDefine))
-                            {
-                                Logger.Log(DebugLevel.WARNINGS, "Resolve Undefine flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
-                            }
-                            else
-                            {
-                                Logger.Log(DebugLevel.LOGS, "Resolve Undefine flag set to " + Settings.ResolveUnDefine, Verbosity.LEVEL1);
-                            }
+                            Logger.Log(DebugLevel.LOGS, "Enable Undefine Flag set to: " + args[i + 1], Verbosity.LEVEL1);
+                            _settings.Set("eUdef", args[i + 1]);
 
                             break;
                         }
 
-                    case "-rc":
-                    case "--resolveConditions":
+                    case "-ec":
+                    case "--enableConditions":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.ResolveConditions))
+                            if (!bool.TryParse(args[i + 1], out bool enable))
                             {
-                                Logger.Log(DebugLevel.WARNINGS, "Resolve Conditions flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                                Logger.Log(DebugLevel.WARNINGS, "Could not parse Enable Conditions flag: " + args[i + 1], Verbosity.LEVEL1);
                             }
                             else
                             {
-                                if (!Settings.ResolveConditions)
+                                Logger.Log(DebugLevel.LOGS, "Enable Conditions Flag set to: " + args[i + 1], Verbosity.LEVEL1);
+
+                                if (!enable)
                                 {
-                                    Settings.ResolveDefine = Settings.ResolveUnDefine = false;
+                                    _chain.Remove(typeof(ConditionalPlugin));
+                                    // _settings.ResolveDefine = _settings.ResolveUnDefine = false;
                                 }
-                                Logger.Log(DebugLevel.LOGS, "Resolve Conditions flag set to " + Settings.ResolveConditions, Verbosity.LEVEL1);
                             }
 
                             break;
                         }
 
-                    case "-ri":
-                    case "--resolveInclude":
+                    case "-ei":
+                    case "--enableInclude":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.ResolveIncludes))
+                            if (!bool.TryParse(args[i + 1], out bool enable))
                             {
-                                Logger.Log(DebugLevel.WARNINGS, "Resolve Includes flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                                Logger.Log(DebugLevel.WARNINGS, "Could not parse Enable Include flag: " + args[i + 1], Verbosity.LEVEL1);
                             }
                             else
                             {
-                                Logger.Log(DebugLevel.LOGS, "Resolve Includes flag set to " + Settings.ResolveIncludes, Verbosity.LEVEL1);
+                                Logger.Log(DebugLevel.LOGS, "Enable Include Flag set to: " + args[i + 1], Verbosity.LEVEL1);
+                                if (!enable)
+                                {
+                                    _chain.Remove(typeof(IncludePlugin));
+                                }
                             }
 
                             break;
                         }
 
-                    case "-rg":
-                    case "--resolveGenerics":
+                    case "-eg":
+                    case "--enableGenerics":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.ResolveGenerics))
+                            if (!bool.TryParse(args[i + 1], out bool resolve))
                             {
-                                Logger.Log(DebugLevel.WARNINGS, "Resolve Generics flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                                Logger.Log(DebugLevel.WARNINGS, "Could not parse Enable Generics flag: " + args[i + 1], Verbosity.LEVEL1);
                             }
                             else
                             {
-                                Logger.Log(DebugLevel.LOGS, "Resolve Generics flag set to " + Settings.ResolveGenerics, Verbosity.LEVEL1);
+                                Logger.Log(DebugLevel.LOGS, "Enable Generics Flag set to: " + args[i + 1], Verbosity.LEVEL1);
+                                _chain.Remove(typeof(FakeGenericsPlugin));
                             }
 
                             break;
@@ -216,13 +228,17 @@ namespace ext_pp
                     case "-ee":
                     case "--enableErrors":
                         {
-                            if (!bool.TryParse(args[i + 1], out Settings.EnableErrors))
+                            if (!bool.TryParse(args[i + 1], out bool enable))
                             {
-                                Logger.Log(DebugLevel.WARNINGS, "Enable Errors flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                                Logger.Log(DebugLevel.WARNINGS, "Could not parse Enable Errors flag: " + args[i + 1], Verbosity.LEVEL1);
                             }
                             else
                             {
-                                Logger.Log(DebugLevel.LOGS, "Enable Errors flag set to " + Settings.EnableErrors, Verbosity.LEVEL1);
+                                Logger.Log(DebugLevel.LOGS, "Enable Errors Flag set to: " + args[i + 1], Verbosity.LEVEL1);
+                                if (!enable)
+                                {
+                                    _chain.Remove(typeof(ErrorPlugin));
+                                }
                             }
 
                             break;
@@ -232,39 +248,17 @@ namespace ext_pp
                         {
                             if (args[i] == "-ee" || args[i] == "--enableWarnings")
                             {
-                                if (!bool.TryParse(args[i + 1], out Settings.EnableErrors))
+                                if (!bool.TryParse(args[i + 1], out bool enable))
                                 {
-                                    Logger.Log(DebugLevel.WARNINGS, "Enable Warnings flag needs to be either \"true\" or \"false\"", Verbosity.ALWAYS_SEND);
+                                    Logger.Log(DebugLevel.WARNINGS, "Could not parse Enable Warnings flag: " + args[i + 1], Verbosity.LEVEL1);
                                 }
                                 else
                                 {
-                                    Logger.Log(DebugLevel.LOGS, "Enable Warnings flag set to " + Settings.EnableWarnings, Verbosity.LEVEL1);
-                                }
-                            }
-                            else if (args[i] == "-ss" || args[i] == "--setSeparator")
-                            {
-                                if (!char.TryParse(args[i + 1], out Settings.Separator))
-                                {
-                                    Logger.Log(DebugLevel.WARNINGS, "Invalid Separator. Only one character.",
-                                        Verbosity.ALWAYS_SEND);
-                                }
-                                else
-                                {
-                                    Logger.Log(DebugLevel.LOGS, "Separator " + Settings.Separator,
-                                        Verbosity.LEVEL1);
-                                }
-                            }
-                            else if (args[i] == "-n" || args[i] == "--negation")
-                            {
-                                if (!char.TryParse(args[i + 1], out Settings.NegateStatement))
-                                {
-                                    Logger.Log(DebugLevel.WARNINGS, "Invalid Negation. Only one character.",
-                                        Verbosity.ALWAYS_SEND);
-                                }
-                                else
-                                {
-                                    Logger.Log(DebugLevel.LOGS, "Negation " + Settings.Separator,
-                                        Verbosity.LEVEL1);
+                                    Logger.Log(DebugLevel.LOGS, "Enable Warnings Flag set to: " + args[i + 1], Verbosity.LEVEL1);
+                                    if (!enable)
+                                    {
+                                        _chain.Remove(typeof(WarningPlugin));
+                                    }
                                 }
                             }
                             else if (args[i].StartsWith("-kw") || args[i].StartsWith("--keyWord"))
@@ -273,23 +267,20 @@ namespace ext_pp
                                 int idx = args[i].IndexOf(':') + 1;
                                 string prop = args[i].Substring(idx);
 
-                                if (!Settings.KeyWordHandles.ContainsKey(prop))
+                                if (!_settings.KeyWordHandles.ContainsKey(prop))
                                 {
-                                    Logger.Log(DebugLevel.WARNINGS, "Invalid Property Key.",
-                                        Verbosity.ALWAYS_SEND);
+                                    Logger.Log(DebugLevel.WARNINGS, "Could not find Keyword: " + prop, Verbosity.LEVEL1);
                                 }
                                 else
                                 {
-                                    FieldInfo pi = Settings.KeyWordHandles[prop];
-                                    Logger.Log(DebugLevel.LOGS, "Property set: " + pi.Name + "=" + args[i + 1],
-                                        Verbosity.LEVEL1);
+                                    FieldInfo pi = _settings.KeyWordHandles[prop];
                                     pi.SetValue(null, args[i + 1]);
+                                    Logger.Log(DebugLevel.LOGS, "Keyword " + prop + " was set to: " + args[i + 1], Verbosity.LEVEL1);
                                 }
 
                             }
                             else if (args[i] == "-def" || args[i] == "--defines")
                             {
-
                                 for (int j = i + 1; j < args.Length; j++)
                                 {
                                     if (args[j].StartsWith('-'))
@@ -298,6 +289,7 @@ namespace ext_pp
                                         break;
                                     }
 
+                                    Logger.Log(DebugLevel.LOGS, "Predefining " + args[i + 1] + "." + args[i + 1], Verbosity.LEVEL1);
                                     if (!defs.ContainsKey(args[j]))
                                     {
                                         defs.Add(args[j], true);
@@ -306,26 +298,24 @@ namespace ext_pp
                                         defs[args[j]] = true;
 
                                 }
-                                Logger.Log(DebugLevel.LOGS, "Added " + defs.Count + " Global Definitions", Verbosity.LEVEL1);
-                                foreach (var def in defs)
-                                {
-                                    Logger.Log(DebugLevel.LOGS, "Added Global Definition " + def.Key + ": " + def.Value.ToString(), Verbosity.LEVEL2);
-                                }
                             }
 
                             break;
                         }
                 }
             }
+
+            chain = _chain.Values.ToList();
             #endregion
 
             #region CheckErrors
 
-            if (input == "" || output == "" && !Settings.WriteToConsole)
-            {
-                Logger.Log(DebugLevel.ERRORS, "Invalid Command.", Verbosity.ALWAYS_SEND);
-                Logger.Log(DebugLevel.LOGS, Settings.HelpText, Verbosity.ALWAYS_SEND);
 
+
+            if (input == "" || output == "" && !_settings.WriteToConsole)
+            {
+
+                Logger.Log(DebugLevel.ERRORS, "No input or no output specified", Verbosity.ALWAYS_SEND);
 #if DEBUG
                 Console.ReadLine();
 #endif
@@ -340,7 +330,6 @@ namespace ext_pp
 
         private static void Main(string[] args)
         {
-
             var cc = new CompilerConsole(args);
 
 #if DEBUG
@@ -352,7 +341,7 @@ namespace ext_pp
         private static void InitAdl()
         {
 
-            CrashHandler.Initialize((int)DebugLevel.ERRORS, false);
+            CrashHandler.Initialize((int)DebugLevel.INTERNAL_ERROR, false);
             Debug.LoadConfig((AdlConfig)new AdlConfig().GetStandard());
             Debug.SetAllPrefixes("[ERRORS]", "[WARNINGS]", "[LOGS]");
             Debug.CheckForUpdates = false;

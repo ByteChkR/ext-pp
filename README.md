@@ -1,5 +1,5 @@
 # ext_pp
-Small external text preprocessor that can introduce artificial static generics* different preprocessor keywords like #define #include #if and more to any kind of text file. Its main purpose is to keep me from copying my errors around when writing different opencl kernels.
+Small plugin based external text preprocessor that can introduce artificial static generics, different preprocessor keywords like #define #include #if and more to any kind of text file. Its main purpose is to keep me from copying my errors around when writing different opencl kernels.
 
 ## Status:
 Master: [![Build Status](https://travis-ci.com/ByteChkR/ext-pp.svg?branch=master)](https://travis-ci.com/ByteChkR/ext-pp)  
@@ -44,8 +44,8 @@ dotnet ext_pp.dll [-option VALUE]
 	#include <path/to/file> <#type0> <#type1> ... <#typeN>
 	#define <VAR> <VAR2> ...
 	#undefine <VAR> <VAR2> ...
-	#if <VAR> <VAR2> ... (only AND supported at this moment)
-	#elseif <VAR> <VAR2> ... (only AND supported at this moment)
+	#if (!<VAR> && <VAR2> || ... ) ... Supports Brackets/AND/OR/NOT
+	#elseif <VAR> <VAR2> ... (if no operator then it defaults to AND)
 	#else
 	(#endif)
 	#error <Error Description>

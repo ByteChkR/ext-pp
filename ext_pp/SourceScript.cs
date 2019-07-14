@@ -31,31 +31,19 @@ namespace ext_pp
 
         #region Static
 
-        private static string[] ResolveGenericIncludes(string[] gparam, string[] subgparams)
-        {
-            for (var i = 0; i < subgparams.Length; i++)
-            {
-                if (!subgparams[i].StartsWith(Settings.IncludeStatement)) continue;
-                var prm = subgparams[i].Trim();
-                var gennr = int.Parse(prm.Substring(Settings.TypeGenKeyword.Length + 1, prm.Length - Settings.TypeGenKeyword.Length));
-                subgparams[i] = gparam[gennr];
-            }
+        //private static string[] ResolveGenericIncludes(string[] gparam, string[] subgparams)
+        //{
+        //    for (var i = 0; i < subgparams.Length; i++)
+        //    {
+        //        if (!subgparams[i].StartsWith(Settings.IncludeStatement)) continue;
+        //        var prm = subgparams[i].Trim();
+        //        var gennr = int.Parse(prm.Substring(Settings.TypeGenKeyword.Length + 1, prm.Length - Settings.TypeGenKeyword.Length));
+        //        subgparams[i] = gparam[gennr];
+        //    }
 
-            return subgparams;
-        }
-        public static List<string> RemoveStatements(List<string> source, string[] statements)
-        {
+        //    return subgparams;
+        //}
 
-            Logger.Log(DebugLevel.LOGS, "Removing Leftover Statements", Verbosity.LEVEL2);
-            for (var i = source.Count - 1; i >= 0; i--)
-            {
-                foreach (var t in statements)
-                {
-                    if (source[i].Trim().StartsWith(t)) source.RemoveAt(i);
-                }
-            }
-            return source;
-        }
         #endregion
 
 
@@ -78,7 +66,7 @@ namespace ext_pp
         private void DiscoverIncludes()
         {
             Logger.Log(DebugLevel.LOGS, "Discovering Include Statements.", Verbosity.LEVEL2);
-            _includes = FindStatements(Settings.IncludeStatement);
+            _includes = Utils.FindStatements(Source, Settings.IncludeStatement);
         }
 
 
@@ -115,7 +103,7 @@ namespace ext_pp
 
                 for (var i = _genParam.Length - 1; i >= 0; i--)
                 {
-                    ReplaceKeyWord(_genParam[i],
+                    Utils.ReplaceKeyWord(Source, _genParam[i],
                         Settings.TypeGenKeyword + i);
                 }
             }
@@ -127,65 +115,32 @@ namespace ext_pp
 
         }
 
-        private void ReplaceKeyWord(string replacement, string keyword)
-        {
-
-            for (var i = 0; i < Source.Length; i++)
-            {
-                if (Source[i].Contains(keyword))
-                {
-                    Source[i] = Source[i].Replace(keyword, replacement);
-                }
-            }
-        }
-
-
-        //public void RemoveStatementLines(string statement)
-        //{
-        //    List<string> ret = Source.ToList();
-        //    for (int i = ret.Count - 1; i >= 0; i--)
-        //    {
-        //        if (ret[i].Trim().StartsWith(statement))
-        //        {
-        //            ret.RemoveAt(i);
-        //        }
-        //    }
-
-        //    Source = ret.ToArray();
-        //}
-
         private string GetIncludeSourcePath(string statement, out string[] genParams)
         {
-            var file = statement.Trim().Remove(0, Settings.IncludeStatement.Length).Trim();
-            var idx = file.IndexOf(Settings.Separator);
+            var vars = statement.GetStatementValues();
             genParams = null;
-            if (idx != -1)
+            string file = "";
+            if (vars.Length != 0)
             {
-                genParams =
-                    file.Substring(idx + 1, file.Length - idx - 1)
-                        .Split(Settings.Separator)
-                        .Select(x => x.Trim()).ToArray();
-                file = file.Substring(0, idx);
+                file = vars[0];
+                genParams = vars.Length > 1 ?
+                    vars.SubArray(1, vars.Length - 1).ToArray() : null;
 
+                if (!Utils.FileExists(Filepath, file))
+                    Logger.Crash(new Exception("Could not find include file " + file));
+                else file = Path.GetFullPath(file);
+
+                return file;
             }
-            var p = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(Filepath));
-            if (!File.Exists(file))
-            {
-                Logger.Crash(new Exception("Could not find include file " + file));
-            }
-            else
-            {
-                file = Path.GetFullPath(file);
-            }
-            Directory.SetCurrentDirectory(p);
-            return file;
+
+
+            Logger.Crash(new Exception("Empty Include Statement Found"), false);
+            return "";
         }
 
-        private string[] FindStatements(string statement)
-        {
-            return Source.ToList().Where(x => x.Trim().StartsWith(statement)).ToArray();
-        }
+        
+
+        
 
 
 
@@ -197,7 +152,7 @@ namespace ext_pp
             var warnings = new List<string>();
             if (Settings.EnableWarnings)
             {
-                warnings = FindStatements(Settings.WarningStatement).ToList();
+                warnings = Utils.FindStatements(Source, Settings.WarningStatement).ToList();
                 foreach (var t in warnings)
                 {
                     Logger.Log(DebugLevel.WARNINGS, "Warning: (" + Filepath + "): " + t.GetStatementValues().Unpack(), Verbosity.ALWAYS_SEND);
@@ -207,7 +162,7 @@ namespace ext_pp
             var errs = new List<string>();
             if (Settings.EnableErrors)
             {
-                errs = FindStatements(Settings.ErrorStatement).ToList();
+                errs = Utils.FindStatements(Source, Settings.ErrorStatement).ToList();
 
                 foreach (var t in errs)
                 {
@@ -309,8 +264,6 @@ namespace ext_pp
         }
 
         #endregion
-
-
     }
 }
 

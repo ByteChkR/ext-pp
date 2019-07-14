@@ -36,7 +36,7 @@ namespace ext_pp
                 ret.AddRange(tree[i].Source);
             }
 
-            return SourceScript.RemoveStatements(ret, Settings.CleanUpList.ToArray()).ToArray();
+            return Utils.RemoveStatements(ret, Settings.CleanUpList.ToArray()).ToArray();
         }
 
         #endregion

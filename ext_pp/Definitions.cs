@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ext_pp.settings;
 
 namespace ext_pp
 {
@@ -30,16 +31,18 @@ namespace ext_pp
 
         public void Set(string key)
         {
-            change(key, true);
+            Change(key, true);
         }
 
         public void Unset(string key)
         {
-            change(key, false);
+            Change(key, false);
         }
 
-        private void change(string key, bool state)
+        private void Change(string key, bool state)
         {
+
+            Logger.Log(DebugLevel.LOGS, "Setting Key: " + key + " to value: " + state, Verbosity.LEVEL5);
             if (_definitions.ContainsKey(key)) _definitions[key] = state;
             else _definitions.Add(key, state);
         }

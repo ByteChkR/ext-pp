@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ext_pp.settings;
 
 namespace ext_pp
 {
@@ -26,20 +27,18 @@ namespace ext_pp
 
         public void FixOrder(SourceScript script)
         {
-            int idx = _sources.IndexOfFile(script.Key);
+            Logger.Log(DebugLevel.LOGS, "Fixing Build Order of file: " +script.Key, Verbosity.LEVEL2);
+            int idx = IndexOfFile(script.Key);
             var a = _sources[idx];
             var ab = _doneState[idx];
             _doneState.RemoveAt(idx);
             _doneState.Add(ab);
             _sources.RemoveAt(idx);
-            _sources.AddFile(a, true);
+            AddFile(a, true);
         }
 
 
-        //public bool IsOnTodo(SourceScript script)
-        //{
-        //    return IsIncluded(script) && _doneState[_sources.IndexOfFile(script.Key)];
-        //}
+        
         public bool IsIncluded(SourceScript script)
         {
             return _sources.Any(x => x.Key == script.Key);
@@ -49,19 +48,47 @@ namespace ext_pp
         {
             if (!IsIncluded(script))
             {
-                _sources.AddFile(script, false);
+                Logger.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + script.Key, Verbosity.LEVEL2);
+                AddFile(script, false);
                 _doneState.Add(false);
             }
         }
 
         public void SetDone(SourceScript script)
         {
-            if (IsIncluded(script)) _doneState[_sources.IndexOfFile(script.Key)] = true;
+            if (IsIncluded(script))
+            {
+                _doneState[IndexOfFile(script.Key)] = true;
+
+                Logger.Log(DebugLevel.LOGS, "Finished Script: " + script.Key, Verbosity.LEVEL2);
+            }
         }
 
         public List<SourceScript> GetList()
         {
             return _sources;
+        }
+
+        public  void AddFile(SourceScript script, bool checkForExistingKey)
+        {
+            if (checkForExistingKey && ContainsFile(script.Key)) return;
+            _sources.Add(script);
+
+        }
+
+        public bool ContainsFile(string key)
+        {
+            return IndexOfFile(key) != -1;
+        }
+
+        public int IndexOfFile(string key)
+        {
+            for (var i = 0; i < _sources.Count; i++)
+            {
+                if (_sources[i].Key == key) return i;
+            }
+
+            return -1;
         }
     }
 }

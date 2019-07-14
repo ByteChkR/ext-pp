@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using ext_pp;
+using ext_pp.plugins;
 using ext_pp.settings;
 using NUnit.Framework;
 
@@ -10,7 +13,7 @@ namespace ext_pp.tests
     public class Tests
     {
         public static string ResourceFolder = Path.GetFullPath("../../../res/");
-        
+
         [SetUp]
         public void Setup()
         {
@@ -22,10 +25,20 @@ namespace ext_pp.tests
         [Test]
         public void IncludeCircular()
         {
+            
             PreProcessor pp = new PreProcessor(new Settings());
+            List<IPlugin> lp = new Dictionary<Type, IPlugin>()
+            {
+                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin(new Settings())},
+                {typeof(ConditionalPlugin), new ConditionalPlugin(new Settings())},
+                { typeof(IncludePlugin), new IncludePlugin(new Settings())},
+                { typeof(WarningPlugin), new WarningPlugin(new Settings())},
+                { typeof(ErrorPlugin), new ErrorPlugin(new Settings())}
+            }.Values.ToList();
+            pp.SetFileProcessingChain(lp);
             var ret = pp.Process("includecircular.cl", new Definitions());
             Assert.AreEqual(
-                ret.Length, 
+                ret.Length,
                 3);
         }
 
@@ -33,9 +46,18 @@ namespace ext_pp.tests
         public void IncludeGenericCircular()
         {
             PreProcessor pp = new PreProcessor(new Settings());
+            List<IPlugin> lp = new Dictionary<Type, IPlugin>()
+            {
+                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin(new Settings())},
+                {typeof(ConditionalPlugin), new ConditionalPlugin(new Settings())},
+                { typeof(IncludePlugin), new IncludePlugin(new Settings())},
+                { typeof(WarningPlugin), new WarningPlugin(new Settings())},
+                { typeof(ErrorPlugin), new ErrorPlugin(new Settings())}
+            }.Values.ToList();
+            pp.SetFileProcessingChain(lp);
             var ret = pp.Process("genericincludepassthrough.cl", new Definitions());
             Assert.AreEqual(
-                ret.Length, 
+                ret.Length,
                 5);
         }
 
@@ -43,9 +65,18 @@ namespace ext_pp.tests
         public void TypePassing()
         {
             PreProcessor pp = new PreProcessor(new Settings());
-            var ret = pp.Compile("typePassing.cl", new Definitions());
+            List<IPlugin> lp = new Dictionary<Type, IPlugin>()
+            {
+                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin(new Settings())},
+                {typeof(ConditionalPlugin), new ConditionalPlugin(new Settings())},
+                { typeof(IncludePlugin), new IncludePlugin(new Settings())},
+                { typeof(WarningPlugin), new WarningPlugin(new Settings())},
+                { typeof(ErrorPlugin), new ErrorPlugin(new Settings())}
+            }.Values.ToList();
+            pp.SetFileProcessingChain(lp);
+            var ret = pp.Process("typePassing.cl", new Definitions());
             Assert.AreEqual(
-                ret.Length, 
+                ret.Length,
                 4);
         }
     }

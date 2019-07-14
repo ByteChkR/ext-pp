@@ -7,5 +7,7 @@ namespace ext_pp.plugins
     {
         bool Process(SourceScript script, SourceManager sourceManager, Definitions defTable);
 
+        string[] Cleanup { get; }
+
     }
 }

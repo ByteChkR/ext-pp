@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ext_pp.settings;
 
 namespace ext_pp
 {
@@ -10,8 +10,6 @@ namespace ext_pp
 
         public static List<string> RemoveStatements(List<string> source, string[] statements)
         {
-
-            Logger.Log(DebugLevel.LOGS, "Removing Leftover Statements", Verbosity.LEVEL2);
             for (var i = source.Count - 1; i >= 0; i--)
             {
                 foreach (var t in statements)
@@ -46,6 +44,16 @@ namespace ext_pp
         public static string[] FindStatements(string[] source, string statement)
         {
             return source.ToList().Where(x => x.Trim().StartsWith(statement)).ToArray();
+        }
+
+
+        public static string[] SplitAndRemoveFirst(string statement, string separator)
+        {
+            if (string.IsNullOrEmpty(statement)) return new string[0];
+
+            var ret = statement.Split(separator);
+
+            return ret.SubArray(1, ret.Length - 1).ToArray();
         }
     }
 }

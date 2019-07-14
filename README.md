@@ -15,17 +15,15 @@ dotnet ext_pp.dll [-option VALUE]
 	-o|--output <path>  
 
 #### Optional Parameter:
-	-rd|--resolveDefine [true|false]  
-	-ru|--resolveUndefine [true|false]  
-	-rc|--resolveConditions [true|false]  
-	-ri|--resolveInclude [true|false]  
-	-rg|--resolveGenerics [true|false]  
+	-ed|--enableDefine [true|false]  
+	-eu|--enableUndefine [true|false]  
+	-ec|--enableConditions [true|false]  
+	-ei|--enableInclude [true|false]  
+	-eg|--enableGenerics [true|false]  
 	-ee|--enableErrors [true|false]  
 	-ew|--enableWarnings [true|false]  
 	-def|--defines [DefineSymbols]  
 	-v|--verbosity [0(Silent)-10(Maximum Debug Log)]
-	-ss|--setSeparator [char]
-	-n|--negation [char]
 	-2c|--writeToConsole
 	-l2f|--logToFile [path]
 	-kw:d|--keyWord:d [defineStatement]
@@ -38,6 +36,9 @@ dotnet ext_pp.dll [-option VALUE]
 	-kw:e|--keyWord:e [errorStatement]
 	-kw:i|--keyWord:i [includeStatement]
 	-kw:t|--keyWord:t [typeGenStatement]
+	-kw:n|--keyWord:n [NotOperator]
+	-kw:a|--keyWord:a [AndOperator]
+	-kw:o|--keyWord:o [OrOperator]
 
 ## Supported Statements:
 	#include <path/to/file> <#type0> <#type1> ... <#typeN>

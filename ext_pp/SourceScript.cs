@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ext_pp.settings;
@@ -37,11 +36,11 @@ namespace ext_pp
         }
 
 
-        public SourceScript(Settings settings, string path, string[] genParams)
+        public SourceScript(string separator, string path, string[] genParams)
         {
             GenParam = genParams;
             Filepath = path;
-            _separator = settings.Separator.ToString();
+            _separator = separator;
         }
 
 
@@ -51,7 +50,6 @@ namespace ext_pp
             bool ret;
             if (!(ret = LoadSource()))
             {
-                Logger.Crash(new Exception("Could not load Source file"));
             }
 
             return ret;
@@ -62,7 +60,6 @@ namespace ext_pp
 
             Source = new string[0];
             if (!File.Exists(Filepath)) return false;
-            Logger.Log(DebugLevel.LOGS, "Loading File: " + Filepath, Verbosity.LEVEL3);
             Source = File.ReadAllLines(Filepath);
 
 

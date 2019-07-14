@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ext_pp.settings;
@@ -8,29 +7,28 @@ namespace ext_pp.plugins
 {
     public class IncludePlugin : IPlugin
     {
-        private readonly string _includeKeyword;
-        private readonly string _separator;
-        private readonly Settings _settings;
+        public string[] Cleanup => new string[0];
+        private readonly string _includeKeyword = Settings.IncludeStatement;
+        private readonly string _separator = Settings.Separator;
         public IncludePlugin(Settings settings)
         {
-            _settings = settings;
-            _includeKeyword = settings.IncludeStatement;
-            _separator = settings.Separator.ToString();
+
         }
 
         public bool Process(SourceScript script, SourceManager sourceManager, Definitions defs)
         {
+
+            Logger.Log(DebugLevel.LOGS, "Disovering Include Statments...", Verbosity.LEVEL3);
             string[] incs = Utils.FindStatements(script.Source, _includeKeyword);
-            
+
 
             foreach (var includes in incs)
             {
-
-                bool tmp= GetIncludeSourcePath(includes, Path.GetDirectoryName(Path.GetFullPath(script.Filepath)), out var path, out var genParams);
+                Logger.Log(DebugLevel.LOGS, "Processing Statement: " + includes, Verbosity.LEVEL4);
+                bool tmp = GetIncludeSourcePath(includes, Path.GetDirectoryName(Path.GetFullPath(script.Filepath)), out var path, out var genParams);
                 if (tmp)
                 {
-                    
-                    SourceScript ss=new SourceScript(_settings, path, genParams);
+                    SourceScript ss = new SourceScript(_separator, path, genParams);
                     if (!sourceManager.IsIncluded(ss))
                     {
                         sourceManager.AddToTodo(ss);
@@ -38,21 +36,25 @@ namespace ext_pp.plugins
                     else
                     {
                         sourceManager.FixOrder(ss);
-                        Logger.Log(DebugLevel.LOGS, "Fixing Source Order", Verbosity.LEVEL3);
                     }
 
                 }
-                else return false;
+                else
+                {
+                    Logger.Log(DebugLevel.ERRORS, "Could not find File: " + path, Verbosity.ALWAYS_SEND);
+                    /*if (path != "")*/ return false; //We crash if we didnt find the file. but if the user forgets to specify the path we will just log the error
+                }
 
             }
 
+            Logger.Log(DebugLevel.LOGS, "Inclusion of Files Finished", Verbosity.LEVEL3);
             return true;
 
         }
 
         private bool GetIncludeSourcePath(string statement, string currentPath, out string filePath, out string[] genParams)
         {
-            var vars = statement.GetStatementValues(_separator);
+            var vars = Utils.SplitAndRemoveFirst(statement, _separator);
             genParams = new string[0];
             filePath = "";
             if (vars.Length != 0)
@@ -63,7 +65,6 @@ namespace ext_pp.plugins
 
                 if (!Utils.FileExists(currentPath, filePath))
                 {
-                    Logger.Crash(new Exception("Could not find include file " + filePath), false);
                     return false;
                 }
                 else
@@ -75,7 +76,6 @@ namespace ext_pp.plugins
             }
 
 
-            Logger.Crash(new Exception("Empty Include Statement Found"), false);
             return false;
         }
     }

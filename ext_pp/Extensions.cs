@@ -25,16 +25,6 @@ namespace ext_pp
             return arr.Split(separator);
         }
 
-        public static string[] GetStatementValues(this string statement, string separator)
-        {
-            if (string.IsNullOrEmpty(statement)) return new string[0];
-
-            var ret = statement.Split(separator);
-
-            return ret.SubArray(1, ret.Length - 1).ToArray();
-        }
-
-
         public static IEnumerable<T> SubArray<T>(this IEnumerable<T> arr, int start, int length)
         {
             var ret = new T[length];
@@ -50,28 +40,6 @@ namespace ext_pp
         public static IEnumerable<T> SubArray<T>(this IEnumerable<T> arr, int length)
         {
             return SubArray(arr, 0, length);
-        }
-
-        public static void AddFile(this List<SourceScript> list, SourceScript script, bool checkForExistingKey)
-        {
-            if (checkForExistingKey && list.ContainsFile(script.Key)) return;
-            list.Add(script);
-
-        }
-
-        public static bool ContainsFile(this List<SourceScript> files, string key)
-        {
-            return IndexOfFile(files, key) != -1;
-        }
-
-        public static int IndexOfFile(this List<SourceScript> files, string key)
-        {
-            for (var i = 0; i < files.Count; i++)
-            {
-                if (files[i].Key == key) return i;
-            }
-
-            return -1;
         }
     }
 }

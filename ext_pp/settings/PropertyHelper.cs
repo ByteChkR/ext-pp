@@ -34,7 +34,6 @@ namespace ext_pp.settings
                 case ExpressionType.MemberAccess:
                     return (PropertyInfo)((MemberExpression)body).Member;
                 default:
-                    Logger.Crash(new InvalidOperationException());
                     return null;
             }
         }
@@ -52,7 +51,6 @@ namespace ext_pp.settings
                 case ExpressionType.MemberAccess:
                     return (FieldInfo)((MemberExpression)body).Member;
                 default:
-                    Logger.Crash(new InvalidOperationException());
                     return null;
             }
         }

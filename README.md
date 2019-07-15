@@ -1,55 +1,79 @@
 # ext_pp
 Small plugin based external text preprocessor that can introduce artificial static generics, different preprocessor keywords like #define #include #if and more to any kind of text file. Its main purpose is to keep me from copying my errors around when writing different opencl kernels.
 
+
+You can find the documentation [HERE](LINKTODOCS)
+
 ## Status:
 Master: [![Build Status](https://travis-ci.com/ByteChkR/ext-pp.svg?branch=master)](https://travis-ci.com/ByteChkR/ext-pp)  
 Develop: [![Build Status](https://travis-ci.com/ByteChkR/ext-pp.svg?branch=develop)](https://travis-ci.com/ByteChkR/ext-pp)
 
 ## Usage:
 
+### ext_pp
+The core library of the Solution.
+It contains all the nessecary components to run the text processor
 
-dotnet ext_pp.dll [-option VALUE]
+### ext_pp_base
+A Library containing interfaces to be able to develop plugins without recompiling the project
 
-### Parameter:
-	-i|--input <path>  
-	-o|--output <path>  
+### ext_pp_cli
+A console application that wraps around the core library and offers the full functionality from the command line.
+To set a value for a plugin the syntax is:
 
-#### Optional Parameter:
-	-ed|--enableDefine [true|false]  
-	-eu|--enableUndefine [true|false]  
-	-ec|--enableConditions [true|false]  
-	-ei|--enableInclude [true|false]  
-	-eg|--enableGenerics [true|false]  
-	-ee|--enableErrors [true|false]  
-	-ew|--enableWarnings [true|false]  
-	-def|--defines [DefineSymbols]  
-	-v|--verbosity [0(Silent)-10(Maximum Debug Log)]
-	-2c|--writeToConsole
-	-l2f|--logToFile [path]
-	-kw:d|--keyWord:d [defineStatement]
-	-kw:u|--keyWord:u [unDefineStatement]
-	-kw:if|--keyWord:if [ifStatement]
-	-kw:elif|--keyWord:elif [elseIfStatement]
-	-kw:else|--keyWord:else [elseStatement]
-	-kw:eif|--keyWord:eif [endIfStatement]
-	-kw:w|--keyWord:w [warningStatement]
-	-kw:e|--keyWord:e [errorStatement]
-	-kw:i|--keyWord:i [includeStatement]
-	-kw:t|--keyWord:t [typeGenStatement]
-	-kw:n|--keyWord:n [NotOperator]
-	-kw:a|--keyWord:a [AndOperator]
-	-kw:o|--keyWord:o [OrOperator]
+	ext_pp_cli <command> value
+	ext_pp_cli <pluginprefix>:<command> <value>
 
-## Supported Statements:
-	#include <path/to/file> <#type0> <#type1> ... <#typeN>
-	#define <VAR> <VAR2> ...
-	#undefine <VAR> <VAR2> ...
-	#if (!<VAR> && <VAR2> || ... ) ... Supports Brackets/AND/OR/NOT
-	#elseif <VAR> <VAR2> ... (if no operator then it defaults to AND)
-	#else
-	(#endif)
-	#error <Error Description>
-	#warning <Warning Description>
-	#typeN (The value to use instead of type when writing generic code)
-		can also rename function names dynamically
-	!<VAR1> = NOT VAR1
+#### Valid Commands of the CLI itself:
+	-i/-input
+	-o/-output
+	-defs => list of predefined variables
+	-chain => sets the processing chain
+	-l2f/-logToFile => writes the logs to the specified file
+	-w2c/-writeToConsole => writes the finished text to the console(automatically sets the verbosity to silend if not specified otherwise.)
+	-v/-verbosity => sets the amount of debug information(0 = none, 8 = ALL)
+
+### ext_pp_plugins
+A Library containing basic plugins
+
+#### FakeGenericsPlugin
+Prefix: "-gen"
+Settings(cli_command): (default)
+
+	+ GenericKeyword(g): "#type"
+	+ Separator(s): " "
+#### ConditionalPlugin
+Prefix: "-con"
+Settings(cli_command): (default)
+
+	+ StartCondition(if): "#if"
+	+ ElseIfCondition(elif): "#elseif"
+	+ ElseCondition(else): "#elseif"
+	+ EndCondition(eif): "#elseif"
+	+ DefineKeyword(d): "#define"
+	+ UndefineKeyword(u): "#undefine"
+	+ OrOperator(o): "||"
+	+ AndOperator(a): "&&"
+	+ NotOperator(n): "!"
+	+ Separator(s): " "
+	+ EnableDefine(eD): true
+	+ EnableUndefine(eU): true
+#### IncludePlugin
+Prefix: "-inc"
+
+Settings(cli_command): (default)
+
+	+ IncludeKeyword(i): "#include"
+	+ Separator(s): " "
+#### ErrorPlugin
+Prefix: "-err"
+Settings(cli_command): (default)
+
+	+ ErrorKeyword(e): "#error"
+	+ Separator(s): " "
+#### WarningPlugin
+Prefix: "-wrn"
+Settings: (default)
+
+	+ WarningKeyword(w): "#warning"
+	+ Separator(s): " "

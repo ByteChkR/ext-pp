@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <StartupObject>ext_pp_cli.CLI</StartupObject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ext_pp\ext_pp.csproj" />
+    <ProjectReference Include="..\ext_pp_base\ext_pp_base.csproj" />
+    <ProjectReference Include="..\ext_pp_plugins\ext_pp_plugins.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ADL">
+      <HintPath>..\ext_pp\res\ADL.dll</HintPath>
+    </Reference>
+    <Reference Include="ADL.Crash">
+      <HintPath>..\ext_pp\res\ADL.Crash.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

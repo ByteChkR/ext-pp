@@ -1,17 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Version>0.0.0.1</Version>
     <Company>Tim Akermann</Company>
     <Authors>Tim Akermann</Authors>
     <Product>External PreProcessor</Product>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ext_pp_base\ext_pp_base.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ADL">

@@ -7,7 +7,7 @@ namespace ext_pp_plugins
 {
     public class IncludePlugin : IPlugin
     {
-        public string[] Cleanup => new string[0];
+        public string[] Cleanup => new string[1]{IncludeKeyword};
         public string[] Prefix => new string[] { "inc" };
         public bool IncludeGlobal => true;
         public string IncludeKeyword = "#include";
@@ -73,7 +73,7 @@ namespace ext_pp_plugins
             pluginCache = new Dictionary<string, object>();
             if (vars.Length != 0)
             {
-
+                
                 //filePath = vars[0];
                 if (!manager.GetComputingScheme()(vars, out filePath, out key, out pluginCache))
                 {

@@ -58,7 +58,7 @@ namespace ext_pp_plugins
                 for (var i = GenParams.Length - 1; i >= 0; i--)
                 {
 
-                    Logger.Log(DebugLevel.ERRORS, "Replacing Keyword " + GenericKeyword + i + " with " + GenParams[i] + " in file " + file.GetKey(), Verbosity.LEVEL5);
+                    Logger.Log(DebugLevel.LOGS, "Replacing Keyword " + GenericKeyword + i + " with " + GenParams[i] + " in file " + file.GetKey(), Verbosity.LEVEL5);
                     Utils.ReplaceKeyWord(file.GetSource(), GenParams[i],
                         GenericKeyword + i);
                 }

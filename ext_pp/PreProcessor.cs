@@ -119,6 +119,7 @@ namespace ext_pp
         /// <returns>Returns a list of files that can be compiled in reverse order</returns>
         public ISourceScript[] Process(string file, Settings settings = null, IDefinitions defs = null)
         {
+            string dir = Directory.GetCurrentDirectory();
             defs = defs ?? new Definitions();
             SourceManager sm = new SourceManager();
 
@@ -126,12 +127,16 @@ namespace ext_pp
 
             Logger.Log(DebugLevel.LOGS, "Starting Processing of File :" + file, Verbosity.LEVEL2);
             file = Path.GetFullPath(file);
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(file));
+
 
             ISourceScript ss = sm.CreateScript(_sep, file, file, new Dictionary<string, object>());
             List<ISourceScript> all = new List<ISourceScript>();
             sm.AddToTodo(ss);
             do
             {
+
+                Logger.Log(DebugLevel.PROGRESS, "Remaining Files: "+sm.GetTodoCount(), Verbosity.LEVEL1);
                 Logger.Log(DebugLevel.LOGS, "Selecting File :" + ss.GetKey(), Verbosity.LEVEL2);
                 for (int j = 0; j < _plugins.Count; j++)
                 {
@@ -148,6 +153,7 @@ namespace ext_pp
                 ss = sm.NextItem;
             } while (ss != null);
 
+            Directory.SetCurrentDirectory(dir);
             return sm.GetList().ToArray();
 
         }

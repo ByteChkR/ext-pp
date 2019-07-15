@@ -117,6 +117,7 @@ namespace ext_pp_cli
             {
                 if (_output != null)
                 {
+                    _output = Path.GetFullPath(_output);
                     File.WriteAllLines(_output, src);
                 }
 
@@ -125,7 +126,11 @@ namespace ext_pp_cli
                     Console.WriteLine(src[i]);
                 }
             }
-            else File.WriteAllLines(_output, src);
+            else
+            {
+                _output = Path.GetFullPath(_output);
+                File.WriteAllLines(_output, src);
+            }
 
         }
 
@@ -139,6 +144,11 @@ namespace ext_pp_cli
             {
 
                 Logger.VerbosityLevel = (Verbosity)(v);
+                if (_logToFile)
+                {
+                    lts.Mask = new BitMask<DebugLevel>(DebugLevel.ERRORS | DebugLevel.WARNINGS |
+                                                       DebugLevel.INTERNAL_ERROR | DebugLevel.PROGRESS);
+                }
 
                 Logger.Log(DebugLevel.LOGS, "Verbosity Level set to: " + Logger.VerbosityLevel, Verbosity.LEVEL1);
             }
@@ -272,7 +282,7 @@ namespace ext_pp_cli
 
 
 
-
+        private static LogTextStream lts;
 
         private static void InitAdl()
         {
@@ -282,7 +292,7 @@ namespace ext_pp_cli
             Debug.SetAllPrefixes("[ERRORS]", "[WARNINGS]", "[LOGS]");
             Debug.CheckForUpdates = false;
             Debug.AdlWarningMask = (int)DebugLevel.WARNINGS;
-            var lts = new LogTextStream(
+            lts = new LogTextStream(
                 Console.OpenStandardOutput(),
                 -1,
                 MatchType.MatchAll,
@@ -312,10 +322,188 @@ namespace ext_pp_cli
 
         public static void Main(string[] args)
         {
-            new CLI(args);
+            if (args[0] == "-fun")
+            {
+                Directory.SetCurrentDirectory("test");
+                GenerateFiles("testfile", int.Parse(args[1]));
+            }
+            else
+                new CLI(args);
 #if DEBUG
             Console.ReadLine();
 #endif
         }
+
+
+        #region FunStuff
+
+        public static List<string> GenerateDefineStatements(string defname, int maxNr, int maxDefines)
+        {
+            List<string> ret = new List<string>();
+            Random r = new Random();
+            int max = r.Next(1, maxDefines);
+            for (int i = 0; i < max; i++)
+            {
+                ret.Add("#define " + defname + r.Next(0, maxNr));
+            }
+
+            return ret;
+        }
+
+        public static List<string> GenerateUndefineStatements(string defname, int maxNr, int maxDefines)
+        {
+            List<string> ret = new List<string>();
+            Random r = new Random();
+            int max = r.Next(1, maxDefines);
+            for (int i = 0; i < max; i++)
+            {
+                ret.Add("#undefine " + defname + r.Next(0, maxNr));
+            }
+
+            return ret;
+        }
+
+        public static string GenerateExpression(string defName, int maxDefNr, int maxParams, int chanceToRecurse)
+        {
+            Random r = new Random();
+            if (maxParams == 0) return defName + r.Next(0, maxDefNr);
+            int max = r.Next(1, maxParams);
+            string expr = "";
+            for (int j = 0; j < max; j++)
+            {
+                int exprType = r.Next(0, 4 + chanceToRecurse);
+                if (exprType == 0)
+                    expr += defName + r.Next(0, maxDefNr);
+                else if (exprType == 1)
+                    expr += defName + r.Next(0, maxDefNr);
+                else if (exprType == 2)
+                    expr += defName + r.Next(0, maxDefNr);
+                else if (exprType == 3)
+                    expr += defName + r.Next(0, maxDefNr);
+                else
+                {
+                    int maxprm = max - max / 2;
+                    expr += "(" + GenerateExpression(defName, maxDefNr, maxprm, chanceToRecurse) + ")";
+
+                }
+                if (j != max - 1) expr += (r.Next(0, 2) == 0 ? " || " : " && ");
+            }
+
+            return expr;
+
+        }
+
+        public static void GenerateFiles(string filename, int amount)
+        {
+            Random r = new Random();
+            for (int i = 0; i < amount; i++)
+            {
+                Console.WriteLine("Creating File: " + i + "/" + (amount - 1));
+                List<string> ifs = GenerateIfStatements("TESTVAR", 50, 15);
+                List<string> incs = GenerateGenericIncludes(filename, amount, 10, 10);
+                incs.AddRange(GenerateRandomData(100, 50));
+
+                incs.AddRange(GenerateDefineStatements("TESTVAR", 50, 10));
+                incs.AddRange(GenerateUndefineStatements("TESTVAR", 50, 10));
+                Shuffle(incs);
+                Shuffle(incs);
+
+                for (int j = 0; j < incs.Count; j++)
+                {
+                    ifs.Insert(r.Next(0, ifs.Count), incs[j]);
+                }
+
+                File.WriteAllLines(filename + i + ".txt", ifs);
+            }
+        }
+
+
+        public static void Shuffle<T>(IList<T> list)
+        {
+            Random r = new Random();
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = r.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
+
+        public static List<string> GenerateRandomData(int size, int datalength)
+        {
+            Random r = new Random();
+            List<string> ret = new List<string>();
+            for (int i = 0; i < size; i++)
+            {
+                string s = "";
+                for (int j = 0; j < datalength; j++)
+                {
+                    s += (char)r.Next((int)'A', (int)'Z');
+                }
+
+                ret.Add(s);
+            }
+
+            return ret;
+        }
+        public static List<string> GenerateIfStatements(string defName, int maxDefNr, int maxNr)
+        {
+            Random r = new Random();
+            int max = r.Next(1, maxNr);
+            List<string> ret = new List<string>();
+            for (int i = 0; i < max; i++)
+            {
+                string expr = GenerateExpression(defName, maxDefNr, 10, 1);
+                ret.Add("#if " + expr);
+
+                ret.Add("#endif");
+            }
+
+            return ret;
+        }
+
+        public static List<string> GenerateGenericIncludes(string file, int maxNr, int maxIncludes, int maxParams)
+        {
+            List<string> ret = new List<string>();
+            Random r = new Random();
+            int max = r.Next(1, maxIncludes);
+            for (int i = 0; i < max; i++)
+            {
+                int paramMax = r.Next(1, maxParams);
+                string gens = " ";
+                for (int j = 0; j < paramMax; j++)
+                {
+                    if (r.Next(0, 2) == 0)
+                    {
+                        gens += "#type" + i + " ";
+                    }
+                    else
+                    {
+                        gens += GenerateRandomData(1, 15)[0] + " ";
+                    }
+                }
+                ret.Add("#include " + file + r.Next(0, maxNr) + ".txt" + gens);
+            }
+
+            return ret;
+        }
+
+        public static List<string> GenerateIncludeStatements(string file, int maxNr, int maxIncludes)
+        {
+            List<string> ret = new List<string>();
+            Random r = new Random();
+            int max = r.Next(1, maxIncludes);
+            for (int i = 0; i < max; i++)
+            {
+                ret.Add("#include " + file + r.Next(0, maxNr));
+            }
+
+            return ret;
+        }
+
+        #endregion
     }
 }

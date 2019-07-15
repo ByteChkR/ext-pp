@@ -33,6 +33,15 @@ namespace ext_pp_base
             return source;
         }
 
+
+        public static string RemoveExcessSpaces(string line, string separator)
+        {
+            string ret = line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
+            Logger.Log(DebugLevel.LOGS, "Removing Excess Spaces: " + line + " => " + ret, Verbosity.LEVEL6);
+            return ret;
+        }
+
+
         /// <summary>
         /// Replaces a keyword(single sequence of characters) with a replacement in the source lines supplied.
         /// </summary>

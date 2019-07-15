@@ -270,12 +270,12 @@ namespace ext_pp_plugins
                 }
                 else if (expression[i] == "(")
                 {
-                    i++;
+                    //i++;
                     if (expectOperator) isOr = false;
                     expectOperator = true;
 
-                    int size = IndexOfClosingBracket(expression, i) - i;
-                    bool tmp = EvaluateConditional(expression.SubArray(i, size).ToArray(), defs);
+                    int size = IndexOfClosingBracket(expression, i) - i-1;
+                    bool tmp = EvaluateConditional(expression.SubArray(i+1, size).ToArray(), defs);
                     if (isOr) ret |= tmp;
                     else ret &= tmp;
                     i += size;
@@ -322,7 +322,7 @@ namespace ext_pp_plugins
             r = SurroundWithSpaces(r, AndOperator);
             r = SurroundWithSpaces(r, "(");
             r = SurroundWithSpaces(r, ")");
-            string rr = RemoveExcessSpaces(r);
+            string rr = Utils.RemoveExcessSpaces(r, Separator);
 
             Logger.Log(DebugLevel.LOGS, "Fixed condition(new): " + rr, Verbosity.LEVEL5);
             return rr;
@@ -333,7 +333,7 @@ namespace ext_pp_plugins
         {
             Logger.Log(DebugLevel.LOGS, "Finding Closing Bracket...", Verbosity.LEVEL6);
             int tolerance = 0;
-            for (int i = openBracketIndex + 1; i < expression.Length; i++)
+            for (int i = openBracketIndex+1; i < expression.Length; i++)
             {
                 if (expression[i] == "(")
                 {
@@ -365,12 +365,7 @@ namespace ext_pp_plugins
             return ret;
         }
 
-        private string RemoveExcessSpaces(string line)
-        {
-            string ret = line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Unpack(Separator);
-            Logger.Log(DebugLevel.LOGS, "Removing Excess Spaces: " + line + " => " + ret, Verbosity.LEVEL6);
-            return ret;
-        }
+        
 
         private static bool IsKeyWord(string line, string keyword)
         {

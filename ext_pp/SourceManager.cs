@@ -49,6 +49,11 @@ namespace ext_pp
             Logger.Log(DebugLevel.LOGS, "Changed Computing Scheme to: " + scheme.Method.Name, Verbosity.LEVEL2);
         }
 
+        public int GetTodoCount()
+        {
+            return _doneState.Count(x => x == false);
+        }
+
         /// <summary>
         /// Returns the computing scheme
         /// </summary>

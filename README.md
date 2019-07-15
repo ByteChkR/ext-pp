@@ -2,7 +2,7 @@
 Small plugin based external text preprocessor that can introduce artificial static generics, different preprocessor keywords like #define #include #if and more to any kind of text file. Its main purpose is to keep me from copying my errors around when writing different opencl kernels.
 
 
-You can find the documentation [HERE](LINKTODOCS)
+You can find the documentation [HERE](https://bytechkr.github.io/ext-pp/)
 
 ## Status:
 Master: [![Build Status](https://travis-ci.com/ByteChkR/ext-pp.svg?branch=master)](https://travis-ci.com/ByteChkR/ext-pp)  

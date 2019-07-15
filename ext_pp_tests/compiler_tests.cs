@@ -25,17 +25,17 @@ namespace ext_pp.tests
         public void IncludeCircular()
         {
             
-            PreProcessor pp = new PreProcessor(new Settings());
+            PreProcessor pp = new PreProcessor();
             List<IPlugin> lp = new Dictionary<Type, IPlugin>()
             {
-                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin(new Settings())},
-                {typeof(ConditionalPlugin), new ConditionalPlugin(new Settings())},
-                {typeof(IncludePlugin), new IncludePlugin(new Settings())},
-                {typeof(WarningPlugin), new WarningPlugin(new Settings())},
-                {typeof(ErrorPlugin), new ErrorPlugin(new Settings())}
+                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin()},
+                {typeof(ConditionalPlugin), new ConditionalPlugin()},
+                {typeof(IncludePlugin), new IncludePlugin()},
+                {typeof(WarningPlugin), new WarningPlugin()},
+                {typeof(ErrorPlugin), new ErrorPlugin()}
             }.Values.ToList();
             pp.SetFileProcessingChain(lp);
-            var ret = pp.Process("includecircular.cl", new Definitions());
+            var ret = pp.Process("includecircular.cl", new Settings(), new Definitions());
             Assert.AreEqual(
                 ret.Length,
                 3);
@@ -44,17 +44,17 @@ namespace ext_pp.tests
         [Test]
         public void IncludeGenericCircular()
         {
-            PreProcessor pp = new PreProcessor(new Settings());
+            PreProcessor pp = new PreProcessor();
             List<IPlugin> lp = new Dictionary<Type, IPlugin>()
             {
-                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin(new Settings())},
-                {typeof(ConditionalPlugin), new ConditionalPlugin(new Settings())},
-                { typeof(IncludePlugin), new IncludePlugin(new Settings())},
-                { typeof(WarningPlugin), new WarningPlugin(new Settings())},
-                { typeof(ErrorPlugin), new ErrorPlugin(new Settings())}
+                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin()},
+                {typeof(ConditionalPlugin), new ConditionalPlugin()},
+                { typeof(IncludePlugin), new IncludePlugin()},
+                { typeof(WarningPlugin), new WarningPlugin()},
+                { typeof(ErrorPlugin), new ErrorPlugin()}
             }.Values.ToList();
             pp.SetFileProcessingChain(lp);
-            var ret = pp.Process("genericincludepassthrough.cl", new Definitions());
+            var ret = pp.Process("genericincludepassthrough.cl", new Settings(), new Definitions());
             Assert.AreEqual(
                 ret.Length,
                 5);
@@ -63,17 +63,17 @@ namespace ext_pp.tests
         [Test]
         public void TypePassing()
         {
-            PreProcessor pp = new PreProcessor(new Settings());
+            PreProcessor pp = new PreProcessor();
             List<IPlugin> lp = new Dictionary<Type, IPlugin>()
             {
-                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin(new Settings())},
-                {typeof(ConditionalPlugin), new ConditionalPlugin(new Settings())},
-                { typeof(IncludePlugin), new IncludePlugin(new Settings())},
-                { typeof(WarningPlugin), new WarningPlugin(new Settings())},
-                { typeof(ErrorPlugin), new ErrorPlugin(new Settings())}
+                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin()},
+                {typeof(ConditionalPlugin), new ConditionalPlugin()},
+                { typeof(IncludePlugin), new IncludePlugin()},
+                { typeof(WarningPlugin), new WarningPlugin()},
+                { typeof(ErrorPlugin), new ErrorPlugin()}
             }.Values.ToList();
             pp.SetFileProcessingChain(lp);
-            var ret = pp.Process("typePassing.cl", new Definitions());
+            var ret = pp.Process("typePassing.cl", new Settings(), new Definitions());
             Assert.AreEqual(
                 ret.Length,
                 4);

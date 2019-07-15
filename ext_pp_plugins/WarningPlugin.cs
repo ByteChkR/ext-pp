@@ -11,13 +11,12 @@ namespace ext_pp_plugins
         private readonly string _separator = Settings.Separator;
 
 
-        public WarningPlugin(Settings settings)
+        public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
 
         }
 
-
-        public bool Process(ASourceScript file, ASourceManager todo, ADefinitions defs)
+        public bool Process(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             Logger.Log(DebugLevel.LOGS, "Discovering Warnings...", Verbosity.LEVEL3);
             string[] warnings = Utils.FindStatements(file.GetSource(), _warningKeyword);

@@ -21,10 +21,13 @@ namespace ext_pp_plugins
         private readonly string _notOperator = Settings.NotOperator;
         private readonly string _andOperator = Settings.AndOperator;
         private readonly string _separator = Settings.Separator;
-        private readonly bool _enableDef = true;
-        private readonly bool _enableUdef = true;
+        private bool _enableDef = true;
+        private bool _enableUdef = true;
 
-        public ConditionalPlugin(Settings settings)
+
+
+
+        public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
             if (settings.HasKey("eDef"))
             {
@@ -43,7 +46,7 @@ namespace ext_pp_plugins
             }
         }
 
-        public bool Process(ASourceScript file, ASourceManager todo, ADefinitions defs)
+        public bool Process(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             Logger.Log(DebugLevel.LOGS, "Starting Condition Solver passes on file: " + file.GetKey(), Verbosity.LEVEL3);
             bool ret = true;
@@ -213,7 +216,7 @@ namespace ext_pp_plugins
             return -1; //Not getting here since it crashes in Logger.Crash
         }
 
-        private bool EvaluateConditional(string expression, ADefinitions defs)
+        private bool EvaluateConditional(string expression, IDefinitions defs)
         {
 
             Logger.Log(DebugLevel.LOGS, "Found condition: " + expression, Verbosity.LEVEL3);
@@ -222,7 +225,7 @@ namespace ext_pp_plugins
             string[] cs = condition.Pack(_separator).ToArray();
             return EvaluateConditional(cs, defs);
         }
-        private bool EvaluateConditional(string[] expression, ADefinitions defs)
+        private bool EvaluateConditional(string[] expression, IDefinitions defs)
         {
 
             Logger.Log(DebugLevel.LOGS, "Evaluating Condition...", Verbosity.LEVEL3);
@@ -263,7 +266,7 @@ namespace ext_pp_plugins
             return ret;
         }
 
-        private bool EvaluateExpression(string expression, ADefinitions defs)
+        private bool EvaluateExpression(string expression, IDefinitions defs)
         {
             Logger.Log(DebugLevel.LOGS, "Evaluating Expression: " + expression, Verbosity.LEVEL4);
             bool neg = expression.StartsWith(_notOperator);

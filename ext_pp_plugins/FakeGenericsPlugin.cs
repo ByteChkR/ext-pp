@@ -10,10 +10,14 @@ namespace ext_pp_plugins
     {
         public string[] Cleanup => new string[0];
         private readonly string _genericKeyword = Settings.TypeGenKeyword;
-        public FakeGenericsPlugin(Settings settings)
+
+
+        public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
-            ASourceManager.KeyComputingScheme = ComputeNameAndKey_Generic;
+
+            sourceManager.SetComputingScheme(ComputeNameAndKey_Generic);
         }
+
 
         private bool ComputeNameAndKey_Generic(string[] vars, out string filePath, out string key,
             out Dictionary<string, object> pluginCache)
@@ -23,7 +27,7 @@ namespace ext_pp_plugins
             if (vars.Length == 0) return false;
             string[] genParams = vars.Length > 1 ?
                 vars.SubArray(1, vars.Length - 1).ToArray() : new string[0];
-            
+
             key = filePath = Path.GetFullPath(vars[0]);
             key += (genParams.Length > 0 ? "." + genParams.Unpack(Settings.Separator) : "");
             if (genParams.Length != 0)
@@ -31,7 +35,7 @@ namespace ext_pp_plugins
             return true;
         }
 
-        public bool Process(ASourceScript file, ASourceManager sourceManager, ADefinitions defs)
+        public bool Process(ISourceScript file, ISourceManager sourceManager, IDefinitions defs)
         {
             if (!file.HasValueOfType<string[]>("genParams")) return true; //No error, we just dont have any generic parameters to replace.
 

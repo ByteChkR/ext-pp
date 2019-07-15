@@ -10,12 +10,13 @@ namespace ext_pp_plugins
         public string[] Cleanup => new string[0];
         private readonly string _includeKeyword = Settings.IncludeStatement;
         private readonly string _separator = Settings.Separator;
-        public IncludePlugin(Settings settings)
+
+        public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
 
         }
 
-        public bool Process(ASourceScript script, ASourceManager sourceManager, ADefinitions defs)
+        public bool Process(ISourceScript script, ISourceManager sourceManager, IDefinitions defs)
         {
 
             Logger.Log(DebugLevel.LOGS, "Disovering Include Statments...", Verbosity.LEVEL3);
@@ -25,11 +26,11 @@ namespace ext_pp_plugins
             foreach (var includes in incs)
             {
                 Logger.Log(DebugLevel.LOGS, "Processing Statement: " + includes, Verbosity.LEVEL4);
-                bool tmp = GetIncludeSourcePath(includes, Path.GetDirectoryName(Path.GetFullPath(script.GetFilePath())), out var path, out var key, out Dictionary<string, object> pluginCache);
+                bool tmp = GetIncludeSourcePath(sourceManager, includes, Path.GetDirectoryName(Path.GetFullPath(script.GetFilePath())), out var path, out var key, out Dictionary<string, object> pluginCache);
                 if (tmp)
                 {
 
-                    ASourceScript ss = sourceManager.CreateScript(_separator, path, key, pluginCache);
+                    ISourceScript ss = sourceManager.CreateScript(_separator, path, key, pluginCache);
                     if (!sourceManager.IsIncluded(ss))
                     {
                         sourceManager.AddToTodo(ss);
@@ -54,7 +55,7 @@ namespace ext_pp_plugins
         }
 
 
-        private bool GetIncludeSourcePath(string statement, string currentPath, out string filePath, out string key, out Dictionary<string, object> pluginCache)
+        private bool GetIncludeSourcePath(ISourceManager manager, string statement, string currentPath, out string filePath, out string key, out Dictionary<string, object> pluginCache)
         {
             var vars = Utils.SplitAndRemoveFirst(statement, _separator);
             //genParams = new string[0];
@@ -64,14 +65,14 @@ namespace ext_pp_plugins
             {
 
                 //filePath = vars[0];
-                if(!ASourceManager.KeyComputingScheme(vars, out filePath, out key, out pluginCache))
+                if(!manager.GetComputingScheme()(vars, out filePath, out key, out pluginCache))
                 {
                     return false;
                 }
                 
 
 
-                if (!Utils.FileExists(currentPath, filePath))
+                if (!Utils.FileExistsRelativeTo(currentPath, filePath))
                 {
                     return false;
                 }

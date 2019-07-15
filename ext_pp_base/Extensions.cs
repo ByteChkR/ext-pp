@@ -5,7 +5,12 @@ namespace ext_pp_base
 {
     public static class Extensions
     {
-        
+        /// <summary>
+        /// Concats the array into a string separated by the separator
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         public static string Unpack(this IEnumerable<string> arr, string separator)
         {
             var s = "";
@@ -19,11 +24,26 @@ namespace ext_pp_base
             return s;
         }
 
+        /// <summary>
+        /// Turns a string into an array split by the separator
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         public static IEnumerable<string> Pack(this string arr, string separator)
         {
             return arr.Split(separator);
         }
 
+
+        /// <summary>
+        /// Creates a sub array starting from start to start+length
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arr"></param>
+        /// <param name="start"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
         public static IEnumerable<T> SubArray<T>(this IEnumerable<T> arr, int start, int length)
         {
             var ret = new T[length];
@@ -36,6 +56,13 @@ namespace ext_pp_base
             return ret;
         }
 
+        /// <summary>
+        /// Creates a sub array starting from 0 to length
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="arr"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
         public static IEnumerable<T> SubArray<T>(this IEnumerable<T> arr, int length)
         {
             return SubArray(arr, 0, length);

@@ -10,12 +10,14 @@ namespace ext_pp_plugins
         public string[] Cleanup => new string[0];
         private readonly string _errorKeyword = Settings.ErrorStatement;
         private readonly string _separator = Settings.Separator;
-        public ErrorPlugin(Settings settings)
+
+
+        public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
 
         }
 
-        public bool Process(ASourceScript file, ASourceManager todo, ADefinitions defs)
+        public bool Process(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             Logger.Log(DebugLevel.LOGS, "Discovering Errors...", Verbosity.LEVEL3);
             string[] errors = Utils.FindStatements(file.GetSource(), _errorKeyword);

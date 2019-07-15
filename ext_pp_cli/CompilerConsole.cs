@@ -11,8 +11,9 @@ using ext_pp_base;
 using ext_pp_base.settings;
 using ext_pp_plugins;
 using MatchType = ADL.MatchType;
+using  ext_pp;
 
-namespace ext_pp
+namespace ext_pp_cli
 {
     public class CompilerConsole
     {
@@ -78,9 +79,9 @@ namespace ext_pp
             ProcessInput(args, out var input, out var output, out var defs, out var chain);
 
 
-            PreProcessor pp = new PreProcessor(_settings);
+            PreProcessor pp = new PreProcessor();
             pp.SetFileProcessingChain(chain);
-            var source = pp.Compile(input, new Definitions(defs));
+            var source = pp.Compile(input, _settings, new Definitions(defs));
 
 
             if (_settings.WriteToConsole)
@@ -116,13 +117,13 @@ namespace ext_pp
         {
             defs = new Dictionary<string, bool>();
             input = output = "";
-            Dictionary<Type, IPlugin> _chain = new Dictionary<Type, IPlugin>()
+            List<Type> _chain = new List<Type>()
             {
-                {typeof(FakeGenericsPlugin), new FakeGenericsPlugin(_settings)},
-                {typeof(ConditionalPlugin), new ConditionalPlugin(_settings)},
-                {typeof(IncludePlugin), new IncludePlugin(_settings)},
-                {typeof(WarningPlugin), new WarningPlugin(_settings)},
-                {typeof(ErrorPlugin), new ErrorPlugin(_settings)}
+                typeof(FakeGenericsPlugin),
+                typeof(ConditionalPlugin),
+                typeof(IncludePlugin),
+                typeof(WarningPlugin),
+                typeof(ErrorPlugin)
             };
 
             #region Argument Analysis
@@ -306,7 +307,7 @@ namespace ext_pp
                 }
             }
 
-            chain = _chain.Values.ToList();
+            chain = CreateChain(_chain).ToList();
             #endregion
 
             #region CheckErrors
@@ -338,6 +339,22 @@ namespace ext_pp
 #endif
         }
 
+
+        public static IEnumerable<IPlugin> CreateChain(IEnumerable<Type> chain)
+        {
+            IPlugin[] ret = new IPlugin[chain.Count()];
+            int i = 0;
+            foreach (var pluginType in chain)
+            {
+                if (pluginType.GetInterfaces().Contains(typeof(IPlugin)))
+                {
+                    ret[i]=(IPlugin)Activator.CreateInstance(pluginType);
+                    i++;
+                }
+            }
+
+            return ret;
+        }
 
         private static void InitAdl()
         {

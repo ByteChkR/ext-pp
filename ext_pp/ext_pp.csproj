@@ -1,12 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Version>0.0.0.1</Version>
     <Company>Tim Akermann</Company>
     <Authors>Tim Akermann</Authors>
     <Product>External PreProcessor</Product>
+    <ApplicationIcon />
+    <StartupObject />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -14,17 +16,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ext_pp_plugin_base\ext_pp_plugins.csproj" />
+    <ProjectReference Include="..\ext_pp_plugins\ext_pp_plugins.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="ADL">
       <HintPath>res\ADL.dll</HintPath>
-      <Private>true</Private>
     </Reference>
     <Reference Include="ADL.Crash">
       <HintPath>res\ADL.Crash.dll</HintPath>
-      <Private>true</Private>
     </Reference>
   </ItemGroup>
 

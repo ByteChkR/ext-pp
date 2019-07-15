@@ -1,87 +1,153 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using ext_pp_base;
+using ext_pp_base.settings;
 
 namespace ext_pp
 {
-    internal class SourceScript : ASourceScript
+    internal class SourceScript : ISourceScript
     {
 
-        public readonly string Filepath;
+        /// <summary>
+        /// The full filepath of the script
+        /// </summary>
+        private readonly string _filepath;
+        /// <summary>
+        /// if the source was requested at least once, it remains cached in here
+        /// </summary>
         private string[] _source = null;
+
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly string _separator;
 
-
+        /// <summary>
+        /// The key that will get assigned to this script.
+        /// </summary>
         private readonly string _key;
 
-
+        /// <summary>
+        /// A Cache that is shared with all plugins to exchange information between different processing steps
+        /// </summary>
         private readonly Dictionary<string, object> _pluginCache;
 
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="separator"></param>
+        /// <param name="path"></param>
+        /// <param name="key"></param>
+        /// <param name="pluginCache"></param>
         public SourceScript(string separator, string path, string key, Dictionary<string, object> pluginCache)
         {
             _key = key;
             _pluginCache = pluginCache;
-            Filepath = path;
+            _filepath = path;
             _separator = separator;
         }
 
-        public override string GetFilePath()
+        /// <summary>
+        /// Returns the full filepath of this script.
+        /// </summary>
+        /// <returns></returns>
+        public string GetFilePath()
         {
-            return Filepath;
+            return _filepath;
         }
 
-        public override string GetKey()
+
+        /// <summary>
+        /// Returns the key that got assigned to the script
+        /// </summary>
+        /// <returns></returns>
+        public string GetKey()
         {
             return _key;
         }
 
-        public override string[] GetSource()
+        /// <summary>
+        /// returns the source that is cached
+        /// if the source was not loaded before it will load it from the file path specified
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetSource()
         {
             if (_source == null) Load();
             return _source;
         }
 
-        public override void SetSource(string[] source)
+        /// <summary>
+        /// Sets the cached version of the source
+        /// </summary>
+        /// <param name="source"></param>
+        public void SetSource(string[] source)
         {
             _source = source;
         }
 
 
-        public override bool HasValueOfType<T>(string key)
+
+        /// <summary>
+        /// Returns true if the plugin cache contains an item of type T with key
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool HasValueOfType<T>(string key)
         {
             return _pluginCache.ContainsKey(key) && _pluginCache[key].GetType() == typeof(T);
         }
 
-        public override T GetValueFromCache<T>(string key)
+        /// <summary>
+        /// Returns the value of type T with key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public T GetValueFromCache<T>(string key)
         {
             return (T)_pluginCache[key];
         }
 
-        public override void AddValueToCache(string key, object value)
+        /// <summary>
+        /// Adds a value to the plugin cache to be read later during the processing
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void AddValueToCache(string key, object value)
         {
             _pluginCache.Add(key, value);
         }
 
-        public override bool Load()
+        /// <summary>
+        /// Loads the source code of the file into memory
+        /// </summary>
+        /// <returns></returns>
+        public bool Load()
         {
 
             bool ret;
             if (!(ret = LoadSource()))
             {
-                //DDEBUG LOG HERE
+                Logger.Log(DebugLevel.ERRORS, "Could not load file: " + _filepath, Verbosity.ALWAYS_SEND);
 
             }
 
             return ret;
         }
 
+        /// <summary>
+        /// returns true if the loading succeeded
+        /// </summary>
+        /// <returns></returns>
         private bool LoadSource()
         {
 
             _source = new string[0];
-            if (!File.Exists(Filepath)) return false;
-            _source = File.ReadAllLines(Filepath);
+            if (!File.Exists(_filepath)) return false;
+            _source = File.ReadAllLines(_filepath);
 
 
             return true;

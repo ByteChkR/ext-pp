@@ -46,18 +46,18 @@ namespace ext_pp_plugins
         {
             settings.ApplySettingsFlatString(Info, this);
 
-            if (settings.HasKey("eDef"))
+            if (settings.HasKey("eD"))
             {
 
-                string ed = settings.GetFirst("eDef");
+                string ed = settings.GetFirst("eD");
                 if (!bool.TryParse(ed, out EnableDefine))
                     Logger.Log(DebugLevel.WARNINGS, "Enable Define Flag could not be parsed: " + ed, Verbosity.LEVEL2);
 
             }
-            if (settings.HasKey("eUdef"))
+            if (settings.HasKey("eU"))
             {
 
-                string eu = settings.GetFirst("eUdef");
+                string eu = settings.GetFirst("eU");
                 if (!bool.TryParse(eu, out EnableUndefine))
                     Logger.Log(DebugLevel.WARNINGS, "Enable Undefine Flag could not be parsed: " + eu, Verbosity.LEVEL2);
             }

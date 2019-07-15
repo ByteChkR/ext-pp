@@ -131,7 +131,7 @@ namespace ext_pp
             bool ret;
             if (!(ret = LoadSource()))
             {
-                Logger.Log(DebugLevel.ERRORS, "Could not load file: " + _filepath, Verbosity.ALWAYS_SEND);
+                Logger.Log(DebugLevel.ERRORS, "Could not load file: " + _filepath, Verbosity.LEVEL1);
 
             }
 

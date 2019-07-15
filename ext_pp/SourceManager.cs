@@ -46,7 +46,7 @@ namespace ext_pp
         {
             if (scheme == null) return;
             _computeScheme = scheme;
-            Logger.Log(DebugLevel.LOGS, "Changed Computing Scheme to: " + scheme.Method.Name, Verbosity.LEVEL1);
+            Logger.Log(DebugLevel.LOGS, "Changed Computing Scheme to: " + scheme.Method.Name, Verbosity.LEVEL2);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace ext_pp
         /// <param name="script"></param>
         public void FixOrder(ISourceScript script)
         {
-            Logger.Log(DebugLevel.LOGS, "Fixing Build Order of file: " + script.GetKey(), Verbosity.LEVEL2);
+            Logger.Log(DebugLevel.LOGS, "Fixing Build Order of file: " + script.GetKey(), Verbosity.LEVEL3);
             int idx = IndexOfFile(script.GetKey());
             var a = _sources[idx];
             var ab = _doneState[idx];
@@ -133,7 +133,7 @@ namespace ext_pp
         {
             if (!IsIncluded(script))
             {
-                Logger.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + script.GetKey(), Verbosity.LEVEL2);
+                Logger.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + script.GetKey(), Verbosity.LEVEL3);
                 AddFile(script, false);
                 _doneState.Add(false);
             }
@@ -150,7 +150,7 @@ namespace ext_pp
             {
                 _doneState[IndexOfFile(script.GetKey())] = true;
 
-                Logger.Log(DebugLevel.LOGS, "Finished Script: " + script.GetKey(), Verbosity.LEVEL2);
+                Logger.Log(DebugLevel.LOGS, "Finished Script: " + script.GetKey(), Verbosity.LEVEL3);
             }
         }
 

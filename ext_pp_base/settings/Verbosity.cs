@@ -9,17 +9,17 @@
         /// <summary>
         /// Only critical errors and general information
         /// </summary>
-        ALWAYS_SEND,
         LEVEL1,
         LEVEL2,
         LEVEL3,
         LEVEL4,
         LEVEL5,
         LEVEL6,
+        LEVEL7,
         /// <summary>
         /// Highest Level of verbosity, you will get every log that gets sent.
         /// </summary>
-        LEVEL7
+        LEVEL8
 
 
     }

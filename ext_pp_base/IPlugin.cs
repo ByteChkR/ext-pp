@@ -1,4 +1,6 @@
-﻿using ext_pp_base.settings;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using ext_pp_base.settings;
 
 namespace ext_pp_base
 {
@@ -7,6 +9,11 @@ namespace ext_pp_base
    /// </summary>
     public interface IPlugin
     {
+
+        string[] Prefix { get; }
+     bool IncludeGlobal { get; }
+        Dictionary<string, FieldInfo> Info { get; }
+
         /// <summary>
         /// Gets called once on each file.
         /// Looping Through All the Files

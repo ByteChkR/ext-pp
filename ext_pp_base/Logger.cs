@@ -9,7 +9,7 @@ namespace ext_pp_base
         /// The Verbosity level
         /// Everything lower than this will be sent to the log output
         /// </summary>
-        public static Verbosity VerbosityLevel;
+        public static Verbosity VerbosityLevel= Verbosity.LEVEL2;
 
         /// <summary>
         /// Logs a message in the specified mask and verbosity level
@@ -21,7 +21,7 @@ namespace ext_pp_base
         {
             if (level <= VerbosityLevel)
             {
-                for (int i = (int)Verbosity.LEVEL2; i < (int)level; i++)
+                for (int i = (int)Verbosity.LEVEL3; i < (int)level; i++)
                 {
                     message = '\t' + message;
                 }

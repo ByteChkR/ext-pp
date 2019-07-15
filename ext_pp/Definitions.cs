@@ -81,7 +81,7 @@ namespace ext_pp
         private void Change(string key, bool state)
         {
 
-            Logger.Log(DebugLevel.LOGS, "Setting Key: " + key + " to value: " + state, Verbosity.LEVEL5);
+            Logger.Log(DebugLevel.LOGS, "Setting Key: " + key + " to value: " + state, Verbosity.LEVEL6);
             if (_definitions.ContainsKey(key)) _definitions[key] = state;
             else _definitions.Add(key, state);
         }

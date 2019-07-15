@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ext_pp_plugins\ext_pp_plugins.csproj" />
+    <ProjectReference Include="..\ext_pp_base\ext_pp_base.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,7 +20,7 @@ namespace ext_pp
         /// <summary>
         /// 
         /// </summary>
-        private readonly string _sep = Settings.Separator;
+        private readonly string _sep = " ";
         //Create Global Definitions
         //Create Stack for All the processing steps(Stack<List<IPlugin>>
 
@@ -63,7 +63,7 @@ namespace ext_pp
         public string[] Compile(string file, Settings settings = null, IDefinitions defs = null)
         {
 
-            Logger.Log(DebugLevel.LOGS, "Starting Post Processor...", Verbosity.LEVEL1);
+            Logger.Log(DebugLevel.LOGS, "Starting Post Processor...", Verbosity.LEVEL2);
             ISourceScript[] src = Process(file, settings, defs);
             return Compile(src);
         }
@@ -77,11 +77,12 @@ namespace ext_pp
         /// <param name="sourceManager"></param>
         private void InitializePlugins(Settings settings, IDefinitions def, ISourceManager sourceManager)
         {
-            Logger.Log(DebugLevel.LOGS, "Initializing Plugins...", Verbosity.LEVEL1);
+            Logger.Log(DebugLevel.LOGS, "Initializing Plugins...", Verbosity.LEVEL2);
             foreach (var plugin in _plugins)
             {
-                Logger.Log(DebugLevel.LOGS, "Initializing Plugin: " + plugin.GetType().Name, Verbosity.LEVEL2);
-                plugin.Initialize(settings, sourceManager, def);
+                Logger.Log(DebugLevel.LOGS, "Initializing Plugin: " + plugin.GetType().Name, Verbosity.LEVEL3);
+
+                plugin.Initialize(settings.GetSettingsWithPrefix(plugin.Prefix, plugin.IncludeGlobal), sourceManager, def);
             }
         }
 
@@ -92,7 +93,7 @@ namespace ext_pp
         /// <returns></returns>
         public string[] Compile(ISourceScript[] src)
         {
-            Logger.Log(DebugLevel.LOGS, "Starting Compilation of File Tree...", Verbosity.LEVEL1);
+            Logger.Log(DebugLevel.LOGS, "Starting Compilation of File Tree...", Verbosity.LEVEL2);
             List<string> ret = new List<string>();
             for (var i = src.Length - 1; i >= 0; i--)
             {
@@ -117,7 +118,7 @@ namespace ext_pp
 
             InitializePlugins(settings, defs, sm);
 
-            Logger.Log(DebugLevel.LOGS, "Starting Processing of File :" + file, Verbosity.LEVEL1);
+            Logger.Log(DebugLevel.LOGS, "Starting Processing of File :" + file, Verbosity.LEVEL2);
             file = Path.GetFullPath(file);
 
             ISourceScript ss = sm.CreateScript(_sep, file, file, new Dictionary<string, object>());
@@ -125,14 +126,14 @@ namespace ext_pp
             sm.AddToTodo(ss);
             do
             {
-                Logger.Log(DebugLevel.LOGS, "Selecting File :" + ss.GetKey(), Verbosity.LEVEL1);
+                Logger.Log(DebugLevel.LOGS, "Selecting File :" + ss.GetKey(), Verbosity.LEVEL2);
                 for (int j = 0; j < _plugins.Count; j++)
                 {
 
-                    Logger.Log(DebugLevel.LOGS, "Running Plugin :" + _plugins[j] + " on file " + file, Verbosity.LEVEL2);
+                    Logger.Log(DebugLevel.LOGS, "Running Plugin :" + _plugins[j] + " on file " + file, Verbosity.LEVEL3);
                     if (!_plugins[j].Process(ss, sm, defs))
                     {
-                        Logger.Log(DebugLevel.ERRORS, "Processing was aborted by Plugin: " + _plugins[j], Verbosity.ALWAYS_SEND);
+                        Logger.Log(DebugLevel.ERRORS, "Processing was aborted by Plugin: " + _plugins[j], Verbosity.LEVEL1);
                         return new ISourceScript[0];
                     }
                 }

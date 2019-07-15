@@ -25,10 +25,16 @@ To set a value for a plugin the syntax is:
 	ext_pp_cli <pluginprefix>:<command> <value>
 
 #### Valid Commands of the CLI itself:
+	
+	<filepath> => opens the file and reads the content as the arguments
 	-i/-input
 	-o/-output
+	-l <filepath> => list all plugins in specified library
+	-ll <filepath> => list all plugins in specified library and display commands
+	-l self => displays all CLI commands
 	-defs => list of predefined variables
-	-chain => sets the processing chain
+	-chain <chainString> => sets the processing chain
+	-chain <pathto.chain> => sets the processing chain based on the content of the supplied file
 	-l2f/-logToFile => writes the logs to the specified file
 	-w2c/-writeToConsole => writes the finished text to the console(automatically sets the verbosity to silend if not specified otherwise.)
 	-v/-verbosity => sets the amount of debug information(0 = none, 8 = ALL)

@@ -14,10 +14,12 @@ namespace ext_pp_plugins
         public bool IncludeGlobal => true;
         public string GenericKeyword = "#type";
         public string Separator = " ";
-        public Dictionary<string, FieldInfo> Info { get; } = new Dictionary<string, FieldInfo>()
+        public List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            {"g", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword))},
-            {"s", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Separator))}
+            new CommandInfo("g", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
+                "Sets the keyword that will be replaced with the parameters supplied when adding a file."),
+            new CommandInfo("s", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Separator)),
+                "Sets the characters that will be used to separate strings")
         };
 
         public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)

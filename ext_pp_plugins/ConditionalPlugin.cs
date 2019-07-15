@@ -27,18 +27,28 @@ namespace ext_pp_plugins
         public bool EnableDefine = true;
         private bool EnableUndefine = true;
 
-        public Dictionary<string, FieldInfo> Info { get; } = new Dictionary<string, FieldInfo>()
+        public List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            {"d", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(DefineKeyword))},
-            {"u", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword))},
-            {"if", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(StartCondition))},
-            {"elif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseIfCondition))},
-            {"else", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseCondition))},
-            {"eif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableDefine))},
-            {"n", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(NotOperator))},
-            {"a", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(AndOperator))},
-            {"o", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(OrOperator))},
-            {"s", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(Separator))},
+            new CommandInfo("d", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)), 
+                "Sets the Keyword that defines variables when processing the file"),
+            new CommandInfo("u", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword)),
+                "Sets the Keyword that undefines variables when processing the file"),
+            new CommandInfo("if", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(StartCondition)),
+                "Sets the Keyword that starts an conditional block"),
+            new CommandInfo("elif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseIfCondition)),
+                "Sets the Keyword that can follow an conditional block with another conditional block"),
+            new CommandInfo("else", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseCondition)),
+            "Sets the Keyword that gets selected if all previous conditional blocks evaluatet to false"),
+            new CommandInfo("eif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EndCondition)),
+                "Sets the Keyword that ends an conditional block if no others are immediately following"),
+            new CommandInfo("n", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(NotOperator)),
+                "Sets the characters for the NOT operator"),
+            new CommandInfo("a", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(AndOperator)),
+                "Sets the characters for the AND operator"),
+            new CommandInfo("o", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
+                "Sets the characters for the OR operator"),
+            new CommandInfo("s", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(Separator)),
+                "Sets the characters that will be used to separate strings"),
         };
 
 

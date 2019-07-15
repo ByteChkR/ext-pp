@@ -100,7 +100,13 @@ namespace ext_pp
                 ret.AddRange(src[i].GetSource());
             }
 
-            return Utils.RemoveStatements(ret, CleanUpList.ToArray()).ToArray();
+            Logger.Log(DebugLevel.LOGS, "Finished Compilation...", Verbosity.LEVEL2);
+            Logger.Log(DebugLevel.LOGS, "Cleaning up: " + CleanUpList.Unpack(", "), Verbosity.LEVEL3);
+
+            string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray()).ToArray();
+            Logger.Log(DebugLevel.LOGS, "Finished Processing Files.", Verbosity.LEVEL1);
+            Logger.Log(DebugLevel.LOGS, "Total Lines: " + rrr.Length, Verbosity.LEVEL2);
+            return rrr;
         }
 
 

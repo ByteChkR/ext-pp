@@ -14,10 +14,12 @@ namespace ext_pp_plugins
         public string WarningKeyword = "#warning";
         public string Separator = " ";
 
-        public Dictionary<string, FieldInfo> Info { get; } = new Dictionary<string, FieldInfo>()
+        public List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            {"w", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(WarningKeyword))},
-            {"s", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Separator))}
+            new CommandInfo("w", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(WarningKeyword)),
+                "Sets the keyword that will be used to trigger warnings during compilation"),
+            new CommandInfo("s", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Separator)),
+                "Sets the characters that will be used to separate strings")
         };
         public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {

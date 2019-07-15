@@ -11,8 +11,8 @@ namespace ext_pp_base
     {
 
         string[] Prefix { get; }
-     bool IncludeGlobal { get; }
-        Dictionary<string, FieldInfo> Info { get; }
+        bool IncludeGlobal { get; }
+        List<CommandInfo> Info { get; }
 
         /// <summary>
         /// Gets called once on each file.

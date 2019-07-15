@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using ext_pp_base;
 using ext_pp_base.settings;
 
@@ -13,10 +12,12 @@ namespace ext_pp_plugins
         public bool IncludeGlobal => true;
         public string IncludeKeyword = "#include";
         public string Separator = " ";
-        public Dictionary<string, FieldInfo> Info { get; } = new Dictionary<string, FieldInfo>()
+        public List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            {"i", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(IncludeKeyword))},
-            {"s", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(Separator))}
+            new CommandInfo("i", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(IncludeKeyword)),
+                "Sets the keyword that will be used to reference other files during processing"),
+            new CommandInfo("s", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(Separator)),
+                "Sets the characters that will be used to separate strings")
         };
         public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {

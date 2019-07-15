@@ -14,10 +14,12 @@ namespace ext_pp_plugins
         public bool IncludeGlobal => true;
         public string ErrorKeyword = "#error";
         public string Separator = " ";
-        public Dictionary<string, FieldInfo> Info { get; } = new Dictionary<string, FieldInfo>()
+        public List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            {"e", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(ErrorKeyword))},
-            {"s", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(Separator))}
+            new CommandInfo("e", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(ErrorKeyword)),
+                "Sets the keyword that will be used to trigger errors during compilation"),
+            new CommandInfo("s", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(Separator)),
+                "Sets the characters that will be used to separate strings")
         };
 
 

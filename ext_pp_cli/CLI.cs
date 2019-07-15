@@ -16,23 +16,37 @@ namespace ext_pp_cli
 {
     public class CLI
     {
+        public static string HelpText = "To list all available commands type: ext_pp_cli -l self";
+
         private readonly string CLIHeader = "\n\next_pp version: " + Assembly.GetExecutingAssembly().GetName().Version + "\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n";
 
 
-        private Dictionary<string, FieldInfo> Info => new Dictionary<string, FieldInfo>()
+        private List<CommandInfo> Info => new List<CommandInfo>()
         {
-            {"i", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_input))},
-            {"o", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_output))},
-            {"input", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_input))},
-            {"output", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_output))},
-            {"defs", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_defStr))},
-            {"chain", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_chainStr))},
-            {"l2f", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_ltf))},
-            {"w2c", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_wtc))},
-            {"logToFile", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_ltf))},
-            {"writeToConsole", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_wtc))},
-            {"v", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_verbStr))},
-            {"verbosity", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_verbStr))}
+            new CommandInfo("i", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_input)),
+                "Sets the input file(required)\nUsage: -i <pathtofile>"),
+            new CommandInfo("o", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_output)),
+                "Sets the output file(not required when writing to console(-w2c))\nUsage: -o <pathtofile>"),
+            new CommandInfo("input", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_input)),
+                "Sets the input file(required)\nUsage: -input <pathtofile>"),
+            new CommandInfo("output", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_output)),
+                "Sets the output file(not required when writing to console(-w2c))\nUsage: -output <pathtofile>"),
+            new CommandInfo("defs", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_defStr)),
+                "Predefines definitions that are set on the beginning of the process.\nUsage: -defs \"DEFINE DEFINE ...\""),
+            new CommandInfo("chain", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_chainStr)),
+                "Predefines definitions that are set on the beginning of the process.\nUsage: -chain <pathtodll> => loads all files\n-chain<pathtodll>:<pluginname> => loads a specific plugin\n-chain <pathtodll>:plugin:plugin2 => loading is chainable\n-chain \"<pathtodll>:plugin1 <pathtodll>:plugin2>\" => load plugins from different files."),
+            new CommandInfo("l2f", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_ltf)),
+                "Logs the console output to the file specified.\nUsage: -l2f <pathtofile>"),
+            new CommandInfo("w2c", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_wtc)),
+                "Writes the result in the console(automatically turns of debug output if not specifically set).\nUsage: -w2c <pathtofile>"),
+            new CommandInfo("logToFile", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_ltf)),
+                "Logs the console output to the file specified.\nUsage: -logToFile <pathtofile>"),
+            new CommandInfo("writeToConsole", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_wtc)),
+                "Writes the result in the console(automatically turns of debug output if not specifically set).\nUsage: -writeToConsole <pathtofile>"),
+            new CommandInfo("v", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_verbStr)),
+                "Sets the verbosity of the debug logs. \nUsage: -v [number 0 to ~8]"),
+            new CommandInfo("verbosity", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_verbStr)),
+                "Sets the verbosity of the debug logs. \nUsage: -verbosity [number 0 to ~8]")
         };
 
         public string _ltf = null;
@@ -51,6 +65,38 @@ namespace ext_pp_cli
         public CLI(string[] args)
         {
             InitAdl();
+
+            if (args.Length == 1 && File.Exists(args[0]))
+            {
+                args = File.ReadAllLines(args[0]).Unpack(" ").Pack(" ").ToArray();
+            }
+
+            int argInd;
+            if ((argInd = args.ToList().IndexOf("-l")) != -1 ||
+                (argInd = args.ToList().IndexOf("-ll")) != -1 &&
+                args.Length > argInd + 1)
+            {
+                bool shortDesc = args[argInd] == "-l";
+                string file = args[argInd + 1];
+
+                if (file != "self")
+                {
+                    List<IPlugin> plugins = CreatePluginChain(file).ToList();
+                    Logger.Log(DebugLevel.LOGS, "Listing Plugins: ", Verbosity.SILENT);
+                    foreach (var plugin in plugins)
+                    {
+                        Logger.Log(DebugLevel.LOGS, "\n" + plugin.ListInfo(!shortDesc).Unpack("\n"), Verbosity.SILENT);
+                    }
+                }
+                else
+                {
+                    Logger.Log(DebugLevel.LOGS, "\n" + Info.ListAllCommands(new[] { "ext_pp_cli" }).Unpack("\n"), Verbosity.SILENT);
+                }
+
+                return;
+            }
+
+
             Apply(_settings = new Settings(AnalyzeArgs(args)));
 
             PreProcessor pp = new PreProcessor();
@@ -60,8 +106,8 @@ namespace ext_pp_cli
 
             if ((_output == null && !_outputToConsole) || _input == null)
             {
-
-                Logger.Log(DebugLevel.ERRORS, "Not enough arguments specified. Aborting..", Verbosity.LEVEL1);
+                Logger.Log(DebugLevel.ERRORS, "Not enough arguments specified. Aborting..", Verbosity.SILENT);
+                Logger.Log(DebugLevel.LOGS, HelpText, Verbosity.LEVEL1);
                 return;
             }
 
@@ -104,6 +150,13 @@ namespace ext_pp_cli
                 .Select(x => new KeyValuePair<string, bool>(x, true)).ToDictionary(x => x.Key, x => x.Value));
             if (_chainStr != null)
             {
+                if (_chainStr.EndsWith(".chain") && File.Exists(_chainStr))
+                {
+                    Logger.Log(DebugLevel.LOGS, "Loading .chain File...", Verbosity.LEVEL2);
+                    _chainStr = File.ReadAllLines(_chainStr).Unpack(" ");
+
+                    Logger.Log(DebugLevel.LOGS, "Loaded Chain Argument: " + _chainStr, Verbosity.LEVEL2);
+                }
                 _chain = CreatePluginChain(_chainStr).ToList();
                 Logger.Log(DebugLevel.LOGS, _chain.Count + " Plugins Loaded..", Verbosity.LEVEL2);
             }

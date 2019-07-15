@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ext_pp_base.settings;
 
 namespace ext_pp_base
 {
@@ -20,7 +21,13 @@ namespace ext_pp_base
             {
                 foreach (var t in statements)
                 {
-                    if (source[i].Trim().StartsWith(t)) source.RemoveAt(i);
+
+                    if (source[i].Trim().StartsWith(t))
+                    {
+
+                        Logger.Log(DebugLevel.LOGS, "Removing statement " + t + " on line " + i, Verbosity.LEVEL7);
+                        source.RemoveAt(i);
+                    }
                 }
             }
             return source;

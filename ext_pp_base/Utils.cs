@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace ext_pp
+namespace ext_pp_base
 {
     public static class Utils
     {

@@ -7,8 +7,9 @@ using ADL;
 using ADL.Configs;
 using ADL.Crash;
 using ADL.Streams;
-using ext_pp.plugins;
-using ext_pp.settings;
+using ext_pp_base;
+using ext_pp_base.settings;
+using ext_pp_plugins;
 using MatchType = ADL.MatchType;
 
 namespace ext_pp
@@ -119,9 +120,9 @@ namespace ext_pp
             {
                 {typeof(FakeGenericsPlugin), new FakeGenericsPlugin(_settings)},
                 {typeof(ConditionalPlugin), new ConditionalPlugin(_settings)},
-                { typeof(IncludePlugin), new IncludePlugin(_settings)},
-                { typeof(WarningPlugin), new WarningPlugin(_settings)},
-                { typeof(ErrorPlugin), new ErrorPlugin(_settings)}
+                {typeof(IncludePlugin), new IncludePlugin(_settings)},
+                {typeof(WarningPlugin), new WarningPlugin(_settings)},
+                {typeof(ErrorPlugin), new ErrorPlugin(_settings)}
             };
 
             #region Argument Analysis

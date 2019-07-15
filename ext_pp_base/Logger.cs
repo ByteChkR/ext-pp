@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Diagnostics;
-using ADL.Streams;
-using ext_pp.settings;
+using ext_pp_base.settings;
 
-namespace ext_pp
+namespace ext_pp_base
 {
     public static class Logger
     {
-        internal static Verbosity VerbosityLevel;
+        public static Verbosity VerbosityLevel;
 
         public static void Log(int mask, string message, Verbosity level)
         {

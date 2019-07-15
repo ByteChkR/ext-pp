@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ext_pp.settings;
 
-namespace ext_pp
+namespace ext_pp_base
 {
-    internal static class Extensions
+    public static class Extensions
     {
         
         public static string Unpack(this IEnumerable<string> arr, string separator)

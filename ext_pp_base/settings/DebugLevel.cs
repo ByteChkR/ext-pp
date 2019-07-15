@@ -1,4 +1,4 @@
-﻿namespace ext_pp.settings
+﻿namespace ext_pp_base.settings
 {
     public enum DebugLevel
     {

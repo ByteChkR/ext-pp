@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace ext_pp.settings
+namespace ext_pp_base.settings
 {
     public class Settings
     {

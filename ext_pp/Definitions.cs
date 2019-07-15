@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using ext_pp.settings;
+using ext_pp_base;
+using ext_pp_base.settings;
 
 namespace ext_pp
 {
-    public class Definitions
+    public class Definitions:ADefinitions
     {
-        private Dictionary<string, bool> _definitions;
+        private readonly Dictionary<string, bool> _definitions;
 
         public Definitions() : this(new Dictionary<string, bool>()) { }
         public Definitions(Dictionary<string, bool> definitions)
@@ -13,7 +14,7 @@ namespace ext_pp
             _definitions = definitions;
         }
 
-        public void Set(string[] keys)
+        public override void Set(string[] keys)
         {
             foreach (var key in keys)
             {
@@ -21,7 +22,7 @@ namespace ext_pp
             }
         }
 
-        public void Unset(string[] keys)
+        public override void Unset(string[] keys)
         {
             foreach (var key in keys)
             {
@@ -29,12 +30,12 @@ namespace ext_pp
             }
         }
 
-        public void Set(string key)
+        public override void Set(string key)
         {
             Change(key, true);
         }
 
-        public void Unset(string key)
+        public override void Unset(string key)
         {
             Change(key, false);
         }
@@ -47,7 +48,7 @@ namespace ext_pp
             else _definitions.Add(key, state);
         }
 
-        public bool Check(string key)
+        public override bool Check(string key)
         {
             return _definitions.ContainsKey(key) && _definitions[key];
         }

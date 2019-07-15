@@ -1,15 +1,34 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using ext_pp.settings;
+using ext_pp_base;
+using ext_pp_base.settings;
 
 namespace ext_pp
 {
-    public class SourceManager
+    public class SourceManager : ASourceManager
     {
-        private List<SourceScript> _sources = new List<SourceScript>();
-        private List<bool> _doneState = new List<bool>();
 
-        public SourceScript NextItem
+        private readonly List<ASourceScript> _sources = new List<ASourceScript>();
+        private readonly List<bool> _doneState = new List<bool>();
+
+        public SourceManager()
+        {
+            if (!SetScheme)
+                KeyComputingScheme = ComputeFileNameAndKey_Default;
+        }
+
+        private static bool ComputeFileNameAndKey_Default(string[] vars, out string filePath, out string key, out Dictionary<string, object> pluginCache)
+        {
+            pluginCache = new Dictionary<string, object>();
+            filePath = key = "";
+            if (vars.Length == 0) return false;
+            key =
+                filePath = Path.GetFullPath(vars[0]);
+            return true;
+        }
+
+        public ASourceScript NextItem
         {
             get
             {
@@ -25,10 +44,10 @@ namespace ext_pp
             }
         }
 
-        public void FixOrder(SourceScript script)
+        public override void FixOrder(ASourceScript script)
         {
-            Logger.Log(DebugLevel.LOGS, "Fixing Build Order of file: " +script.Key, Verbosity.LEVEL2);
-            int idx = IndexOfFile(script.Key);
+            Logger.Log(DebugLevel.LOGS, "Fixing Build Order of file: " + script.GetKey(), Verbosity.LEVEL2);
+            int idx = IndexOfFile(script.GetKey());
             var a = _sources[idx];
             var ab = _doneState[idx];
             _doneState.RemoveAt(idx);
@@ -38,57 +57,62 @@ namespace ext_pp
         }
 
 
-        
-        public bool IsIncluded(SourceScript script)
+
+        public override bool IsIncluded(ASourceScript script)
         {
-            return _sources.Any(x => x.Key == script.Key);
+            return _sources.Any(x => x.GetKey() == script.GetKey());
         }
 
-        public void AddToTodo(SourceScript script)
+        public override void AddToTodo(ASourceScript script)
         {
             if (!IsIncluded(script))
             {
-                Logger.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + script.Key, Verbosity.LEVEL2);
+                Logger.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + script.GetKey(), Verbosity.LEVEL2);
                 AddFile(script, false);
                 _doneState.Add(false);
             }
         }
 
-        public void SetDone(SourceScript script)
+        public void SetDone(ASourceScript script)
         {
             if (IsIncluded(script))
             {
-                _doneState[IndexOfFile(script.Key)] = true;
+                _doneState[IndexOfFile(script.GetKey())] = true;
 
-                Logger.Log(DebugLevel.LOGS, "Finished Script: " + script.Key, Verbosity.LEVEL2);
+                Logger.Log(DebugLevel.LOGS, "Finished Script: " + script.GetKey(), Verbosity.LEVEL2);
             }
         }
 
-        public List<SourceScript> GetList()
+        public List<ASourceScript> GetList()
         {
             return _sources;
         }
 
-        public  void AddFile(SourceScript script, bool checkForExistingKey)
+        private void AddFile(ASourceScript script, bool checkForExistingKey)
         {
-            if (checkForExistingKey && ContainsFile(script.Key)) return;
+            if (checkForExistingKey && ContainsFile(script.GetKey())) return;
             _sources.Add(script);
 
         }
 
-        public bool ContainsFile(string key)
+        private bool ContainsFile(string key)
         {
             return IndexOfFile(key) != -1;
         }
 
-        public int IndexOfFile(string key)
+        public override int IndexOfFile(string key)
         {
             for (var i = 0; i < _sources.Count; i++)
             {
-                if (_sources[i].Key == key) return i;
+                if (_sources[i].GetKey() == key) return i;
             }
 
             return -1;
+        }
+
+        public override ASourceScript CreateScript(string separator, string file, string key, Dictionary<string, object> pluginCache)
+        {
+            return new SourceScript(separator, file, key, pluginCache);
         }
     }
 }

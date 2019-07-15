@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using ext_pp;
-using ext_pp.plugins;
-using ext_pp.settings;
+using ext_pp_base;
+using ext_pp_base.settings;
+using ext_pp_plugins;
 using NUnit.Framework;
 
 namespace ext_pp.tests
@@ -31,9 +30,9 @@ namespace ext_pp.tests
             {
                 {typeof(FakeGenericsPlugin), new FakeGenericsPlugin(new Settings())},
                 {typeof(ConditionalPlugin), new ConditionalPlugin(new Settings())},
-                { typeof(IncludePlugin), new IncludePlugin(new Settings())},
-                { typeof(WarningPlugin), new WarningPlugin(new Settings())},
-                { typeof(ErrorPlugin), new ErrorPlugin(new Settings())}
+                {typeof(IncludePlugin), new IncludePlugin(new Settings())},
+                {typeof(WarningPlugin), new WarningPlugin(new Settings())},
+                {typeof(ErrorPlugin), new ErrorPlugin(new Settings())}
             }.Values.ToList();
             pp.SetFileProcessingChain(lp);
             var ret = pp.Process("includecircular.cl", new Definitions());

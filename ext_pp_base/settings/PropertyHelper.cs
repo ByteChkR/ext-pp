@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace ext_pp.settings
+namespace ext_pp_base.settings
 {
     public static class PropertyHelper
     {

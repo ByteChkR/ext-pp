@@ -14,11 +14,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ext_pp_plugin_base\ext_pp_plugins.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ADL">
       <HintPath>res\ADL.dll</HintPath>
+      <Private>true</Private>
     </Reference>
     <Reference Include="ADL.Crash">
       <HintPath>res\ADL.Crash.dll</HintPath>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
 

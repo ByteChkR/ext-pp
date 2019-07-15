@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Text;
-using ADL;
-using ext_pp.settings;
+using ext_pp_base;
+using ext_pp_base.settings;
 
-namespace ext_pp.plugins
+namespace ext_pp_plugins
 {
     public class ConditionalPlugin : IPlugin
     {
@@ -44,14 +43,14 @@ namespace ext_pp.plugins
             }
         }
 
-        public bool Process(SourceScript file, SourceManager todo, Definitions defs)
+        public bool Process(ASourceScript file, ASourceManager todo, ADefinitions defs)
         {
-            Logger.Log(DebugLevel.LOGS, "Starting Condition Solver passes on file: " + file.Key, Verbosity.LEVEL3);
+            Logger.Log(DebugLevel.LOGS, "Starting Condition Solver passes on file: " + file.GetKey(), Verbosity.LEVEL3);
             bool ret = true;
             int openIf = 0;
             bool foundConditions = false;
             bool elseIsValid = false;
-            List<string> lastPass = file.Source.ToList();
+            List<string> lastPass = file.GetSource().ToList();
             List<string> solvedFile = new List<string>();
             int passCount = 0;
             do
@@ -169,7 +168,7 @@ namespace ext_pp.plugins
 
             } while (foundConditions);
 
-            file.Source = lastPass.ToArray();
+            file.SetSource(lastPass.ToArray());
 
 
             Logger.Log(DebugLevel.LOGS, "Conditional Solver Finished", Verbosity.LEVEL3);
@@ -214,7 +213,7 @@ namespace ext_pp.plugins
             return -1; //Not getting here since it crashes in Logger.Crash
         }
 
-        private bool EvaluateConditional(string expression, Definitions defs)
+        private bool EvaluateConditional(string expression, ADefinitions defs)
         {
 
             Logger.Log(DebugLevel.LOGS, "Found condition: " + expression, Verbosity.LEVEL3);
@@ -223,7 +222,7 @@ namespace ext_pp.plugins
             string[] cs = condition.Pack(_separator).ToArray();
             return EvaluateConditional(cs, defs);
         }
-        private bool EvaluateConditional(string[] expression, Definitions defs)
+        private bool EvaluateConditional(string[] expression, ADefinitions defs)
         {
 
             Logger.Log(DebugLevel.LOGS, "Evaluating Condition...", Verbosity.LEVEL3);
@@ -264,7 +263,7 @@ namespace ext_pp.plugins
             return ret;
         }
 
-        private bool EvaluateExpression(string expression, Definitions defs)
+        private bool EvaluateExpression(string expression, ADefinitions defs)
         {
             Logger.Log(DebugLevel.LOGS, "Evaluating Expression: " + expression, Verbosity.LEVEL4);
             bool neg = expression.StartsWith(_notOperator);

@@ -1,55 +1,76 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using ext_pp.settings;
+using ext_pp_base;
 
 namespace ext_pp
 {
-    public class SourceScript
+    internal class SourceScript : ASourceScript
     {
 
         public readonly string Filepath;
-        public readonly string[] GenParam;
         private string[] _source = null;
         private readonly string _separator;
-        public string[] Source
+
+
+        private readonly string _key;
+
+
+        private readonly Dictionary<string, object> _pluginCache;
+
+
+        public SourceScript(string separator, string path, string key, Dictionary<string, object> pluginCache)
         {
-            get
-            {
-                if (_source == null) Load();
-                return _source;
-            }
-            set { _source = value; }
-        }
-        public string Key => Filepath + GenParamAppendix;
-        
-
-
-        private string GenParamAppendix
-        {
-            get
-            {
-                var gp = GenParam.Unpack(_separator);
-                if (GenParam != null && GenParam.Length > 0) gp = "." + gp;
-                return gp;
-            }
-        }
-
-
-        public SourceScript(string separator, string path, string[] genParams)
-        {
-            GenParam = genParams;
+            _key = key;
+            _pluginCache = pluginCache;
             Filepath = path;
             _separator = separator;
         }
 
+        public override string GetFilePath()
+        {
+            return Filepath;
+        }
 
-        private bool Load()
+        public override string GetKey()
+        {
+            return _key;
+        }
+
+        public override string[] GetSource()
+        {
+            if (_source == null) Load();
+            return _source;
+        }
+
+        public override void SetSource(string[] source)
+        {
+            _source = source;
+        }
+
+
+        public override bool HasValueOfType<T>(string key)
+        {
+            return _pluginCache.ContainsKey(key) && _pluginCache[key].GetType() == typeof(T);
+        }
+
+        public override T GetValueFromCache<T>(string key)
+        {
+            return (T)_pluginCache[key];
+        }
+
+        public override void AddValueToCache(string key, object value)
+        {
+            _pluginCache.Add(key, value);
+        }
+
+        public override bool Load()
         {
 
             bool ret;
             if (!(ret = LoadSource()))
             {
+                //DDEBUG LOG HERE
+
             }
 
             return ret;
@@ -58,14 +79,14 @@ namespace ext_pp
         private bool LoadSource()
         {
 
-            Source = new string[0];
+            _source = new string[0];
             if (!File.Exists(Filepath)) return false;
-            Source = File.ReadAllLines(Filepath);
+            _source = File.ReadAllLines(Filepath);
 
 
             return true;
         }
-        
+
     }
 }
 

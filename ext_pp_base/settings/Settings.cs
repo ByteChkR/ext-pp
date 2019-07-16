@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -6,8 +7,8 @@ namespace ext_pp_base.settings
 {
     public class Settings
     {
-        public static string GlobalSettings = "-glob";
-        
+        public static string GlobalSettings = "glob";
+
 
         private readonly Dictionary<string, string[]> _settings;
 
@@ -25,7 +26,7 @@ namespace ext_pp_base.settings
 
         public void Set(string key, string value)
         {
-            Set(key, new[] {value});
+            Set(key, new[] { value });
         }
 
         public string GetFirst(string key)
@@ -70,7 +71,7 @@ namespace ext_pp_base.settings
                 if (setting.Key.StartsWith(prfx) ||
                     (isGlob = (includeShared && setting.Key.StartsWith(GlobalSettings))))
                 {
-                    ret.Add(setting.Key.Replace((isGlob ? GlobalSettings : "-" + prefix) + ":", ""), setting.Value);
+                    ret.Add(setting.Key.Replace((isGlob ? GlobalSettings : prefix) + ":", ""), setting.Value);
                 }
             }
 
@@ -79,45 +80,35 @@ namespace ext_pp_base.settings
             //    .ToDictionary(x => x.Key.Replace(prefix + ":", ""), y => y.Value));
         }
 
-        public void ApplySettingsFlatString(List<CommandInfo> _params, object obj)
+        public void ApplySettings(List<CommandInfo> infos, object obj)
         {
-            foreach (var setting in _settings)
+            foreach (var commandInfo in infos)
             {
-                string set = setting.Key.Substring(1, setting.Key.Length - 1);
-                for (int i = 0; i < _params.Count; i++)
-                {
-                    if (_params[i].Command == set)
-                    {
-                        if (setting.Value.Length == 0)
-                            _params[i].Field.SetValue(obj, "");
-                        else
-                            _params[i].Field.SetValue(obj, setting.Value[0]);
-                    }
-                }
-
+                if (commandInfo.Field.FieldType.IsArray) ApplySettingArray(commandInfo, obj);
+                else ApplySettingFirst(commandInfo.Field.FieldType, commandInfo, obj);
             }
         }
 
 
-        public void ApplySettingsStringArray(List<CommandInfo> _params, object obj)
+
+        public void ApplySettingFirst(Type t, CommandInfo info, object obj)
         {
-            foreach (var setting in _settings)
-            {
-                string set = setting.Key.Substring(1, setting.Key.Length - 1);
-                for (int i = 0; i < _params.Count; i++)
-                {
-                    if (_params[i].Command == set)
-                    {
-
-                        _params[i].Field.SetValue(obj, setting.Value);
-                    }
-                }
-
-            }
-
-
-
-
+            string key = "-" + info.Command;
+            if (!_settings.ContainsKey(key)) return;
+            object val = Extensions.Parse(t, _settings[key].Length > 0 ? _settings[key].First() : "");
+            info.Field.SetValue(obj, val);
         }
+
+        public void ApplySettingArray(CommandInfo info, object obj)
+        {
+            string key = "-" + info.Command;
+            if (!_settings.ContainsKey(key) || _settings[key].Length == 0) return;
+            string[] val = Extensions.ParseArray(info.Field.FieldType.IsArray ?
+                info.Field.FieldType.GetElementType() :
+                info.Field.FieldType,
+                _settings[key]).OfType<string>().ToArray();
+            info.Field.SetValue(obj, val);
+        }
+
     }
 }

@@ -25,7 +25,7 @@ namespace ext_pp_plugins
         public string AndOperator = "&&";
         public string Separator = " ";
         public bool EnableDefine = true;
-        private bool EnableUndefine = true;
+        public bool EnableUndefine = true;
 
         public List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
@@ -47,30 +47,19 @@ namespace ext_pp_plugins
                 "Sets the characters for the AND operator"),
             new CommandInfo("o", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
                 "Sets the characters for the OR operator"),
-            new CommandInfo("s", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(Separator)),
+            new CommandInfo("eD", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableDefine)),
+                "Sets the characters that will be used to separate strings"),
+            new CommandInfo("o", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
+                "Sets the characters for the OR operator"),
+            new CommandInfo("eU", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableUndefine)),
                 "Sets the characters that will be used to separate strings"),
         };
 
 
         public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
-            settings.ApplySettingsFlatString(Info, this);
+            settings.ApplySettings(Info, this);
 
-            if (settings.HasKey("eD"))
-            {
-
-                string ed = settings.GetFirst("eD");
-                if (!bool.TryParse(ed, out EnableDefine))
-                    Logger.Log(DebugLevel.WARNINGS, "Enable Define Flag could not be parsed: " + ed, Verbosity.LEVEL2);
-
-            }
-            if (settings.HasKey("eU"))
-            {
-
-                string eu = settings.GetFirst("eU");
-                if (!bool.TryParse(eu, out EnableUndefine))
-                    Logger.Log(DebugLevel.WARNINGS, "Enable Undefine Flag could not be parsed: " + eu, Verbosity.LEVEL2);
-            }
         }
 
         public bool Process(ISourceScript file, ISourceManager todo, IDefinitions defs)

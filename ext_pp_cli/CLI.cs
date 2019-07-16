@@ -11,57 +11,75 @@ using ext_pp;
 using ext_pp_base;
 using ext_pp_base.settings;
 using MatchType = ADL.MatchType;
+using Utils = ext_pp_base.Utils;
 
 namespace ext_pp_cli
 {
     public class CLI
     {
-        public static string HelpText = "To list all available commands type: ext_pp_cli -l self";
+        private static string HelpText = "To list all available commands type: ext_pp_cli -l self";
 
-        private readonly string CLIHeader = "\n\next_pp version: " + Assembly.GetExecutingAssembly().GetName().Version + "\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n";
+        private static string CLIHeader = "\n\next_pp version: " + Assembly.GetExecutingAssembly().GetName().Version + "\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n";
+
+
 
 
         private List<CommandInfo> Info => new List<CommandInfo>()
         {
-            new CommandInfo("i", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_input)),
+            new CommandInfo("i", PropertyHelper<CLI>.GetFieldInfo(x=>x._input),
                 "Sets the input file(required)\nUsage: -i <pathtofile>"),
-            new CommandInfo("o", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_output)),
+            new CommandInfo("o", PropertyHelper<CLI>.GetFieldInfo(x=>x._output),
                 "Sets the output file(not required when writing to console(-w2c))\nUsage: -o <pathtofile>"),
-            new CommandInfo("input", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_input)),
+            new CommandInfo("input", PropertyHelper<CLI>.GetFieldInfo(x=>x._input),
                 "Sets the input file(required)\nUsage: -input <pathtofile>"),
-            new CommandInfo("output", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_output)),
+            new CommandInfo("output", PropertyHelper<CLI>.GetFieldInfo(x=>x._output),
                 "Sets the output file(not required when writing to console(-w2c))\nUsage: -output <pathtofile>"),
-            new CommandInfo("defs", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_defStr)),
+            new CommandInfo("defs", PropertyHelper<CLI>.GetFieldInfo(x=>x._defStr),
                 "Predefines definitions that are set on the beginning of the process.\nUsage: -defs \"DEFINE DEFINE ...\""),
-            new CommandInfo("chain", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_chainStr)),
+            new CommandInfo("chain", PropertyHelper<CLI>.GetFieldInfo(x=>x._chainStr),
                 "Predefines definitions that are set on the beginning of the process.\nUsage: -chain <pathtodll> => loads all files\n-chain<pathtodll>:<pluginname> => loads a specific plugin\n-chain <pathtodll>:plugin:plugin2 => loading is chainable\n-chain \"<pathtodll>:plugin1 <pathtodll>:plugin2>\" => load plugins from different files."),
-            new CommandInfo("l2f", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_ltf)),
+            new CommandInfo("l2f",PropertyHelper<CLI>.GetFieldInfo(x=>x._ltf),
                 "Logs the console output to the file specified.\nUsage: -l2f <pathtofile>"),
-            new CommandInfo("w2c", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_wtc)),
+            new CommandInfo("w2c", PropertyHelper<CLI>.GetFieldInfo(x=>x._outputToConsole),
                 "Writes the result in the console(automatically turns of debug output if not specifically set).\nUsage: -w2c <pathtofile>"),
-            new CommandInfo("logToFile", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_ltf)),
+            new CommandInfo("logToFile", PropertyHelper<CLI>.GetFieldInfo(x=>x._ltf),
                 "Logs the console output to the file specified.\nUsage: -logToFile <pathtofile>"),
-            new CommandInfo("writeToConsole", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_wtc)),
+            new CommandInfo("writeToConsole", PropertyHelper<CLI>.GetFieldInfo(x=>x._outputToConsole),
                 "Writes the result in the console(automatically turns of debug output if not specifically set).\nUsage: -writeToConsole <pathtofile>"),
-            new CommandInfo("v", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_verbStr)),
+            new CommandInfo("v", PropertyHelper<CLI>.GetFieldInfo(x=>x._verbStr),
                 "Sets the verbosity of the debug logs. \nUsage: -v [number 0 to ~8]"),
-            new CommandInfo("verbosity", PropertyHelper.GetFieldInfo(typeof(CLI), nameof(_verbStr)),
-                "Sets the verbosity of the debug logs. \nUsage: -verbosity [number 0 to ~8]")
+            new CommandInfo("verbosity", PropertyHelper<CLI>.GetFieldInfo(x=>x._verbStr),
+                "Sets the verbosity of the debug logs. \nUsage: -verbosity [number 0 to ~8]"),
+            new CommandInfo("vv", PropertyHelper<CLI>.GetFieldInfo(x=>x._showHeader),
+            "Displays the Version"),
+            new CommandInfo("l", PropertyHelper<CLI>.GetFieldInfo(x=>x._pluginString),
+                "Displays a list of plugins in the specified dlls"),
+            new CommandInfo("ll", PropertyHelper<CLI>.GetFieldInfo(x=>x._pluginStringLong),
+                "Displays the Plugins and their Information"),
         };
 
         public string _ltf = null;
         private bool _logToFile => _ltf != null;
-        public string _wtc = null;
-        private bool _outputToConsole => _wtc != null;
+        private bool _outputToConsole;
         public string _input = null;
         public string _output = null;
-        public string _defStr = "";
-        public string _chainStr = null;
-        public string _verbStr = null;
+        public string[] _defStr = null;
+        public string[] _chainStr = null;
+        public int _verbStr = (int)Verbosity.LEVEL1;
+        public bool _returnPreProcessing => _showHeader || _pluginList || _pluginListLong;
+        public string[] _pluginString = null;
+        public string[] _pluginStringLong = null;
+        public bool _showHeader = false;
+        public bool _pluginList => _pluginString != null;
+        public bool _pluginListLong => _pluginStringLong != null;
+
 
         private Definitions _defs;
         private Settings _settings;
         private List<IPlugin> _chain;
+
+
+
         public CLI(string[] args)
         {
             InitAdl();
@@ -71,33 +89,45 @@ namespace ext_pp_cli
                 args = File.ReadAllLines(args[0]).Unpack(" ").Pack(" ").ToArray();
             }
 
-            int argInd;
-            if ((argInd = args.ToList().IndexOf("-l")) != -1 ||
-                (argInd = args.ToList().IndexOf("-ll")) != -1 &&
-                args.Length > argInd + 1)
+
+
+            PreApply(_settings = new Settings(AnalyzeArgs(args)));
+
+            Logger.Log(DebugLevel.LOGS, CLIHeader, Verbosity.LEVEL1);
+
+            if (_pluginList || _pluginListLong)
             {
-                bool shortDesc = args[argInd] == "-l";
-                string file = args[argInd + 1];
 
-                if (file != "self")
+                string[] pluginList = _pluginList ? _pluginString : _pluginStringLong;
+                foreach (var file in pluginList)
                 {
-                    List<IPlugin> plugins = CreatePluginChain(file).ToList();
-                    Logger.Log(DebugLevel.LOGS, "Listing Plugins: ", Verbosity.SILENT);
-                    foreach (var plugin in plugins)
+                    if (file != "self")
                     {
-                        Logger.Log(DebugLevel.LOGS, "\n" + plugin.ListInfo(!shortDesc).Unpack("\n"), Verbosity.SILENT);
+                        List<IPlugin> plugins = CreatePluginChain(new[] { file }).ToList();
+                        Logger.Log(DebugLevel.LOGS, "Listing Plugins: ", Verbosity.SILENT);
+                        foreach (var plugin in plugins)
+                        {
+                            Logger.Log(DebugLevel.LOGS, "\n" + plugin.ListInfo(!_pluginList).Unpack("\n"), Verbosity.SILENT);
+                        }
                     }
-                }
-                else
-                {
-                    Logger.Log(DebugLevel.LOGS, "\n" + Info.ListAllCommands(new[] { "ext_pp_cli" }).Unpack("\n"), Verbosity.SILENT);
+                    else
+                    {
+                        Logger.Log(DebugLevel.LOGS, "\n" + Info.ListAllCommands(new[] { "" }).Unpack("\n"), Verbosity.SILENT);
+                    }
+
                 }
 
-                return;
+
             }
 
 
-            Apply(_settings = new Settings(AnalyzeArgs(args)));
+
+
+
+            if (_returnPreProcessing) return;
+
+            Apply(_settings);
+
 
             PreProcessor pp = new PreProcessor();
             pp.SetFileProcessingChain(_chain);
@@ -118,7 +148,8 @@ namespace ext_pp_cli
                 if (_output != null)
                 {
                     _output = Path.GetFullPath(_output);
-                    File.WriteAllLines(_output, src);
+                    string sr = src.Unpack("\n");
+                    File.WriteAllText(_output, sr);
                 }
 
                 for (int i = 0; i < src.Length; i++)
@@ -129,41 +160,45 @@ namespace ext_pp_cli
             else
             {
                 _output = Path.GetFullPath(_output);
-                File.WriteAllLines(_output, src);
+                string sr = src.Unpack("\n");
+                File.WriteAllText(_output, sr);
             }
+
+        }
+
+
+        public void PreApply(Settings settings)
+        {
+
+            settings.ApplySettings(Info, this);
+
+
+            Logger.VerbosityLevel = (Verbosity)(_verbStr);
+            if (_logToFile)
+            {
+                lts.Mask = new BitMask<DebugLevel>(DebugLevel.ERRORS | DebugLevel.WARNINGS |
+                                                   DebugLevel.INTERNAL_ERROR | DebugLevel.PROGRESS);
+            }
+
+            Logger.Log(DebugLevel.LOGS, "Verbosity Level set to: " + Logger.VerbosityLevel, Verbosity.LEVEL1);
 
         }
 
         public void Apply(Settings settings)
         {
 
-            settings.ApplySettingsFlatString(Info, this);
             if (_logToFile) AddLogOutput(_ltf);
-
-            if (_verbStr != null && int.TryParse(_verbStr, out int v))
-            {
-
-                Logger.VerbosityLevel = (Verbosity)(v);
-                if (_logToFile)
-                {
-                    lts.Mask = new BitMask<DebugLevel>(DebugLevel.ERRORS | DebugLevel.WARNINGS |
-                                                       DebugLevel.INTERNAL_ERROR | DebugLevel.PROGRESS);
-                }
-
-                Logger.Log(DebugLevel.LOGS, "Verbosity Level set to: " + Logger.VerbosityLevel, Verbosity.LEVEL1);
-            }
-            Logger.Log(DebugLevel.LOGS, CLIHeader, Verbosity.LEVEL1);
 
             _defs = _defStr == null ?
                 new Definitions() :
-                new Definitions(_defStr.Split(' ', StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => new KeyValuePair<string, bool>(x, true)).ToDictionary(x => x.Key, x => x.Value));
+                new Definitions(_defStr.Select(x => new KeyValuePair<string, bool>(x, true)).
+                    ToDictionary(x => x.Key, x => x.Value));
             if (_chainStr != null)
             {
-                if (_chainStr.EndsWith(".chain") && File.Exists(_chainStr))
+                if (_chainStr.Length == 1 && _chainStr[0].EndsWith(".chain") && File.Exists(_chainStr[0]))
                 {
                     Logger.Log(DebugLevel.LOGS, "Loading .chain File...", Verbosity.LEVEL2);
-                    _chainStr = File.ReadAllLines(_chainStr).Unpack(" ");
+                    _chainStr = File.ReadAllLines(_chainStr[0]).Unpack(" ").Pack(" ").ToArray();
 
                     Logger.Log(DebugLevel.LOGS, "Loaded Chain Argument: " + _chainStr, Verbosity.LEVEL2);
                 }
@@ -177,16 +212,16 @@ namespace ext_pp_cli
             }
         }
 
-        private static IEnumerable<IPlugin> CreatePluginChain(string arg)
+        private static IEnumerable<IPlugin> CreatePluginChain(string[] arg)
         {
             Logger.Log(DebugLevel.LOGS, "Creating Plugin Chain...", Verbosity.LEVEL3);
             List<IPlugin> ret = new List<IPlugin>();
-            string[] plugins = arg.Split(' ');
+
 
 
             string[] names = null;
             string path = "";
-            foreach (var plugin in plugins)
+            foreach (var plugin in arg)
             {
 
                 if (plugin.Contains(':'))
@@ -322,7 +357,11 @@ namespace ext_pp_cli
 
         public static void Main(string[] args)
         {
-            if (args[0] == "-fun")
+            if (args.Length == 0)
+            {
+                Console.WriteLine(HelpText);
+            }
+            else if (args[0] == "-fun")
             {
                 Directory.SetCurrentDirectory("test");
                 GenerateFiles("testfile", int.Parse(args[1]));

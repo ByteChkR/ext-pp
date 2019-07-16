@@ -27,7 +27,7 @@ namespace ext_pp_plugins
         public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
 
-            settings.ApplySettingsFlatString(Info, this);
+            settings.ApplySettings(Info, this);
         }
 
         public bool Process(ISourceScript file, ISourceManager todo, IDefinitions defs)

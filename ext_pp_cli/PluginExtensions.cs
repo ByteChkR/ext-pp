@@ -10,7 +10,7 @@ namespace ext_pp_cli
             List<string> ret = new List<string>();
             foreach (var cmd in info)
             {
-                ret.Add("[" + prefix.Unpack("/") + "]" + cmd.ToString());
+                ret.Add("-" + prefix.Unpack("/") + ":" + cmd.ToString());
             }
 
             return ret;

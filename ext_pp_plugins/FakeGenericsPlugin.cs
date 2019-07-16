@@ -25,7 +25,7 @@ namespace ext_pp_plugins
         public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
 
-            settings.ApplySettingsFlatString(Info, this);
+            settings.ApplySettings(Info, this);
             sourceManager.SetComputingScheme(ComputeNameAndKey_Generic);
         }
 

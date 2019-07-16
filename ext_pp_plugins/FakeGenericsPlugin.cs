@@ -7,22 +7,25 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class FakeGenericsPlugin : IPlugin
+    public class FakeGenericsPlugin : AbstractPlugin
     {
-        public string[] Cleanup => new string[0];
-        public string[] Prefix => new string[] { "gen" };
-        public bool IncludeGlobal => true;
+        public override string[] Prefix => new string[] { "gen" };
+        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
+        public override ProcessStage ProcessStages => OnLoad ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public bool OnLoad = false;
         public string GenericKeyword = "#type";
         public string Separator = " ";
-        public List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
             new CommandInfo("g", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
                 "Sets the keyword that will be replaced with the parameters supplied when adding a file."),
             new CommandInfo("s", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Separator)),
-                "Sets the characters that will be used to separate strings")
+                "Sets the characters that will be used to separate strings"),
+            new CommandInfo("l", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(OnLoad)),
+                "Sets the Plugin type to be On Load instead of On Main"),
         };
 
-        public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
+        public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
 
             settings.ApplySettings(Info, this);
@@ -46,7 +49,18 @@ namespace ext_pp_plugins
             return true;
         }
 
-        public bool Process(ISourceScript file, ISourceManager sourceManager, IDefinitions defs)
+        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        {
+            return FullScriptStage(script, sourceManager, defTable);
+        }
+
+        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        {
+            return FullScriptStage(script, sourceManager, defTable);
+        }
+
+
+        public bool FullScriptStage(ISourceScript file, ISourceManager sourceManager, IDefinitions defs)
         {
             if (!file.HasValueOfType<string[]>("genParams")) return true; //No error, we just dont have any generic parameters to replace.
 

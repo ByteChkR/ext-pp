@@ -8,12 +8,12 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class ConditionalPlugin : IPlugin
+    public class ConditionalPlugin : AbstractPlugin
     {
-        public string[] Cleanup => new string[] { DefineKeyword, UndefineKeyword };
-        public string[] Prefix => new string[] { "con" };
-        public bool IncludeGlobal => true;
-
+        public override string[] Cleanup => new string[] { DefineKeyword, UndefineKeyword };
+        public override string[] Prefix => new string[] { "con" };
+        public override ProcessStage ProcessStages => OnLoad ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public string StartCondition = "#if";
         public string ElseIfCondition = "#elseif";
         public string ElseCondition = "#else";
@@ -26,10 +26,11 @@ namespace ext_pp_plugins
         public string Separator = " ";
         public bool EnableDefine = true;
         public bool EnableUndefine = true;
+        public bool OnLoad = false;
 
-        public List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("d", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)), 
+            new CommandInfo("d", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)),
                 "Sets the Keyword that defines variables when processing the file"),
             new CommandInfo("u", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword)),
                 "Sets the Keyword that undefines variables when processing the file"),
@@ -53,16 +54,28 @@ namespace ext_pp_plugins
                 "Sets the characters for the OR operator"),
             new CommandInfo("eU", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableUndefine)),
                 "Sets the characters that will be used to separate strings"),
+            new CommandInfo("l", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(OnLoad)),
+                "Sets the Plugin type to be On Load instead of On Main"),
         };
 
 
-        public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
+        public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
             settings.ApplySettings(Info, this);
 
         }
 
-        public bool Process(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        {
+            return FullScriptStage(script, sourceManager, defTable);
+        }
+
+        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        {
+            return FullScriptStage(script, sourceManager, defTable);
+        }
+
+        public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             Logger.Log(DebugLevel.LOGS, "Starting Condition Solver passes on file: " + file.GetKey(), Verbosity.LEVEL4);
             bool ret = true;
@@ -263,8 +276,8 @@ namespace ext_pp_plugins
                     if (expectOperator) isOr = false;
                     expectOperator = true;
 
-                    int size = IndexOfClosingBracket(expression, i) - i-1;
-                    bool tmp = EvaluateConditional(expression.SubArray(i+1, size).ToArray(), defs);
+                    int size = IndexOfClosingBracket(expression, i) - i - 1;
+                    bool tmp = EvaluateConditional(expression.SubArray(i + 1, size).ToArray(), defs);
                     if (isOr) ret |= tmp;
                     else ret &= tmp;
                     i += size;
@@ -322,7 +335,7 @@ namespace ext_pp_plugins
         {
             Logger.Log(DebugLevel.LOGS, "Finding Closing Bracket...", Verbosity.LEVEL6);
             int tolerance = 0;
-            for (int i = openBracketIndex+1; i < expression.Length; i++)
+            for (int i = openBracketIndex + 1; i < expression.Length; i++)
             {
                 if (expression[i] == "(")
                 {
@@ -354,7 +367,7 @@ namespace ext_pp_plugins
             return ret;
         }
 
-        
+
 
         private static bool IsKeyWord(string line, string keyword)
         {

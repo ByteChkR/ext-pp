@@ -26,7 +26,7 @@ namespace ext_pp.tests
         {
             
             PreProcessor pp = new PreProcessor();
-            List<IPlugin> lp = new Dictionary<Type, IPlugin>()
+            List<AbstractPlugin> lp = new Dictionary<Type, AbstractPlugin>()
             {
                 {typeof(FakeGenericsPlugin), new FakeGenericsPlugin()},
                 {typeof(ConditionalPlugin), new ConditionalPlugin()},
@@ -45,7 +45,7 @@ namespace ext_pp.tests
         public void IncludeGenericCircular()
         {
             PreProcessor pp = new PreProcessor();
-            List<IPlugin> lp = new Dictionary<Type, IPlugin>()
+            List<AbstractPlugin> lp = new Dictionary<Type, AbstractPlugin>()
             {
                 {typeof(FakeGenericsPlugin), new FakeGenericsPlugin()},
                 {typeof(ConditionalPlugin), new ConditionalPlugin()},
@@ -64,7 +64,7 @@ namespace ext_pp.tests
         public void TypePassing()
         {
             PreProcessor pp = new PreProcessor();
-            List<IPlugin> lp = new Dictionary<Type, IPlugin>()
+            List<AbstractPlugin> lp = new Dictionary<Type, AbstractPlugin>()
             {
                 {typeof(FakeGenericsPlugin), new FakeGenericsPlugin()},
                 {typeof(ConditionalPlugin), new ConditionalPlugin()},

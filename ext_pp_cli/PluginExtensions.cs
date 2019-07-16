@@ -16,7 +16,7 @@ namespace ext_pp_cli
             return ret;
         }
 
-        public static List<string> ListInfo(this IPlugin plugin, bool listCommands)
+        public static List<string> ListInfo(this AbstractPlugin plugin, bool listCommands)
         {
             List<string> ret = new List<string>();
             ret.Add("Plugin Name: "+plugin.GetType().Name);

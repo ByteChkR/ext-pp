@@ -76,7 +76,7 @@ namespace ext_pp_cli
 
         private Definitions _defs;
         private Settings _settings;
-        private List<IPlugin> _chain;
+        private List<AbstractPlugin> _chain;
 
 
 
@@ -103,7 +103,7 @@ namespace ext_pp_cli
                 {
                     if (file != "self")
                     {
-                        List<IPlugin> plugins = CreatePluginChain(new[] { file }).ToList();
+                        List<AbstractPlugin> plugins = CreatePluginChain(new[] { file }).ToList();
                         Logger.Log(DebugLevel.LOGS, "Listing Plugins: ", Verbosity.SILENT);
                         foreach (var plugin in plugins)
                         {
@@ -200,7 +200,7 @@ namespace ext_pp_cli
                     Logger.Log(DebugLevel.LOGS, "Loading .chain File...", Verbosity.LEVEL2);
                     _chainStr = File.ReadAllLines(_chainStr[0]).Unpack(" ").Pack(" ").ToArray();
 
-                    Logger.Log(DebugLevel.LOGS, "Loaded Chain Argument: " + _chainStr, Verbosity.LEVEL2);
+                    Logger.Log(DebugLevel.LOGS, "Loaded Chain Argument: " + _chainStr.Unpack(" "), Verbosity.LEVEL2);
                 }
                 _chain = CreatePluginChain(_chainStr).ToList();
                 Logger.Log(DebugLevel.LOGS, _chain.Count + " Plugins Loaded..", Verbosity.LEVEL2);
@@ -208,14 +208,14 @@ namespace ext_pp_cli
             else
             {
                 Logger.Log(DebugLevel.ERRORS, "Not plugin chain specified. 0 Plugins Loaded..", Verbosity.LEVEL1);
-                _chain = new List<IPlugin>();
+                _chain = new List<AbstractPlugin>();
             }
         }
 
-        private static IEnumerable<IPlugin> CreatePluginChain(string[] arg)
+        private static IEnumerable<AbstractPlugin> CreatePluginChain(string[] arg)
         {
             Logger.Log(DebugLevel.LOGS, "Creating Plugin Chain...", Verbosity.LEVEL3);
-            List<IPlugin> ret = new List<IPlugin>();
+            List<AbstractPlugin> ret = new List<AbstractPlugin>();
 
 
 
@@ -247,10 +247,10 @@ namespace ext_pp_cli
 
                         foreach (var type in types)
                         {
-                            if (type.GetInterfaces().Contains(typeof(IPlugin)))
+                            if (type.GetInterfaces().Contains(typeof(AbstractPlugin)))
                             {
                                 Logger.Log(DebugLevel.LOGS, "Creating instance of: " + type.Name, Verbosity.LEVEL5);
-                                ret.Add((IPlugin)Activator.CreateInstance(type));
+                                ret.Add((AbstractPlugin)Activator.CreateInstance(type));
                             }
                         }
                     }
@@ -263,7 +263,7 @@ namespace ext_pp_cli
                                 if (types[j].Name == names[i])
                                 {
                                     Logger.Log(DebugLevel.LOGS, "Creating instance of: " + types[j].Name, Verbosity.LEVEL5);
-                                    ret.Add((IPlugin)Activator.CreateInstance(types[j]));
+                                    ret.Add((AbstractPlugin)Activator.CreateInstance(types[j]));
                                 }
                             }
                         }
@@ -279,22 +279,22 @@ namespace ext_pp_cli
             return ret;
         }
 
-        public static IEnumerable<IPlugin> CreatePluginChain(IEnumerable<Type> chain)
+        public static IEnumerable<AbstractPlugin> CreatePluginChain(IEnumerable<Type> chain)
         {
             Logger.Log(DebugLevel.LOGS, "Creating Plugin Chain...", Verbosity.LEVEL3);
-            List<IPlugin> ret = new List<IPlugin>();
+            List<AbstractPlugin> ret = new List<AbstractPlugin>();
             Logger.Log(DebugLevel.LOGS, "Loading " + chain.Select(x => x.Name).Unpack(", "), Verbosity.LEVEL4);
             foreach (var type in chain)
             {
-                if (type.GetInterfaces().Contains(typeof(IPlugin)))
+                if (type.GetInterfaces().Contains(typeof(AbstractPlugin)))
                 {
                     Logger.Log(DebugLevel.LOGS, "Creating instance of: " + type.Name, Verbosity.LEVEL5);
-                    ret.Add((IPlugin)Activator.CreateInstance(type));
+                    ret.Add((AbstractPlugin)Activator.CreateInstance(type));
                 }
                 else
                 {
 
-                    Logger.Log(DebugLevel.WARNINGS, "Type: " + type.Name + " is not an IPlugin", Verbosity.LEVEL2);
+                    Logger.Log(DebugLevel.WARNINGS, "Type: " + type.Name + " is not an AbstractPlugin", Verbosity.LEVEL2);
                 }
             }
 

@@ -83,7 +83,12 @@ namespace ext_pp_base
         /// <returns></returns>
         public static string[] FindStatements(string[] source, string statement)
         {
-            return source.ToList().Where(x => x.Trim().StartsWith(statement)).ToArray();
+            return source.ToList().Where(x => IsStatement(x, statement)).ToArray();
+        }
+
+        public static bool IsStatement(string source, string statement)
+        {
+            return source.Trim().StartsWith(statement);
         }
 
         /// <summary>

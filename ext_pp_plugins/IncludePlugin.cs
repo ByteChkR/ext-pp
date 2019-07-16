@@ -5,27 +5,33 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class IncludePlugin : IPlugin
+    public class IncludePlugin : AbstractPlugin
     {
-        public string[] Cleanup => new string[1]{IncludeKeyword};
-        public string[] Prefix => new string[] { "inc" };
-        public bool IncludeGlobal => true;
+        public override string[] Cleanup => new string[1]{IncludeKeyword};
+        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
+        public override ProcessStage ProcessStages => ProcessStage.ON_MAIN;
+        public override string[] Prefix => new string[] { "inc" };
         public string IncludeKeyword = "#include";
         public string Separator = " ";
-        public List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
             new CommandInfo("i", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(IncludeKeyword)),
                 "Sets the keyword that will be used to reference other files during processing"),
             new CommandInfo("s", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(Separator)),
                 "Sets the characters that will be used to separate strings")
         };
-        public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
+        public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
 
             settings.ApplySettings(Info, this);
         }
 
-        public bool Process(ISourceScript script, ISourceManager sourceManager, IDefinitions defs)
+        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        {
+            return FullScriptStage(script, sourceManager, defTable);
+        }
+
+        public bool FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defs)
         {
 
             Logger.Log(DebugLevel.LOGS, "Disovering Include Statments...", Verbosity.LEVEL4);
@@ -39,7 +45,10 @@ namespace ext_pp_plugins
                 if (tmp)
                 {
 
-                    ISourceScript ss = sourceManager.CreateScript(Separator, path, key, pluginCache);
+                    if (!sourceManager.CreateScript(out ISourceScript ss, Separator, path, key, pluginCache))
+                    {
+                        return false;
+                    }
                     if (!sourceManager.IsIncluded(ss))
                     {
                         sourceManager.AddToTodo(ss);

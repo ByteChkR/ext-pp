@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ext_pp_base;
 using ext_pp_base.settings;
 
@@ -14,7 +15,7 @@ namespace ext_pp
         /// <summary>
         /// List of loaded plugins
         /// </summary>
-        private List<IPlugin> _plugins = new List<IPlugin>();
+        private List<AbstractPlugin> _plugins = new List<AbstractPlugin>();
 
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace ext_pp
         /// <summary>
         /// Returns the List of statements from all the plugins that are remaining in the file and need to be removed as a last step
         /// </summary>
-        public List<string> CleanUpList
+        private List<string> CleanUpList
         {
             get
             {
@@ -47,7 +48,7 @@ namespace ext_pp
         /// 0 => First Plugin that gets executed
         /// </summary>
         /// <param name="fileProcessors"></param>
-        public void SetFileProcessingChain(List<IPlugin> fileProcessors)
+        public void SetFileProcessingChain(List<AbstractPlugin> fileProcessors)
         {
             _plugins = fileProcessors;
         }
@@ -91,7 +92,7 @@ namespace ext_pp
         /// </summary>
         /// <param name="src"></param>
         /// <returns></returns>
-        public string[] Compile(ISourceScript[] src)
+        private string[] Compile(ISourceScript[] src)
         {
             Logger.Log(DebugLevel.LOGS, "Starting Compilation of File Tree...", Verbosity.LEVEL2);
             List<string> ret = new List<string>();
@@ -110,6 +111,9 @@ namespace ext_pp
         }
 
 
+        private delegate bool PluginStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable);
+
+
         /// <summary>
         /// Processes the file with the settings, definitions and the source manager specified.
         /// </summary>
@@ -121,7 +125,7 @@ namespace ext_pp
         {
             string dir = Directory.GetCurrentDirectory();
             defs = defs ?? new Definitions();
-            SourceManager sm = new SourceManager();
+            SourceManager sm = new SourceManager(_plugins);
 
             InitializePlugins(settings, defs, sm);
 
@@ -129,33 +133,133 @@ namespace ext_pp
             file = Path.GetFullPath(file);
             Directory.SetCurrentDirectory(Path.GetDirectoryName(file));
 
-
-            ISourceScript ss = sm.CreateScript(_sep, file, file, new Dictionary<string, object>());
+            sm.SetLock(false);
+            sm.CreateScript(out ISourceScript ss, _sep, file, file, new Dictionary<string, object>());
+            sm.SetLock(true);
             List<ISourceScript> all = new List<ISourceScript>();
             sm.AddToTodo(ss);
             do
             {
 
-                Logger.Log(DebugLevel.PROGRESS, "Remaining Files: "+sm.GetTodoCount(), Verbosity.LEVEL1);
+                if (!(ss as SourceScript).IsSourceLoaded) RunStages(ProcessStage.ON_LOAD_STAGE, ss, sm, defs);
+
+                Logger.Log(DebugLevel.PROGRESS, "Remaining Files: " + sm.GetTodoCount(), Verbosity.LEVEL1);
                 Logger.Log(DebugLevel.LOGS, "Selecting File :" + ss.GetKey(), Verbosity.LEVEL2);
-                for (int j = 0; j < _plugins.Count; j++)
-                {
-
-                    Logger.Log(DebugLevel.LOGS, "Running Plugin :" + _plugins[j] + " on file " + file, Verbosity.LEVEL3);
-                    if (!_plugins[j].Process(ss, sm, defs))
-                    {
-                        Logger.Log(DebugLevel.ERRORS, "Processing was aborted by Plugin: " + _plugins[j], Verbosity.LEVEL1);
-                        return new ISourceScript[0];
-                    }
-                }
-
-                sm.SetDone(ss);
+                //RUN MAIN
+                sm.SetLock(false);
+                RunStages(ProcessStage.ON_MAIN, ss, sm, defs);
+                sm.SetLock(true);
+                sm.SetState(ss, ProcessStage.ON_FINISH_UP);
                 ss = sm.NextItem;
             } while (ss != null);
 
-            Directory.SetCurrentDirectory(dir);
-            return sm.GetList().ToArray();
 
+            Directory.SetCurrentDirectory(dir);
+            ISourceScript[] ret = sm.GetList().ToArray();
+            Logger.Log(DebugLevel.LOGS, "Finishing Up...", Verbosity.LEVEL1);
+            foreach (var finishedScript in ret)
+            {
+                Logger.Log(DebugLevel.LOGS, "Selecting File :" + finishedScript.GetKey(), Verbosity.LEVEL2);
+                RunStages(ProcessStage.ON_FINISH_UP, finishedScript, sm, defs);
+            }
+            return ret;
+
+        }
+
+        private bool RunStages(ProcessStage stage, ISourceScript script, ISourceManager sourceManager,
+            IDefinitions defTable)
+        {
+            if (!RunPluginStage(PluginType.LINE_PLUGIN_BEFORE, stage, script, sourceManager, defTable)) return false;
+            if (stage != ProcessStage.ON_FINISH_UP)
+                if (!RunPluginStage(PluginType.FULL_SCRIPT_PLUGIN, stage, script, sourceManager, defTable)) return false;
+            if (!RunPluginStage(PluginType.LINE_PLUGIN_AFTER, stage, script, sourceManager, defTable)) return false;
+            return true;
+        }
+
+
+
+        private bool RunPluginStage(PluginType type, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        {
+            List<AbstractPlugin> chain = GetStagePlugins(type, stage);
+
+
+            bool ret = true;
+
+            if (type == PluginType.FULL_SCRIPT_PLUGIN)
+            {
+                ret = RunFullScriptStage(chain, stage, script, sourceManager, defTable);
+            }
+            else if (type == PluginType.LINE_PLUGIN_BEFORE || type == PluginType.LINE_PLUGIN_AFTER)
+            {
+                string[] src = script.GetSource();
+                RunLineStage(chain, stage, src);
+                script.SetSource(src);
+            }
+            if (!ret)
+            {
+                return false;
+            }
+
+
+            return true;
+        }
+
+        private List<AbstractPlugin> GetStagePlugins(PluginType type, ProcessStage stage)
+        {
+            return _plugins.Where(
+                x => ADL.BitMask.IsContainedInMask((int)x.PluginType, (int)type, true) &&
+                     ADL.BitMask.IsContainedInMask((int)x.ProcessStages, (int)stage, true)).ToList();
+        }
+
+        private void RunLineStage(List<AbstractPlugin> _lineStage, ProcessStage stage, string[] source)
+        {
+            foreach (var abstractPlugin in _lineStage)
+            {
+                Logger.Log(DebugLevel.LOGS, "Running Plugin :" + abstractPlugin + ":" + stage, Verbosity.LEVEL3);
+                for (int i = 0; i < source.Length; i++)
+                {
+                    if (stage == ProcessStage.ON_LOAD_STAGE)
+                    {
+                        source[i] = abstractPlugin.OnLoad_LineStage(source[i]);
+                    }
+                    else if (stage == ProcessStage.ON_MAIN)
+                    {
+                        source[i] = abstractPlugin.OnMain_LineStage(source[i]);
+                    }
+                    else if (stage == ProcessStage.ON_FINISH_UP)
+                    {
+                        source[i] = abstractPlugin.OnFinishUp_LineStage(source[i]);
+                    }
+                }
+            }
+
+        }
+
+
+        private bool RunFullScriptStage(List<AbstractPlugin> _fullScriptStage, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        {
+            foreach (var abstractPlugin in _fullScriptStage)
+            {
+                bool ret = true;
+                Logger.Log(DebugLevel.LOGS, "Running Plugin :" + abstractPlugin + ":" + stage + " on file " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
+                if (stage == ProcessStage.ON_LOAD_STAGE)
+                {
+                    ret = abstractPlugin.OnLoad_FullScriptStage(script, sourceManager, defTable);
+                }
+                else if (stage == ProcessStage.ON_MAIN)
+                {
+                    ret = abstractPlugin.OnMain_FullScriptStage(script, sourceManager, defTable);
+                }
+
+                if (!ret)
+                {
+                    Logger.Log(DebugLevel.ERRORS, "Processing was aborted by Plugin: " + abstractPlugin,
+                        Verbosity.LEVEL1);
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

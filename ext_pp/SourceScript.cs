@@ -17,6 +17,8 @@ namespace ext_pp
         /// </summary>
         private string[] _source = null;
 
+        public bool IsSourceLoaded => _source != null;
+
         /// <summary>
         /// 
         /// </summary>

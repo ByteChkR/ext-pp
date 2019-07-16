@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using ext_pp_base;
 using ext_pp_base.settings;
 
@@ -21,22 +22,25 @@ namespace ext_pp
         /// <summary>
         /// The processing states of the scripts included.
         /// </summary>
-        private readonly List<bool> _doneState = new List<bool>();
+        private readonly List<ProcessStage> _doneState = new List<ProcessStage>();
 
         /// <summary>
         /// The compute scheme that is used to assign keys to scripts(or instances of scripts)
         /// </summary>
         private DelKeyComputingScheme _computeScheme;
-        
 
+        private List<AbstractPlugin> _pluginChain;
         /// <summary>
         /// Empty Constructor
         /// Sets the compute scheme to the default(the file name)
         /// </summary>
-        public SourceManager()
+        public SourceManager(List<AbstractPlugin> pluginChain)
         {
+            _pluginChain = pluginChain;
             SetComputingScheme(ComputeFileNameAndKey_Default);
         }
+
+
 
         /// <summary>
         /// Sets the computing scheme to a custom scheme that will then be used to assign keys to scripts
@@ -51,7 +55,7 @@ namespace ext_pp
 
         public int GetTodoCount()
         {
-            return _doneState.Count(x => x == false);
+            return _doneState.Count(x => x == ProcessStage.QUEUED);
         }
 
         /// <summary>
@@ -91,7 +95,7 @@ namespace ext_pp
             {
                 for (int i = 0; i < _doneState.Count; i++)
                 {
-                    if (!_doneState[i])
+                    if (_doneState[i] == ProcessStage.QUEUED)
                     {
                         return _sources[i];
                     }
@@ -140,7 +144,7 @@ namespace ext_pp
             {
                 Logger.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + script.GetKey(), Verbosity.LEVEL3);
                 AddFile(script, false);
-                _doneState.Add(false);
+                _doneState.Add(ProcessStage.QUEUED);
             }
         }
 
@@ -149,11 +153,11 @@ namespace ext_pp
         /// it will not be returned by the NextItem property.
         /// </summary>
         /// <param name="script"></param>
-        public void SetDone(ISourceScript script)
+        public void SetState(ISourceScript script, ProcessStage stage)
         {
             if (IsIncluded(script))
             {
-                _doneState[IndexOfFile(script.GetKey())] = true;
+                _doneState[IndexOfFile(script.GetKey())] = stage;
 
                 Logger.Log(DebugLevel.LOGS, "Finished Script: " + script.GetKey(), Verbosity.LEVEL3);
             }
@@ -207,6 +211,13 @@ namespace ext_pp
             return -1;
         }
 
+        private bool LockScriptCreation = true;
+
+        public void SetLock(bool state)
+        {
+            LockScriptCreation = state;
+        }
+
         /// <summary>
         /// Convenience wrapper to create a source script without knowing the actual type of the script.
         /// </summary>
@@ -215,9 +226,17 @@ namespace ext_pp
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
         /// <returns></returns>
-        public ISourceScript CreateScript(string separator, string file, string key, Dictionary<string, object> pluginCache)
+        public bool CreateScript(out ISourceScript script, string separator, string file, string key, Dictionary<string, object> pluginCache)
         {
-            return new SourceScript(separator, file, key, pluginCache);
+            if (LockScriptCreation)
+            {
+                script = null;
+                Logger.Log(DebugLevel.WARNINGS, "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?", Verbosity.LEVEL1);
+                return false;
+            }
+
+            script= new SourceScript(separator, file, key, pluginCache);
+            return true;
         }
     }
 }

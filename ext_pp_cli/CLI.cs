@@ -260,15 +260,15 @@ namespace ext_pp_cli
                                 return ret;
                             }
                         }
-                        else if (names[0].StartsWith('\"') && names[0].EndsWith('\"'))
+                        else if (names[0].StartsWith('(') && names[0].EndsWith(')'))
                         {
-                            names[0] = names[0].Trim('\"');
+                            names[0] = names[0].Trim('(', ')');
                             Logger.Log(DebugLevel.LOGS, "Searching Chain Collection: " + names[0], Verbosity.LEVEL2);
 
-                           IChainCollection coll = types.Where(x => x.GetInterfaces().Contains(typeof(IChainCollection)))
-                                .Select(x => (IChainCollection)Activator.CreateInstance(x)).FirstOrDefault(x=>x.GetName()==names[0]);
-                            
-                            if (coll!=null)
+                            IChainCollection coll = types.Where(x => x.GetInterfaces().Contains(typeof(IChainCollection)))
+                                 .Select(x => (IChainCollection)Activator.CreateInstance(x)).FirstOrDefault(x => x.GetName() == names[0]);
+
+                            if (coll != null)
                             {
 
                                 Logger.Log(DebugLevel.LOGS, "Found Chain Collection: " + names[0], Verbosity.LEVEL2);

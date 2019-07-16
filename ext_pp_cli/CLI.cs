@@ -10,6 +10,7 @@ using ADL.Streams;
 using ext_pp;
 using ext_pp_base;
 using ext_pp_base.settings;
+using ext_pp_plugins;
 using MatchType = ADL.MatchType;
 using Utils = ext_pp_base.Utils;
 
@@ -19,7 +20,7 @@ namespace ext_pp_cli
     {
         private static string HelpText = "To list all available commands type: ext_pp_cli -l self";
 
-        private static string CLIHeader = "\n\next_pp version: " + Assembly.GetExecutingAssembly().GetName().Version + "\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n";
+        private static string CLIHeader = "\n\next_pp_cli version: " + Assembly.GetExecutingAssembly().GetName().Version + "\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n";
 
 
 
@@ -56,14 +57,18 @@ namespace ext_pp_cli
                 "Displays a list of plugins in the specified dlls"),
             new CommandInfo("ll", PropertyHelper<CLI>.GetFieldInfo(x=>x._pluginStringLong),
                 "Displays the Plugins and their Information"),
+            new CommandInfo("noColl", PropertyHelper<CLI>.GetFieldInfo(x=>x._noCollections),
+                "The CLI will not search for a ChainCollection in the specified assembly"),
+
         };
 
         public string _ltf = null;
         private bool _logToFile => _ltf != null;
-        private bool _outputToConsole;
+        private bool _outputToConsole = false;
         public string _input = null;
         public string _output = null;
         public string[] _defStr = null;
+        public bool _noCollections = false;
         public string[] _chainStr = null;
         public int _verbStr = (int)Verbosity.LEVEL1;
         public bool _returnPreProcessing => _showHeader || _pluginList || _pluginListLong;
@@ -103,7 +108,7 @@ namespace ext_pp_cli
                 {
                     if (file != "self")
                     {
-                        List<AbstractPlugin> plugins = CreatePluginChain(new[] { file }).ToList();
+                        List<AbstractPlugin> plugins = CreatePluginChain(new[] { file }, _noCollections).ToList();
                         Logger.Log(DebugLevel.LOGS, "Listing Plugins: ", Verbosity.SILENT);
                         foreach (var plugin in plugins)
                         {
@@ -202,7 +207,7 @@ namespace ext_pp_cli
 
                     Logger.Log(DebugLevel.LOGS, "Loaded Chain Argument: " + _chainStr.Unpack(" "), Verbosity.LEVEL2);
                 }
-                _chain = CreatePluginChain(_chainStr).ToList();
+                _chain = CreatePluginChain(_chainStr, _noCollections).ToList();
                 Logger.Log(DebugLevel.LOGS, _chain.Count + " Plugins Loaded..", Verbosity.LEVEL2);
             }
             else
@@ -212,7 +217,7 @@ namespace ext_pp_cli
             }
         }
 
-        private static IEnumerable<AbstractPlugin> CreatePluginChain(string[] arg)
+        private static IEnumerable<AbstractPlugin> CreatePluginChain(string[] arg, bool noCollection)
         {
             Logger.Log(DebugLevel.LOGS, "Creating Plugin Chain...", Verbosity.LEVEL3);
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
@@ -236,12 +241,47 @@ namespace ext_pp_cli
                     names = null;
                 }
 
+
                 if (File.Exists(path))
                 {
 
-                    Logger.Log(DebugLevel.LOGS, "Loading " + (names == null ? " all plugins" : names.Unpack(", ")) + " in file " + path, Verbosity.LEVEL4);
                     Assembly asm = Assembly.LoadFile(Path.GetFullPath(path));
                     Type[] types = asm.GetTypes();
+                    if (!noCollection)
+                    {
+                        if (names == null)
+                        {
+                            Type t = types.FirstOrDefault(x => x.GetInterfaces().Contains(typeof(IChainCollection)));
+                            if (t != null)
+                            {
+                                ret = ((IChainCollection)Activator.CreateInstance(t)).GetChain()
+                                    .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
+                                Logger.Log(DebugLevel.LOGS, "Creating Chain Collection with Plugins: " + ret.Select(x => x.GetType().Name).Unpack(", "), Verbosity.LEVEL2);
+                                return ret;
+                            }
+                        }
+                        else if (names[0].StartsWith('\"') && names[0].EndsWith('\"'))
+                        {
+                            names[0] = names[0].Trim('\"');
+                            Logger.Log(DebugLevel.LOGS, "Searching Chain Collection: " + names[0], Verbosity.LEVEL2);
+
+                           IChainCollection coll = types.Where(x => x.GetInterfaces().Contains(typeof(IChainCollection)))
+                                .Select(x => (IChainCollection)Activator.CreateInstance(x)).FirstOrDefault(x=>x.GetName()==names[0]);
+                            
+                            if (coll!=null)
+                            {
+
+                                Logger.Log(DebugLevel.LOGS, "Found Chain Collection: " + names[0], Verbosity.LEVEL2);
+                                ret = coll.GetChain()
+                                    .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
+                                Logger.Log(DebugLevel.LOGS, "Creating Chain Collection with Plugins: " + ret.Select(x => x.GetType().Name).Unpack(", "), Verbosity.LEVEL2);
+
+                                return ret;
+                            }
+                        }
+                    }
+                    Logger.Log(DebugLevel.LOGS, "Loading " + (names == null ? " all plugins" : names.Unpack(", ")) + " in file " + path, Verbosity.LEVEL4);
+
                     if (names == null)
                     {
 

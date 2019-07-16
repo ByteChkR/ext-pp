@@ -106,5 +106,84 @@ namespace ext_pp_base
 
             return ret.SubArray(1, ret.Length - 1).ToArray();
         }
+
+
+        private delegate bool TryParse(string val, out object value);
+        private static Dictionary<Type, TryParse> _parser = new Dictionary<Type, TryParse>()
+        {
+            {typeof(string), CreateTryParser<string>()},
+            {typeof(int), CreateTryParser<int>()},
+            {typeof(float), CreateTryParser<float>()},
+            {typeof(char), CreateTryParser<char>()},
+            {typeof(bool), CreateTryParser<bool>()}
+        };
+
+        private static TryParse CreateTryParser<T>()
+        {
+            TryParse ret = null;
+
+            if (typeof(T) == typeof(int)) ret = (string val, out object value) =>
+            {
+                bool r = int.TryParse(val, out int v);
+                value = v;
+                return r;
+            };
+            else if (typeof(T) == typeof(float)) ret = (string val, out object value) =>
+            {
+                bool r = float.TryParse(val, out float v);
+                value = v;
+                return r;
+            };
+            else if (typeof(T) == typeof(char)) ret = (string val, out object value) =>
+            {
+                bool r = char.TryParse(val, out char v);
+                value = v;
+                return r;
+            };
+            else if (typeof(T) == typeof(bool)) ret = (string val, out object value) =>
+            {
+                bool r = bool.TryParse(val, out bool v);
+                if (val == "") r = v = true;
+                value = v;
+                return r;
+            };
+            else if (typeof(T) == typeof(string)) ret = (string val, out object value) =>
+            {
+                value = val;
+                return true;
+            };
+
+
+            return ret;
+
+        }
+
+        public static T[] ParseArray<T>(string[] obj)
+        {
+            return ParseArray(typeof(T), obj).OfType<T>().ToArray();
+        }
+
+        public static object[] ParseArray(Type t, string[] obj)
+        {
+            object[] ret = new object[obj.Length];
+            for (var index = 0; index < obj.Length; index++)
+            {
+                var s = obj[index];
+                ret[index] = Parse(t, obj[index]);
+            }
+
+            return ret;
+        }
+
+        public static object Parse(Type t, string obj)
+        {
+            _parser[t](obj, out object val);
+            return val;
+        }
+
+        public static T Parse<T>(string obj)
+        {
+            return (T)Parse(typeof(T), obj);
+        }
     }
 }

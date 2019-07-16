@@ -5,23 +5,7 @@ using ext_pp_base.settings;
 namespace ext_pp_base
 {
     public delegate bool DelKeyComputingScheme(string[] vars, out string filePath, out string key, out Dictionary<string, object> pluginCache);
-
-    public enum ProcessStage
-    {
-        QUEUED = 0,
-        ON_LOAD_STAGE = 1,
-        ON_MAIN = 2,
-        ON_FINISH_UP = 4,
-        FINISHED = 8,
-    }
-
-    public enum PluginType
-    {
-        LINE_PLUGIN_BEFORE = 16,
-        FULL_SCRIPT_PLUGIN = 32,
-        LINE_PLUGIN_AFTER = 64
-    }
-
+    
     public interface ISourceManager
     {
         /// <summary>

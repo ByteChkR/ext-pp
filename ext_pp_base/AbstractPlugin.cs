@@ -11,7 +11,7 @@ namespace ext_pp_base
     {
 
         public abstract string[] Prefix { get; }
-        public virtual bool IncludeGlobal => true;
+        public virtual bool IncludeGlobal => false;
         public virtual PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public virtual ProcessStage ProcessStages => ProcessStage.ON_MAIN;
 

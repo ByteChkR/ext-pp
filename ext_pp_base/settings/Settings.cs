@@ -95,7 +95,7 @@ namespace ext_pp_base.settings
         {
             string key = "-" + info.Command;
             if (!_settings.ContainsKey(key)) return;
-            object val = Extensions.Parse(t, _settings[key].Length > 0 ? _settings[key].First() : "");
+            object val = Utils.Parse(t, _settings[key].Length > 0 ? _settings[key].First() : "");
             info.Field.SetValue(obj, val);
         }
 
@@ -103,7 +103,7 @@ namespace ext_pp_base.settings
         {
             string key = "-" + info.Command;
             if (!_settings.ContainsKey(key) || _settings[key].Length == 0) return;
-            string[] val = Extensions.ParseArray(info.Field.FieldType.IsArray ?
+            string[] val = Utils.ParseArray(info.Field.FieldType.IsArray ?
                 info.Field.FieldType.GetElementType() :
                 info.Field.FieldType,
                 _settings[key]).OfType<string>().ToArray();

@@ -1,9 +1,11 @@
 #include syntax_notes.txt
 
 ______________________________________________
-Blank Line Remover Plugin Information:
-	Prefix: blk, BLRemover
-	Commands:
+#### Blank Line Remover Plugin Information:
+
+* Prefix: blk, BLRemover
+* Commands:
+
 		set-removekeyword [remove keyword] *###remove###*
 			This will get inserted whenever a blank line is detected. This will be removed in the native cleanup of the PreProcessor
 		set-order [Before|After] *After*

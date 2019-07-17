@@ -2,6 +2,7 @@
 {
     public enum DebugLevel
     {
+        ALL=-1,
         NONE=0,
         ERRORS=1,
         WARNINGS=2,

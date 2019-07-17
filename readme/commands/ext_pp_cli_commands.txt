@@ -1,6 +1,7 @@
 
 ______________________________________________
-Console Commands:
+## Console Commands:
+
 	--input filepath,filepath filepath,filepath
 		, separated = the same compilation
 		[space] separated means gets queued after the compilation of the first one
@@ -13,12 +14,12 @@ Console Commands:
 	--help <chainstr>
 		lists the commands of the CLI or with supplied chain, it will display the help info of each plugin.
 	--defines <vars>
-		, separated list of predefines values
+		[space] separated list of predefines values
 	--chain [filepath]
-		, separated list of plugins
-			[filepath]:pluginname => loads a plugin by assembly name
-			[filepath]:prefix => loads a plugin with prefix
-			[filepath]:(collection) => loads a list(chain) of plugins from an IChainCollection with the specified name
+		[space] separated list of plugins
+			filepath:pluginname:pluginname2 => loads a plugin by assembly name
+			prefix => loads a plugin with prefix (has to be in /plugins folder)
+			filepath:(collection) => loads a list(chain) of plugins from an IChainCollection with the specified name
 			the plugins in the /plugin folder can be directly accessed by using the prefix instead of the lines above
 	--log2file <file> <settings>
 		Creates a log file with the settings

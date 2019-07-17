@@ -9,13 +9,15 @@ namespace ext_pp_base
         public readonly string ShortCut;
         public readonly bool IncludeGlobal;
         public readonly FieldInfo Field;
-        public CommandInfo(string command, string shortcut, FieldInfo field, string helpText, bool global = false)
+        public readonly object DefaultIfNotSpecified;
+        public CommandInfo(string command, string shortcut, FieldInfo field, string helpText, object defaultIfNotSpecified = null, bool global = false)
         {
             Command = command;
             Field = field;
             HelpText = helpText;
             ShortCut = shortcut;
             IncludeGlobal = global;
+            DefaultIfNotSpecified = defaultIfNotSpecified;
         }
 
         public override string ToString()

@@ -15,14 +15,14 @@ namespace ext_pp_plugins
         {
             return new List<Type>()
             {
+                typeof(MultiLinePlugin),
+                typeof(KeyWordReplacer),
                 typeof(ConditionalPlugin),
                 typeof(FakeGenericsPlugin),
                 typeof(IncludePlugin),
                 typeof(WarningPlugin),
                 typeof(ErrorPlugin),
-                typeof(MultiLinePlugin),
                 typeof(BlankLineRemover),
-                typeof(KeyWordReplacer)
             };
         }
     }

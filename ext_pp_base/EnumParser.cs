@@ -7,14 +7,14 @@ namespace ext_pp_base
     {
 
 
-        public static int Parse(Type enu, string input)
+        public static object Parse(Type enu, string input, object defaul)
         {
             if (input.IsAllDigits())
             {
                 return int.Parse(input);
             }
 
-            if (!enu.IsEnum) return 0;
+            if (!enu.IsEnum || input==null) return defaul;
 
             int ret = -1;
 

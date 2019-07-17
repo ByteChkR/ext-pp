@@ -1,9 +1,11 @@
 #include syntax_notes.txt
 
 ______________________________________________
-Fake Generics Plugin Information:
-	Prefix: gen, FakeGen
-	Commands:
+#### Fake Generics Plugin Information:
+
+* Prefix: gen, FakeGen
+* Commands:
+
 		set-genkeyword [generic keyword] *#type*
 			Sets the keyword that is used when writing pseudo generic code.
 		set-stage [OnLoad|OnMain] *OnMain*

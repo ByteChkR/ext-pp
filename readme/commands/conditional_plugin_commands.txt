@@ -1,10 +1,12 @@
 #include syntax_notes.txt
 
 ______________________________________________
-Conditional Plugin Information:
-	Prefix:
-		"con", "Conditional"
-	Commands:
+#### Conditional Plugin Information:
+
+* Prefix:
+	"con", "Conditional"
+* Commands:
+
 		set-define [define keyword] *#define*
 			Sets the keyword that is used to define variables during the compilation.
 		set-undefine [undefine keyword] *#undefine*

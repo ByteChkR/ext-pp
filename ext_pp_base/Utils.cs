@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using ext_pp_base.settings;
 
 namespace ext_pp_base
@@ -159,35 +160,35 @@ namespace ext_pp_base
 
         }
 
-        public static T[] ParseArray<T>(string[] obj)
+        public static T[] ParseArray<T>(string[] obj, object defaul)
         {
-            return ParseArray(typeof(T), obj).OfType<T>().ToArray();
+            return ParseArray(typeof(T), obj, defaul).OfType<T>().ToArray();
         }
 
-        public static object[] ParseArray(Type t, string[] obj)
+        public static object[] ParseArray(Type t, string[] obj, object defaul)
         {
             if (obj == null) return null;
             object[] ret = new object[obj.Length];
             for (var index = 0; index < obj.Length; index++)
             {
                 var s = obj[index];
-                if (t.IsEnum) ret[index] = EnumParser.Parse(t, obj[index]);
-                else ret[index] = Parse(t, obj[index]);
+                if (t.IsEnum) ret[index] = EnumParser.Parse(t, obj[index], defaul);
+                else ret[index] = Parse(t, obj[index], defaul);
             }
 
             return ret;
         }
 
-        public static object Parse(Type t, string obj)
+        public static object Parse(Type t, string obj, object defaul)
         {
-            if (t.IsEnum) return EnumParser.Parse(t, obj);
+            if (t.IsEnum) return EnumParser.Parse(t, obj, defaul);
             _parser[t](obj, out object val);
-            return val;
+            return val ?? defaul;
         }
 
-        public static T Parse<T>(string obj)
+        public static T Parse<T>(string obj, object defaul)
         {
-            return (T)Parse(typeof(T), obj);
+            return (T)Parse(typeof(T), obj, defaul);
         }
     }
 }

@@ -102,8 +102,12 @@ namespace ext_pp_base.settings
         public void ApplySettingFirst(Type t, CommandInfo info, object obj)
         {
             string[] cmdVal = FindCommandValue(info);
-            if (cmdVal == null) return;
-            object val = Utils.Parse(t, cmdVal.Length > 0 ? cmdVal.First() : null);
+            if (cmdVal == null)
+            {
+                
+                return;
+            }
+            object val = Utils.Parse(t, cmdVal.Length > 0 ? cmdVal.First():null, info.DefaultIfNotSpecified);
             info.Field.SetValue(obj, val);
         }
 
@@ -114,7 +118,8 @@ namespace ext_pp_base.settings
             string[] val = Utils.ParseArray(info.Field.FieldType.IsArray ?
                 info.Field.FieldType.GetElementType() :
                 info.Field.FieldType,
-                cmdVal).OfType<string>().ToArray();
+                cmdVal, info.DefaultIfNotSpecified)
+                .OfType<string>().ToArray();
             info.Field.SetValue(obj, val);
         }
 

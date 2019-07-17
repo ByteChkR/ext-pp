@@ -1,9 +1,11 @@
 #include syntax_notes.txt
 
 ______________________________________________
-Warning Plugin Information:
-	Prefix: wrn, Warning
-	Commands:
+#### Warning Plugin Information:
+
+* Prefix: wrn, Warning
+* Commands:
+
 		set-warning [warning keyword] *#warning*
 			Sets the keyword that is used to trigger warnings during compilation
 		set-stage [OnLoad|OnFinishUp] *OnFinishUp*

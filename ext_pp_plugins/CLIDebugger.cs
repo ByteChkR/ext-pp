@@ -39,6 +39,7 @@ namespace ext_pp_plugins
 
         public static Breakpoint[] Parse(string[] breakpointarr)
         {
+            if (breakpointarr == null) return new Breakpoint[0];
             List<Breakpoint> points = new List<Breakpoint>();
             foreach (var breakpoint in breakpointarr)
             {

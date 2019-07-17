@@ -8,7 +8,7 @@ namespace ext_pp_cli
 {
     public class ArgumentHandler<T>
     {
-        public delegate T[] Converter (string[] argIn);
+        public delegate T[] Converter (string[] argIn, object defaul);
 
         private readonly Converter _converter = null;
         public readonly string Key;
@@ -19,9 +19,9 @@ namespace ext_pp_cli
         }
 
 
-        public T[] GetValue(string[] val)
+        public T[] GetValue(string[] val, object defaul)
         {
-            return _converter(val);
+            return _converter(val, defaul);
         }
 
         

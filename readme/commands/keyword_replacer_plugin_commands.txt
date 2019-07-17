@@ -1,9 +1,11 @@
 #include syntax_notes.txt
 
 ______________________________________________
-Keyword Replacer Plugin Information:
-	Prefix: kwr, KWReplacer
-	Commands:
+#### Keyword Replacer Plugin Information:
+
+* Prefix: kwr, KWReplacer
+* Commands:
+
 		set-surrkeyword [surrounding keyword] *$*
 			Sets the keyword that is used to escape the variables. Usage: $VAR_NAME$
 		no-defaultkeywords [bool] *false*

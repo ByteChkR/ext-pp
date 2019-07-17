@@ -61,7 +61,7 @@ namespace ext_pp
         /// <param name="settings"></param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string file, Settings settings = null, IDefinitions defs = null)
+        public string[] Compile(string[] file, Settings settings = null, IDefinitions defs = null)
         {
 
             Logger.Log(DebugLevel.LOGS, "Starting Post Processor...", Verbosity.LEVEL2);
@@ -121,7 +121,7 @@ namespace ext_pp
         /// <param name="settings"></param>
         /// <param name="defs"></param>
         /// <returns>Returns a list of files that can be compiled in reverse order</returns>
-        public ISourceScript[] Process(string file, Settings settings = null, IDefinitions defs = null)
+        public ISourceScript[] Process(string[] files, Settings settings = null, IDefinitions defs = null)
         {
             string dir = Directory.GetCurrentDirectory();
             defs = defs ?? new Definitions();
@@ -129,15 +129,21 @@ namespace ext_pp
 
             InitializePlugins(settings, defs, sm);
 
-            Logger.Log(DebugLevel.LOGS, "Starting Processing of File :" + file, Verbosity.LEVEL2);
-            file = Path.GetFullPath(file);
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(file));
+            Logger.Log(DebugLevel.LOGS, "Starting Processing of Files :" + files.Unpack(", "), Verbosity.LEVEL2);
+            foreach (var file in files)
+            {
+                string f = Path.GetFullPath(file);
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(f));
 
-            sm.SetLock(false);
-            sm.CreateScript(out ISourceScript ss, _sep, file, file, new Dictionary<string, object>());
-            sm.SetLock(true);
-            List<ISourceScript> all = new List<ISourceScript>();
-            sm.AddToTodo(ss);
+                sm.SetLock(false);
+                sm.CreateScript(out ISourceScript sss, _sep, f, f, new Dictionary<string, object>());
+                sm.SetLock(true);
+                List<ISourceScript> all = new List<ISourceScript>();
+                sm.AddToTodo(sss);
+            }
+
+            ISourceScript ss = sm.NextItem;
+
             do
             {
 

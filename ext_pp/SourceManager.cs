@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using ext_pp_base;
 using ext_pp_base.settings;
 
@@ -11,7 +13,7 @@ namespace ext_pp
     /// A class that keeps track on what scripts are loaded and their processing state.
     /// This class also defines a Compute Scheme to alter the keys the file gets matched with, to enable loading the same file multiple times.
     /// </summary>
-    public class SourceManager : ISourceManager
+    public class SourceManager : ISourceManager, ILoggable
     {
         /// <summary>
         /// List of Scripts that are included in this Processing run
@@ -21,22 +23,25 @@ namespace ext_pp
         /// <summary>
         /// The processing states of the scripts included.
         /// </summary>
-        private readonly List<bool> _doneState = new List<bool>();
+        private readonly List<ProcessStage> _doneState = new List<ProcessStage>();
 
         /// <summary>
         /// The compute scheme that is used to assign keys to scripts(or instances of scripts)
         /// </summary>
         private DelKeyComputingScheme _computeScheme;
-        
 
+        private List<AbstractPlugin> _pluginChain;
         /// <summary>
         /// Empty Constructor
         /// Sets the compute scheme to the default(the file name)
         /// </summary>
-        public SourceManager()
+        public SourceManager(List<AbstractPlugin> pluginChain)
         {
+            _pluginChain = pluginChain;
             SetComputingScheme(ComputeFileNameAndKey_Default);
         }
+
+
 
         /// <summary>
         /// Sets the computing scheme to a custom scheme that will then be used to assign keys to scripts
@@ -46,7 +51,12 @@ namespace ext_pp
         {
             if (scheme == null) return;
             _computeScheme = scheme;
-            Logger.Log(DebugLevel.LOGS, "Changed Computing Scheme to: " + scheme.Method.Name, Verbosity.LEVEL2);
+            this.Log(DebugLevel.LOGS, "Changed Computing Scheme to: " + scheme.Method.Name, Verbosity.LEVEL2);
+        }
+
+        public int GetTodoCount()
+        {
+            return _doneState.Count(x => x == ProcessStage.QUEUED);
         }
 
         /// <summary>
@@ -66,13 +76,16 @@ namespace ext_pp
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
         /// <returns></returns>
-        private static bool ComputeFileNameAndKey_Default(string[] vars, out string filePath, out string key, out Dictionary<string, object> pluginCache)
+        private static bool ComputeFileNameAndKey_Default(string[] vars, string currentPath, out string filePath, out string key, out Dictionary<string, object> pluginCache)
         {
             pluginCache = new Dictionary<string, object>();
             filePath = key = "";
             if (vars.Length == 0) return false;
+            string dir = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(currentPath);
             key =
                 filePath = Path.GetFullPath(vars[0]);
+            Directory.SetCurrentDirectory(dir);
             return true;
         }
 
@@ -86,7 +99,7 @@ namespace ext_pp
             {
                 for (int i = 0; i < _doneState.Count; i++)
                 {
-                    if (!_doneState[i])
+                    if (_doneState[i] == ProcessStage.QUEUED)
                     {
                         return _sources[i];
                     }
@@ -103,7 +116,7 @@ namespace ext_pp
         /// <param name="script"></param>
         public void FixOrder(ISourceScript script)
         {
-            Logger.Log(DebugLevel.LOGS, "Fixing Build Order of file: " + script.GetKey(), Verbosity.LEVEL3);
+            this.Log(DebugLevel.LOGS, "Fixing Build Order of file: " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
             int idx = IndexOfFile(script.GetKey());
             var a = _sources[idx];
             var ab = _doneState[idx];
@@ -133,9 +146,9 @@ namespace ext_pp
         {
             if (!IsIncluded(script))
             {
-                Logger.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + script.GetKey(), Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
                 AddFile(script, false);
-                _doneState.Add(false);
+                _doneState.Add(ProcessStage.QUEUED);
             }
         }
 
@@ -144,13 +157,13 @@ namespace ext_pp
         /// it will not be returned by the NextItem property.
         /// </summary>
         /// <param name="script"></param>
-        public void SetDone(ISourceScript script)
+        public void SetState(ISourceScript script, ProcessStage stage)
         {
             if (IsIncluded(script))
             {
-                _doneState[IndexOfFile(script.GetKey())] = true;
+                _doneState[IndexOfFile(script.GetKey())] = stage;
 
-                Logger.Log(DebugLevel.LOGS, "Finished Script: " + script.GetKey(), Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, "Finished Script: " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
             }
         }
 
@@ -202,6 +215,13 @@ namespace ext_pp
             return -1;
         }
 
+        private bool LockScriptCreation = true;
+
+        public void SetLock(bool state)
+        {
+            LockScriptCreation = state;
+        }
+
         /// <summary>
         /// Convenience wrapper to create a source script without knowing the actual type of the script.
         /// </summary>
@@ -210,9 +230,17 @@ namespace ext_pp
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
         /// <returns></returns>
-        public ISourceScript CreateScript(string separator, string file, string key, Dictionary<string, object> pluginCache)
+        public bool CreateScript(out ISourceScript script, string separator, string file, string key, Dictionary<string, object> pluginCache)
         {
-            return new SourceScript(separator, file, key, pluginCache);
+            if (LockScriptCreation)
+            {
+                script = null;
+                this.Log(DebugLevel.WARNINGS, "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?", Verbosity.LEVEL1);
+                return false;
+            }
+
+            script = new SourceScript(separator, file, key, pluginCache);
+            return true;
         }
     }
 }

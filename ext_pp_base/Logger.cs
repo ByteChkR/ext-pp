@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using ext_pp_base.settings;
 
 namespace ext_pp_base
@@ -9,7 +10,7 @@ namespace ext_pp_base
         /// The Verbosity level
         /// Everything lower than this will be sent to the log output
         /// </summary>
-        public static Verbosity VerbosityLevel= Verbosity.LEVEL2;
+        public static Verbosity VerbosityLevel = Verbosity.LEVEL2;
 
         /// <summary>
         /// Logs a message in the specified mask and verbosity level
@@ -17,15 +18,11 @@ namespace ext_pp_base
         /// <param name="mask"></param>
         /// <param name="message"></param>
         /// <param name="level"></param>
-        public static void Log(int mask, string message, Verbosity level)
+        private static void Log(int mask, string message, Verbosity level)
         {
             if (level <= VerbosityLevel)
             {
-                for (int i = (int)Verbosity.LEVEL3; i < (int)level; i++)
-                {
-                    message = '\t' + message;
-                }
-                ADL.Debug.Log(mask, "[" + Enum.GetName(typeof(Verbosity), level) + "]" + message);
+                ADL.Debug.Log(mask, message);
             }
 
         }
@@ -35,9 +32,14 @@ namespace ext_pp_base
         /// <param name="mask"></param>
         /// <param name="message"></param>
         /// <param name="level"></param>
-        public static void Log(DebugLevel mask, string message, Verbosity level)
+        private static void Log(DebugLevel mask, string message, Verbosity level)
         {
             Log((int)mask, message, level);
+        }
+
+        public static void Log(this ILoggable obj, DebugLevel mask, string message, Verbosity level)
+        {
+            Log(mask, "[" + obj.GetType().Name + "]" + message, level);
         }
 
 

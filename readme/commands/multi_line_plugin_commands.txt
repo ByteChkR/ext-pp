@@ -1,0 +1,12 @@
+#include syntax_notes.txt
+
+______________________________________________
+#### Multi Line Plugin Information:
+
+* Prefix: mlp, MultiLine
+* Commands:
+
+		set-mlkeyword [multipline keyword] *__*
+			Sets the keyword that is used to detect when to lines should be merged. The line containing the keyword will be merges with the next line in the file
+		set-stage [OnLoad|OnMain] *OnLoad*
+			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp

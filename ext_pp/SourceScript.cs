@@ -5,7 +5,7 @@ using ext_pp_base.settings;
 
 namespace ext_pp
 {
-    internal class SourceScript : ISourceScript
+    internal class SourceScript : ISourceScript, ILoggable
     {
 
         /// <summary>
@@ -16,6 +16,8 @@ namespace ext_pp
         /// if the source was requested at least once, it remains cached in here
         /// </summary>
         private string[] _source = null;
+
+        public bool IsSourceLoaded => _source != null;
 
         /// <summary>
         /// 
@@ -131,7 +133,7 @@ namespace ext_pp
             bool ret;
             if (!(ret = LoadSource()))
             {
-                Logger.Log(DebugLevel.ERRORS, "Could not load file: " + _filepath, Verbosity.LEVEL1);
+                this.Log(DebugLevel.ERRORS, "Could not load file: " + _filepath, Verbosity.LEVEL1);
 
             }
 

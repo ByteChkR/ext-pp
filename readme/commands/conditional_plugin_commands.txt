@@ -1,0 +1,35 @@
+#include syntax_notes.txt
+
+______________________________________________
+#### Conditional Plugin Information:
+
+* Prefix:
+	"con", "Conditional"
+* Commands:
+
+		set-define [define keyword] *#define*
+			Sets the keyword that is used to define variables during the compilation.
+		set-undefine [undefine keyword] *#undefine*
+			Sets the keyword that is used to undefine previously defined variables during the compilation.
+		set-if [if keyword] *#if*
+			Sets the keyword that is used to start a new condition block.
+		set-elseif [elseif keyword] *#elseif*
+			Sets the keyword that is used to continue a previously started condition block with another condition block.
+		set-else [else keyword] *#else*
+			Sets the keyword that is used to start a new condition block that is taken when the previous blocks evaluated to false.
+		set-endif [endif keyword] *#endif*
+			Sets the keyword that is used to end a previously started condition block.
+		set-not [not operator] *!*
+			Sets the keyword that is used to negate an expression in if conditions.
+		set-and [and operator] *&&*
+			Sets the keyword for the logical AND operator
+		set-or [or operator] *||*
+			Sets the keyword for the logical OR operator
+		enable-define [bool] *true*
+			Enables/Disables the detection of define statements(defines can still be set via the defines object/the command line)
+		enable-undefine [bool] *true*
+			Enables/Disables the detection of undefine statements
+		set-stage [OnLoad|OnMain] *OnMain*
+			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
+		set-separator [separator keyword] * *
+			Sets the separator that is used to separate different generic types

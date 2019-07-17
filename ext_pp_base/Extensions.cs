@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ext_pp_base
@@ -67,5 +68,16 @@ namespace ext_pp_base
         {
             return SubArray(arr, 0, length);
         }
+
+
+        public static bool IsAllDigits(this string str)
+        {
+            if (string.IsNullOrEmpty(str)) return false;
+            return str.All(char.IsDigit);
+        }
+
+        
+
+
     }
 }

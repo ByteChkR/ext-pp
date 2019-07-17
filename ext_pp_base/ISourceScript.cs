@@ -27,12 +27,7 @@
         /// <param name="source"></param>
         void SetSource(string[] source);
 
-        /// <summary>
-        /// Loads the source code of the file into memory
-        /// </summary>
-        /// <returns></returns>
-        bool Load();
-
+ 
         /// <summary>
         /// Adds a value to the plugin cache to be read later during the processing
         /// </summary>

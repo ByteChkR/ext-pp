@@ -6,35 +6,71 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class WarningPlugin : IPlugin
+    public class WarningPlugin : AbstractPlugin
     {
-        public string[] Cleanup => new string[0];
-        public string[] Prefix => new string[] { "wrn" };
-        public bool IncludeGlobal => true;
+        public override string[] Prefix => new string[] { "wrn" , "Warning"};
+        public override ProcessStage ProcessStages => Stage.ToLower() == "onfinishup" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
+        public override PluginType PluginType => Order.ToLower() == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
+
+        public string Order = "after";
+        public string Stage = "onfinishup";
         public string WarningKeyword = "#warning";
         public string Separator = " ";
 
-        public Dictionary<string, FieldInfo> Info { get; } = new Dictionary<string, FieldInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            {"w", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(WarningKeyword))},
-            {"s", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Separator))}
+            new CommandInfo("set-warning", "w", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(WarningKeyword)),
+                "set-warning [warning keyword] *#warning*\r\n\t\t\tSets the keyword that is used to trigger warnings during compilation"),
+            new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Separator)),
+                "set-separator [separator keyword] * *\r\n\t\t\tSets the separator that is used to separate different generic types"),
+            new CommandInfo("set-order","o", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Order)),
+                "set-order [Before|After] *After*\r\n\t\t\tSets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
+            new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Stage)),
+                "set-stage [OnLoad|OnFinishUp] *OnFinishUp*\r\n\t\t\tSets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
         };
-        public void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
+        public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
-
-            settings.ApplySettingsFlatString(Info, this);
+            settings.ApplySettings(Info, this);
         }
 
-        public bool Process(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        public override string OnLoad_LineStage(string source)
         {
-            Logger.Log(DebugLevel.LOGS, "Discovering Warnings...", Verbosity.LEVEL4);
-            string[] warnings = Utils.FindStatements(file.GetSource(), WarningKeyword);
-            foreach (var t in warnings)
-            {
-                Logger.Log(DebugLevel.ERRORS, "Warning(" + Path.GetFileName(file.GetFilePath()) + "): " + warnings.Unpack(Separator), Verbosity.LEVEL1);
-            }
+            return LineStage(source);
+        }
 
-            Logger.Log(DebugLevel.LOGS, "Warning Detection Finished", Verbosity.LEVEL4);
+        public override string OnMain_LineStage(string source)
+        {
+            return LineStage(source);
+        }
+
+        public override string OnFinishUp_LineStage(string source)
+        {
+            return LineStage(source);
+        }
+
+        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        {
+            return FullScriptStage(script, sourceManager, defTable);
+        }
+
+        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        {
+            return FullScriptStage(script, sourceManager, defTable);
+        }
+
+
+
+        public string LineStage(string source)
+        {
+            if (!Utils.IsStatement(source, WarningKeyword)) return source;
+            string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
+            this.Log(DebugLevel.ERRORS, "Warning: " + err, Verbosity.LEVEL1);
+            return "";
+        }
+
+
+        public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        {
             return true;
         }
 

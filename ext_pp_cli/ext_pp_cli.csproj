@@ -10,7 +10,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ext_pp\ext_pp.csproj" />
     <ProjectReference Include="..\ext_pp_base\ext_pp_base.csproj" />
-    <ProjectReference Include="..\ext_pp_plugins\ext_pp_plugins.csproj" />
   </ItemGroup>
 
   <ItemGroup>

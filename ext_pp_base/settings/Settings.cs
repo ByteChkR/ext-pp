@@ -21,7 +21,6 @@ namespace ext_pp_base.settings
         {
             if (_settings.ContainsKey(key)) _settings[key] = value;
             else _settings.Add(key, value);
-            Logger.Log(DebugLevel.LOGS, key + " changed to: " + value, Verbosity.LEVEL2);
         }
 
         public void Set(string key, string value)

@@ -3,8 +3,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace ext_pp_base.settings
-{
+namespace ext_pp_base
+{ 
     public static class PropertyHelper
     {
         public static FieldInfo GetFieldInfo(Type t, string name)

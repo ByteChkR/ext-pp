@@ -10,7 +10,6 @@ using ADL.Streams;
 using ext_pp;
 using ext_pp_base;
 using ext_pp_base.settings;
-using ext_pp_plugins;
 using MatchType = ADL.MatchType;
 using Utils = ext_pp_base.Utils;
 
@@ -254,10 +253,10 @@ namespace ext_pp_cli
                             Type t = types.FirstOrDefault(x => x.GetInterfaces().Contains(typeof(IChainCollection)));
                             if (t != null)
                             {
-                                ret = ((IChainCollection)Activator.CreateInstance(t)).GetChain()
+                                List<AbstractPlugin> r = ((IChainCollection)Activator.CreateInstance(t)).GetChain()
                                     .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
-                                Logger.Log(DebugLevel.LOGS, "Creating Chain Collection with Plugins: " + ret.Select(x => x.GetType().Name).Unpack(", "), Verbosity.LEVEL2);
-                                return ret;
+                                Logger.Log(DebugLevel.LOGS, "Creating Chain Collection with Plugins: " + r.Select(x => x.GetType().Name).Unpack(", "), Verbosity.LEVEL2);
+                                ret.AddRange(r);
                             }
                         }
                         else if (names[0].StartsWith('(') && names[0].EndsWith(')'))
@@ -272,38 +271,41 @@ namespace ext_pp_cli
                             {
 
                                 Logger.Log(DebugLevel.LOGS, "Found Chain Collection: " + names[0], Verbosity.LEVEL2);
-                                ret = coll.GetChain()
+                                List<AbstractPlugin> r = coll.GetChain()
                                     .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
-                                Logger.Log(DebugLevel.LOGS, "Creating Chain Collection with Plugins: " + ret.Select(x => x.GetType().Name).Unpack(", "), Verbosity.LEVEL2);
+                                Logger.Log(DebugLevel.LOGS, "Creating Chain Collection with Plugins: " + r.Select(x => x.GetType().Name).Unpack(", "), Verbosity.LEVEL2);
+                                ret.AddRange(r);
 
-                                return ret;
-                            }
-                        }
-                    }
-                    Logger.Log(DebugLevel.LOGS, "Loading " + (names == null ? " all plugins" : names.Unpack(", ")) + " in file " + path, Verbosity.LEVEL4);
-
-                    if (names == null)
-                    {
-
-                        foreach (var type in types)
-                        {
-                            if (type.GetInterfaces().Contains(typeof(AbstractPlugin)))
-                            {
-                                Logger.Log(DebugLevel.LOGS, "Creating instance of: " + type.Name, Verbosity.LEVEL5);
-                                ret.Add((AbstractPlugin)Activator.CreateInstance(type));
                             }
                         }
                     }
                     else
                     {
-                        for (int i = 0; i < names.Length; i++)
+                        Logger.Log(DebugLevel.LOGS, "Loading " + (names == null ? " all plugins" : names.Unpack(", ")) + " in file " + path, Verbosity.LEVEL4);
+
+                        if (names == null)
                         {
-                            for (int j = 0; j < types.Length; j++)
+
+                            foreach (var type in types)
                             {
-                                if (types[j].Name == names[i])
+                                if (type.GetInterfaces().Contains(typeof(AbstractPlugin)))
                                 {
-                                    Logger.Log(DebugLevel.LOGS, "Creating instance of: " + types[j].Name, Verbosity.LEVEL5);
-                                    ret.Add((AbstractPlugin)Activator.CreateInstance(types[j]));
+                                    Logger.Log(DebugLevel.LOGS, "Creating instance of: " + type.Name, Verbosity.LEVEL5);
+                                    ret.Add((AbstractPlugin)Activator.CreateInstance(type));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (int i = 0; i < names.Length; i++)
+                            {
+                                for (int j = 0; j < types.Length; j++)
+                                {
+                                    if (types[j].Name == names[i])
+                                    {
+                                        Logger.Log(DebugLevel.LOGS, "Creating instance of: " + types[j].Name, Verbosity.LEVEL5);
+                                        ret.Add((AbstractPlugin)Activator.CreateInstance(types[j]));
+                                    }
                                 }
                             }
                         }

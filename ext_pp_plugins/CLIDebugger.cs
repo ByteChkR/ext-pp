@@ -110,7 +110,7 @@ namespace ext_pp_plugins
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("bp", PropertyHelper.GetFieldInfo(typeof(CLIDebugger), nameof(Breakpoints)),
+            new CommandInfo("set-breakpoint", "bp", PropertyHelper.GetFieldInfo(typeof(CLIDebugger), nameof(Breakpoints)),
                 "Sets the breakpoints for the session.\n" +
                 "Syntax: \nfile:<filepath> file:<filepath> file:<filepath>\n" +
                 "file:<filepath>:line:<line_nr>\n" +

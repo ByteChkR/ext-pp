@@ -1,0 +1,15 @@
+#include syntax_notes.txt
+
+______________________________________________
+Error Plugin Information:
+	Prefix: err, Error
+	Commands:
+		set-error [error keyword] *#error*
+			Sets the keyword that is used to trigger errors during compilation
+		set-stage [OnLoad|OnFinishUp] *#OnFinishUp*
+			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
+		set-order [Before|After] *After*
+			Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts
+		set-separator [separator] * *
+			Sets the separator that is used to separate the error keyword from the error text
+		

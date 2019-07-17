@@ -4,7 +4,7 @@ using ext_pp_base.settings;
 
 namespace ext_pp_base
 {
-    public delegate bool DelKeyComputingScheme(string[] vars, out string filePath, out string key, out Dictionary<string, object> pluginCache);
+    public delegate bool DelKeyComputingScheme(string[] var, string currentPath, out string filePath, out string key, out Dictionary<string, object> pluginCache);
     
     public interface ISourceManager
     {

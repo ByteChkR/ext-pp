@@ -8,19 +8,19 @@ namespace ext_pp_plugins
     public class MultiLinePlugin : AbstractPlugin
     {
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
-        public override ProcessStage ProcessStages => OnMain ? ProcessStage.ON_MAIN : ProcessStage.ON_LOAD_STAGE;
+        public override ProcessStage ProcessStages => Stage.ToLower()=="onload" ?  ProcessStage.ON_LOAD_STAGE: ProcessStage.ON_MAIN;
 
-        public bool OnMain = false;
+        public string Stage = "onload";
         public string MultiLineKeyword = "__";
-        public override string[] Prefix => new string[] { "mlp" };
+        public override string[] Prefix => new string[] { "mlp", "MultiLine" };
 
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("f", PropertyHelper.GetFieldInfo(typeof(MultiLinePlugin), nameof(OnMain)),
-                "Sets the Plugin type to be On Finish Up instead of On Load"),
-            new CommandInfo("k", PropertyHelper.GetFieldInfo(typeof(MultiLinePlugin), nameof(MultiLineKeyword)),
-                "Sets the Multiline Keyword that gets used to find multi line arguments"),
+            new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(MultiLinePlugin), nameof(Stage)),
+                "set-stage [OnLoad|OnMain] *OnLoad*\r\n\t\t\tSets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+            new CommandInfo("set-mlkeyword", "mlk", PropertyHelper.GetFieldInfo(typeof(MultiLinePlugin), nameof(MultiLineKeyword)),
+                "set-mlkeyword [multipline keyword] *__*\r\n\t\t\tSets the keyword that is used to detect when to lines should be merged. The line containing the keyword will be merges with the next line in the file"),
         };
 
 

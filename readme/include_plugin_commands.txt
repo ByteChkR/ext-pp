@@ -1,0 +1,12 @@
+#include syntax_notes.txt
+
+______________________________________________
+Include Plugin Information:
+	Prefix: inc, Include
+	Commands:
+		set-include [include keyword] *#include*
+			Sets the keyword that is used to include other files into the build process.
+		set-include-inline [include keyword] *#includeinl*
+			Sets the keyword that is used to insert other files directly into the current file
+		set-separator [separator keyword] * *
+			Sets the separator that is used to separate the include statement from the filepath

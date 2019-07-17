@@ -9,20 +9,20 @@ namespace ext_pp_plugins
 {
     public class FakeGenericsPlugin : AbstractPlugin
     {
-        public override string[] Prefix => new string[] { "gen" };
+        public override string[] Prefix => new string[] { "gen", "FakeGen" };
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
-        public override ProcessStage ProcessStages => OnLoad ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
-        public bool OnLoad = false;
+        public override ProcessStage ProcessStages => Stage.ToLower()=="onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public string Stage = "onmain";
         public string GenericKeyword = "#type";
         public string Separator = " ";
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("g", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
-                "Sets the keyword that will be replaced with the parameters supplied when adding a file."),
-            new CommandInfo("s", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Separator)),
-                "Sets the characters that will be used to separate strings"),
-            new CommandInfo("l", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(OnLoad)),
-                "Sets the Plugin type to be On Load instead of On Main"),
+            new CommandInfo("set-genkeyword","g", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
+                "set-genkeyword [generic keyword] *#type*\r\n\t\t\tSets the keyword that is used when writing pseudo generic code."),
+            new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Separator)),
+                "set-separator [separator keyword] * *\r\n\t\t\tSets the separator that is used to separate different generic types"),
+            new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Stage)),
+                "set-stage [OnLoad|OnMain] *OnMain*\r\n\t\t\tSets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
         };
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
@@ -33,7 +33,7 @@ namespace ext_pp_plugins
         }
 
 
-        private bool ComputeNameAndKey_Generic(string[] vars, out string filePath, out string key,
+        private bool ComputeNameAndKey_Generic(string[] vars, string currentPath, out string filePath, out string key,
             out Dictionary<string, object> pluginCache)
         {
             pluginCache = new Dictionary<string, object>();
@@ -41,8 +41,11 @@ namespace ext_pp_plugins
             if (vars.Length == 0) return false;
             string[] genParams = vars.Length > 1 ?
                 vars.SubArray(1, vars.Length - 1).ToArray() : new string[0];
-
-            key = filePath = Path.GetFullPath(vars[0]);
+            string dir = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(currentPath);
+            key =
+                filePath = Path.GetFullPath(vars[0]);
+            Directory.SetCurrentDirectory(dir);
             key += (genParams.Length > 0 ? "." + genParams.Unpack(Separator) : "");
             if (genParams.Length != 0)
                 pluginCache.Add("genParams", genParams);

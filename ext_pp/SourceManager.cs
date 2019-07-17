@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -75,13 +76,16 @@ namespace ext_pp
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
         /// <returns></returns>
-        private static bool ComputeFileNameAndKey_Default(string[] vars, out string filePath, out string key, out Dictionary<string, object> pluginCache)
+        private static bool ComputeFileNameAndKey_Default(string[] vars, string currentPath, out string filePath, out string key, out Dictionary<string, object> pluginCache)
         {
             pluginCache = new Dictionary<string, object>();
             filePath = key = "";
             if (vars.Length == 0) return false;
+            string dir = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(currentPath);
             key =
                 filePath = Path.GetFullPath(vars[0]);
+            Directory.SetCurrentDirectory(dir);
             return true;
         }
 
@@ -235,7 +239,7 @@ namespace ext_pp
                 return false;
             }
 
-            script= new SourceScript(separator, file, key, pluginCache);
+            script = new SourceScript(separator, file, key, pluginCache);
             return true;
         }
     }

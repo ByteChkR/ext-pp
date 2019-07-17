@@ -61,7 +61,7 @@ namespace ext_pp_base.settings
 
         public Settings GetSettingsWithPrefix(string prefix, bool includeShared = false)
         {
-            string prfx = "-" + prefix + ":";
+            string prfx = "--" + prefix + ":";
             bool isGlob;
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
             foreach (var setting in _settings)
@@ -79,6 +79,15 @@ namespace ext_pp_base.settings
             //    .ToDictionary(x => x.Key.Replace(prefix + ":", ""), y => y.Value));
         }
 
+        private string[] FindCommandValue(CommandInfo c)
+        {
+            string key = "--" + c.Command;
+            List<string> s = new List<string>();
+            if (_settings.ContainsKey(key)) return _settings[key];
+            else if (c.ShortCut != "" && _settings.ContainsKey("-" + c.ShortCut)) return _settings["-" + c.ShortCut];
+            return null;
+        }
+
         public void ApplySettings(List<CommandInfo> infos, object obj)
         {
             foreach (var commandInfo in infos)
@@ -92,22 +101,24 @@ namespace ext_pp_base.settings
 
         public void ApplySettingFirst(Type t, CommandInfo info, object obj)
         {
-            string key = "-" + info.Command;
-            if (!_settings.ContainsKey(key)) return;
-            object val = Utils.Parse(t, _settings[key].Length > 0 ? _settings[key].First() : "");
+            string[] cmdVal = FindCommandValue(info);
+            if (cmdVal == null) return;
+            object val = Utils.Parse(t, cmdVal.Length > 0 ? cmdVal.First() : null);
             info.Field.SetValue(obj, val);
         }
 
         public void ApplySettingArray(CommandInfo info, object obj)
         {
-            string key = "-" + info.Command;
-            if (!_settings.ContainsKey(key) || _settings[key].Length == 0) return;
+            string[] cmdVal = FindCommandValue(info);
+            if (cmdVal == null) return;
             string[] val = Utils.ParseArray(info.Field.FieldType.IsArray ?
                 info.Field.FieldType.GetElementType() :
                 info.Field.FieldType,
-                _settings[key]).OfType<string>().ToArray();
+                cmdVal).OfType<string>().ToArray();
             info.Field.SetValue(obj, val);
         }
+
+
 
     }
 }

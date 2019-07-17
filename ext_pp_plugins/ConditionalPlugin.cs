@@ -11,8 +11,8 @@ namespace ext_pp_plugins
     public class ConditionalPlugin : AbstractPlugin
     {
         public override string[] Cleanup => new string[] { DefineKeyword, UndefineKeyword };
-        public override string[] Prefix => new string[] { "con" };
-        public override ProcessStage ProcessStages => OnLoad ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public override string[] Prefix => new string[] { "con", "Conditional" };
+        public override ProcessStage ProcessStages => Stage.ToLower() == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public string StartCondition = "#if";
         public string ElseIfCondition = "#elseif";
@@ -26,36 +26,37 @@ namespace ext_pp_plugins
         public string Separator = " ";
         public bool EnableDefine = true;
         public bool EnableUndefine = true;
-        public bool OnLoad = false;
+        public string Stage = "onload";
+
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("d", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)),
-                "Sets the Keyword that defines variables when processing the file"),
-            new CommandInfo("u", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword)),
-                "Sets the Keyword that undefines variables when processing the file"),
-            new CommandInfo("if", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(StartCondition)),
-                "Sets the Keyword that starts an conditional block"),
-            new CommandInfo("elif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseIfCondition)),
-                "Sets the Keyword that can follow an conditional block with another conditional block"),
-            new CommandInfo("else", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseCondition)),
-            "Sets the Keyword that gets selected if all previous conditional blocks evaluatet to false"),
-            new CommandInfo("eif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EndCondition)),
-                "Sets the Keyword that ends an conditional block if no others are immediately following"),
-            new CommandInfo("n", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(NotOperator)),
-                "Sets the characters for the NOT operator"),
-            new CommandInfo("a", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(AndOperator)),
-                "Sets the characters for the AND operator"),
-            new CommandInfo("o", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
-                "Sets the characters for the OR operator"),
-            new CommandInfo("eD", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableDefine)),
-                "Sets the characters that will be used to separate strings"),
-            new CommandInfo("o", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
-                "Sets the characters for the OR operator"),
-            new CommandInfo("eU", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableUndefine)),
-                "Sets the characters that will be used to separate strings"),
-            new CommandInfo("l", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(OnLoad)),
-                "Sets the Plugin type to be On Load instead of On Main"),
+            new CommandInfo("set-define", "d", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)),
+                "set-define [define keyword] *#define*\r\n\t\t\tSets the keyword that is used to define variables during the compilation."),
+            new CommandInfo("set-undefine", "u", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword)),
+                "set-undefine [undefine keyword] *#undefine*\r\n\t\t\tSets the keyword that is used to undefine previously defined variables during the compilation."),
+            new CommandInfo("set-if","if", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(StartCondition)),
+                "set-if [if keyword] *#if*\r\n\t\t\tSets the keyword that is used to start a new condition block."),
+            new CommandInfo("set-elseif","elif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseIfCondition)),
+                "set-elseif [elseif keyword] *#elseif*\r\n\t\t\tSets the keyword that is used to continue a previously started condition block with another condition block."),
+            new CommandInfo("set-else", "else", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseCondition)),
+            "set-else [else keyword] *#else*\r\n\t\t\tSets the keyword that is used to start a new condition block that is taken when the previous blocks evaluated to false."),
+            new CommandInfo("set-endif", "eif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EndCondition)),
+                "set-endif [endif keyword] *#endif*\r\n\t\t\tSets the keyword that is used to end a previously started condition block."),
+            new CommandInfo("set-not","n", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(NotOperator)),
+                "set-not [not operator] *!*\r\n\t\t\tSets the keyword that is used to negate an expression in if conditions."),
+            new CommandInfo("set-and","a", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(AndOperator)),
+                "set-and [and operator] *&&*\r\n\t\t\tSets the keyword for the logical AND operator"),
+            new CommandInfo("set-or","o", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
+                "set-or [or operator] *||*\r\n\t\t\tSets the keyword for the logical OR operator"),
+            new CommandInfo("enable-define", "eD", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableDefine)),
+                "enable-define [bool] *true*\r\n\t\t\tEnables/Disables the detection of define statements(defines can still be set via the defines object/the command line)"),
+            new CommandInfo("enable-undefine","eU", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableUndefine)),
+                "enable-undefine [bool] *true*\r\n\t\t\tEnables/Disables the detection of undefine statements"),
+            new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(Stage)),
+                "set-stage [OnLoad|OnMain] *OnMain*\r\n\t\t\tSets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+            new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(Separator)),
+                "set-separator [separator keyword] * *\r\n\t\t\tSets the separator that is used to separate different generic types"),
         };
 
 

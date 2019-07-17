@@ -27,6 +27,7 @@ namespace ext_pp_base
 
                         Logger.Log(DebugLevel.LOGS, "Removing statement " + t + " on line " + i, Verbosity.LEVEL7);
                         source.RemoveAt(i);
+                        break;
                     }
                 }
             }
@@ -143,7 +144,7 @@ namespace ext_pp_base
             else if (typeof(T) == typeof(bool)) ret = (string val, out object value) =>
             {
                 bool r = bool.TryParse(val, out bool v);
-                if (val == "") r = v = true;
+                if (string.IsNullOrEmpty(val)) r = v = true;
                 value = v;
                 return r;
             };
@@ -165,6 +166,7 @@ namespace ext_pp_base
 
         public static object[] ParseArray(Type t, string[] obj)
         {
+            if (obj == null) return null;
             object[] ret = new object[obj.Length];
             for (var index = 0; index < obj.Length; index++)
             {

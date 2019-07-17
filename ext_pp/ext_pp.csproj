@@ -19,13 +19,4 @@
     <ProjectReference Include="..\ext_pp_base\ext_pp_base.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="ADL">
-      <HintPath>res\ADL.dll</HintPath>
-    </Reference>
-    <Reference Include="ADL.Crash">
-      <HintPath>res\ADL.Crash.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

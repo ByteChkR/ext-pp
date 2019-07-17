@@ -10,7 +10,7 @@ namespace ext_pp
     /// <summary>
     /// 
     /// </summary>
-    public class PreProcessor
+    public class PreProcessor : ILoggable
     {
         /// <summary>
         /// List of loaded plugins
@@ -57,15 +57,15 @@ namespace ext_pp
         /// <summary>
         /// Compiles a File with the definitions and settings provided
         /// </summary>
-        /// <param name="file">FilePath of the file.</param>
+        /// <param name="files">FilePaths of the files.</param>
         /// <param name="settings"></param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string[] file, Settings settings = null, IDefinitions defs = null)
+        public string[] Compile(string[] files, Settings settings = null, IDefinitions defs = null)
         {
 
-            Logger.Log(DebugLevel.LOGS, "Starting Post Processor...", Verbosity.LEVEL2);
-            ISourceScript[] src = Process(file, settings, defs);
+            this.Log(DebugLevel.LOGS, "Starting Post Processor...", Verbosity.LEVEL1);
+            ISourceScript[] src = Process(files, settings, defs);
             return Compile(src);
         }
 
@@ -78,10 +78,10 @@ namespace ext_pp
         /// <param name="sourceManager"></param>
         private void InitializePlugins(Settings settings, IDefinitions def, ISourceManager sourceManager)
         {
-            Logger.Log(DebugLevel.LOGS, "Initializing Plugins...", Verbosity.LEVEL2);
+            this.Log(DebugLevel.LOGS, "Initializing Plugins...", Verbosity.LEVEL1);
             foreach (var plugin in _plugins)
             {
-                Logger.Log(DebugLevel.LOGS, "Initializing Plugin: " + plugin.GetType().Name, Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, "Initializing Plugin: " + plugin.GetType().Name, Verbosity.LEVEL2);
 
                 plugin.Initialize(settings.GetSettingsWithPrefix(plugin.Prefix, plugin.IncludeGlobal), sourceManager, def);
             }
@@ -94,19 +94,18 @@ namespace ext_pp
         /// <returns></returns>
         private string[] Compile(ISourceScript[] src)
         {
-            Logger.Log(DebugLevel.LOGS, "Starting Compilation of File Tree...", Verbosity.LEVEL2);
+            this.Log(DebugLevel.LOGS, "Starting Compilation of File Tree...", Verbosity.LEVEL2);
             List<string> ret = new List<string>();
             for (var i = src.Length - 1; i >= 0; i--)
             {
                 ret.AddRange(src[i].GetSource());
             }
 
-            Logger.Log(DebugLevel.LOGS, "Finished Compilation...", Verbosity.LEVEL2);
-            Logger.Log(DebugLevel.LOGS, "Cleaning up: " + CleanUpList.Unpack(", "), Verbosity.LEVEL3);
+            this.Log(DebugLevel.LOGS, "Finished Compilation...", Verbosity.LEVEL2);
+            this.Log(DebugLevel.LOGS, "Cleaning up: " + CleanUpList.Unpack(", "), Verbosity.LEVEL3);
 
-            string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray()).ToArray();
-            Logger.Log(DebugLevel.LOGS, "Finished Processing Files.", Verbosity.LEVEL1);
-            Logger.Log(DebugLevel.LOGS, "Total Lines: " + rrr.Length, Verbosity.LEVEL2);
+            string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray(),this).ToArray();
+            this.Log(DebugLevel.LOGS, "Total Lines: " + rrr.Length, Verbosity.LEVEL2);
             return rrr;
         }
 
@@ -129,7 +128,7 @@ namespace ext_pp
 
             InitializePlugins(settings, defs, sm);
 
-            Logger.Log(DebugLevel.LOGS, "Starting Processing of Files :" + files.Unpack(", "), Verbosity.LEVEL2);
+            this.Log(DebugLevel.LOGS, "Starting Processing of Files :" + files.Unpack(", "), Verbosity.LEVEL1);
             foreach (var file in files)
             {
                 string f = Path.GetFullPath(file);
@@ -149,8 +148,8 @@ namespace ext_pp
 
                 if (!(ss as SourceScript).IsSourceLoaded) RunStages(ProcessStage.ON_LOAD_STAGE, ss, sm, defs);
 
-                Logger.Log(DebugLevel.PROGRESS, "Remaining Files: " + sm.GetTodoCount(), Verbosity.LEVEL1);
-                Logger.Log(DebugLevel.LOGS, "Selecting File :" + ss.GetKey(), Verbosity.LEVEL2);
+                this.Log(DebugLevel.PROGRESS, "Remaining Files: " + sm.GetTodoCount(), Verbosity.LEVEL1);
+                this.Log(DebugLevel.LOGS, "Selecting File :" + ss.GetKey(), Verbosity.LEVEL2);
                 //RUN MAIN
                 sm.SetLock(false);
                 RunStages(ProcessStage.ON_MAIN, ss, sm, defs);
@@ -162,12 +161,13 @@ namespace ext_pp
 
             Directory.SetCurrentDirectory(dir);
             ISourceScript[] ret = sm.GetList().ToArray();
-            Logger.Log(DebugLevel.LOGS, "Finishing Up...", Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, "Finishing Up...", Verbosity.LEVEL1);
             foreach (var finishedScript in ret)
             {
-                Logger.Log(DebugLevel.LOGS, "Selecting File :" + finishedScript.GetKey(), Verbosity.LEVEL2);
+                this.Log(DebugLevel.LOGS, "Selecting File :" + finishedScript.GetKey(), Verbosity.LEVEL2);
                 RunStages(ProcessStage.ON_FINISH_UP, finishedScript, sm, defs);
             }
+            this.Log(DebugLevel.LOGS, "Finished Processing Files.", Verbosity.LEVEL1);
             return ret;
 
         }
@@ -186,7 +186,7 @@ namespace ext_pp
 
         private bool RunPluginStage(PluginType type, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
         {
-            List<AbstractPlugin> chain = GetStagePlugins(type, stage);
+            List<AbstractPlugin> chain = AbstractPlugin.GetPluginsForStage(_plugins, type, stage);
 
 
             bool ret = true;
@@ -210,18 +210,13 @@ namespace ext_pp
             return true;
         }
 
-        private List<AbstractPlugin> GetStagePlugins(PluginType type, ProcessStage stage)
-        {
-            return _plugins.Where(
-                x => ADL.BitMask.IsContainedInMask((int)x.PluginType, (int)type, true) &&
-                     ADL.BitMask.IsContainedInMask((int)x.ProcessStages, (int)stage, true)).ToList();
-        }
+
 
         private void RunLineStage(List<AbstractPlugin> _lineStage, ProcessStage stage, string[] source)
         {
             foreach (var abstractPlugin in _lineStage)
             {
-                Logger.Log(DebugLevel.LOGS, "Running Plugin :" + abstractPlugin + ":" + stage, Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, "Running Plugin :" + abstractPlugin + ":" + stage, Verbosity.LEVEL3);
                 for (int i = 0; i < source.Length; i++)
                 {
                     if (stage == ProcessStage.ON_LOAD_STAGE)
@@ -247,7 +242,7 @@ namespace ext_pp
             foreach (var abstractPlugin in _fullScriptStage)
             {
                 bool ret = true;
-                Logger.Log(DebugLevel.LOGS, "Running Plugin :" + abstractPlugin + ":" + stage + " on file " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, "Running Plugin :" + abstractPlugin + ":" + stage + " on file " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
                 if (stage == ProcessStage.ON_LOAD_STAGE)
                 {
                     ret = abstractPlugin.OnLoad_FullScriptStage(script, sourceManager, defTable);
@@ -259,7 +254,7 @@ namespace ext_pp
 
                 if (!ret)
                 {
-                    Logger.Log(DebugLevel.ERRORS, "Processing was aborted by Plugin: " + abstractPlugin,
+                    this.Log(DebugLevel.ERRORS, "Processing was aborted by Plugin: " + abstractPlugin,
                         Verbosity.LEVEL1);
                     return false;
                 }

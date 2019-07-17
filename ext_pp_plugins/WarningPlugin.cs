@@ -64,21 +64,13 @@ namespace ext_pp_plugins
         {
             if (!Utils.IsStatement(source, WarningKeyword)) return source;
             string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
-            Logger.Log(DebugLevel.ERRORS, "Warning: " + err, Verbosity.LEVEL1);
+            this.Log(DebugLevel.ERRORS, "Warning: " + err, Verbosity.LEVEL1);
             return "";
         }
 
 
         public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
-            Logger.Log(DebugLevel.LOGS, "Discovering Warnings...", Verbosity.LEVEL4);
-            string[] warnings = Utils.FindStatements(file.GetSource(), WarningKeyword);
-            foreach (var t in warnings)
-            {
-                Logger.Log(DebugLevel.ERRORS, "Warning(" + Path.GetFileName(file.GetFilePath()) + "): " + warnings.Unpack(Separator), Verbosity.LEVEL1);
-            }
-
-            Logger.Log(DebugLevel.LOGS, "Warning Detection Finished", Verbosity.LEVEL4);
             return true;
         }
 

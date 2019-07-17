@@ -78,18 +78,19 @@ namespace ext_pp_plugins
 
         public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
-            Logger.Log(DebugLevel.LOGS, "Starting Condition Solver passes on file: " + file.GetKey(), Verbosity.LEVEL4);
+            this.Log(DebugLevel.LOGS, "Starting Condition Solver passes on file: " + file.GetKey(), Verbosity.LEVEL4);
             bool ret = true;
             int openIf = 0;
             bool foundConditions = false;
             bool elseIsValid = false;
+            bool expectEndOrIf = false;
             List<string> lastPass = file.GetSource().ToList();
             List<string> solvedFile = new List<string>();
             int passCount = 0;
             do
             {
                 passCount++;
-                Logger.Log(DebugLevel.LOGS, "Starting Condition Solver pass: " + passCount, Verbosity.LEVEL4);
+                this.Log(DebugLevel.LOGS, "Starting Condition Solver pass: " + passCount, Verbosity.LEVEL5);
 
                 foundConditions = false;
                 elseIsValid = false;
@@ -98,38 +99,49 @@ namespace ext_pp_plugins
                     string line = lastPass[i].TrimStart();
                     if (IsKeyWord(line, StartCondition))
                     {
+                        this.Log(DebugLevel.LOGS, "Found a " + StartCondition + " Statement", Verbosity.LEVEL5);
                         bool r = EvaluateConditional(line, defs);
+                        this.Log(DebugLevel.LOGS, "Evaluation: " + r, Verbosity.LEVEL5);
                         elseIsValid = !r;
                         int size = GetBlockSize(lastPass, i);
                         if (r)
                         {
                             solvedFile.AddRange(lastPass.SubArray(i + 1, size));
-                            Logger.Log(DebugLevel.LOGS, "Adding Branch To Solved File.", Verbosity.LEVEL4);
+                            this.Log(DebugLevel.LOGS, "Adding Branch To Solved File.", Verbosity.LEVEL5);
                         }
 
                         openIf++;
                         i += size;
                         foundConditions = true;
+                        expectEndOrIf = false;
                     }
                     else if (elseIsValid && IsKeyWord(line, ElseIfCondition))
                     {
-                        if (openIf > 0)
+                        if (!expectEndOrIf && openIf > 0)
                         {
+                            this.Log(DebugLevel.LOGS, "Found a " + ElseIfCondition + " Statement", Verbosity.LEVEL5);
                             bool r = EvaluateConditional(line, defs);
+                            this.Log(DebugLevel.LOGS, "Evaluation: " + r, Verbosity.LEVEL5);
                             elseIsValid = !r;
                             int size = GetBlockSize(lastPass, i);
                             if (r)
                             {
                                 solvedFile.AddRange(lastPass.SubArray(i + 1, size));
-                                Logger.Log(DebugLevel.LOGS, "Adding Branch To Solved File.", Verbosity.LEVEL4);
+                                this.Log(DebugLevel.LOGS, "Adding Branch To Solved File.", Verbosity.LEVEL5);
                             }
 
                             i += size;
                             foundConditions = true;
                         }
+                        else if (expectEndOrIf)
+                        {
+                            this.Log(DebugLevel.ERRORS, "A " + ElseCondition + " can not be followed by an " + ElseIfCondition, Verbosity.LEVEL1);
+                            ret = false;
+                            break;
+                        }
                         else
                         {
-                            Logger.Log(DebugLevel.ERRORS, "A " + ElseIfCondition + " should be preceeded by an " + StartCondition, Verbosity.LEVEL1);
+                            this.Log(DebugLevel.ERRORS, "A " + ElseIfCondition + " should be preceeded by an " + StartCondition, Verbosity.LEVEL1);
                             ret = false;
                             break;
                         }
@@ -139,23 +151,24 @@ namespace ext_pp_plugins
                         if (openIf > 0)
                         {
 
-                            Logger.Log(DebugLevel.LOGS, "Found Else Statement", Verbosity.LEVEL4);
+                            this.Log(DebugLevel.LOGS, "Found a " + ElseCondition + " Statement", Verbosity.LEVEL5);
                             var size = GetBlockSize(lastPass, i);
                             if (elseIsValid)
                             {
                                 solvedFile.AddRange(lastPass.SubArray(i + 1, size));
-                                Logger.Log(DebugLevel.LOGS, "Adding Branch To Solved File.", Verbosity.LEVEL4);
+                                this.Log(DebugLevel.LOGS, "Adding Branch To Solved File.", Verbosity.LEVEL5);
                             }
                             else
                             {
-                                Logger.Log(DebugLevel.LOGS, "Ignored since a previous condition was true", Verbosity.LEVEL4);
+                                this.Log(DebugLevel.LOGS, "Ignored since a previous condition was true", Verbosity.LEVEL5);
                             }
                             i += size;
                             foundConditions = true;
+                            expectEndOrIf = true;
                         }
                         else
                         {
-                            Logger.Log(DebugLevel.ERRORS, "A " + ElseCondition + " should be preceeded by an " + StartCondition, Verbosity.LEVEL1);
+                            this.Log(DebugLevel.ERRORS, "A " + ElseCondition + " should be preceeded by an " + StartCondition, Verbosity.LEVEL1);
                             ret = false;
                             break;
                         }
@@ -163,12 +176,15 @@ namespace ext_pp_plugins
                     else if (IsKeyWord(line, EndCondition))
                     {
                         if (openIf > 0)
+                        {
+                            expectEndOrIf = false;
                             openIf--;
+                        }
                         else
                         {
                             ret = false;
 
-                            Logger.Log(DebugLevel.ERRORS, "A " + EndCondition + " should be preceeded by an " + StartCondition, Verbosity.LEVEL1);
+                            this.Log(DebugLevel.ERRORS, "A " + EndCondition + " should be preceeded by an " + StartCondition, Verbosity.LEVEL1);
                             break;
                         }
                     }
@@ -176,14 +192,14 @@ namespace ext_pp_plugins
                              line.StartsWith(DefineKeyword))
                     {
 
-                        Logger.Log(DebugLevel.LOGS, "Found a " + DefineKeyword + " Statement", Verbosity.LEVEL4);
+                        this.Log(DebugLevel.LOGS, "Found a " + DefineKeyword + " Statement", Verbosity.LEVEL5);
                         defs.Set(Utils.SplitAndRemoveFirst(line, Separator));
                         solvedFile.Add(lastPass[i]);
                     }
                     else if (EnableUndefine &&
                              line.StartsWith(UndefineKeyword))
                     {
-                        Logger.Log(DebugLevel.LOGS, "Found a " + UndefineKeyword + " Statement", Verbosity.LEVEL4);
+                        this.Log(DebugLevel.LOGS, "Found a " + UndefineKeyword + " Statement", Verbosity.LEVEL5);
                         defs.Unset(Utils.SplitAndRemoveFirst(line, Separator));
                         solvedFile.Add(lastPass[i]);
                     }
@@ -204,7 +220,7 @@ namespace ext_pp_plugins
             file.SetSource(lastPass.ToArray());
 
 
-            Logger.Log(DebugLevel.LOGS, "Conditional Solver Finished", Verbosity.LEVEL4);
+            this.Log(DebugLevel.LOGS, "Conditional Solver Finished", Verbosity.LEVEL4);
 
             return ret;
         }
@@ -212,14 +228,14 @@ namespace ext_pp_plugins
 
         private int GetBlockSize(IReadOnlyList<string> source, int start)
         {
-            Logger.Log(DebugLevel.LOGS, "Finding End of conditional block...", Verbosity.LEVEL5);
+            this.Log(DebugLevel.LOGS, "Finding End of conditional block...", Verbosity.LEVEL6);
             var tolerance = 0;
             for (var i = start + 1; i < source.Count; i++)
             {
                 var line = source[i].Trim();
                 if (line.StartsWith(StartCondition))
                 {
-                    Logger.Log(DebugLevel.LOGS, "Found nested opening conditional block...", Verbosity.LEVEL5);
+                    this.Log(DebugLevel.LOGS, "Found nested opening conditional block...", Verbosity.LEVEL7);
                     i += GetBlockSize(source, i);
                     tolerance++;
                 }
@@ -231,25 +247,23 @@ namespace ext_pp_plugins
                     if (tolerance == 0)
                     {
 
-                        Logger.Log(DebugLevel.LOGS, "Found correct ending conditional block...", Verbosity.LEVEL5);
+                        this.Log(DebugLevel.LOGS, "Found correct ending conditional block...", Verbosity.LEVEL6);
                         return i - start - 1;
                     }
                     if (line.StartsWith(EndCondition))
                     {
 
-                        Logger.Log(DebugLevel.LOGS, "Found an ending conditional block...", Verbosity.LEVEL5);
+                        this.Log(DebugLevel.LOGS, "Found an ending conditional block...", Verbosity.LEVEL7);
                         tolerance--;
                     }
                 }
             }
 
-            return -1; //Not getting here since it crashes in Logger.Crash
+            return -1; //Not getting here since it crashes in this.Crash
         }
 
         private bool EvaluateConditional(string expression, IDefinitions defs)
         {
-
-            Logger.Log(DebugLevel.LOGS, "Found condition: " + expression, Verbosity.LEVEL4);
             string condition = FixCondition(Utils.SplitAndRemoveFirst(expression, Separator).Unpack(Separator));
 
             string[] cs = condition.Pack(Separator).ToArray();
@@ -258,7 +272,7 @@ namespace ext_pp_plugins
         private bool EvaluateConditional(string[] expression, IDefinitions defs)
         {
 
-            Logger.Log(DebugLevel.LOGS, "Evaluating Condition...", Verbosity.LEVEL4);
+            this.Log(DebugLevel.LOGS, "Evaluating Expression: "+expression.Unpack(", "), Verbosity.LEVEL7);
 
             bool ret = true;
             bool isOr = false;
@@ -298,11 +312,11 @@ namespace ext_pp_plugins
 
         private bool EvaluateExpression(string expression, IDefinitions defs)
         {
-            Logger.Log(DebugLevel.LOGS, "Evaluating Expression: " + expression, Verbosity.LEVEL5);
+            this.Log(DebugLevel.LOGS, "Evaluating Expression: " + expression, Verbosity.LEVEL6);
             bool neg = expression.StartsWith(NotOperator);
             if (expression == NotOperator)
             {
-                Logger.Log(DebugLevel.ERRORS, "Single not Operator found. Will break the compilation.", Verbosity.LEVEL1);
+                this.Log(DebugLevel.ERRORS, "Single not Operator found. Will break the compilation.", Verbosity.LEVEL1);
                 return false;
             }
 
@@ -317,7 +331,7 @@ namespace ext_pp_plugins
         private string FixCondition(string line)
         {
 
-            Logger.Log(DebugLevel.LOGS, "Fixing condition: " + line, Verbosity.LEVEL5);
+            this.Log(DebugLevel.LOGS, "Fixing expression: " + line, Verbosity.LEVEL6);
             List<char> ret = new List<char>();
 
             string r = line;
@@ -325,22 +339,22 @@ namespace ext_pp_plugins
             r = SurroundWithSpaces(r, AndOperator);
             r = SurroundWithSpaces(r, "(");
             r = SurroundWithSpaces(r, ")");
-            string rr = Utils.RemoveExcessSpaces(r, Separator);
+            string rr = Utils.RemoveExcessSpaces(r, Separator, this);
 
-            Logger.Log(DebugLevel.LOGS, "Fixed condition(new): " + rr, Verbosity.LEVEL5);
+            this.Log(DebugLevel.LOGS, "Fixed condition(new): " + rr, Verbosity.LEVEL6);
             return rr;
 
         }
 
-        private static int IndexOfClosingBracket(string[] expression, int openBracketIndex)
+        private int IndexOfClosingBracket(string[] expression, int openBracketIndex)
         {
-            Logger.Log(DebugLevel.LOGS, "Finding Closing Bracket...", Verbosity.LEVEL6);
+            this.Log(DebugLevel.LOGS, "Finding Closing Bracket...", Verbosity.LEVEL7);
             int tolerance = 0;
             for (int i = openBracketIndex + 1; i < expression.Length; i++)
             {
                 if (expression[i] == "(")
                 {
-                    Logger.Log(DebugLevel.LOGS, "Found Nested opening Bracket, adjusting tolerance.", Verbosity.LEVEL6);
+                    this.Log(DebugLevel.LOGS, "Found Nested opening Bracket, adjusting tolerance.", Verbosity.LEVEL8);
                     tolerance++;
                 }
                 else if (expression[i] == ")")
@@ -348,10 +362,10 @@ namespace ext_pp_plugins
                     if (tolerance == 0)
                     {
 
-                        Logger.Log(DebugLevel.LOGS, "Found Correct Closing Bracket", Verbosity.LEVEL6);
+                        this.Log(DebugLevel.LOGS, "Found Correct Closing Bracket", Verbosity.LEVEL7);
                         return i;
                     }
-                    Logger.Log(DebugLevel.LOGS, "Found Nested Closing Bracket, adjusting tolerance.", Verbosity.LEVEL6);
+                    this.Log(DebugLevel.LOGS, "Found Nested Closing Bracket, adjusting tolerance.", Verbosity.LEVEL8);
                     tolerance--;
                 }
             }
@@ -359,12 +373,12 @@ namespace ext_pp_plugins
             return -1;
         }
 
-        private static string SurroundWithSpaces(string line, string keyword)
+        private string SurroundWithSpaces(string line, string keyword)
         {
             StringBuilder sb = new StringBuilder(line);
             sb.Replace(keyword, " " + keyword + " ");
             string ret = sb.ToString();
-            Logger.Log(DebugLevel.LOGS, "Removing Excess Spaces: " + line + " => " + ret, Verbosity.LEVEL6);
+            this.Log(DebugLevel.LOGS, "Removing Excess Spaces: " + line + " => " + ret, Verbosity.LEVEL7);
             return ret;
         }
 

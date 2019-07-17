@@ -15,7 +15,7 @@ using Utils = ext_pp_base.Utils;
 
 namespace ext_pp_cli
 {
-    public class CLI
+    public class CLI : ILoggable
     {
         private static string HelpText = "To list all available commands type: ext_pp_cli --help or -h";
 
@@ -99,18 +99,18 @@ namespace ext_pp_cli
 
             if (ShowVersion)
             {
-                Logger.Log(DebugLevel.LOGS, Version, Verbosity.LEVEL1);
+                this.Log(DebugLevel.LOGS, Version, Verbosity.LEVEL1);
                 return;
             }
 
 
-            Logger.Log(DebugLevel.LOGS, CLIHeader, Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, CLIHeader, Verbosity.LEVEL1);
 
             if (HelpParams != null)
             {
                 if (HelpParams.Length == 0)
                 {
-                    Logger.Log(DebugLevel.LOGS, "\n" + Info.ListAllCommands(new[] { "" }).Unpack("\n"),
+                    this.Log(DebugLevel.LOGS, "\n" + Info.ListAllCommands(new[] { "" }).Unpack("\n"),
                         Verbosity.SILENT);
                     return;
                 }
@@ -119,16 +119,16 @@ namespace ext_pp_cli
                     if (file != "self")
                     {
                         List<AbstractPlugin> plugins = CreatePluginChain(new[] { file }, true).ToList();
-                        Logger.Log(DebugLevel.LOGS, "Listing Plugins: ", Verbosity.SILENT);
+                        this.Log(DebugLevel.LOGS, "Listing Plugins: ", Verbosity.SILENT);
                         foreach (var plugin in plugins)
                         {
-                            Logger.Log(DebugLevel.LOGS, "\n" + plugin.ListInfo(true).Unpack("\n"),
+                            this.Log(DebugLevel.LOGS, "\n" + plugin.ListInfo(true).Unpack("\n"),
                                 Verbosity.SILENT);
                         }
                     }
                     else
                     {
-                        Logger.Log(DebugLevel.LOGS, "\n" + Info.ListAllCommands(new[] { "" }).Unpack("\n"),
+                        this.Log(DebugLevel.LOGS, "\n" + Info.ListAllCommands(new[] { "" }).Unpack("\n"),
                             Verbosity.SILENT);
                     }
 
@@ -157,9 +157,9 @@ namespace ext_pp_cli
             if ((Output.Length == 0 && !OutputToConsole) || Input.Length == 0)
             {
 
-                Logger.Log(DebugLevel.ERRORS, args.Unpack(", "), Verbosity.SILENT);
-                Logger.Log(DebugLevel.ERRORS, "Not enough arguments specified. Aborting..", Verbosity.SILENT);
-                Logger.Log(DebugLevel.LOGS, HelpText, Verbosity.LEVEL1);
+                this.Log(DebugLevel.ERRORS, args.Unpack(", "), Verbosity.SILENT);
+                this.Log(DebugLevel.ERRORS, "Not enough arguments specified. Aborting..", Verbosity.SILENT);
+                this.Log(DebugLevel.LOGS, HelpText, Verbosity.LEVEL1);
                 return;
             }
 
@@ -168,7 +168,7 @@ namespace ext_pp_cli
 
             if (Input.Length > Output.Length)
             {
-                Logger.Log(DebugLevel.ERRORS, "Not enough outputs specified. Aborting..", Verbosity.SILENT);
+                this.Log(DebugLevel.ERRORS, "Not enough outputs specified. Aborting..", Verbosity.SILENT);
                 return;
             }
 
@@ -210,7 +210,7 @@ namespace ext_pp_cli
             Logger.VerbosityLevel = (Verbosity)(DebugLvl);
 
 
-            Logger.Log(DebugLevel.LOGS, "Verbosity Level set to: " + Logger.VerbosityLevel, Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, "Verbosity Level set to: " + Logger.VerbosityLevel, Verbosity.LEVEL1);
 
         }
 
@@ -223,7 +223,7 @@ namespace ext_pp_cli
             {
 
                 if (vars[0] != "all")
-                    mask = (int)EnumParser.Parse(typeof(DebugLevel), vars[0], -1);
+                    mask = (int)Utils.Parse(typeof(DebugLevel), vars[0], -1);
                 if (vars.Length > 1)
                 {
                     bool.TryParse(vars[1], out timestamp);
@@ -254,19 +254,19 @@ namespace ext_pp_cli
             if (ChainParams != null)
             {
                 _chain = CreatePluginChain(ChainParams, NoCollections).ToList();
-                Logger.Log(DebugLevel.LOGS, _chain.Count + " Plugins Loaded..", Verbosity.LEVEL2);
+                this.Log(DebugLevel.LOGS, _chain.Count + " Plugins Loaded..", Verbosity.LEVEL2);
             }
             else
             {
-                Logger.Log(DebugLevel.ERRORS, "Not plugin chain specified. 0 Plugins Loaded..", Verbosity.LEVEL1);
+                this.Log(DebugLevel.ERRORS, "Not plugin chain specified. 0 Plugins Loaded..", Verbosity.LEVEL1);
                 _chain = new List<AbstractPlugin>();
             }
         }
 
-        private static IEnumerable<AbstractPlugin> CreatePluginChain(string[] arg, bool noCollection)
+        private IEnumerable<AbstractPlugin> CreatePluginChain(string[] arg, bool noCollection)
         {
 
-            Logger.Log(DebugLevel.LOGS, "Creating Plugin Chain...", Verbosity.LEVEL3);
+            this.Log(DebugLevel.LOGS, "Creating Plugin Chain...", Verbosity.LEVEL3);
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
 
             string[] names = null;
@@ -305,14 +305,14 @@ namespace ext_pp_cli
                             {
                                 List<AbstractPlugin> r = ((IChainCollection)Activator.CreateInstance(t)).GetChain()
                                     .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
-                                Logger.Log(DebugLevel.LOGS, "Creating Chain Collection with Plugins: " + r.Select(x => x.GetType().Name).Unpack(", "), Verbosity.LEVEL2);
+                                this.Log(DebugLevel.LOGS, "Creating Chain Collection with Plugins: " + r.Select(x => x.GetType().Name).Unpack(", "), Verbosity.LEVEL2);
                                 ret.AddRange(r);
                             }
                         }
                         else
                         {
                             names[0] = names[0].Trim('(', ')');
-                            Logger.Log(DebugLevel.LOGS, "Searching Chain Collection: " + names[0], Verbosity.LEVEL2);
+                            this.Log(DebugLevel.LOGS, "Searching Chain Collection: " + names[0], Verbosity.LEVEL2);
 
                             IChainCollection coll = types.Where(x => x.GetInterfaces().Contains(typeof(IChainCollection)))
                                  .Select(x => (IChainCollection)Activator.CreateInstance(x)).FirstOrDefault(x => x.GetName() == names[0]);
@@ -320,10 +320,10 @@ namespace ext_pp_cli
                             if (coll != null)
                             {
 
-                                Logger.Log(DebugLevel.LOGS, "Found Chain Collection: " + names[0], Verbosity.LEVEL2);
+                                this.Log(DebugLevel.LOGS, "Found Chain Collection: " + names[0], Verbosity.LEVEL2);
                                 List<AbstractPlugin> r = coll.GetChain()
                                     .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
-                                Logger.Log(DebugLevel.LOGS, "Creating Chain Collection with Plugins: " + r.Select(x => x.GetType().Name).Unpack(", "), Verbosity.LEVEL2);
+                                this.Log(DebugLevel.LOGS, "Creating Chain Collection with Plugins: " + r.Select(x => x.GetType().Name).Unpack(", "), Verbosity.LEVEL2);
                                 ret.AddRange(r);
 
                             }
@@ -331,7 +331,7 @@ namespace ext_pp_cli
                     }
                     else
                     {
-                        Logger.Log(DebugLevel.LOGS, "Loading " + (names == null ? "all plugins" : names.Unpack(", ")) + " in file " + path, Verbosity.LEVEL4);
+                        this.Log(DebugLevel.LOGS, "Loading " + (names == null ? "all plugins" : names.Unpack(", ")) + " in file " + path, Verbosity.LEVEL4);
 
                         if (names == null)
                         {
@@ -340,7 +340,7 @@ namespace ext_pp_cli
                             {
                                 if (type.IsSubclassOf(typeof(AbstractPlugin)))
                                 {
-                                    Logger.Log(DebugLevel.LOGS, "Creating instance of: " + type.Name, Verbosity.LEVEL5);
+                                    this.Log(DebugLevel.LOGS, "Creating instance of: " + type.Name, Verbosity.LEVEL5);
                                     ret.Add((AbstractPlugin)Activator.CreateInstance(type));
                                 }
                             }
@@ -353,7 +353,7 @@ namespace ext_pp_cli
                                 {
                                     if (types[j].Name == names[i])
                                     {
-                                        Logger.Log(DebugLevel.LOGS, "Creating instance of: " + types[j].Name, Verbosity.LEVEL5);
+                                        this.Log(DebugLevel.LOGS, "Creating instance of: " + types[j].Name, Verbosity.LEVEL5);
                                         ret.Add((AbstractPlugin)Activator.CreateInstance(types[j]));
                                     }
                                 }
@@ -364,29 +364,29 @@ namespace ext_pp_cli
                 else
                 {
 
-                    Logger.Log(DebugLevel.ERRORS, "Could not load file: " + path, Verbosity.LEVEL1);
+                    this.Log(DebugLevel.ERRORS, "Could not load file: " + path, Verbosity.LEVEL1);
                 }
             }
 
             return ret;
         }
 
-        public static IEnumerable<AbstractPlugin> CreatePluginChain(IEnumerable<Type> chain)
+        public IEnumerable<AbstractPlugin> CreatePluginChain(IEnumerable<Type> chain)
         {
-            Logger.Log(DebugLevel.LOGS, "Creating Plugin Chain...", Verbosity.LEVEL3);
+            this.Log(DebugLevel.LOGS, "Creating Plugin Chain...", Verbosity.LEVEL3);
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
-            Logger.Log(DebugLevel.LOGS, "Loading " + chain.Select(x => x.Name).Unpack(", "), Verbosity.LEVEL4);
+            this.Log(DebugLevel.LOGS, "Loading " + chain.Select(x => x.Name).Unpack(", "), Verbosity.LEVEL4);
             foreach (var type in chain)
             {
                 if (type.IsSubclassOf(typeof(AbstractPlugin)))
                 {
-                    Logger.Log(DebugLevel.LOGS, "Creating instance of: " + type.Name, Verbosity.LEVEL5);
+                    this.Log(DebugLevel.LOGS, "Creating instance of: " + type.Name, Verbosity.LEVEL5);
                     ret.Add((AbstractPlugin)Activator.CreateInstance(type));
                 }
                 else
                 {
 
-                    Logger.Log(DebugLevel.WARNINGS, "Type: " + type.Name + " is not an AbstractPlugin", Verbosity.LEVEL2);
+                    this.Log(DebugLevel.WARNINGS, "Type: " + type.Name + " is not an AbstractPlugin", Verbosity.LEVEL1);
                 }
             }
 
@@ -425,7 +425,7 @@ namespace ext_pp_cli
                 Console.OpenStandardOutput(),
                 -1,
                 MatchType.MatchAll,
-                true);
+                false);
 
             Debug.AddOutputStream(lts);
 
@@ -451,7 +451,7 @@ namespace ext_pp_cli
 
         public static void Main(string[] args)
         {
-            
+
 
 
 

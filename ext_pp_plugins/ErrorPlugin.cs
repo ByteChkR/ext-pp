@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using ext_pp_base;
@@ -69,7 +70,7 @@ namespace ext_pp_plugins
         {
             if (!Utils.IsStatement(source, ErrorKeyword)) return source;
             string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
-            Logger.Log(DebugLevel.ERRORS, "Error " + err, Verbosity.LEVEL1);
+            Logger.Crash(new Exception("Error " + err), true);
             return "";
         }
 
@@ -77,15 +78,7 @@ namespace ext_pp_plugins
 
         public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
-            Logger.Log(DebugLevel.LOGS, "Discovering Errors...", Verbosity.LEVEL4);
-            string[] errors = Utils.FindStatements(file.GetSource(), ErrorKeyword);
-            foreach (var t in errors)
-            {
-                Logger.Log(DebugLevel.ERRORS, "Error(" + Path.GetFileName(file.GetFilePath()) + "): " + errors.Unpack(Separator), Verbosity.LEVEL1);
-            }
-
-            Logger.Log(DebugLevel.LOGS, "Error Detection Finished", Verbosity.LEVEL4);
-            return errors.Length == 0;
+            return true;
         }
 
     }

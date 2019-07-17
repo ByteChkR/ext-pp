@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
+using System.Linq;
 using ext_pp_base.settings;
 
 namespace ext_pp_base
@@ -7,8 +7,15 @@ namespace ext_pp_base
     /// <summary>
     /// Specifies the functionality needed to be incorporated in the processing chain of ext_pp
     /// </summary>
-    public abstract class AbstractPlugin
+    public abstract class AbstractPlugin : ILoggable
     {
+
+        public static List<AbstractPlugin> GetPluginsForStage(List<AbstractPlugin> plugins, PluginType type, ProcessStage stage)
+        {
+            return plugins.Where(
+                x => ADL.BitMask.IsContainedInMask((int)x.PluginType, (int)type, true) &&
+                     ADL.BitMask.IsContainedInMask((int)x.ProcessStages, (int)stage, true)).ToList();
+        }
 
         public abstract string[] Prefix { get; }
         public virtual bool IncludeGlobal => false;

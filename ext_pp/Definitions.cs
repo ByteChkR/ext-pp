@@ -7,7 +7,7 @@ namespace ext_pp
     /// <summary>
     /// Contains the Values on what is Defined as a Variable when Processing the text
     /// </summary>
-    public class Definitions : IDefinitions
+    public class Definitions : ILoggable, IDefinitions
     {
         /// <summary>
         /// Dictionary to keep track of what is defined and what is not
@@ -80,8 +80,7 @@ namespace ext_pp
         /// <param name="state"></param>
         private void Change(string key, bool state)
         {
-
-            Logger.Log(DebugLevel.LOGS, "Setting Key: " + key + " to value: " + state, Verbosity.LEVEL6);
+            this.Log(DebugLevel.LOGS, "Setting Key: " + key + " to value: " + state, Verbosity.LEVEL6);
             if (_definitions.ContainsKey(key)) _definitions[key] = state;
             else _definitions.Add(key, state);
         }

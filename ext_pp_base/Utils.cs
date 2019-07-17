@@ -16,7 +16,7 @@ namespace ext_pp_base
         /// <param name="source"></param>
         /// <param name="statements"></param>
         /// <returns></returns>
-        public static List<string> RemoveStatements(List<string> source, string[] statements)
+        public static List<string> RemoveStatements(List<string> source, string[] statements, ILoggable logobj)
         {
             for (var i = source.Count - 1; i >= 0; i--)
             {
@@ -26,7 +26,7 @@ namespace ext_pp_base
                     if (source[i].Trim().StartsWith(t))
                     {
 
-                        Logger.Log(DebugLevel.LOGS, "Removing statement " + t + " on line " + i, Verbosity.LEVEL7);
+                        Logger.Log(logobj,DebugLevel.LOGS, "Removing statement " + t + " on line " + i, Verbosity.LEVEL7);
                         source.RemoveAt(i);
                         break;
                     }
@@ -36,10 +36,10 @@ namespace ext_pp_base
         }
 
 
-        public static string RemoveExcessSpaces(string line, string separator)
+        public static string RemoveExcessSpaces(string line, string separator, ILoggable logobj)
         {
             string ret = line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
-            Logger.Log(DebugLevel.LOGS, "Removing Excess Spaces: " + line + " => " + ret, Verbosity.LEVEL6);
+            Logger.Log(logobj,DebugLevel.LOGS, "Removing Excess Spaces: " + line + " => " + ret, Verbosity.LEVEL7);
             return ret;
         }
 
@@ -102,7 +102,7 @@ namespace ext_pp_base
         /// <returns></returns>
         public static string[] SplitAndRemoveFirst(string statement, string separator)
         {
-            if (string.IsNullOrEmpty(statement)) return new string[0];
+            if (String.IsNullOrEmpty(statement)) return new string[0];
 
             var ret = statement.Split(separator);
 
@@ -126,26 +126,26 @@ namespace ext_pp_base
 
             if (typeof(T) == typeof(int)) ret = (string val, out object value) =>
             {
-                bool r = int.TryParse(val, out int v);
+                bool r = Int32.TryParse(val, out int v);
                 value = v;
                 return r;
             };
             else if (typeof(T) == typeof(float)) ret = (string val, out object value) =>
             {
-                bool r = float.TryParse(val, out float v);
+                bool r = Single.TryParse(val, out float v);
                 value = v;
                 return r;
             };
             else if (typeof(T) == typeof(char)) ret = (string val, out object value) =>
             {
-                bool r = char.TryParse(val, out char v);
+                bool r = Char.TryParse(val, out char v);
                 value = v;
                 return r;
             };
             else if (typeof(T) == typeof(bool)) ret = (string val, out object value) =>
             {
-                bool r = bool.TryParse(val, out bool v);
-                if (string.IsNullOrEmpty(val)) r = v = true;
+                bool r = Boolean.TryParse(val, out bool v);
+                if (String.IsNullOrEmpty(val)) r = v = true;
                 value = v;
                 return r;
             };
@@ -172,7 +172,7 @@ namespace ext_pp_base
             for (var index = 0; index < obj.Length; index++)
             {
                 var s = obj[index];
-                if (t.IsEnum) ret[index] = EnumParser.Parse(t, obj[index], defaul);
+                if (t.IsEnum) ret[index] = ParseEnum(t, obj[index], defaul);
                 else ret[index] = Parse(t, obj[index], defaul);
             }
 
@@ -181,7 +181,7 @@ namespace ext_pp_base
 
         public static object Parse(Type t, string obj, object defaul)
         {
-            if (t.IsEnum) return EnumParser.Parse(t, obj, defaul);
+            if (t.IsEnum) return ParseEnum(t, obj, defaul);
             _parser[t](obj, out object val);
             return val ?? defaul;
         }
@@ -189,6 +189,36 @@ namespace ext_pp_base
         public static T Parse<T>(string obj, object defaul)
         {
             return (T)Parse(typeof(T), obj, defaul);
+        }
+
+        private static object ParseEnum(Type enu, string input, object defaul)
+        {
+            if (input.IsAllDigits())
+            {
+                return Int32.Parse(input);
+            }
+
+            if (!enu.IsEnum || input == null) return defaul;
+
+            int ret = -1;
+
+            string[] ands = input.Split('&', StringSplitOptions.RemoveEmptyEntries);
+            foreach (var and in ands)
+            {
+                string[] ors = and.Split("|", StringSplitOptions.RemoveEmptyEntries);
+                int r = -1;
+                foreach (var or in ors)
+                {
+                    string enumStr = or.Trim();
+                    if (r == -1) r = (int)Enum.Parse(enu, enumStr);
+                    else r |= (int)Enum.Parse(enu, enumStr);
+                }
+
+                if (ret == -1) ret = r;
+                else ret &= r;
+            }
+
+            return ret;
         }
     }
 }

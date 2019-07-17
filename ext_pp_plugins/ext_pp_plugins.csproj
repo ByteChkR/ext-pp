@@ -9,11 +9,4 @@
     <ProjectReference Include="..\ext_pp_base\ext_pp_base.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="ADL">
-      <HintPath>..\ext_pp\res\ADL.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-  </ItemGroup>
-
 </Project>

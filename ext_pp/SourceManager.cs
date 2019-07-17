@@ -13,7 +13,7 @@ namespace ext_pp
     /// A class that keeps track on what scripts are loaded and their processing state.
     /// This class also defines a Compute Scheme to alter the keys the file gets matched with, to enable loading the same file multiple times.
     /// </summary>
-    public class SourceManager : ISourceManager
+    public class SourceManager : ISourceManager, ILoggable
     {
         /// <summary>
         /// List of Scripts that are included in this Processing run
@@ -51,7 +51,7 @@ namespace ext_pp
         {
             if (scheme == null) return;
             _computeScheme = scheme;
-            Logger.Log(DebugLevel.LOGS, "Changed Computing Scheme to: " + scheme.Method.Name, Verbosity.LEVEL2);
+            this.Log(DebugLevel.LOGS, "Changed Computing Scheme to: " + scheme.Method.Name, Verbosity.LEVEL2);
         }
 
         public int GetTodoCount()
@@ -116,7 +116,7 @@ namespace ext_pp
         /// <param name="script"></param>
         public void FixOrder(ISourceScript script)
         {
-            Logger.Log(DebugLevel.LOGS, "Fixing Build Order of file: " + script.GetKey(), Verbosity.LEVEL3);
+            this.Log(DebugLevel.LOGS, "Fixing Build Order of file: " + script.GetKey(), Verbosity.LEVEL3);
             int idx = IndexOfFile(script.GetKey());
             var a = _sources[idx];
             var ab = _doneState[idx];
@@ -146,7 +146,7 @@ namespace ext_pp
         {
             if (!IsIncluded(script))
             {
-                Logger.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + script.GetKey(), Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
                 AddFile(script, false);
                 _doneState.Add(ProcessStage.QUEUED);
             }
@@ -163,7 +163,7 @@ namespace ext_pp
             {
                 _doneState[IndexOfFile(script.GetKey())] = stage;
 
-                Logger.Log(DebugLevel.LOGS, "Finished Script: " + script.GetKey(), Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, "Finished Script: " + script.GetKey(), Verbosity.LEVEL3);
             }
         }
 
@@ -235,7 +235,7 @@ namespace ext_pp
             if (LockScriptCreation)
             {
                 script = null;
-                Logger.Log(DebugLevel.WARNINGS, "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?", Verbosity.LEVEL1);
+                this.Log(DebugLevel.WARNINGS, "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?", Verbosity.LEVEL1);
                 return false;
             }
 

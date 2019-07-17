@@ -113,7 +113,7 @@ namespace ext_pp_plugins
             {
                 if (source.Contains(keyword.Key))
                 {
-                    Logger.Log(DebugLevel.LOGS, "Replacing " + keyword.Key + " with " + keyword.Value, Verbosity.LEVEL5);
+                    this.Log(DebugLevel.LOGS, "Replacing " + keyword.Key + " with " + keyword.Value, Verbosity.LEVEL6);
                     source = source.Replace(keyword.Key, keyword.Value);
                 }
             }

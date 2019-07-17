@@ -26,9 +26,9 @@ namespace ext_pp_plugins
             return this.line == line && (this.filename == "*" || this.filename == filename);
         }
 
-        public static Breakpoint[] Parse(string breakpointstr)
+        public Breakpoint[] Parse(string breakpointstr, ILoggable logobj)
         {
-            return Parse(breakpointstr.Pack(" ").ToArray());
+            return Parse(breakpointstr.Pack(" ").ToArray(), logobj);
         }
 
         private static string GetInput()
@@ -37,7 +37,7 @@ namespace ext_pp_plugins
 
         }
 
-        public static Breakpoint[] Parse(string[] breakpointarr)
+        public static Breakpoint[] Parse(string[] breakpointarr, ILoggable logobj)
         {
             if (breakpointarr == null) return new Breakpoint[0];
             List<Breakpoint> points = new List<Breakpoint>();
@@ -62,7 +62,7 @@ namespace ext_pp_plugins
                         if (!continueCreation && args[idx + 1] == "-dbg-exit") exit = true;
                         if (!exit && !int.TryParse(args[idx + 1], out b.stage))
                         {
-                            Logger.Log(DebugLevel.LOGS, "Stage is not a valid integer. To abort type -dbg-exit",
+                            Logger.Log(logobj, DebugLevel.LOGS, "Stage is not a valid integer. To abort type -dbg-exit",
                                 Verbosity.LEVEL1);
                             continueCreation = false;
                         }
@@ -80,7 +80,7 @@ namespace ext_pp_plugins
                         if (!continueCreation && args[idx + 1] == "-dbg-exit") exit = true;
                         if (!exit && !int.TryParse(args[idx + 1], out b.line))
                         {
-                            Logger.Log(DebugLevel.LOGS, "Line is not a valid integer. To abort type -dbg-exit",
+                            Logger.Log(logobj, DebugLevel.LOGS, "Line is not a valid integer. To abort type -dbg-exit",
                                 Verbosity.LEVEL1);
                             continueCreation = false;
                         }
@@ -125,7 +125,7 @@ namespace ext_pp_plugins
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
             settings.ApplySettings(Info, this);
-            _breakpoints = Breakpoint.Parse(Breakpoints).ToList();
+            _breakpoints = Breakpoint.Parse(Breakpoints,this).ToList();
         }
 
         public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
@@ -152,7 +152,7 @@ namespace ext_pp_plugins
                     {
                         do
                         {
-                            Logger.Log(DebugLevel.LOGS, "Type -dbg-continue to contine processing\nType -dbg-exit to exit the program\n" +
+                            this.Log(DebugLevel.LOGS, "Type -dbg-continue to contine processing\nType -dbg-exit to exit the program\n" +
                                                                     "Type -dbg-file to list the current file from line you set the breakpoint\n" +
                                                                     "-dbg-file-all to list the whole file\n" +
                                                                     "-dbg-dump <pathtofile> dumps the current file source.\n" +
@@ -182,7 +182,7 @@ namespace ext_pp_plugins
                             }
                             else if (getInput.StartsWith("-dbg-add-bp "))
                             {
-                                Breakpoint[] ff = Breakpoint.Parse(getInput.Split(" "));
+                                Breakpoint[] ff = Breakpoint.Parse(getInput.Split(" "), this);
                                 _breakpoints.AddRange(ff);
                             }
                         } while (isBreaking);

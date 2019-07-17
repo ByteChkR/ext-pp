@@ -5,7 +5,7 @@ using ext_pp_base.settings;
 
 namespace ext_pp
 {
-    internal class SourceScript : ISourceScript
+    internal class SourceScript : ISourceScript, ILoggable
     {
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace ext_pp
             bool ret;
             if (!(ret = LoadSource()))
             {
-                Logger.Log(DebugLevel.ERRORS, "Could not load file: " + _filepath, Verbosity.LEVEL1);
+                this.Log(DebugLevel.ERRORS, "Could not load file: " + _filepath, Verbosity.LEVEL1);
 
             }
 

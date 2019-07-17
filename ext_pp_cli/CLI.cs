@@ -17,7 +17,7 @@ namespace ext_pp_cli
 {
     public class CLI
     {
-        private static string HelpText = "To list all available commands type: ext_pp_cli -l self";
+        private static string HelpText = "To list all available commands type: ext_pp_cli --help or -h";
 
         private static string CLIHeader = "\n\next_pp_cli version: " + Assembly.GetExecutingAssembly().GetName().Version + "\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n";
 
@@ -398,6 +398,11 @@ namespace ext_pp_cli
 
         public static void Main(string[] args)
         {
+
+            DebugLevel dl = (DebugLevel)EnumParser.Parse(typeof(DebugLevel), "ERRORS|WARNINGS");
+
+
+
             if (args.Length == 0)
             {
                 Console.WriteLine(HelpText);

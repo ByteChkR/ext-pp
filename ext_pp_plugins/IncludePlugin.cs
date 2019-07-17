@@ -15,6 +15,7 @@ namespace ext_pp_plugins
         public string IncludeKeyword = "#include";
         public string IncludeInlineKeyword = "#includeinl";
         public string Separator = " ";
+
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
             new CommandInfo("set-include", "i", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(IncludeKeyword)),
@@ -22,8 +23,8 @@ namespace ext_pp_plugins
             new CommandInfo("set-include-inline", "ii", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(IncludeInlineKeyword)),
                 "set-include-inline [include keyword] *#includeinl*\r\n\t\t\tSets the keyword that is used to insert other files directly into the current file"),
             new CommandInfo("set-separator","s", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(Separator)),
-                "set-separator [separator keyword] * *\r\n\t\t\tSets the separator that is used to separate the include statement from the filepath")
-        };
+                "set-separator [separator keyword] * *\r\n\t\t\tSets the separator that is used to separate the include statement from the filepath"),
+            };
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
 

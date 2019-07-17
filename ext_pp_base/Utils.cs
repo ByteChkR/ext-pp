@@ -116,7 +116,7 @@ namespace ext_pp_base
             {typeof(int), CreateTryParser<int>()},
             {typeof(float), CreateTryParser<float>()},
             {typeof(char), CreateTryParser<char>()},
-            {typeof(bool), CreateTryParser<bool>()}
+            {typeof(bool), CreateTryParser<bool>()},
         };
 
         private static TryParse CreateTryParser<T>()
@@ -171,7 +171,8 @@ namespace ext_pp_base
             for (var index = 0; index < obj.Length; index++)
             {
                 var s = obj[index];
-                ret[index] = Parse(t, obj[index]);
+                if (t.IsEnum) ret[index] = EnumParser.Parse(t, obj[index]);
+                else ret[index] = Parse(t, obj[index]);
             }
 
             return ret;
@@ -179,6 +180,7 @@ namespace ext_pp_base
 
         public static object Parse(Type t, string obj)
         {
+            if (t.IsEnum) return EnumParser.Parse(t, obj);
             _parser[t](obj, out object val);
             return val;
         }

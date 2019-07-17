@@ -48,8 +48,19 @@ namespace ext_pp_cli
             new CommandInfo("no-chain-collection", "nc", PropertyHelper<CLI>.GetFieldInfo(x=>x.NoCollections),
                 "The CLI will not search for a ChainCollection in the specified assembly"),
             new CommandInfo("help", "h", PropertyHelper<CLI>.GetFieldInfo(x=>x.HelpParams),
-                "	\t--help <chainstr>\r\n\t\tlists the commands of the CLI or with supplied chain, it will display the help info of each plugin.", new string[0]),
-
+                "	\t--help <chainstr>\r\n\t\tlists the commands of the CLI or with supplied chain, it will display the help info of each plugin."),
+            new CommandInfo("pm-refresh", "pm-r", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginRefresh),
+                "--pm-refresh\r\n\t\tRefreshes the Plugin Manager."),
+            new CommandInfo("pm-add", "pm-a", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginAdd),
+                "--pm-add <folder>\r\n\t\tAdds a folder with plugins to the Plugin Manager. All pluins in that folder can be referenced by their prefixes when specifies in --chain or --help"),
+            new CommandInfo("pm-list-dir", "pm-ld", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginListDirs),
+                "--pm-list-dir\r\n\t\tLists all Included dictionaries in Plugin Manager"),
+            new CommandInfo("pm-list-file", "pm-lf", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginListIncs),
+                "--pm-list-file\r\n\t\tLists all Included and Cached Files in Plugin Manager" ),
+            new CommandInfo("pm-list-manual-files", "pm-lmf", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginListManIncs),
+                "--pm-list-manual-files\r\n\t\tLists all Manually Included and Cached Files in Plugin Manager" ),
+            new CommandInfo("pm-list-all", "pm-la", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginListAll),
+                "--pm-list-all\r\n\t\tLists all Cached data."),
         };
 
         public string[] LogToFileParams = null;
@@ -63,9 +74,15 @@ namespace ext_pp_cli
         public string[] HelpParams = null;
         public Verbosity DebugLvl = Verbosity.LEVEL1;
         public bool ShowVersion = false;
-
+        public string[] PluginAdd = null;
+        public bool PluginRefresh = false;
+        public bool PluginListDirs = false;
+        public bool PluginListIncs = false;
+        public bool PluginListManIncs = false;
+        public bool PluginListAll = false;
 
         private Definitions _defs;
+        private PluginManager _pluginManager;
         private readonly Settings _settings;
         private List<AbstractPlugin> _chain;
 
@@ -97,6 +114,12 @@ namespace ext_pp_cli
 
             PreApply(_settings = new Settings(AnalyzeArgs(args)));
 
+
+
+
+
+
+
             if (ShowVersion)
             {
                 this.Log(DebugLevel.LOGS, Version, Verbosity.LEVEL1);
@@ -105,6 +128,59 @@ namespace ext_pp_cli
 
 
             this.Log(DebugLevel.LOGS, CLIHeader, Verbosity.LEVEL1);
+
+            _pluginManager = new PluginManager();
+
+
+            if (PluginListAll)
+            {
+                _pluginManager.ListAllCachedData();
+                return;
+            }
+
+
+            if (PluginAdd != null && PluginAdd.Length != 0)
+            {
+                foreach (var s in PluginAdd)
+                {
+
+                    FileAttributes attr = File.GetAttributes(s);
+                    if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        _pluginManager.AddFolder(s);
+                    }
+                    else
+                    {
+                        _pluginManager.AddFile(s);
+                    }
+                }
+
+                if (!PluginRefresh && !PluginListDirs && !PluginListIncs && !PluginListManIncs) return;
+            }
+
+            if (PluginListDirs)
+            {
+                _pluginManager.ListCachedFolders();
+                if (!PluginRefresh && !PluginListIncs && !PluginListManIncs) return;
+            }
+
+            if (PluginListIncs)
+            {
+                _pluginManager.ListCachedPlugins();
+                if (!PluginRefresh && !PluginListManIncs) return;
+            }
+
+            if (PluginListManIncs)
+            {
+                _pluginManager.ListManualCachedPlugins();
+                if (!PluginRefresh) return;
+            }
+
+            if (PluginRefresh)
+            {
+                _pluginManager.Refresh();
+                return;
+            }
 
             if (HelpParams != null)
             {
@@ -137,7 +213,6 @@ namespace ext_pp_cli
 
                 return;
             }
-
 
 
 
@@ -283,7 +358,7 @@ namespace ext_pp_cli
                 else
                 {
                     path = plugin; //Set the path
-                    if (PluginManager.GetPath(plugin, out path)) //Will change path if it matches prefix
+                    if (_pluginManager.GetPath(plugin, out path)) //Will change path if it matches prefix
                     { }
                     names = null;
                 }

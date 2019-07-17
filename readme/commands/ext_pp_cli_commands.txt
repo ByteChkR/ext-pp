@@ -28,4 +28,15 @@ ______________________________________________
 	--write2console [bool]
 		Writes the result into the cout stream
 		Sets the verbosity to silent if not specified otherwise
-
+	--pm-refresh
+		Refreshes the Plugin Manager.
+	--pm-add <folder>
+		Adds a folder with plugins to the Plugin Manager. All pluins in that folder can be referenced by their prefixes when specifies in --chain or --help
+	--pm-list-dir
+		Lists all Included dictionaries in Plugin Manager
+	--pm-list-file
+		Lists all Included and Cached Files in Plugin Manager
+	--pm-list-manual-files
+		Lists all Manually Included and Cached Files in Plugin Manager
+	--pm-list-all
+		Lists all Cached data.

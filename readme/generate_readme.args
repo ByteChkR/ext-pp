@@ -1,1 +1,1 @@
---chain ../ext_pp_plugins/bin/Release/netcoreapp2.1/ext_pp_plugins.dll:IncludePlugin -i _commands.txt ../README.md -o plugin_console_commands.md generated_readme.md -v 8
+--chain ../ext_pp_plugins/bin/Release/netcoreapp2.1/ext_pp_plugins.dll:IncludePlugin -i _commands.txt ../README.md -o plugin_console_commands.md generated_readme.md -v 8 -l2f process_output.log all:false

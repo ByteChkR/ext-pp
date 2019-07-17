@@ -116,7 +116,7 @@ namespace ext_pp
         /// <param name="script"></param>
         public void FixOrder(ISourceScript script)
         {
-            this.Log(DebugLevel.LOGS, "Fixing Build Order of file: " + script.GetKey(), Verbosity.LEVEL3);
+            this.Log(DebugLevel.LOGS, "Fixing Build Order of file: " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
             int idx = IndexOfFile(script.GetKey());
             var a = _sources[idx];
             var ab = _doneState[idx];
@@ -163,7 +163,7 @@ namespace ext_pp
             {
                 _doneState[IndexOfFile(script.GetKey())] = stage;
 
-                this.Log(DebugLevel.LOGS, "Finished Script: " + script.GetKey(), Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, "Finished Script: " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
             }
         }
 

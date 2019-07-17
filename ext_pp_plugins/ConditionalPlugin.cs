@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -78,7 +79,7 @@ namespace ext_pp_plugins
 
         public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
-            this.Log(DebugLevel.LOGS, "Starting Condition Solver passes on file: " + file.GetKey(), Verbosity.LEVEL4);
+            this.Log(DebugLevel.LOGS, "Starting Condition Solver passes on file: " + Path.GetFileName(file.GetFilePath()), Verbosity.LEVEL4);
             bool ret = true;
             int openIf = 0;
             bool foundConditions = false;
@@ -272,7 +273,7 @@ namespace ext_pp_plugins
         private bool EvaluateConditional(string[] expression, IDefinitions defs)
         {
 
-            this.Log(DebugLevel.LOGS, "Evaluating Expression: "+expression.Unpack(", "), Verbosity.LEVEL7);
+            this.Log(DebugLevel.LOGS, "Evaluating Expression: " + expression.Unpack(" "), Verbosity.LEVEL7);
 
             bool ret = true;
             bool isOr = false;
@@ -376,9 +377,9 @@ namespace ext_pp_plugins
         private string SurroundWithSpaces(string line, string keyword)
         {
             StringBuilder sb = new StringBuilder(line);
+            this.Log(DebugLevel.LOGS, "Surrounding " + keyword + " with spaces...", Verbosity.LEVEL7);
             sb.Replace(keyword, " " + keyword + " ");
             string ret = sb.ToString();
-            this.Log(DebugLevel.LOGS, "Removing Excess Spaces: " + line + " => " + ret, Verbosity.LEVEL7);
             return ret;
         }
 

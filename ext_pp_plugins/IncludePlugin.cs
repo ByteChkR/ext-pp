@@ -81,7 +81,7 @@ namespace ext_pp_plugins
                 {
                     foreach (var sourceScript in sources)
                     {
-                        this.Log(DebugLevel.LOGS, "Processing Include: " + sourceScript.GetKey(), Verbosity.LEVEL6);
+                        this.Log(DebugLevel.LOGS, "Processing Include: " + Path.GetFileName(sourceScript.GetFilePath()), Verbosity.LEVEL6);
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {

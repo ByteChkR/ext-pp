@@ -418,7 +418,7 @@ namespace ext_pp_cli
 
             CrashHandler.Initialize((int)DebugLevel.INTERNAL_ERROR, false);
             Debug.LoadConfig((AdlConfig)new AdlConfig().GetStandard());
-            Debug.SetAllPrefixes("[ERRORS]", "[WARNINGS]", "[LOGS]");
+            Debug.SetAllPrefixes("[ERRORS]", "[WARNINGS]", "[LOGS]", "[INTERNAL_ERROR]", "[PROGRESS]");
             Debug.CheckForUpdates = false;
             Debug.AdlWarningMask = (int)DebugLevel.WARNINGS;
             lts = new LogTextStream(
@@ -444,6 +444,7 @@ namespace ext_pp_cli
 
         private static void AddLogOutput(string file, int mask, bool timestamp)
         {
+            if (File.Exists(file)) File.Delete(file);
             LogTextStream lts = new LogTextStream(File.OpenWrite(file), mask, MatchType.MatchAll, timestamp);
             Debug.AddOutputStream(lts);
         }

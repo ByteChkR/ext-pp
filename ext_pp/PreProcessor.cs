@@ -128,7 +128,7 @@ namespace ext_pp
 
             InitializePlugins(settings, defs, sm);
 
-            this.Log(DebugLevel.LOGS, "Starting Processing of Files :" + files.Unpack(", "), Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, "Starting Processing of Files: " + files.Unpack(", "), Verbosity.LEVEL1);
             foreach (var file in files)
             {
                 string f = Path.GetFullPath(file);
@@ -149,7 +149,7 @@ namespace ext_pp
                 if (!(ss as SourceScript).IsSourceLoaded) RunStages(ProcessStage.ON_LOAD_STAGE, ss, sm, defs);
 
                 this.Log(DebugLevel.PROGRESS, "Remaining Files: " + sm.GetTodoCount(), Verbosity.LEVEL1);
-                this.Log(DebugLevel.LOGS, "Selecting File :" + ss.GetKey(), Verbosity.LEVEL2);
+                this.Log(DebugLevel.LOGS, "Selecting File :" + Path.GetFileName(ss.GetFilePath()), Verbosity.LEVEL2);
                 //RUN MAIN
                 sm.SetLock(false);
                 RunStages(ProcessStage.ON_MAIN, ss, sm, defs);
@@ -164,7 +164,7 @@ namespace ext_pp
             this.Log(DebugLevel.LOGS, "Finishing Up...", Verbosity.LEVEL1);
             foreach (var finishedScript in ret)
             {
-                this.Log(DebugLevel.LOGS, "Selecting File :" + finishedScript.GetKey(), Verbosity.LEVEL2);
+                this.Log(DebugLevel.LOGS, "Selecting File :" + Path.GetFileName(finishedScript.GetFilePath()), Verbosity.LEVEL2);
                 RunStages(ProcessStage.ON_FINISH_UP, finishedScript, sm, defs);
             }
             this.Log(DebugLevel.LOGS, "Finished Processing Files.", Verbosity.LEVEL1);

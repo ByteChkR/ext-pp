@@ -88,6 +88,11 @@ namespace ext_pp_cli
 
 
 
+        public void Shutdown()
+        {
+            Debug.RemoveAllOutputStreams();
+        }
+
         public CLI(string[] args)
         {
             InitAdl();
@@ -194,6 +199,9 @@ namespace ext_pp_cli
                 {
                     if (file != "self")
                     {
+                        ParseChainSyntax(file, out string path, out string[] names);
+                        if (_pluginManager.DisplayHelp(path, names)) continue;
+
                         List<AbstractPlugin> plugins = CreatePluginChain(new[] { file }, true).ToList();
                         this.Log(DebugLevel.LOGS, "Listing Plugins: ", Verbosity.SILENT);
                         foreach (var plugin in plugins)
@@ -338,6 +346,26 @@ namespace ext_pp_cli
             }
         }
 
+        private void ParseChainSyntax(string arg, out string path, out string[] names)
+        {
+            if (arg.Contains(':'))
+            {
+                var tmp = arg.Split(':').ToList();
+                names = tmp.SubArray(1, tmp.Count - 1).ToArray();
+                path = tmp[0];
+            }
+            else
+            {
+                path = arg; //Set the path
+                names = new[] { path };
+                if (!_pluginManager.GetPath(arg, out path, out _)) names = null; //Will change path if it matches prefix
+
+                this.Log(DebugLevel.LOGS, "AAAAAAAAAAAA."+path, Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, "BBBBBBBBBBBB."+names.Unpack(", "), Verbosity.LEVEL3);
+            }
+
+        }
+
         private IEnumerable<AbstractPlugin> CreatePluginChain(string[] arg, bool noCollection)
         {
 
@@ -349,19 +377,8 @@ namespace ext_pp_cli
             foreach (var plugin in arg)
             {
 
-                if (plugin.Contains(':'))
-                {
-                    var tmp = plugin.Split(':').ToList();
-                    names = tmp.SubArray(1, tmp.Count - 1).ToArray();
-                    path = tmp[0];
-                }
-                else
-                {
-                    path = plugin; //Set the path
-                    if (_pluginManager.GetPath(plugin, out path)) //Will change path if it matches prefix
-                    { }
-                    names = null;
-                }
+
+                ParseChainSyntax(plugin, out path, out names);
 
 
                 if (File.Exists(path))
@@ -528,7 +545,21 @@ namespace ext_pp_cli
         public static void Main(string[] args)
         {
 
+#if DEBUG
 
+
+            CLI c;
+            string[] arf = args;
+            do
+            {
+                c = new CLI(arf);
+                arf = Console.ReadLine().Pack(" ").ToArray();
+                c.Shutdown();
+                c = null;
+            } while (true);
+
+
+#endif
 
 
             if (args.Length == 0)

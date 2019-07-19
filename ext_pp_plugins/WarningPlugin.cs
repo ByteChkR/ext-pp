@@ -64,7 +64,7 @@ namespace ext_pp_plugins
         {
             if (!Utils.IsStatement(source, WarningKeyword)) return source;
             string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
-            this.Log(DebugLevel.ERRORS, "Warning: " + err, Verbosity.LEVEL1);
+            this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Warning: {0}" , err);
             return "";
         }
 

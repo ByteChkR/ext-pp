@@ -64,7 +64,7 @@ namespace ext_pp
         public string[] Compile(string[] files, Settings settings = null, IDefinitions defs = null)
         {
 
-            this.Log(DebugLevel.LOGS, "Starting Post Processor...", Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Pre Processor...");
             ISourceScript[] src = Process(files, settings, defs);
             return Compile(src);
         }
@@ -78,10 +78,10 @@ namespace ext_pp
         /// <param name="sourceManager"></param>
         private void InitializePlugins(Settings settings, IDefinitions def, ISourceManager sourceManager)
         {
-            this.Log(DebugLevel.LOGS, "Initializing Plugins...", Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Initializing Plugins...");
             foreach (var plugin in _plugins)
             {
-                this.Log(DebugLevel.LOGS, "Initializing Plugin: " + plugin.GetType().Name, Verbosity.LEVEL2);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Initializing Plugin: {0}", plugin.GetType().Name);
 
                 plugin.Initialize(settings.GetSettingsWithPrefix(plugin.Prefix, plugin.IncludeGlobal), sourceManager, def);
             }
@@ -94,18 +94,18 @@ namespace ext_pp
         /// <returns></returns>
         private string[] Compile(ISourceScript[] src)
         {
-            this.Log(DebugLevel.LOGS, "Starting Compilation of File Tree...", Verbosity.LEVEL2);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Starting Compilation of File Tree...");
             List<string> ret = new List<string>();
             for (var i = src.Length - 1; i >= 0; i--)
             {
                 ret.AddRange(src[i].GetSource());
             }
 
-            this.Log(DebugLevel.LOGS, "Finished Compilation...", Verbosity.LEVEL2);
-            this.Log(DebugLevel.LOGS, "Cleaning up: " + CleanUpList.Unpack(", "), Verbosity.LEVEL3);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Finished Compilation...");
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Cleaning up: {0}", CleanUpList.Unpack(", "));
 
-            string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray(),this).ToArray();
-            this.Log(DebugLevel.LOGS, "Total Lines: " + rrr.Length, Verbosity.LEVEL2);
+            string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray(), this).ToArray();
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Total Lines: {0}", rrr.Length);
             return rrr;
         }
 
@@ -128,7 +128,7 @@ namespace ext_pp
 
             InitializePlugins(settings, defs, sm);
 
-            this.Log(DebugLevel.LOGS, "Starting Processing of Files: " + files.Unpack(", "), Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Processing of Files: {0}", files.Unpack(", "));
             foreach (var file in files)
             {
                 string f = Path.GetFullPath(file);
@@ -148,8 +148,8 @@ namespace ext_pp
 
                 if (!(ss as SourceScript).IsSourceLoaded) RunStages(ProcessStage.ON_LOAD_STAGE, ss, sm, defs);
 
-                this.Log(DebugLevel.PROGRESS, "Remaining Files: " + sm.GetTodoCount(), Verbosity.LEVEL1);
-                this.Log(DebugLevel.LOGS, "Selecting File :" + Path.GetFileName(ss.GetFilePath()), Verbosity.LEVEL2);
+                this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Remaining Files: {0}", sm.GetTodoCount());
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(ss.GetFilePath()));
                 //RUN MAIN
                 sm.SetLock(false);
                 RunStages(ProcessStage.ON_MAIN, ss, sm, defs);
@@ -161,13 +161,13 @@ namespace ext_pp
 
             Directory.SetCurrentDirectory(dir);
             ISourceScript[] ret = sm.GetList().ToArray();
-            this.Log(DebugLevel.LOGS, "Finishing Up...", Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finishing Up...");
             foreach (var finishedScript in ret)
             {
-                this.Log(DebugLevel.LOGS, "Selecting File :" + Path.GetFileName(finishedScript.GetFilePath()), Verbosity.LEVEL2);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(finishedScript.GetFilePath()));
                 RunStages(ProcessStage.ON_FINISH_UP, finishedScript, sm, defs);
             }
-            this.Log(DebugLevel.LOGS, "Finished Processing Files.", Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finished Processing Files.");
             return ret;
 
         }
@@ -216,7 +216,7 @@ namespace ext_pp
         {
             foreach (var abstractPlugin in _lineStage)
             {
-                this.Log(DebugLevel.LOGS, "Running Plugin :" + abstractPlugin + ":" + stage, Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Running Plugin: {0}: {1}", abstractPlugin, stage);
                 for (int i = 0; i < source.Length; i++)
                 {
                     if (stage == ProcessStage.ON_LOAD_STAGE)
@@ -242,7 +242,7 @@ namespace ext_pp
             foreach (var abstractPlugin in _fullScriptStage)
             {
                 bool ret = true;
-                this.Log(DebugLevel.LOGS, "Running Plugin :" + abstractPlugin + ":" + stage + " on file " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Running Plugin: {0}: {1} on file {2}", abstractPlugin, stage, Path.GetFileName(script.GetFilePath()));
                 if (stage == ProcessStage.ON_LOAD_STAGE)
                 {
                     ret = abstractPlugin.OnLoad_FullScriptStage(script, sourceManager, defTable);
@@ -254,8 +254,7 @@ namespace ext_pp
 
                 if (!ret)
                 {
-                    this.Log(DebugLevel.ERRORS, "Processing was aborted by Plugin: " + abstractPlugin,
-                        Verbosity.LEVEL1);
+                    this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Processing was aborted by Plugin: {0}", abstractPlugin);
                     return false;
                 }
             }

@@ -18,11 +18,11 @@ namespace ext_pp_base
         /// <param name="mask"></param>
         /// <param name="message"></param>
         /// <param name="level"></param>
-        private static void Log(int mask, string message, Verbosity level)
+        private static void Log(int mask, Verbosity level, string format, params object[] objs)
         {
             if (level <= VerbosityLevel)
             {
-                ADL.Debug.Log(mask, message);
+                ADL.Debug.Log(mask, string.Format(format, objs));
             }
 
         }
@@ -32,14 +32,14 @@ namespace ext_pp_base
         /// <param name="mask"></param>
         /// <param name="message"></param>
         /// <param name="level"></param>
-        private static void Log(DebugLevel mask, string message, Verbosity level)
+        private static void Log(DebugLevel mask, Verbosity level, string format, params object[] objs)
         {
-            Log((int)mask, message, level);
+            Log((int)mask, level, format, objs);
         }
 
-        public static void Log(this ILoggable obj, DebugLevel mask, string message, Verbosity level)
+        public static void Log(this ILoggable obj, DebugLevel mask,Verbosity level, string format,  params object[] objs)
         {
-            Log(mask, "[" + obj.GetType().Name + "]" + message, level);
+            Log(mask, level, "[" + obj.GetType().Name + "]" + format, objs);
         }
 
 

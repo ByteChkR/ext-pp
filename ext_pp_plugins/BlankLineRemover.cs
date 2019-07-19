@@ -73,7 +73,7 @@ namespace ext_pp_plugins
         {
             if (source.Trim() == "")
             {
-                this.Log(DebugLevel.LOGS, "Adding " + BlankLineRemovalKeyword + " for line removal later", Verbosity.LEVEL6);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Adding {0} for line removal later", BlankLineRemovalKeyword);
                 return BlankLineRemovalKeyword;
             }
             return source;

@@ -39,7 +39,7 @@ namespace ext_pp_plugins
         public bool FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defs)
         {
 
-            this.Log(DebugLevel.LOGS, "Disovering Include Statments...", Verbosity.LEVEL5);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Disovering Include Statments...");
             List<string> source = script.GetSource().ToList();
             string currentPath = Path.GetDirectoryName(Path.GetFullPath(script.GetFilePath()));
 
@@ -47,24 +47,24 @@ namespace ext_pp_plugins
             {
                 if (Utils.IsStatement(source[i], IncludeInlineKeyword))
                 {
-                    this.Log(DebugLevel.LOGS, "Found Inline Include Statement...", Verbosity.LEVEL6);
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Found Inline Include Statement...");
                     string[] args = Utils.SplitAndRemoveFirst(source[i], Separator);
                     if (args.Length == 0)
                     {
 
-                        this.Log(DebugLevel.WARNINGS, "No File Specified", Verbosity.LEVEL1);
+                        this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "No File Specified");
                         continue;
                     }
 
                     if (Utils.FileExistsRelativeTo(currentPath, args[0]))
                     {
-                        this.Log(DebugLevel.LOGS, "Replacing Inline Keyword with file content", Verbosity.LEVEL6);
+                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Inline Keyword with file content");
                         source.RemoveAt(i);
 
                         source.InsertRange(i, File.ReadAllLines(args[0]));
                     }
                     else
-                        this.Log(DebugLevel.WARNINGS, "File does not exist: " + args[0], Verbosity.LEVEL1);
+                        this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "File does not exist: {0}" , args[0]);
                 }
             }
             script.SetSource(source.ToArray());
@@ -75,13 +75,13 @@ namespace ext_pp_plugins
 
             foreach (var includes in incs)
             {
-                this.Log(DebugLevel.LOGS, "Processing Statement: " + includes, Verbosity.LEVEL5);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Processing Statement: {0}", includes);
                 bool tmp = GetISourceScript(sourceManager, includes, currentPath, out List<ISourceScript> sources);
                 if (tmp)
                 {
                     foreach (var sourceScript in sources)
                     {
-                        this.Log(DebugLevel.LOGS, "Processing Include: " + Path.GetFileName(sourceScript.GetFilePath()), Verbosity.LEVEL6);
+                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Processing Include: {0}" , Path.GetFileName(sourceScript.GetFilePath()));
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {
@@ -103,7 +103,7 @@ namespace ext_pp_plugins
 
             }
 
-            this.Log(DebugLevel.LOGS, "Inclusion of Files Finished", Verbosity.LEVEL5);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Inclusion of Files Finished");
             return true;
 
         }
@@ -116,12 +116,10 @@ namespace ext_pp_plugins
             scripts = new List<ISourceScript>();
             if (vars.Length != 0)
             {
-                string filepath, key;
-                Dictionary<string, object> pluginCache;
                 //filePath = vars[0];
-                if (!manager.GetComputingScheme()(vars, currentPath, out filepath, out key, out pluginCache))
+                if (!manager.GetComputingScheme()(vars, currentPath, out var filepath, out var key, out var pluginCache))
                 {
-                    this.Log(DebugLevel.ERRORS, "Invalid Include Statement", Verbosity.LEVEL1);
+                    this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Invalid Include Statement");
                     return false;
 
                 }
@@ -151,7 +149,7 @@ namespace ext_pp_plugins
                     var sourceScript = scripts[index];
                     if (!Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFilePath()))
                     {
-                        this.Log(DebugLevel.ERRORS, "Could not find File: " + currentPath, Verbosity.LEVEL1);
+                        this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not find File: " + currentPath);
                         scripts.RemoveAt(index);
                     }
                 }

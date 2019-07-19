@@ -69,20 +69,20 @@ namespace ext_pp_plugins
 
             string[] GenParams = file.GetValueFromCache<string[]>("genParams");
 
-            this.Log(DebugLevel.LOGS, "Discovering Generic Keywords...", Verbosity.LEVEL5);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Generic Keywords...");
             if (GenParams != null && GenParams.Length > 0)
             {
                 for (var i = GenParams.Length - 1; i >= 0; i--)
                 {
 
-                    this.Log(DebugLevel.LOGS, "Replacing Keyword " + GenericKeyword + i + " with " + GenParams[i] + " in file " + file.GetKey(), Verbosity.LEVEL6);
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Keyword {0}{1} with {2} in file {3}", GenericKeyword, i, GenParams[i], file.GetKey());
                     Utils.ReplaceKeyWord(file.GetSource(), GenParams[i],
                         GenericKeyword + i);
                 }
             }
 
 
-            this.Log(DebugLevel.LOGS, "Generic Keyword Replacement Finished", Verbosity.LEVEL5);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Generic Keyword Replacement Finished");
 
             return true;
         }

@@ -116,7 +116,7 @@ namespace ext_pp_plugins
                 string key = SurroundingChar + keyword.Key + SurroundingChar;
                 if (source.Contains(key))
                 {
-                    this.Log(DebugLevel.LOGS, "Replacing " + key + " with " + keyword.Value, Verbosity.LEVEL6);
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing {0} with {1}", key, keyword.Value);
                     source = source.Replace(key, keyword.Value);
                 }
             }

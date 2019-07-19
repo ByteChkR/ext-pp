@@ -76,20 +76,20 @@ namespace ext_pp_cli
 
         public void ListAllCachedData()
         {
-            this.Log(DebugLevel.LOGS, "Listing all Cached Data:", Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Listing all Cached Data:");
             ListCachedFolders();
             ListCachedPlugins(false);
         }
 
         public void ListCachedHelpInfo()
         {
-            this.Log(DebugLevel.LOGS, "Plugins [prefixes]:path", Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Plugins [prefixes]:path");
             for (int i = 0; i < info.Cache.Count; i++)
             {
-                this.Log(DebugLevel.LOGS, "\n\n" + info.Cache[i].Name, Verbosity.LEVEL1);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n\n{0}", info.Cache[i].Name);
                 for (int j = 0; j < info.Cache[i].Data.Length; j++)
                 {
-                    this.Log(DebugLevel.LOGS, "\t" + info.Cache[i].Data[j].ToString(), Verbosity.LEVEL1);
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\t{0}", info.Cache[i].Data[j].ToString());
                 }
             }
         }
@@ -98,27 +98,27 @@ namespace ext_pp_cli
         {
             for (int i = 0; i < info.Cache.Count; i++)
             {
-                this.Log(DebugLevel.LOGS, info.Cache[i].GetDescription(shortDesc), Verbosity.LEVEL1);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, info.Cache[i].GetDescription(shortDesc));
             }
         }
 
         public void ListCachedFolders()
         {
 
-            this.Log(DebugLevel.LOGS, "Directories:", Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Directories:");
             for (int i = 0; i < info.IncludedDirectories.Count; i++)
             {
-                this.Log(DebugLevel.LOGS, info.IncludedDirectories[i], Verbosity.LEVEL1);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, info.IncludedDirectories[i]);
             }
         }
 
         public void ListManuallyCachedFiles()
         {
 
-            this.Log(DebugLevel.LOGS, "Directories:", Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Directories:");
             for (int i = 0; i < info.IncludedFiles.Count; i++)
             {
-                this.Log(DebugLevel.LOGS, info.IncludedFiles[i], Verbosity.LEVEL1);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, info.IncludedFiles[i]);
             }
         }
 
@@ -127,12 +127,12 @@ namespace ext_pp_cli
             if (Directory.Exists(folder))
             {
 
-                this.Log(DebugLevel.LOGS, "Adding Directory: " + folder, Verbosity.LEVEL1);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding Directory: {0}", folder);
                 info.IncludedDirectories.Add(Path.GetFullPath(folder));
             }
             else
             {
-                this.Log(DebugLevel.ERRORS, "Folder does not exist: " + folder, Verbosity.LEVEL1);
+                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Folder does not exist: {0}", folder);
             }
 
             Save();
@@ -143,7 +143,7 @@ namespace ext_pp_cli
             if (!File.Exists(file))
             {
 
-                this.Log(DebugLevel.ERRORS, "File does not exist: " + file, Verbosity.LEVEL1);
+                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "File does not exist: {0}", file);
 
             }
             else
@@ -157,8 +157,7 @@ namespace ext_pp_cli
 
                 List<PluginInformation> val = new List<PluginInformation>();
 
-                this.Log(DebugLevel.LOGS, "Adding " + plugins.Count + " plugins from " + file,
-                    Verbosity.LEVEL1);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding {0} plugins from {1}", plugins.Count, file);
 
                 for (int i = 0; i < plugins.Count; i++)
                 {
@@ -244,7 +243,7 @@ namespace ext_pp_cli
                 foreach (var name in inf)
                 {
 
-                    this.Log(DebugLevel.LOGS, "\n" + name.GetDescription(shortDesc), Verbosity.LEVEL1);
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n{0}", name.GetDescription(shortDesc));
 
                 }
 
@@ -256,7 +255,7 @@ namespace ext_pp_cli
             {
                 if (GetPluginInfoByPathAndPrefix(path, name, out PluginInformation val))
                 {
-                    this.Log(DebugLevel.LOGS, "\n" + val.GetDescription(shortDesc), Verbosity.LEVEL1);
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n{0}", val.GetDescription(shortDesc));
                 }
             }
 
@@ -283,22 +282,20 @@ namespace ext_pp_cli
             {
                 if (!Directory.Exists(info.IncludedDirectories[i]))
                 {
-                    this.Log(DebugLevel.ERRORS, "Folder does not exist: " + info.IncludedDirectories[i] + " Removing..",
-                        Verbosity.LEVEL1);
+                    this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Folder does not exist: {0} Removing..", info.IncludedDirectories[i]);
                     info.IncludedDirectories.RemoveAt(i);
 
                 }
                 else
                 {
-                    this.Log(DebugLevel.LOGS, "Discovering Files in " + info.IncludedDirectories[i], Verbosity.LEVEL1);
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Discovering Files in {0}" , info.IncludedDirectories[i]);
                     string[] files = Directory.GetFiles(info.IncludedDirectories[i], "*.dll");
                     foreach (var file in files)
                     {
                         List<AbstractPlugin> plugins = FromFile(file);
                         List<string> prefixes = new List<string>();
                         plugins.ForEach(x => prefixes.AddRange(x.Prefix));
-                        this.Log(DebugLevel.LOGS, "Adding " + plugins.Count + " plugins from " + file,
-                            Verbosity.LEVEL1);
+                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding {0} plugins from {1}", plugins.Count, file);
                         for (int j = 0; j < plugins.Count; j++)
                         {
                             info.Cache.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, file, plugins[i].Info.Select(x => x.Meta).ToArray()));
@@ -337,7 +334,7 @@ namespace ext_pp_cli
             }
             catch (Exception)
             {
-                this.Log(DebugLevel.ERRORS, "Could not load file: " + path, Verbosity.LEVEL1);
+                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}" , path);
                 // ignored
             }
 
@@ -356,7 +353,7 @@ namespace ext_pp_cli
         private void FirstStart()
         {
 
-            this.Log(DebugLevel.LOGS, "First start of Plugin Manager. Setting up...", Verbosity.LEVEL1);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "First start of Plugin Manager. Setting up...");
             FileStream fs = new FileStream(_configPath, FileMode.Create);
             info = new PluginManagerDatabase()
             {
@@ -378,8 +375,7 @@ namespace ext_pp_cli
 
         public bool GetPathByName(string name, out string path)
         {
-            PluginInformation pli;
-            if (GetPluginInfoByName(name, out pli))
+            if (GetPluginInfoByName(name, out var pli))
             {
                 path = pli.Path;
                 return true;
@@ -391,8 +387,7 @@ namespace ext_pp_cli
 
         public bool GetPathByPrefix(string prefix, out string path)
         {
-            PluginInformation pli;
-            if (GetPluginInfoByPrefix(prefix, out pli))
+            if (GetPluginInfoByPrefix(prefix, out var pli))
             {
                 path = pli.Path;
                 return true;

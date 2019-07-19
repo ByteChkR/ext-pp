@@ -17,8 +17,6 @@ namespace ext_pp.tests
         public void Setup()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            //MethodPrecompiler.PrecompileClass(typeof(ExtensionProcessor));
-            //MethodPrecompiler.PrecompileClass(typeof(SourceScript));
         }
 
         [Test]

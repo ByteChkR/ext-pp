@@ -26,7 +26,7 @@ namespace ext_pp_base
                     if (source[i].Trim().StartsWith(t))
                     {
 
-                        Logger.Log(logobj,DebugLevel.LOGS, "Removing statement " + t + " on line " + i, Verbosity.LEVEL7);
+                        Logger.Log(logobj,DebugLevel.LOGS, Verbosity.LEVEL7, "Removing statement {0} on line {1}", t, i);
                         source.RemoveAt(i);
                         break;
                     }
@@ -39,7 +39,7 @@ namespace ext_pp_base
         public static string RemoveExcessSpaces(string line, string separator, ILoggable logobj)
         {
             string ret = line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
-            Logger.Log(logobj,DebugLevel.LOGS, "Removing Excess Spaces: " + line + " => " + ret, Verbosity.LEVEL7);
+            Logger.Log(logobj,DebugLevel.LOGS, Verbosity.LEVEL7, "Removing Excess Spaces: {0} => {1}" , line, ret);
             return ret;
         }
 
@@ -111,7 +111,7 @@ namespace ext_pp_base
 
 
         private delegate bool TryParse(string val, out object value);
-        private static Dictionary<Type, TryParse> _parser = new Dictionary<Type, TryParse>()
+        private static readonly Dictionary<Type, TryParse> _parser = new Dictionary<Type, TryParse>()
         {
             {typeof(string), CreateTryParser<string>()},
             {typeof(int), CreateTryParser<int>()},

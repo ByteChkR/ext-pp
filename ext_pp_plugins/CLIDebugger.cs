@@ -62,8 +62,7 @@ namespace ext_pp_plugins
                         if (!continueCreation && args[idx + 1] == "-dbg-exit") exit = true;
                         if (!exit && !int.TryParse(args[idx + 1], out b.stage))
                         {
-                            Logger.Log(logobj, DebugLevel.LOGS, "Stage is not a valid integer. To abort type -dbg-exit",
-                                Verbosity.LEVEL1);
+                            Logger.Log(logobj, DebugLevel.LOGS,Verbosity.LEVEL1, "Stage is not a valid integer. To abort type -dbg-exit");
                             continueCreation = false;
                         }
                         else if (!exit) continueCreation = true;
@@ -80,8 +79,7 @@ namespace ext_pp_plugins
                         if (!continueCreation && args[idx + 1] == "-dbg-exit") exit = true;
                         if (!exit && !int.TryParse(args[idx + 1], out b.line))
                         {
-                            Logger.Log(logobj, DebugLevel.LOGS, "Line is not a valid integer. To abort type -dbg-exit",
-                                Verbosity.LEVEL1);
+                            Logger.Log(logobj, DebugLevel.LOGS,Verbosity.LEVEL1, "Line is not a valid integer. To abort type -dbg-exit");
                             continueCreation = false;
                         }
                         else if (!exit) continueCreation = true;
@@ -152,11 +150,7 @@ namespace ext_pp_plugins
                     {
                         do
                         {
-                            this.Log(DebugLevel.LOGS, "Type -dbg-continue to contine processing\nType -dbg-exit to exit the program\n" +
-                                                                    "Type -dbg-file to list the current file from line you set the breakpoint\n" +
-                                                                    "-dbg-file-all to list the whole file\n" +
-                                                                    "-dbg-dump <pathtofile> dumps the current file source.\n" +
-                                                                    "-dbg-add-bp <breakpointstring>", Verbosity.LEVEL1);
+                            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Type -dbg-continue to contine processing\nType -dbg-exit to exit the program\nType -dbg-file to list the current file from line you set the breakpoint\n-dbg-file-all to list the whole file\n-dbg-dump <pathtofile> dumps the current file source.\n-dbg-add-bp <breakpointstring>");
                             string getInput = Console.ReadLine();
                             if (getInput == "-dbg-continue")
                             {

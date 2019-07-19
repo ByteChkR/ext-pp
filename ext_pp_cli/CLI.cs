@@ -200,7 +200,7 @@ namespace ext_pp_cli
                         Verbosity.SILENT);
                     return;
                 }
-                
+
                 foreach (var file in HelpParams)
                 {
                     if (file != "self")
@@ -433,25 +433,19 @@ namespace ext_pp_cli
                         if (names == null)
                         {
 
-                            foreach (var type in types)
-                            {
-                                if (type.IsSubclassOf(typeof(AbstractPlugin)))
-                                {
-                                    this.Log(DebugLevel.LOGS, "Creating instance of: " + type.Name, Verbosity.LEVEL5);
-                                    ret.Add((AbstractPlugin)Activator.CreateInstance(type));
-                                }
-                            }
+                            ret.AddRange(_pluginManager.FromFile(path));
                         }
                         else
                         {
+                            List<AbstractPlugin> plugins = _pluginManager.FromFile(path);
                             for (int i = 0; i < names.Length; i++)
                             {
-                                for (int j = 0; j < types.Length; j++)
+                                for (int j = 0; j < plugins.Count; j++)
                                 {
-                                    if (types[j].Name == names[i])
+                                    if (plugins[j].Prefix.Contains(names[i]))
                                     {
-                                        this.Log(DebugLevel.LOGS, "Creating instance of: " + types[j].Name, Verbosity.LEVEL5);
-                                        ret.Add((AbstractPlugin)Activator.CreateInstance(types[j]));
+                                        this.Log(DebugLevel.LOGS, "Creating instance of: " + plugins[j].GetType().Name, Verbosity.LEVEL5);
+                                        ret.Add(plugins[j]);
                                     }
                                 }
                             }

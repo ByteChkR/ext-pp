@@ -59,9 +59,10 @@ namespace ext_pp_base.settings
             return new Settings(ret);
         }
 
-        public Settings GetSettingsWithPrefix(string prefix, bool includeShared = false)
+
+        private Settings getSettingsWithPrefix(string prefix, string argBegin, bool includeShared = false)
         {
-            string prfx = "--" + prefix + ":";
+            string prfx = argBegin + prefix + ":";
             bool isGlob;
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
             foreach (var setting in _settings)
@@ -77,6 +78,14 @@ namespace ext_pp_base.settings
             return new Settings(ret);
             //return new Settings(_settings.Where(x => x.Key.StartsWith(prfx) || (includeShared && x.Key.StartsWith(GlobalSettings)))
             //    .ToDictionary(x => x.Key.Replace(prefix + ":", ""), y => y.Value));
+        }
+
+        public Settings GetSettingsWithPrefix(string prefix, bool includeShared = false)
+        {
+            Settings s = getSettingsWithPrefix(prefix, "--", includeShared);
+            s=s.Merge(getSettingsWithPrefix(prefix, "-", includeShared));
+            return s;
+
         }
 
         private string[] FindCommandValue(CommandInfo c)
@@ -104,10 +113,10 @@ namespace ext_pp_base.settings
             string[] cmdVal = FindCommandValue(info);
             if (cmdVal == null)
             {
-                
+
                 return;
             }
-            object val = Utils.Parse(t, cmdVal.Length > 0 ? cmdVal.First():null, info.DefaultIfNotSpecified);
+            object val = Utils.Parse(t, cmdVal.Length > 0 ? cmdVal.First() : null, info.DefaultIfNotSpecified);
             info.Field.SetValue(obj, val);
         }
 
@@ -123,6 +132,17 @@ namespace ext_pp_base.settings
             info.Field.SetValue(obj, val);
         }
 
+
+        public Settings Merge(Settings other)
+        {
+            Settings s = new Settings(new Dictionary<string, string[]>(_settings));
+            foreach (var otherSetting in other._settings)
+            {
+                s._settings.Add(otherSetting.Key, otherSetting.Value);
+            }
+
+            return s;
+        }
 
 
     }

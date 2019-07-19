@@ -61,6 +61,8 @@ namespace ext_pp_plugins
                 "set-dformat [dateformatstring] *dd/MM/yyyy*\r\n\t\t\tSets the date format string used when setting the default variables"),
             new CommandInfo("set-surrkeyword","sc", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(DateFormatString)),
                 "Sets the Surrounding char that escapes the variable names"),
+            new CommandInfo("set-kwdata","kwd", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(Keywords)),
+                "Sets the Keywords that need to be replaced with values. <keyword>:<value>"),
 
         };
 
@@ -111,10 +113,11 @@ namespace ext_pp_plugins
             Dictionary<string, string> keywords = _keywords;
             foreach (var keyword in keywords)
             {
-                if (source.Contains(keyword.Key))
+                string key = SurroundingChar + keyword.Key + SurroundingChar;
+                if (source.Contains(key))
                 {
-                    this.Log(DebugLevel.LOGS, "Replacing " + keyword.Key + " with " + keyword.Value, Verbosity.LEVEL6);
-                    source = source.Replace(keyword.Key, keyword.Value);
+                    this.Log(DebugLevel.LOGS, "Replacing " + key + " with " + keyword.Value, Verbosity.LEVEL6);
+                    source = source.Replace(key, keyword.Value);
                 }
             }
 

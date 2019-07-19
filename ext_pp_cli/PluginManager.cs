@@ -320,7 +320,7 @@ namespace ext_pp_cli
             Save();
         }
 
-        private List<AbstractPlugin> FromFile(string path)
+        public List<AbstractPlugin> FromFile(string path)
         {
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
             try

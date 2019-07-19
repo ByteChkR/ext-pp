@@ -566,7 +566,6 @@ namespace ext_pp_cli
             }
             else
                 new CLI(args);
-            Console.ReadLine();
 #endif
 
         }

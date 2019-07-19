@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ext_pp_base
 {
     public static class Extensions
     {
+        private static StringBuilder _sb = new StringBuilder();
+
         /// <summary>
         /// Concats the array into a string separated by the separator
         /// </summary>
@@ -14,15 +17,15 @@ namespace ext_pp_base
         /// <returns></returns>
         public static string Unpack(this IEnumerable<object> arr, string separator)
         {
-            var s = "";
+            _sb.Clear();
             var enumerable = arr as object[] ?? arr.ToArray();
             for (var i = 0; i < enumerable.Count(); i++)
             {
-                s += enumerable.ElementAt(i).ToString();
-                if (i < enumerable.Count() - 1) s += separator;
+                _sb.Append(enumerable.ElementAt(i));
+                if (i < enumerable.Count() - 1) _sb.Append(separator);
             }
 
-            return s;
+            return _sb.ToString();
         }
 
         /// <summary>

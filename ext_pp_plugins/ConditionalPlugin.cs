@@ -11,6 +11,9 @@ namespace ext_pp_plugins
 {
     public class ConditionalPlugin : AbstractPlugin
     {
+
+        private static StringBuilder _sb = new StringBuilder();
+
         public override string[] Cleanup => new string[] { DefineKeyword, UndefineKeyword };
         public override string[] Prefix => new string[] { "con", "Conditional" };
         public override ProcessStage ProcessStages => Stage.ToLower() == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
@@ -374,13 +377,14 @@ namespace ext_pp_plugins
             return -1;
         }
 
+
         private string SurroundWithSpaces(string line, string keyword)
         {
-            StringBuilder sb = new StringBuilder(line);
+            _sb.Clear();
+            _sb.Append(line);
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Surrounding {0} with spaces...", keyword);
-            sb.Replace(keyword, " " + keyword + " ");
-            string ret = sb.ToString();
-            return ret;
+            _sb.Replace(keyword, " " + keyword + " ");
+            return _sb.ToString();
         }
 
 

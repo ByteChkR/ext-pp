@@ -149,7 +149,7 @@ namespace ext_pp_plugins
                     var sourceScript = scripts[index];
                     if (!Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFilePath()))
                     {
-                        this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not find File: " + currentPath);
+                        this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not find File: {0}", currentPath);
                         scripts.RemoveAt(index);
                     }
                 }

@@ -1,13 +1,15 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace ext_pp_base
 {
+    [Serializable]
     public struct CommandMetaData
     {
-        public readonly string HelpText;
-        public readonly string Command;
-        public readonly string ShortCut;
-        public readonly bool IncludeGlobal;
+        public string HelpText;
+        public string Command;
+        public string ShortCut;
+        public bool IncludeGlobal;
 
         public CommandMetaData(string command, string shortcut, string helpText, bool global)
         {

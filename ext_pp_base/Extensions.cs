@@ -12,13 +12,13 @@ namespace ext_pp_base
         /// <param name="arr"></param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static string Unpack(this IEnumerable<string> arr, string separator)
+        public static string Unpack(this IEnumerable<object> arr, string separator)
         {
             var s = "";
-            var enumerable = arr as string[] ?? arr.ToArray();
+            var enumerable = arr as object[] ?? arr.ToArray();
             for (var i = 0; i < enumerable.Count(); i++)
             {
-                s += enumerable.ElementAt(i);
+                s += enumerable.ElementAt(i).ToString();
                 if (i < enumerable.Count() - 1) s += separator;
             }
 

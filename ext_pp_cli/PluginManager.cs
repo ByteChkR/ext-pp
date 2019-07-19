@@ -15,25 +15,47 @@ namespace ext_pp_cli
         [Serializable]
         public struct PluginInformation
         {
+            public string[] Prefixes;
+            public string Name;
+            public string Path;
+            public CommandMetaData[] Data;
+
+            public PluginInformation(string[] prefixes, string name, string path, CommandMetaData[] data)
+            {
+                Path = path;
+                Prefixes = prefixes;
+                Name = name;
+                Data = data;
+            }
+
+            public string GetDescription(bool shortDesc = true)
+            {
+                return Name + ": \n" + Path + "\nPrefixes:\n\t" + Prefixes.Unpack("\n\t") + (shortDesc ? "" : "\nCommand Info: \n\t" + Data.Select(x => x.ToString()).Unpack("\n\t"));
+            }
+
+            public override string ToString()
+            {
+                return GetDescription();
+            }
+        }
+
+        [Serializable]
+        public struct PluginManagerDatabase
+        {
             public List<string> IncludedDirectories;
+            public List<string> IncludedFiles;
 
-            public List<Tuple<string, string[], string, List<CommandMetaData>>> ManuallyIncluded_Prefixes;
-
-            public List<Tuple<string, string[], string, List<CommandMetaData>>> IncludedFiles_Prefixes;
-
-
+            public List<PluginInformation> Cache;
         }
         private readonly string _rootDir = Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
         private string _configPath => Path.Combine(_rootDir, "plugin_manager.xml");
         private string _defaultPluginFolder => Path.Combine(_rootDir, "plugins");
-        private PluginInformation info;
-        private static XmlSerializer _serializer = new XmlSerializer(typeof(PluginInformation));
+        private PluginManagerDatabase info;
+        private static XmlSerializer _serializer = new XmlSerializer(typeof(PluginManagerDatabase));
 
         public PluginManager()
         {
             if (!Directory.Exists(_defaultPluginFolder)) Directory.CreateDirectory(_defaultPluginFolder);
-            this.Log(DebugLevel.LOGS, _configPath, Verbosity.LEVEL1);
-            this.Log(DebugLevel.LOGS, _defaultPluginFolder, Verbosity.LEVEL1);
             if (File.Exists(_configPath))
             {
                 Initialize();
@@ -47,7 +69,7 @@ namespace ext_pp_cli
         private void Initialize()
         {
             FileStream fs = new FileStream(_configPath, FileMode.Open);
-            info = (PluginInformation)_serializer.Deserialize(fs);
+            info = (PluginManagerDatabase)_serializer.Deserialize(fs);
             fs.Close();
 
         }
@@ -55,35 +77,28 @@ namespace ext_pp_cli
         public void ListAllCachedData()
         {
             this.Log(DebugLevel.LOGS, "Listing all Cached Data:", Verbosity.LEVEL1);
-            ListManualCachedPlugins();
             ListCachedFolders();
-            ListCachedPlugins();
+            ListCachedPlugins(false);
         }
 
         public void ListCachedHelpInfo()
         {
             this.Log(DebugLevel.LOGS, "Plugins [prefixes]:path", Verbosity.LEVEL1);
-            for (int i = 0; i < info.IncludedFiles_Prefixes.Count; i++)
+            for (int i = 0; i < info.Cache.Count; i++)
             {
-                this.Log(DebugLevel.LOGS, info.IncludedFiles_Prefixes[i].Item2.Unpack("\n") + ":" + info.IncludedFiles_Prefixes[i].Item3, Verbosity.LEVEL1);
+                this.Log(DebugLevel.LOGS, "\n\n" + info.Cache[i].Name, Verbosity.LEVEL1);
+                for (int j = 0; j < info.Cache[i].Data.Length; j++)
+                {
+                    this.Log(DebugLevel.LOGS, "\t" + info.Cache[i].Data[j].ToString(), Verbosity.LEVEL1);
+                }
             }
         }
 
-        public void ListCachedPlugins()
+        public void ListCachedPlugins(bool shortDesc = false)
         {
-            this.Log(DebugLevel.LOGS, "Plugins [prefixes]:path", Verbosity.LEVEL1);
-            for (int i = 0; i < info.IncludedFiles_Prefixes.Count; i++)
+            for (int i = 0; i < info.Cache.Count; i++)
             {
-                this.Log(DebugLevel.LOGS, info.IncludedFiles_Prefixes[i].Item2.Unpack("\n") + ":" + info.IncludedFiles_Prefixes[i].Item3, Verbosity.LEVEL1);
-            }
-        }
-
-        public void ListManualCachedPlugins()
-        {
-            this.Log(DebugLevel.LOGS, "Manually Included Plugins [prefixes]:path", Verbosity.LEVEL1);
-            for (int i = 0; i < info.ManuallyIncluded_Prefixes.Count; i++)
-            {
-                this.Log(DebugLevel.LOGS, info.ManuallyIncluded_Prefixes[i].Item3 + "\n\t" + info.ManuallyIncluded_Prefixes[i].Item2.Unpack("\n\t"), Verbosity.LEVEL1);
+                this.Log(DebugLevel.LOGS, info.Cache[i].GetDescription(shortDesc), Verbosity.LEVEL1);
             }
         }
 
@@ -94,6 +109,16 @@ namespace ext_pp_cli
             for (int i = 0; i < info.IncludedDirectories.Count; i++)
             {
                 this.Log(DebugLevel.LOGS, info.IncludedDirectories[i], Verbosity.LEVEL1);
+            }
+        }
+
+        public void ListManuallyCachedFiles()
+        {
+
+            this.Log(DebugLevel.LOGS, "Directories:", Verbosity.LEVEL1);
+            for (int i = 0; i < info.IncludedFiles.Count; i++)
+            {
+                this.Log(DebugLevel.LOGS, info.IncludedFiles[i], Verbosity.LEVEL1);
             }
         }
 
@@ -124,127 +149,120 @@ namespace ext_pp_cli
             else
             {
                 file = Path.GetFullPath(file);
-                if (info.ManuallyIncluded_Prefixes.Count(x => x.Item3 == file) != 0 || info.IncludedFiles_Prefixes.Count(x => x.Item3 == file) != 0) return;
-                List<AbstractPlugin> plugins = FromFile(file);
-                List<string> prefixes = new List<string>();
+                if (info.Cache.Count(x => x.Path == file) != 0) return;
 
-                plugins.ForEach(x => prefixes.AddRange(x.Prefix));
+                info.IncludedFiles.Add(file);
+
+                List<AbstractPlugin> plugins = FromFile(file);
+
+                List<PluginInformation> val = new List<PluginInformation>();
+
                 this.Log(DebugLevel.LOGS, "Adding " + plugins.Count + " plugins from " + file,
                     Verbosity.LEVEL1);
-                List<Tuple<string, string[], string, List<CommandMetaData>>> val = new List<Tuple<string, string[], string, List<CommandMetaData>>>();
 
                 for (int i = 0; i < plugins.Count; i++)
                 {
-                    val.Add(new Tuple<string, string[], string, List<CommandMetaData>>(
-                        plugins[i].GetType().Name, plugins[i].Prefix, file, plugins[i].Info.Select(x => x.Meta).ToList()));
+                    val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, file, plugins[i].Info.Select(x => x.Meta).ToArray()));
                 }
+                info.Cache.AddRange(val);
 
             }
             if (save) Save();
         }
 
-        public bool ValueByName(string name, out Tuple<string, string[], string, List<CommandMetaData>> val)
+        public bool GetPluginInfoByName(string name, out PluginInformation val)
         {
-            for (int i = 0; i < info.IncludedFiles_Prefixes.Count; i++)
+            for (int i = 0; i < info.Cache.Count; i++)
             {
-                if (info.IncludedFiles_Prefixes[i].Item1 == name)
+                if (info.Cache[i].Name == name)
                 {
-                    val = info.IncludedFiles_Prefixes[i];
+                    val = info.Cache[i];
                     return true;
                 }
             }
 
-            for (int i = 0; i < info.ManuallyIncluded_Prefixes.Count; i++)
-            {
-                if (info.ManuallyIncluded_Prefixes[i].Item1 == name)
-                {
-                    val = info.ManuallyIncluded_Prefixes[i];
-                    return true;
-                }
-            }
 
-            val = null;
+            val = new PluginInformation();
             return false;
         }
 
-        public bool ValueByPrefix(string prefix, out Tuple<string, string[], string, List<CommandMetaData>> val)
+        public bool GetPluginInfoByPrefix(string prefix, out PluginInformation val)
         {
-            for (int i = 0; i < info.IncludedFiles_Prefixes.Count; i++)
+            for (int i = 0; i < info.Cache.Count; i++)
             {
-                if (info.IncludedFiles_Prefixes[i].Item2.Contains(prefix))
+                if (info.Cache[i].Prefixes.Contains(prefix))
                 {
-                    val = info.IncludedFiles_Prefixes[i];
+                    val = info.Cache[i];
                     return true;
                 }
             }
 
-            for (int i = 0; i < info.IncludedFiles_Prefixes.Count; i++)
-            {
-                if (info.IncludedFiles_Prefixes[i].Item2.Contains(prefix))
-                {
-                    val = info.IncludedFiles_Prefixes[i];
-                    return true;
-                }
-            }
 
-            val = null;
+            val = new PluginInformation();
             return false;
 
         }
 
-        public bool ValueByPathAndPrefix(string file, string prefix, out Tuple<string, string[], string, List<CommandMetaData>> val)
+        public bool GetPluginInfoByPathAndPrefix(string file, string prefix, out PluginInformation val)
         {
 
-            for (int i = 0; i < info.IncludedFiles_Prefixes.Count; i++)
+            for (int i = 0; i < info.Cache.Count; i++)
             {
-                if (info.IncludedFiles_Prefixes[i].Item3 == file && info.IncludedFiles_Prefixes[i].Item2.Contains(prefix))
+                if (info.Cache[i].Path == file && info.Cache[i].Prefixes.Contains(prefix))
                 {
-                    val = info.IncludedFiles_Prefixes[i];
+                    val = info.Cache[i];
                     return true;
                 }
             }
 
 
 
-            for (int i = 0; i < info.ManuallyIncluded_Prefixes.Count; i++)
-            {
-                if (info.ManuallyIncluded_Prefixes[i].Item3 == file)
-                {
-                    val = info.ManuallyIncluded_Prefixes[i];
-                    return true;
-                }
-            }
-
-            val = null;
+            val = new PluginInformation();
             return false;
+        }
+
+        private PluginInformation[] GetAllInLib(string pathToLib)
+        {
+            if (!File.Exists(pathToLib)) return new PluginInformation[0];
+            List<PluginInformation> ret = new List<PluginInformation>();
+            foreach (var info in info.Cache)
+            {
+                if (info.Path == pathToLib) ret.Add(info);
+            }
+
+            return ret.ToArray();
         }
 
 
 
-
-        public bool DisplayHelp(string path, string[] names)
+        public bool DisplayHelp(string path, string[] names, bool shortDesc)
         {
+            if (names == null)
+            {
+                PluginInformation[] inf = GetAllInLib(path);
+                if (inf.Length == 0) return false;
+                foreach (var name in inf)
+                {
+
+                    this.Log(DebugLevel.LOGS, "\n" + name.GetDescription(shortDesc), Verbosity.LEVEL1);
+
+                }
+
+                return true;
+
+            }
+
             foreach (var name in names)
             {
-                if (ValueByPathAndPrefix(path, name, out Tuple<string, string[], string, List<CommandMetaData>> val))
+                if (GetPluginInfoByPathAndPrefix(path, name, out PluginInformation val))
                 {
-                    this.Log(DebugLevel.LOGS, "Plugin Name: " + val.Item1, Verbosity.LEVEL1);
-                    ListInfo(val.Item4.ToList());
-
+                    this.Log(DebugLevel.LOGS, "\n" + val.GetDescription(shortDesc), Verbosity.LEVEL1);
                 }
             }
 
             return true;
         }
 
-        private void ListInfo(List<CommandMetaData> data)
-        {
-            foreach (var commandMetaData in data)
-            {
-                this.Log(DebugLevel.LOGS, "\n" + commandMetaData + "\n",
-                    Verbosity.LEVEL1);
-            }
-        }
 
         public void AddFile(string file)
         {
@@ -257,7 +275,7 @@ namespace ext_pp_cli
         public void Refresh()
         {
 
-            info.IncludedFiles_Prefixes.Clear();
+            info.Cache.Clear();
 
 
 
@@ -276,22 +294,21 @@ namespace ext_pp_cli
                     string[] files = Directory.GetFiles(info.IncludedDirectories[i], "*.dll");
                     foreach (var file in files)
                     {
-                        List<AbstractPlugin> plgin = FromFile(file);
+                        List<AbstractPlugin> plugins = FromFile(file);
                         List<string> prefixes = new List<string>();
-                        plgin.ForEach(x => prefixes.AddRange(x.Prefix));
-                        this.Log(DebugLevel.LOGS, "Adding " + plgin.Count + " plugins from " + file,
+                        plugins.ForEach(x => prefixes.AddRange(x.Prefix));
+                        this.Log(DebugLevel.LOGS, "Adding " + plugins.Count + " plugins from " + file,
                             Verbosity.LEVEL1);
-                        for (int j = 0; j < plgin.Count; j++)
+                        for (int j = 0; j < plugins.Count; j++)
                         {
-                            info.IncludedFiles_Prefixes.Add(new Tuple<string, string[], string, List<CommandMetaData>>(
-                                plgin[i].GetType().Name, plgin[i].Prefix, file, plgin[i].Info.Select(x => x.Meta).ToList()));
+                            info.Cache.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, file, plugins[i].Info.Select(x => x.Meta).ToArray()));
                         }
                     }
                 }
             }
 
-            List<string> manuallyIncluded = new List<string>(info.ManuallyIncluded_Prefixes.Select(x => x.Item3));
-            info.ManuallyIncluded_Prefixes.Clear();
+            List<string> manuallyIncluded = new List<string>(info.IncludedFiles);
+            info.IncludedFiles.Clear();
 
 
 
@@ -341,10 +358,10 @@ namespace ext_pp_cli
 
             this.Log(DebugLevel.LOGS, "First start of Plugin Manager. Setting up...", Verbosity.LEVEL1);
             FileStream fs = new FileStream(_configPath, FileMode.Create);
-            info = new PluginInformation()
+            info = new PluginManagerDatabase()
             {
-                IncludedFiles_Prefixes = new List<Tuple<string, string[], string, List<CommandMetaData>>>(),
-                ManuallyIncluded_Prefixes = new List<Tuple<string, string[], string, List<CommandMetaData>>>(),
+                IncludedFiles = new List<string>(),
+                Cache = new List<PluginInformation>(),
                 IncludedDirectories = new List<string>()
                 {
                     _defaultPluginFolder
@@ -358,28 +375,34 @@ namespace ext_pp_cli
         }
 
 
-        public bool GetPath(string prefix, out string ret, out string name)
-        {
-            return GetPath(info.ManuallyIncluded_Prefixes, prefix, out ret, out name) ||
-                   GetPath(info.IncludedFiles_Prefixes, prefix, out ret, out name);
-        }
 
-
-        private static bool GetPath(List<Tuple<string, string[], string, List<CommandMetaData>>> vals, string prefix, out string ret, out string name)
+        public bool GetPathByName(string name, out string path)
         {
-            for (var index = 0; index < vals.Count; index++)
+            PluginInformation pli;
+            if (GetPluginInfoByName(name, out pli))
             {
-                if (vals[index].Item2.Contains(prefix))
-                {
-                    ret = vals[index].Item3;
-                    name = vals[index].Item1;
-                    return true;
-                }
+                path = pli.Path;
+                return true;
             }
 
-            name = "";
-            ret = prefix;
+            path = name;
             return false;
         }
+
+        public bool GetPathByPrefix(string prefix, out string path)
+        {
+            PluginInformation pli;
+            if (GetPluginInfoByPrefix(prefix, out pli))
+            {
+                path = pli.Path;
+                return true;
+            }
+
+            path = prefix;
+            return false;
+        }
+
+
+
     }
 }

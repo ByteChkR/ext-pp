@@ -49,6 +49,8 @@ namespace ext_pp_cli
                 "The CLI will not search for a ChainCollection in the specified assembly"),
             new CommandInfo("help", "h", PropertyHelper<CLI>.GetFieldInfo(x=>x.HelpParams),
                 "	\t--help <chainstr>\r\n\t\tlists the commands of the CLI or with supplied chain, it will display the help info of each plugin."),
+            new CommandInfo("help-all", "hh", PropertyHelper<CLI>.GetFieldInfo(x=>x.HelpAllParams),
+                "	\t--help-all <chainstr>\r\n\t\tlists the commands of the CLI or with supplied chain, it will display the help info of each plugin."),
             new CommandInfo("pm-refresh", "pm-r", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginRefresh),
                 "--pm-refresh\r\n\t\tRefreshes the Plugin Manager."),
             new CommandInfo("pm-add", "pm-a", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginAdd),
@@ -72,6 +74,7 @@ namespace ext_pp_cli
         public bool NoCollections = false;
         public string[] ChainParams = null;
         public string[] HelpParams = null;
+        public string[] HelpAllParams = null;
         public Verbosity DebugLvl = Verbosity.LEVEL1;
         public bool ShowVersion = false;
         public string[] PluginAdd = null;
@@ -177,7 +180,7 @@ namespace ext_pp_cli
 
             if (PluginListManIncs)
             {
-                _pluginManager.ListManualCachedPlugins();
+                _pluginManager.ListManuallyCachedFiles();
                 if (!PluginRefresh) return;
             }
 
@@ -187,20 +190,24 @@ namespace ext_pp_cli
                 return;
             }
 
-            if (HelpParams != null)
+            if (HelpParams != null || HelpAllParams != null)
             {
+                bool ListCommands = false;
+                if ((ListCommands = (HelpAllParams != null))) HelpParams = HelpAllParams;
                 if (HelpParams.Length == 0)
                 {
                     this.Log(DebugLevel.LOGS, "\n" + Info.ListAllCommands(new[] { "" }).Unpack("\n"),
                         Verbosity.SILENT);
                     return;
                 }
+                
                 foreach (var file in HelpParams)
                 {
                     if (file != "self")
                     {
+
                         ParseChainSyntax(file, out string path, out string[] names);
-                        if (_pluginManager.DisplayHelp(path, names)) continue;
+                        if (_pluginManager.DisplayHelp(path, names, !ListCommands)) continue;
 
                         List<AbstractPlugin> plugins = CreatePluginChain(new[] { file }, true).ToList();
                         this.Log(DebugLevel.LOGS, "Listing Plugins: ", Verbosity.SILENT);
@@ -358,10 +365,8 @@ namespace ext_pp_cli
             {
                 path = arg; //Set the path
                 names = new[] { path };
-                if (!_pluginManager.GetPath(arg, out path, out _)) names = null; //Will change path if it matches prefix
-
-                this.Log(DebugLevel.LOGS, "AAAAAAAAAAAA."+path, Verbosity.LEVEL3);
-                this.Log(DebugLevel.LOGS, "BBBBBBBBBBBB."+names.Unpack(", "), Verbosity.LEVEL3);
+                if (!_pluginManager.GetPathByPrefix(arg, out path) && !_pluginManager.GetPathByName(arg, out path))
+                    names = null; //Will change path if it matches prefix
             }
 
         }
@@ -549,11 +554,11 @@ namespace ext_pp_cli
 
 
             CLI c;
-            string[] arf = args;
+            string[] arf;
             do
             {
-                c = new CLI(arf);
                 arf = Console.ReadLine().Pack(" ").ToArray();
+                c = new CLI(arf);
                 c.Shutdown();
                 c = null;
             } while (true);

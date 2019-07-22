@@ -100,6 +100,17 @@ namespace ext_pp_cli
         {
             InitAdl();
 
+
+            if (args.Length == 3 && args[0] == "-readme")
+            {
+                PluginManager pm = new PluginManager();
+                List<string> ht = new List<string>();
+                pm.FromFile(args[1]).ForEach(x => ht.AddRange(x.ToMarkdown()));
+                File.WriteAllLines(args[2], ht.ToArray());
+                return;
+            }
+
+
             List<string> arf = args.ToList();
             for (int i = 0; i < arf.Count; i++)
             {
@@ -507,6 +518,7 @@ namespace ext_pp_cli
             CrashHandler.Initialize((int)DebugLevel.INTERNAL_ERROR, false);
             Debug.LoadConfig((AdlConfig)new AdlConfig().GetStandard());
             Debug.SetAllPrefixes("[ERRORS]", "[WARNINGS]", "[LOGS]", "[INTERNAL_ERROR]", "[PROGRESS]");
+            Debug.AddPrefixForMask(-1, "[ALL]");
             Debug.CheckForUpdates = false;
             Debug.AdlWarningMask = (int)DebugLevel.WARNINGS;
             lts = new LogTextStream(
@@ -543,18 +555,6 @@ namespace ext_pp_cli
 
 #if DEBUG
 
-
-            CLI c;
-            string[] arf;
-            do
-            {
-                arf = Console.ReadLine().Pack(" ").ToArray();
-                c = new CLI(arf);
-                c.Shutdown();
-                c = null;
-            } while (true);
-
-#elif RELEASE
             if (args.Length == 0)
             {
                 Console.WriteLine(HelpText);
@@ -563,6 +563,23 @@ namespace ext_pp_cli
             {
                 Directory.SetCurrentDirectory("test");
                 GenerateFiles("testfile", int.Parse(args[1]));
+            }
+            CLI c;
+            string[] arf;
+            bool exit=false;
+            do
+            {
+                arf = Console.ReadLine().Pack(" ").ToArray();
+                if(arf.Contains("exit"))exit=true;
+                c = new CLI(arf);
+                c.Shutdown();
+                c = null;
+            } while (!exit);
+
+#elif RELEASE
+            if (args.Length == 0)
+            {
+                Console.WriteLine(HelpText);
             }
             else
                 new CLI(args);

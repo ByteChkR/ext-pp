@@ -20,11 +20,11 @@ namespace ext_pp_plugins
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
             new CommandInfo("set-removekeyword", "k", PropertyHelper.GetFieldInfo(typeof(BlankLineRemover), nameof(BlankLineRemovalKeyword)),
-                "	\t\tset-removekeyword [remove keyword] *###remove###*\r\n\t\t\tThis will get inserted whenever a blank line is detected. This will be removed in the native cleanup of the PreProcessor"),
+                "This will get inserted whenever a blank line is detected. This will be removed in the native cleanup of the PreProcessor"),
             new CommandInfo("set-order", "o", PropertyHelper.GetFieldInfo(typeof(BlankLineRemover), nameof(Order)),
-                "set-order [Before|After] *After*\r\n\t\t\tSets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
+                "Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
             new CommandInfo("set-stage","ss", PropertyHelper.GetFieldInfo(typeof(BlankLineRemover), nameof(Stage)),
-                "	\t\tset-stage [OnLoad|OnFinishUp] *OnFinishUp*\r\n\t\t\tSets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+                "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
         };
 
 

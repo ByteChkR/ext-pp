@@ -18,11 +18,11 @@ namespace ext_pp_plugins
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
             new CommandInfo("set-genkeyword","g", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
-                "set-genkeyword [generic keyword] *#type*\r\n\t\t\tSets the keyword that is used when writing pseudo generic code."),
+                "Sets the keyword that is used when writing pseudo generic code."),
             new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Separator)),
-                "set-separator [separator keyword] * *\r\n\t\t\tSets the separator that is used to separate different generic types"),
+                "Sets the separator that is used to separate different generic types"),
             new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Stage)),
-                "set-stage [OnLoad|OnMain] *OnMain*\r\n\t\t\tSets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+                "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
         };
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)

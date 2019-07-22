@@ -35,5 +35,30 @@ namespace ext_pp_cli
             ret.Add("");
             return ret;
         }
+
+        public static string[] ToMarkdown(this AbstractPlugin plugin)
+        {
+            List<string> ret = new List<string>()
+            {
+                "______________________________________________",
+              "#### "+plugin.GetType().Name+ " Information:",
+              "",
+              "* Prefix: "+plugin.Prefix.Unpack(", "),
+              "* Commands:",
+              ""
+            };
+
+            string tab = "\t\t";
+
+            for (int i = 0; i < plugin.Info.Count; i++)
+            {
+
+                string[] helpt = plugin.Info[i].HelpText.Split("\n");
+                ret.Add(tab + plugin.Info[i].Command + "/" + plugin.Info[i].ShortCut);
+                ret.Add(tab + "\t" + helpt.Unpack("\n\t" + tab));
+            }
+
+            return ret.ToArray();
+        }
     }
 }

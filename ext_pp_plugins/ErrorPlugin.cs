@@ -22,13 +22,13 @@ namespace ext_pp_plugins
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
             new CommandInfo("set-error","e", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(ErrorKeyword)),
-                "set-error [error keyword] *#error*\r\n\t\t\tSets the keyword that is used to trigger errors during compilation"),
+                "Sets the keyword that is used to trigger errors during compilation"),
             new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(Separator)),
-                "set-separator [separator] * *\r\n\t\t\tSets the separator that is used to separate the error keyword from the error text"),
+                "Sets the separator that is used to separate the error keyword from the error text"),
             new CommandInfo("set-order", "o", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(Order)),
-                "set-order [Before|After] *After*\r\n\t\t\tSets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
+                "Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
             new CommandInfo("set-stage","ss", PropertyHelper.GetFieldInfo(typeof(ErrorPlugin), nameof(Stage)),
-                "set-stage [OnLoad|OnFinishUp] *#OnFinishUp*\r\n\t\t\tSets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+                "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
         };
 
 

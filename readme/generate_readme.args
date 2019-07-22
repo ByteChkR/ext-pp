@@ -1,1 +1,1 @@
---chain inc -i _commands.txt ../README.md -o plugin_console_commands.md generated_readme.md -v 8 -l2f process_output.log all:false
+--chain inc -i _commands.txt _README.md -o ../PLUGIN_INFO.md ../README.md -v 8 -l2f process_output.log all:false

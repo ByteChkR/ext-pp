@@ -1,6 +1,7 @@
-
+## ext_pp_cli
+A console application that wraps around the core library and offers the full functionality from the command line.
 ______________________________________________
-## Console Commands:
+### Console Commands:
 
 	--input filepath,filepath filepath,filepath
 		, separated = the same compilation

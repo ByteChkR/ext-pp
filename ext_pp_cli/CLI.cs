@@ -212,12 +212,12 @@ namespace ext_pp_cli
                         this.Log(DebugLevel.LOGS, Verbosity.SILENT, "Listing Plugins: ");
                         foreach (var plugin in plugins)
                         {
-                            this.Log(DebugLevel.LOGS,Verbosity.SILENT, "\n{0}" , plugin.ListInfo(true).Unpack("\n"));
+                            this.Log(DebugLevel.LOGS, Verbosity.SILENT, "\n{0}", plugin.ListInfo(true).Unpack("\n"));
                         }
                     }
                     else
                     {
-                        this.Log(DebugLevel.LOGS, Verbosity.SILENT, "\n{0}" , Info.ListAllCommands(new[] { "" }).Unpack("\n"));
+                        this.Log(DebugLevel.LOGS, Verbosity.SILENT, "\n{0}", Info.ListAllCommands(new[] { "" }).Unpack("\n"));
                     }
 
 
@@ -441,7 +441,7 @@ namespace ext_pp_cli
                                 {
                                     if (plugins[j].Prefix.Contains(names[i]))
                                     {
-                                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Creating instance of: {0}" + plugins[j].GetType().Name);
+                                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Creating instance of: {0}", plugins[j].GetType().Name);
                                         ret.Add(plugins[j]);
                                     }
                                 }

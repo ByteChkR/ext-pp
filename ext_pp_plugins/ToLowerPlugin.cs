@@ -41,7 +41,7 @@ namespace ext_pp_plugins
             return source.ToLower();
         }
 
-        public override string[] Prefix => new[] { "tup", "ToUpper" };
+        public override string[] Prefix => new[] { "tul", "ToLower" };
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
 

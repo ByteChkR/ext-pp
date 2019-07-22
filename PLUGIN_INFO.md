@@ -127,6 +127,26 @@ ______________________________________________
 		set-mlkeyword/mlk
 			Sets the keyword that is used to detect when to lines should be merged. The line containing the keyword will be merges with the next line in the file
 ______________________________________________
+#### ToLowerPlugin Information:
+
+* Prefix: tup, ToUpper
+* Commands:
+
+		set-order/o
+			Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts
+		set-stage/ss
+			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
+______________________________________________
+#### ToUpperPlugin Information:
+
+* Prefix: tup, ToUpper
+* Commands:
+
+		set-order/o
+			Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts
+		set-stage/ss
+			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
+______________________________________________
 #### WarningPlugin Information:
 
 * Prefix: wrn, Warning

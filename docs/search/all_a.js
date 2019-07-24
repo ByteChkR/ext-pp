@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['methodprecompiler',['MethodPrecompiler',['../classext__pp_1_1tests_1_1_method_precompiler.html',1,'ext_pp::tests']]]
+  ['keywordreplacer',['KeyWordReplacer',['../classext__pp__plugins_1_1_key_word_replacer.html',1,'ext_pp_plugins']]]
 ];

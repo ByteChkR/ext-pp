@@ -15,18 +15,35 @@ using Utils = ext_pp_base.Utils;
 
 namespace ext_pp_cli
 {
+
+    /// <summary>
+    /// Command Line Interface of the EXT_PP project.
+    /// </summary>
     public class CLI : ILoggable
     {
+        /// <summary>
+        /// Default helptext to show.
+        /// </summary>
         private static string HelpText = "To list all available commands type: ext_pp_cli --help or -h";
 
+        /// <summary>
+        /// Simple header to assert dominance
+        /// </summary>
         private static string CLIHeader = "\n\next_pp_cli version: " + Assembly.GetAssembly(typeof(CLI)).GetName().Version + "\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n";
 
+        /// <summary>
+        /// A version string.
+        /// </summary>
         private static string Version = "\next_pp_cli: " + Assembly.GetAssembly(typeof(CLI)).GetName().Version +
                                         "\next_pp_base: " + Assembly.GetAssembly(typeof(Utils)).GetName().Version +
                                         "\next_pp: " + Assembly.GetAssembly(typeof(Definitions)).GetName().Version;
 
 
 
+        /// <summary>
+        /// List of Command infos that are directly used by the CLI
+        /// They have no prefix
+        /// </summary>
         private List<CommandInfo> Info => new List<CommandInfo>()
         {
             new CommandInfo("input", "i", PropertyHelper<CLI>.GetFieldInfo(x=>x.Input),
@@ -65,37 +82,115 @@ namespace ext_pp_cli
                 "--pm-list-all\r\n\t\tLists all Cached data."),
         };
 
+        /// <summary>
+        /// Contains the Parameters for the -l2f and --logToFile commands.
+        /// </summary>
         public string[] LogToFileParams = null;
+        /// <summary>
+        /// A flag that is used to determine if the log2file flag was set.
+        /// </summary>
         private bool LogToFile => LogToFileParams != null && LogToFileParams.Length != 0;
+        /// <summary>
+        /// Flag to output the result to the console.
+        /// </summary>
         private bool OutputToConsole = false;
+        /// <summary>
+        /// The input files
+        /// </summary>
         public string[] Input = new string[0];
+        /// <summary>
+        /// The output files.
+        /// </summary>
         public string[] Output = new string[0];
+        /// <summary>
+        /// Predefined definitions from --defines and -defs
+        /// </summary>
         public string[] DefinesParams = null;
+        /// <summary>
+        /// Forces the cli to ignore collections.
+        /// </summary>
         public bool NoCollections = false;
+        /// <summary>
+        /// Contains the parameters for the plugin chain
+        /// </summary>
         public string[] ChainParams = null;
+        /// <summary>
+        /// Contains the parameters for the help parameter
+        /// </summary>
         public string[] HelpParams = null;
+        /// <summary>
+        /// Contains the parameters for the help all parameter
+        /// </summary>
         public string[] HelpAllParams = null;
+        /// <summary>
+        /// Debug level of the process.
+        /// </summary>
         public Verbosity DebugLvl = Verbosity.LEVEL1;
+        /// <summary>
+        /// Show the version at the start and exit.
+        /// </summary>
         public bool ShowVersion = false;
+        /// <summary>
+        /// parameter for the --pm-add and -pm-a commands.
+        /// </summary>
         public string[] PluginAdd = null;
+        /// <summary>
+        /// Flag if the settings contain the -pm-r/--pm-refresh command
+        /// </summary>
         public bool PluginRefresh = false;
+        /// <summary>
+        /// Flag if the settings contain the -pm-ld/--pm-list-dirr command
+        /// </summary>
         public bool PluginListDirs = false;
+        /// <summary>
+        /// Flag if the settings contain the -pm-lf/--pm-list-file command
+        /// </summary>
         public bool PluginListIncs = false;
+        /// <summary>
+        /// Flag if the settings contain the -pm-lmf/--pm-list-manual-files command
+        /// </summary>
         public bool PluginListManIncs = false;
+        /// <summary>
+        /// Flag if the settings contain the -pm-a/--pm-all command
+        /// </summary>
         public bool PluginListAll = false;
 
+        /// <summary>
+        /// Definitions.
+        /// </summary>
         private Definitions _defs;
+        /// <summary>
+        /// Instance of the plugin manager.
+        /// </summary>
         private PluginManager _pluginManager;
+        /// <summary>
+        /// Settings for the run.
+        /// </summary>
         private readonly Settings _settings;
+        /// <summary>
+        /// the chain used for it.
+        /// </summary>
         private List<AbstractPlugin> _chain;
 
+        /// <summary>
+        /// Contains the Stream when logging to console.
+        /// </summary>
+        private static LogTextStream lts;
 
 
+
+        /// <summary>
+        /// Shuts down the cli by removing all output streams from adl.
+        /// </summary>
         public void Shutdown()
         {
             Debug.RemoveAllOutputStreams();
         }
 
+        /// <summary>
+        /// Constructor that does the parameter analysis.
+        /// </summary>
+        /// <param name="args"></param>
         public CLI(string[] args)
         {
             InitAdl();
@@ -298,7 +393,10 @@ namespace ext_pp_cli
             }
         }
 
-
+        /// <summary>
+        /// Contains code to apply important settings first so they can be taken into account on apply.
+        /// </summary>
+        /// <param name="settings"></param>
         public void PreApply(Settings settings)
         {
 
@@ -312,6 +410,13 @@ namespace ext_pp_cli
 
         }
 
+        /// <summary>
+        /// Implements the log params syntax
+        /// int:bool
+        /// default: -1:true
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         private KeyValuePair<int, bool> ParseLogParams(string input)
         {
             int mask = -1;
@@ -330,7 +435,11 @@ namespace ext_pp_cli
             return new KeyValuePair<int, bool>(mask, timestamp);
 
         }
-
+        
+        /// <summary>
+        /// Applies/Brings the configuration of the CLI up and running so it can start the PreProcessing.
+        /// </summary>
+        /// <param name="settings"></param>
         public void Apply(Settings settings)
         {
 
@@ -361,6 +470,16 @@ namespace ext_pp_cli
             }
         }
 
+        /// <summary>
+        /// Implements the Chain Syntax
+        /// path:plugin:plugin:plugin
+        /// path:collection:plugin
+        /// prefix:prefix:prefix
+        /// prefix prefix prefix
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="path"></param>
+        /// <param name="names"></param>
         private void ParseChainSyntax(string arg, out string path, out string[] names)
         {
             if (arg.Contains(':'))
@@ -379,6 +498,12 @@ namespace ext_pp_cli
 
         }
 
+        /// <summary>
+        /// Creates the Plugin chain based on a argument in ChainSyntax.
+        /// </summary>
+        /// <param name="arg"></param>
+        /// <param name="noCollection"></param>
+        /// <returns></returns>
         private IEnumerable<AbstractPlugin> CreatePluginChain(string[] arg, bool noCollection)
         {
 
@@ -470,6 +595,11 @@ namespace ext_pp_cli
             return ret;
         }
 
+        /// <summary>
+        /// Turns a List of Type to a list of abstract plugin.
+        /// </summary>
+        /// <param name="chain"></param>
+        /// <returns></returns>
         public IEnumerable<AbstractPlugin> CreatePluginChain(IEnumerable<Type> chain)
         {
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Creating Plugin Chain...");
@@ -492,6 +622,11 @@ namespace ext_pp_cli
             return ret;
         }
 
+        /// <summary>
+        /// Turns the args into a dictionary that contains keys and n string values.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public Dictionary<string, string[]> AnalyzeArgs(string[] args)
         {
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
@@ -509,9 +644,9 @@ namespace ext_pp_cli
         }
 
 
-
-        private static LogTextStream lts;
-
+        /// <summary>
+        /// Function that sets up ADL to operate with the DebugLevel enum and more.
+        /// </summary>
         private static void InitAdl()
         {
 
@@ -531,6 +666,12 @@ namespace ext_pp_cli
 
         }
 
+        /// <summary>
+        /// Returns the index of the next occurrence of "-..."
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="start"></param>
+        /// <returns></returns>
         private int FindNextCommand(string[] args, int start)
         {
             for (int i = start + 1; i < args.Length; i++)
@@ -542,6 +683,12 @@ namespace ext_pp_cli
         }
 
 
+        /// <summary>
+        /// Adds a log output to the ADL system that is writing to a file.
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="mask"></param>
+        /// <param name="timestamp"></param>
         private static void AddLogOutput(string file, int mask, bool timestamp)
         {
             if (File.Exists(file)) File.Delete(file);
@@ -549,7 +696,10 @@ namespace ext_pp_cli
             Debug.AddOutputStream(lts);
         }
 
-
+        /// <summary>
+        /// Main entry point.
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
 
@@ -587,7 +737,7 @@ namespace ext_pp_cli
 
         }
 
-
+        // No comments on this part ;)
         #region FunStuff
 
         public static List<string> GenerateDefineStatements(string defname, int maxNr, int maxDefines)

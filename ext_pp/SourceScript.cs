@@ -17,6 +17,9 @@ namespace ext_pp
         /// </summary>
         private string[] _source = null;
 
+        /// <summary>
+        /// Flag to check if the file was already loaded into memory
+        /// </summary>
         public bool IsSourceLoaded => _source != null;
 
         /// <summary>

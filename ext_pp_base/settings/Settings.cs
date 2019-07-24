@@ -7,42 +7,84 @@ namespace ext_pp_base.settings
 {
     public class Settings
     {
+        /// <summary>
+        /// Settings with this prefix will be forwarded to any plugin in the chain
+        /// </summary>
         public static string GlobalSettings = "glob";
 
-
+        /// <summary>
+        /// Dictionairy to store the settings for processing
+        /// </summary>
         private readonly Dictionary<string, string[]> _settings;
 
+        /// <summary>
+        /// Default/Preset Constructor
+        /// </summary>
+        /// <param name="settings"></param>
         public Settings(Dictionary<string, string[]> settings = null)
         {
             _settings = settings ?? new Dictionary<string, string[]>();
         }
 
+        /// <summary>
+        /// Sets values in the settings
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void Set(string key, string[] value)
         {
             if (_settings.ContainsKey(key)) _settings[key] = value;
             else _settings.Add(key, value);
         }
 
+        /// <summary>
+        /// Sets a value in the settings
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         public void Set(string key, string value)
         {
             Set(key, new[] { value });
         }
 
+        /// <summary>
+        /// returns the "first" value of the key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string GetFirst(string key)
         {
             return Get(key)[0];
         }
 
+        /// <summary>
+        /// Returns true if the settings contain this key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public bool HasKey(string key)
         {
             return _settings.ContainsKey(key);
         }
 
+
+        /// <summary>
+        /// returns the settings for the specified key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public string[] Get(string key)
         {
             return _settings[key];
         }
 
+
+        /// <summary>
+        /// Returns the settings that have a prefix(e.g. are used in plugins)
+        /// </summary>
+        /// <param name="prefixes"></param>
+        /// <param name="includeGlobalConfig"></param>
+        /// <returns></returns>
         public Settings GetSettingsWithPrefix(string[] prefixes, bool includeGlobalConfig = false)
         {
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
@@ -59,7 +101,13 @@ namespace ext_pp_base.settings
             return new Settings(ret);
         }
 
-
+        /// <summary>
+        /// Returns a setting object that contains the settings with prefix.
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name="argBegin"></param>
+        /// <param name="includeShared"></param>
+        /// <returns></returns>
         private Settings getSettingsWithPrefix(string prefix, string argBegin, bool includeShared = false)
         {
             string prfx = argBegin + prefix + ":";
@@ -80,10 +128,16 @@ namespace ext_pp_base.settings
             //    .ToDictionary(x => x.Key.Replace(prefix + ":", ""), y => y.Value));
         }
 
+        /// <summary>
+        /// Wrapper that returns the settings of the prefix.
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name="includeShared"></param>
+        /// <returns></returns>
         public Settings GetSettingsWithPrefix(string prefix, bool includeShared = false)
         {
             Settings s = getSettingsWithPrefix(prefix, "--", includeShared);
-            s=s.Merge(getSettingsWithPrefix(prefix, "-", includeShared));
+            s = s.Merge(getSettingsWithPrefix(prefix, "-", includeShared));
             return s;
 
         }
@@ -97,6 +151,12 @@ namespace ext_pp_base.settings
             return null;
         }
 
+        /// <summary>
+        /// Applies the settings with matching command infos.
+        /// Using reflection and fieldinfos to set the values
+        /// </summary>
+        /// <param name="infos"></param>
+        /// <param name="obj"></param>
         public void ApplySettings(List<CommandInfo> infos, object obj)
         {
             foreach (var commandInfo in infos)
@@ -107,7 +167,13 @@ namespace ext_pp_base.settings
         }
 
 
-
+        /// <summary>
+        /// Applies the first index of the setting. and saves it in the fieldinfo in the command object.
+        /// Automatically converts strings to almost all parsable objects
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="info"></param>
+        /// <param name="obj"></param>
         public void ApplySettingFirst(Type t, CommandInfo info, object obj)
         {
             string[] cmdVal = FindCommandValue(info);
@@ -120,6 +186,12 @@ namespace ext_pp_base.settings
             info.Field.SetValue(obj, val);
         }
 
+        /// <summary>
+        /// Applies the settings. and saves it in the fieldinfo in the command objects.
+        /// Automatically converts strings and arrays to almost all parsable objects
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="obj"></param>
         public void ApplySettingArray(CommandInfo info, object obj)
         {
             string[] cmdVal = FindCommandValue(info);
@@ -133,6 +205,11 @@ namespace ext_pp_base.settings
         }
 
 
+        /// <summary>
+        /// Merges two settings objects.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public Settings Merge(Settings other)
         {
             Settings s = new Settings(new Dictionary<string, string[]>(_settings));

@@ -95,23 +95,38 @@ $(document).ready(function(){initNavTree('namespaceext__pp__base_1_1settings.htm
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1settings_1_1_property_helper.html">PropertyHelper</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a0d63a2f2bed58029a2772b9c3b7e4fa4"><td class="memItemLeft" align="right" valign="top"><a id="a0d63a2f2bed58029a2772b9c3b7e4fa4"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>DebugLevel</b> { <br />
-&#160;&#160;<b>NONE</b> =0, 
+&#160;&#160;<b>ALL</b> =-1, 
+<b>NONE</b> =0, 
 <b>ERRORS</b> =1, 
 <b>WARNINGS</b> =2, 
-<b>LOGS</b> =4, 
 <br />
-&#160;&#160;<b>INTERNAL_ERROR</b> =8
+&#160;&#160;<b>LOGS</b> =4, 
+<b>INTERNAL_ERROR</b> =8, 
+<b>PROGRESS</b> =16
 <br />
  }</td></tr>
 <tr class="separator:a0d63a2f2bed58029a2772b9c3b7e4fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e33bd1ea58d31f00e108c43b5b55981"><td class="memItemLeft" align="right" valign="top"><a id="a9e33bd1ea58d31f00e108c43b5b55981"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>PluginType</b> { <b>LINE_PLUGIN_BEFORE</b> = 16, 
+<b>FULL_SCRIPT_PLUGIN</b> = 32, 
+<b>LINE_PLUGIN_AFTER</b> = 64
+ }</td></tr>
+<tr class="separator:a9e33bd1ea58d31f00e108c43b5b55981"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afee5f7067a01f6c1440f888a255598d3"><td class="memItemLeft" align="right" valign="top"><a id="afee5f7067a01f6c1440f888a255598d3"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>ProcessStage</b> { <br />
+&#160;&#160;<b>QUEUED</b> = 0, 
+<b>ON_LOAD_STAGE</b> = 1, 
+<b>ON_MAIN</b> = 2, 
+<b>ON_FINISH_UP</b> = 4, 
+<br />
+&#160;&#160;<b>FINISHED</b> = 8
+<br />
+ }</td></tr>
+<tr class="separator:afee5f7067a01f6c1440f888a255598d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ac290b258daf5ed6b982fd1d00d4166"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a> { <br />
 &#160;&#160;<a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166a7e92d833d7720dbe631730a6cea03346">Verbosity.SILENT</a> =0, 
 <a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166ae987463bf0418539b306409f86997a21">Verbosity.LEVEL1</a>, 

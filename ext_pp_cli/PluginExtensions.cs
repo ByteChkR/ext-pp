@@ -3,8 +3,17 @@ using ext_pp_base;
 
 namespace ext_pp_cli
 {
+    /// <summary>
+    /// Useful extensions for the CLI when working with Plugins
+    /// </summary>
     internal static class PluginExtensions
     {
+        /// <summary>
+        /// Returns a list of all commands with information.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
         public static List<string> ListAllCommands(this List<CommandInfo> info, string[] prefix)
         {
             List<string> ret = new List<string>();
@@ -16,6 +25,12 @@ namespace ext_pp_cli
             return ret;
         }
 
+        /// <summary>
+        /// Returns a list of command info.
+        /// </summary>
+        /// <param name="plugin"></param>
+        /// <param name="listCommands"></param>
+        /// <returns></returns>
         public static List<string> ListInfo(this AbstractPlugin plugin, bool listCommands)
         {
             List<string> ret = new List<string>
@@ -36,6 +51,11 @@ namespace ext_pp_cli
             return ret;
         }
 
+        /// <summary>
+        /// Converts the Plugin to a basic markdown text that can be used to generate readmes.
+        /// </summary>
+        /// <param name="plugin"></param>
+        /// <returns></returns>
         public static string[] ToMarkdown(this AbstractPlugin plugin)
         {
             List<string> ret = new List<string>()

@@ -100,64 +100,106 @@ Inheritance diagram for ext_pp_plugins.WarningPlugin:</div>
  <div class="center">
   <img src="classext__pp__plugins_1_1_warning_plugin.png" usemap="#ext_5Fpp_5Fplugins.WarningPlugin_map" alt=""/>
   <map id="ext_5Fpp_5Fplugins.WarningPlugin_map" name="ext_5Fpp_5Fplugins.WarningPlugin_map">
-<area href="interfaceext__pp__base_1_1_i_plugin.html" title="Specifies the functionality needed to be incorporated in the processing chain of ext_pp ..." alt="ext_pp_base.IPlugin" shape="rect" coords="0,0,182,24"/>
+<area href="classext__pp__base_1_1_abstract_plugin.html" title="Specifies the functionality needed to be incorporated in the processing chain of ext_pp ..." alt="ext_pp_base.AbstractPlugin" shape="rect" coords="0,56,182,80"/>
+<area href="interfaceext__pp__base_1_1_i_loggable.html" title="An empty interface that is used to Log where the log is coming from. Just add to any script and you c..." alt="ext_pp_base.ILoggable" shape="rect" coords="0,0,182,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2a15c9a267353b668702babf698a1422"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#a2a15c9a267353b668702babf698a1422">Initialize</a> (<a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defTable)</td></tr>
-<tr class="memdesc:a2a15c9a267353b668702babf698a1422"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization of the plugin Set all your changes to the objects here(not in the actual processing)  <a href="#a2a15c9a267353b668702babf698a1422">More...</a><br /></td></tr>
-<tr class="separator:a2a15c9a267353b668702babf698a1422"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af84a1ee9b7b375817e344e0e2e2c52ae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#af84a1ee9b7b375817e344e0e2e2c52ae">Process</a> (<a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> file, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> todo, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defs)</td></tr>
-<tr class="memdesc:af84a1ee9b7b375817e344e0e2e2c52ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called once on each file. Looping Through All the Files Looping Through All the plugins  <a href="#af84a1ee9b7b375817e344e0e2e2c52ae">More...</a><br /></td></tr>
-<tr class="separator:af84a1ee9b7b375817e344e0e2e2c52ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dee1bab45dde242b0e92ba92302e588"><td class="memItemLeft" align="right" valign="top">override void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#a3dee1bab45dde242b0e92ba92302e588">Initialize</a> (<a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defTable)</td></tr>
+<tr class="memdesc:a3dee1bab45dde242b0e92ba92302e588"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialization of the plugin Set all your changes to the objects here(not in the actual processing)  <a href="#a3dee1bab45dde242b0e92ba92302e588">More...</a><br /></td></tr>
+<tr class="separator:a3dee1bab45dde242b0e92ba92302e588"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2b641d356266f34c8b1ff2a6b608e7a"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#af2b641d356266f34c8b1ff2a6b608e7a">OnLoad_LineStage</a> (string source)</td></tr>
+<tr class="memdesc:af2b641d356266f34c8b1ff2a6b608e7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called once per line on each file.  <a href="#af2b641d356266f34c8b1ff2a6b608e7a">More...</a><br /></td></tr>
+<tr class="separator:af2b641d356266f34c8b1ff2a6b608e7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cd24b53f0ff823d3765c188d6cb61d5"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#a6cd24b53f0ff823d3765c188d6cb61d5">OnMain_LineStage</a> (string source)</td></tr>
+<tr class="memdesc:a6cd24b53f0ff823d3765c188d6cb61d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called once per line on each file.  <a href="#a6cd24b53f0ff823d3765c188d6cb61d5">More...</a><br /></td></tr>
+<tr class="separator:a6cd24b53f0ff823d3765c188d6cb61d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af86e3accbd5e10509383dcdf53620ca5"><td class="memItemLeft" align="right" valign="top">override string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#af86e3accbd5e10509383dcdf53620ca5">OnFinishUp_LineStage</a> (string source)</td></tr>
+<tr class="memdesc:af86e3accbd5e10509383dcdf53620ca5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called once per line on each file.  <a href="#af86e3accbd5e10509383dcdf53620ca5">More...</a><br /></td></tr>
+<tr class="separator:af86e3accbd5e10509383dcdf53620ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9ce5abb010636c9d7df7e3176b5237c"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#ac9ce5abb010636c9d7df7e3176b5237c">OnLoad_FullScriptStage</a> (<a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defTable)</td></tr>
+<tr class="memdesc:ac9ce5abb010636c9d7df7e3176b5237c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called once on each file. Looping Through All the Files Looping Through All the plugins  <a href="#ac9ce5abb010636c9d7df7e3176b5237c">More...</a><br /></td></tr>
+<tr class="separator:ac9ce5abb010636c9d7df7e3176b5237c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94410d1e095641137befe1024720c319"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#a94410d1e095641137befe1024720c319">OnMain_FullScriptStage</a> (<a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defTable)</td></tr>
+<tr class="memdesc:a94410d1e095641137befe1024720c319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets called once on each file. Looping Through All the Files Looping Through All the plugins  <a href="#a94410d1e095641137befe1024720c319">More...</a><br /></td></tr>
+<tr class="separator:a94410d1e095641137befe1024720c319"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dce830b9eb15dea6d03664fc04cfe84"><td class="memItemLeft" align="right" valign="top"><a id="a1dce830b9eb15dea6d03664fc04cfe84"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>LineStage</b> (string source)</td></tr>
+<tr class="separator:a1dce830b9eb15dea6d03664fc04cfe84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2361f4c19739d40042e7b0ca1b47b2bd"><td class="memItemLeft" align="right" valign="top"><a id="a2361f4c19739d40042e7b0ca1b47b2bd"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>FullScriptStage</b> (<a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> file, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> todo, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defs)</td></tr>
+<tr class="separator:a2361f4c19739d40042e7b0ca1b47b2bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a9a361f098fcfe00952dfcfa869755b25"><td class="memItemLeft" align="right" valign="top"><a id="a9a361f098fcfe00952dfcfa869755b25"></a>
-string []&#160;</td><td class="memItemRight" valign="bottom"><b>Cleanup</b> =&gt; new string[0]</td></tr>
-<tr class="separator:a9a361f098fcfe00952dfcfa869755b25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bbdba42c32ee76bacd43d97e70fb752"><td class="memItemLeft" align="right" valign="top"><a id="a5bbdba42c32ee76bacd43d97e70fb752"></a>
-string []&#160;</td><td class="memItemRight" valign="bottom"><b>Prefix</b> =&gt; new string[] { &quot;wrn&quot; }</td></tr>
-<tr class="separator:a5bbdba42c32ee76bacd43d97e70fb752"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c33229f8adf531c0fcd0071132f9952"><td class="memItemLeft" align="right" valign="top"><a id="a2c33229f8adf531c0fcd0071132f9952"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IncludeGlobal</b> =&gt; true</td></tr>
-<tr class="separator:a2c33229f8adf531c0fcd0071132f9952"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af41b67ba3cf02bb5028a16d1a45ecdc7"><td class="memItemLeft" align="right" valign="top"><a id="af41b67ba3cf02bb5028a16d1a45ecdc7"></a>
+override string []&#160;</td><td class="memItemRight" valign="bottom"><b>Prefix</b> =&gt; new string[] { &quot;wrn&quot; , &quot;Warning&quot;}</td></tr>
+<tr class="separator:af41b67ba3cf02bb5028a16d1a45ecdc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a465ac6a032400626a2e3c0e5c722c1c5"><td class="memItemLeft" align="right" valign="top"><a id="a465ac6a032400626a2e3c0e5c722c1c5"></a>
+override ProcessStage&#160;</td><td class="memItemRight" valign="bottom"><b>ProcessStages</b> =&gt; Stage.ToLower() == &quot;onfinishup&quot; ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP</td></tr>
+<tr class="separator:a465ac6a032400626a2e3c0e5c722c1c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd739cafc88b98bc7482e0150b8011ba"><td class="memItemLeft" align="right" valign="top"><a id="acd739cafc88b98bc7482e0150b8011ba"></a>
+override PluginType&#160;</td><td class="memItemRight" valign="bottom"><b>PluginType</b> =&gt; Order.ToLower() == &quot;after&quot; ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE</td></tr>
+<tr class="separator:acd739cafc88b98bc7482e0150b8011ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b8e2dbe9037e7ed99aef25714e56c56"><td class="memItemLeft" align="right" valign="top"><a id="a8b8e2dbe9037e7ed99aef25714e56c56"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>Order</b> = &quot;after&quot;</td></tr>
+<tr class="separator:a8b8e2dbe9037e7ed99aef25714e56c56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a834e6f952ffa129e89e55bc64affc9b0"><td class="memItemLeft" align="right" valign="top"><a id="a834e6f952ffa129e89e55bc64affc9b0"></a>
+string&#160;</td><td class="memItemRight" valign="bottom"><b>Stage</b> = &quot;onfinishup&quot;</td></tr>
+<tr class="separator:a834e6f952ffa129e89e55bc64affc9b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e6530182419a5d3cc1aeb8193fe51f6"><td class="memItemLeft" align="right" valign="top"><a id="a0e6530182419a5d3cc1aeb8193fe51f6"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>WarningKeyword</b> = &quot;#warning&quot;</td></tr>
 <tr class="separator:a0e6530182419a5d3cc1aeb8193fe51f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c8e150f02546797d40751ec2aa7f558"><td class="memItemLeft" align="right" valign="top"><a id="a6c8e150f02546797d40751ec2aa7f558"></a>
 string&#160;</td><td class="memItemRight" valign="bottom"><b>Separator</b> = &quot; &quot;</td></tr>
 <tr class="separator:a6c8e150f02546797d40751ec2aa7f558"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_classext__pp__base_1_1_abstract_plugin"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classext__pp__base_1_1_abstract_plugin')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">ext_pp_base.AbstractPlugin</a></td></tr>
+<tr class="memitem:aa1a5555ad3f32b0c97036b6a52ef33c1 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#aa1a5555ad3f32b0c97036b6a52ef33c1">IncludeGlobal</a> =&gt; false</td></tr>
+<tr class="memdesc:aa1a5555ad3f32b0c97036b6a52ef33c1 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="mdescLeft">&#160;</td><td class="mdescRight">A flag that will, when turned on, redirect all settings that have a global prefix  <a href="classext__pp__base_1_1_abstract_plugin.html#aa1a5555ad3f32b0c97036b6a52ef33c1">More...</a><br /></td></tr>
+<tr class="separator:aa1a5555ad3f32b0c97036b6a52ef33c1 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b15fd1ed80fb198a908e41d4017fc6f inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="memItemLeft" align="right" valign="top">virtual PluginType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a6b15fd1ed80fb198a908e41d4017fc6f">PluginType</a> =&gt; PluginType.FULL_SCRIPT_PLUGIN</td></tr>
+<tr class="memdesc:a6b15fd1ed80fb198a908e41d4017fc6f inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the plugin type. Fullscript or Line Script  <a href="classext__pp__base_1_1_abstract_plugin.html#a6b15fd1ed80fb198a908e41d4017fc6f">More...</a><br /></td></tr>
+<tr class="separator:a6b15fd1ed80fb198a908e41d4017fc6f inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb968ce72c52038f526c3ac521f3607 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="memItemLeft" align="right" valign="top">virtual ProcessStage&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#aecb968ce72c52038f526c3ac521f3607">ProcessStages</a> =&gt; ProcessStage.ON_MAIN</td></tr>
+<tr class="memdesc:aecb968ce72c52038f526c3ac521f3607 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the order on what "event" the plugin should execute  <a href="classext__pp__base_1_1_abstract_plugin.html#aecb968ce72c52038f526c3ac521f3607">More...</a><br /></td></tr>
+<tr class="separator:aecb968ce72c52038f526c3ac521f3607 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad15e82f7ff22d4f04b9a037af196cc5 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="memItemLeft" align="right" valign="top">virtual List&lt; <a class="el" href="structext__pp__base_1_1_command_info.html">CommandInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#aad15e82f7ff22d4f04b9a037af196cc5">Info</a> =&gt; new List&lt;<a class="el" href="structext__pp__base_1_1_command_info.html">CommandInfo</a>&gt;()</td></tr>
+<tr class="memdesc:aad15e82f7ff22d4f04b9a037af196cc5 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of command infos. This list contains all the different commands of the plugin/program  <a href="classext__pp__base_1_1_abstract_plugin.html#aad15e82f7ff22d4f04b9a037af196cc5">More...</a><br /></td></tr>
+<tr class="separator:aad15e82f7ff22d4f04b9a037af196cc5 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35f1ba6bd509c6079da131c3fa7ac683 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="memItemLeft" align="right" valign="top">virtual string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a35f1ba6bd509c6079da131c3fa7ac683">Cleanup</a> =&gt; new string[0]</td></tr>
+<tr class="memdesc:a35f1ba6bd509c6079da131c3fa7ac683 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of statements that need to be removed as a last step of the processing routine  <a href="classext__pp__base_1_1_abstract_plugin.html#a35f1ba6bd509c6079da131c3fa7ac683">More...</a><br /></td></tr>
+<tr class="separator:a35f1ba6bd509c6079da131c3fa7ac683 inherit pub_attribs_classext__pp__base_1_1_abstract_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:a41f9be34dbaa3c6ad3fb2393073e6818"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, FieldInfo &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Info</b><code> [get]</code></td></tr>
-<tr class="separator:a41f9be34dbaa3c6ad3fb2393073e6818"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header properties_interfaceext__pp__base_1_1_i_plugin"><td colspan="2" onclick="javascript:toggleInherit('properties_interfaceext__pp__base_1_1_i_plugin')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="interfaceext__pp__base_1_1_i_plugin.html">ext_pp_base.IPlugin</a></td></tr>
-<tr class="memitem:a0b373c2718739babaf29a2467ce68ee6 inherit properties_interfaceext__pp__base_1_1_i_plugin"><td class="memItemLeft" align="right" valign="top"><a id="a0b373c2718739babaf29a2467ce68ee6"></a>
-string []&#160;</td><td class="memItemRight" valign="bottom"><b>Prefix</b><code> [get]</code></td></tr>
-<tr class="separator:a0b373c2718739babaf29a2467ce68ee6 inherit properties_interfaceext__pp__base_1_1_i_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a62572e98a6a20e14a2c695e2fe862f inherit properties_interfaceext__pp__base_1_1_i_plugin"><td class="memItemLeft" align="right" valign="top"><a id="a0a62572e98a6a20e14a2c695e2fe862f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IncludeGlobal</b><code> [get]</code></td></tr>
-<tr class="separator:a0a62572e98a6a20e14a2c695e2fe862f inherit properties_interfaceext__pp__base_1_1_i_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab14c17a51feb3c7ef34a695df5f170f7 inherit properties_interfaceext__pp__base_1_1_i_plugin"><td class="memItemLeft" align="right" valign="top"><a id="ab14c17a51feb3c7ef34a695df5f170f7"></a>
-Dictionary&lt; string, FieldInfo &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Info</b><code> [get]</code></td></tr>
-<tr class="separator:ab14c17a51feb3c7ef34a695df5f170f7 inherit properties_interfaceext__pp__base_1_1_i_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad4a4b98d48eecaaf9293995590c39733 inherit properties_interfaceext__pp__base_1_1_i_plugin"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceext__pp__base_1_1_i_plugin.html#ad4a4b98d48eecaaf9293995590c39733">Cleanup</a><code> [get]</code></td></tr>
-<tr class="memdesc:ad4a4b98d48eecaaf9293995590c39733 inherit properties_interfaceext__pp__base_1_1_i_plugin"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of statements that need to be removed as a last step of the processing routine  <a href="interfaceext__pp__base_1_1_i_plugin.html#ad4a4b98d48eecaaf9293995590c39733">More...</a><br /></td></tr>
-<tr class="separator:ad4a4b98d48eecaaf9293995590c39733 inherit properties_interfaceext__pp__base_1_1_i_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17a903636cdd3056d1906be526a32429"><td class="memItemLeft" align="right" valign="top">override List&lt; <a class="el" href="structext__pp__base_1_1_command_info.html">CommandInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Info</b><code> [get]</code></td></tr>
+<tr class="separator:a17a903636cdd3056d1906be526a32429"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header properties_classext__pp__base_1_1_abstract_plugin"><td colspan="2" onclick="javascript:toggleInherit('properties_classext__pp__base_1_1_abstract_plugin')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">ext_pp_base.AbstractPlugin</a></td></tr>
+<tr class="memitem:a557c61c3fb9338b2c81bf0e279330a17 inherit properties_classext__pp__base_1_1_abstract_plugin"><td class="memItemLeft" align="right" valign="top">abstract string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a557c61c3fb9338b2c81bf0e279330a17">Prefix</a><code> [get]</code></td></tr>
+<tr class="memdesc:a557c61c3fb9338b2c81bf0e279330a17 inherit properties_classext__pp__base_1_1_abstract_plugin"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of prefixes the plugin should be able to listen to when receiving settings  <a href="classext__pp__base_1_1_abstract_plugin.html#a557c61c3fb9338b2c81bf0e279330a17">More...</a><br /></td></tr>
+<tr class="separator:a557c61c3fb9338b2c81bf0e279330a17 inherit properties_classext__pp__base_1_1_abstract_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_static_methods_classext__pp__base_1_1_abstract_plugin"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classext__pp__base_1_1_abstract_plugin')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">ext_pp_base.AbstractPlugin</a></td></tr>
+<tr class="memitem:a200646a1b9129bef675fd495ef44031e inherit pub_static_methods_classext__pp__base_1_1_abstract_plugin"><td class="memItemLeft" align="right" valign="top">static List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a200646a1b9129bef675fd495ef44031e">GetPluginsForStage</a> (List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt; plugins, <a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a6b15fd1ed80fb198a908e41d4017fc6f">PluginType</a> type, ProcessStage stage)</td></tr>
+<tr class="memdesc:a200646a1b9129bef675fd495ef44031e inherit pub_static_methods_classext__pp__base_1_1_abstract_plugin"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the plugins that are meant to be run at the specified stage  <a href="classext__pp__base_1_1_abstract_plugin.html#a200646a1b9129bef675fd495ef44031e">More...</a><br /></td></tr>
+<tr class="separator:a200646a1b9129bef675fd495ef44031e inherit pub_static_methods_classext__pp__base_1_1_abstract_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a2a15c9a267353b668702babf698a1422"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a15c9a267353b668702babf698a1422">&#9670;&nbsp;</a></span>Initialize()</h2>
+<a id="a3dee1bab45dde242b0e92ba92302e588"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dee1bab45dde242b0e92ba92302e588">&#9670;&nbsp;</a></span>Initialize()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ext_pp_plugins.WarningPlugin.Initialize </td>
+          <td class="memname">override void ext_pp_plugins.WarningPlugin.Initialize </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a>&#160;</td>
           <td class="paramname"><em>settings</em>, </td>
@@ -180,6 +222,11 @@ Dictionary&lt; string, FieldInfo &gt;&#160;</td><td class="memItemRight" valign=
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Initialization of the plugin Set all your changes to the objects here(not in the actual processing) </p>
@@ -192,18 +239,58 @@ Dictionary&lt; string, FieldInfo &gt;&#160;</td><td class="memItemRight" valign=
   </dd>
 </dl>
 
-<p>Implements <a class="el" href="interfaceext__pp__base_1_1_i_plugin.html#a3d79bd1d38cbd52b8c2a6b88abf40dcc">ext_pp_base.IPlugin</a>.</p>
+<p>Implements <a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a39883ad4142d95f970ab4a353775158c">ext_pp_base.AbstractPlugin</a>.</p>
 
 </div>
 </div>
-<a id="af84a1ee9b7b375817e344e0e2e2c52ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af84a1ee9b7b375817e344e0e2e2c52ae">&#9670;&nbsp;</a></span>Process()</h2>
+<a id="af86e3accbd5e10509383dcdf53620ca5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af86e3accbd5e10509383dcdf53620ca5">&#9670;&nbsp;</a></span>OnFinishUp_LineStage()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ext_pp_plugins.WarningPlugin.Process </td>
+          <td class="memname">override string ext_pp_plugins.WarningPlugin.OnFinishUp_LineStage </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>source</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets called once per line on each file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Reimplemented from <a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a84f379adc930fd99cc90a0959f6e32fd">ext_pp_base.AbstractPlugin</a>.</p>
+
+</div>
+</div>
+<a id="ac9ce5abb010636c9d7df7e3176b5237c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9ce5abb010636c9d7df7e3176b5237c">&#9670;&nbsp;</a></span>OnLoad_FullScriptStage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override bool ext_pp_plugins.WarningPlugin.OnLoad_FullScriptStage </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a>&#160;</td>
           <td class="paramname"><em>script</em>, </td>
@@ -226,6 +313,11 @@ Dictionary&lt; string, FieldInfo &gt;&#160;</td><td class="memItemRight" valign=
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Gets called once on each file. Looping Through All the Files Looping Through All the plugins </p>
@@ -239,13 +331,12 @@ Dictionary&lt; string, FieldInfo &gt;&#160;</td><td class="memItemRight" valign=
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>state of the process(if false will abort processing)</dd></dl>
 
-<p>Implements <a class="el" href="interfaceext__pp__base_1_1_i_plugin.html#a88776ac0fd7d409a6b80cc643993f94e">ext_pp_base.IPlugin</a>.</p>
+<p>Reimplemented from <a class="el" href="classext__pp__base_1_1_abstract_plugin.html#adf00e08ce435791a9a0fac2534c836c5">ext_pp_base.AbstractPlugin</a>.</p>
 
 </div>
 </div>
-<h2 class="groupheader">Property Documentation</h2>
-<a id="a41f9be34dbaa3c6ad3fb2393073e6818"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41f9be34dbaa3c6ad3fb2393073e6818">&#9670;&nbsp;</a></span>Info</h2>
+<a id="af2b641d356266f34c8b1ff2a6b608e7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2b641d356266f34c8b1ff2a6b608e7a">&#9670;&nbsp;</a></span>OnLoad_LineStage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -254,7 +345,137 @@ Dictionary&lt; string, FieldInfo &gt;&#160;</td><td class="memItemRight" valign=
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Dictionary&lt;string, FieldInfo&gt; ext_pp_plugins.WarningPlugin.Info</td>
+          <td class="memname">override string ext_pp_plugins.WarningPlugin.OnLoad_LineStage </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>source</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets called once per line on each file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Reimplemented from <a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a3d5a03279c9ce536fd578e68c554ca18">ext_pp_base.AbstractPlugin</a>.</p>
+
+</div>
+</div>
+<a id="a94410d1e095641137befe1024720c319"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94410d1e095641137befe1024720c319">&#9670;&nbsp;</a></span>OnMain_FullScriptStage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override bool ext_pp_plugins.WarningPlugin.OnMain_FullScriptStage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a>&#160;</td>
+          <td class="paramname"><em>script</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a>&#160;</td>
+          <td class="paramname"><em>sourceManager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a>&#160;</td>
+          <td class="paramname"><em>defTable</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets called once on each file. Looping Through All the Files Looping Through All the plugins </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">script</td><td></td></tr>
+    <tr><td class="paramname">sourceManager</td><td></td></tr>
+    <tr><td class="paramname">defTable</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>state of the process(if false will abort processing)</dd></dl>
+
+<p>Reimplemented from <a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a66a1a6d1285cbc5dc27c2b39d65e5557">ext_pp_base.AbstractPlugin</a>.</p>
+
+</div>
+</div>
+<a id="a6cd24b53f0ff823d3765c188d6cb61d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cd24b53f0ff823d3765c188d6cb61d5">&#9670;&nbsp;</a></span>OnMain_LineStage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override string ext_pp_plugins.WarningPlugin.OnMain_LineStage </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>source</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets called once per line on each file. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Reimplemented from <a class="el" href="classext__pp__base_1_1_abstract_plugin.html#ac229dc00baf712db6b8ad6b97b204f14">ext_pp_base.AbstractPlugin</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a17a903636cdd3056d1906be526a32429"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17a903636cdd3056d1906be526a32429">&#9670;&nbsp;</a></span>Info</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override List&lt;<a class="el" href="structext__pp__base_1_1_command_info.html">CommandInfo</a>&gt; ext_pp_plugins.WarningPlugin.Info</td>
         </tr>
       </table>
   </td>
@@ -263,7 +484,7 @@ Dictionary&lt; string, FieldInfo &gt;&#160;</td><td class="memItemRight" valign=
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;string, FieldInfo&gt;()</div><div class="line">        {</div><div class="line">            {<span class="stringliteral">&quot;w&quot;</span>, PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(WarningKeyword))},</div><div class="line">            {<span class="stringliteral">&quot;s&quot;</span>, PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Separator))}</div><div class="line">        }</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> List&lt;CommandInfo&gt;()</div><div class="line">        {</div><div class="line">            <span class="keyword">new</span> CommandInfo(<span class="stringliteral">&quot;set-warning&quot;</span>, <span class="stringliteral">&quot;w&quot;</span>, PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(WarningKeyword)),</div><div class="line">                <span class="stringliteral">&quot;sets the keyword that is used to trigger warnings during compilation&quot;</span>),</div><div class="line">            <span class="keyword">new</span> CommandInfo(<span class="stringliteral">&quot;set-separator&quot;</span>, <span class="stringliteral">&quot;s&quot;</span>, PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Separator)),</div><div class="line">                <span class="stringliteral">&quot;Sets the separator that is used to separate different generic types&quot;</span>),</div><div class="line">            <span class="keyword">new</span> CommandInfo(<span class="stringliteral">&quot;set-order&quot;</span>,<span class="stringliteral">&quot;o&quot;</span>, PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Order)),</div><div class="line">                <span class="stringliteral">&quot;Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts&quot;</span>),</div><div class="line">            <span class="keyword">new</span> CommandInfo(<span class="stringliteral">&quot;set-stage&quot;</span>, <span class="stringliteral">&quot;ss&quot;</span>, PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Stage)),</div><div class="line">                <span class="stringliteral">&quot;Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp&quot;</span>),</div><div class="line">        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

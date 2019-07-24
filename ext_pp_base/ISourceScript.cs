@@ -1,5 +1,8 @@
 ﻿namespace ext_pp_base
 {
+    /// <summary>
+    /// An object that contains the script source and other information
+    /// </summary>
     public interface ISourceScript
     {
         /// <summary>

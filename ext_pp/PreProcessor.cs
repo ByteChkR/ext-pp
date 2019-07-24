@@ -109,10 +109,6 @@ namespace ext_pp
             return rrr;
         }
 
-
-        private delegate bool PluginStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable);
-
-
         /// <summary>
         /// Processes the file with the settings, definitions and the source manager specified.
         /// </summary>
@@ -172,6 +168,15 @@ namespace ext_pp
 
         }
 
+
+        /// <summary>
+        /// Runs the specified stage on the passed script
+        /// </summary>
+        /// <param name="stage"></param>
+        /// <param name="script"></param>
+        /// <param name="sourceManager"></param>
+        /// <param name="defTable"></param>
+        /// <returns></returns>
         private bool RunStages(ProcessStage stage, ISourceScript script, ISourceManager sourceManager,
             IDefinitions defTable)
         {
@@ -183,7 +188,15 @@ namespace ext_pp
         }
 
 
-
+        /// <summary>
+        /// Runs the plugin stage with the specififed type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="stage"></param>
+        /// <param name="script"></param>
+        /// <param name="sourceManager"></param>
+        /// <param name="defTable"></param>
+        /// <returns></returns>
         private bool RunPluginStage(PluginType type, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
         {
             List<AbstractPlugin> chain = AbstractPlugin.GetPluginsForStage(_plugins, type, stage);
@@ -211,7 +224,12 @@ namespace ext_pp
         }
 
 
-
+        /// <summary>
+        /// Wrapper that runs a list of line plugins based on the stage that is beeing run.
+        /// </summary>
+        /// <param name="_lineStage"></param>
+        /// <param name="stage"></param>
+        /// <param name="source"></param>
         private void RunLineStage(List<AbstractPlugin> _lineStage, ProcessStage stage, string[] source)
         {
             foreach (var abstractPlugin in _lineStage)

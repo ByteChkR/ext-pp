@@ -5,8 +5,14 @@ using System.Text;
 
 namespace ext_pp_base
 {
+    /// <summary>
+    /// The Extension class contains a multitude of useful operations on arrays and strings.
+    /// </summary>
     public static class Extensions
     {
+        /// <summary>
+        /// String builder to be able to concat long arrays faster
+        /// </summary>
         private static StringBuilder _sb = new StringBuilder();
 
         /// <summary>
@@ -73,6 +79,11 @@ namespace ext_pp_base
         }
 
 
+        /// <summary>
+        /// Smart way to determine if a char sequence contains only digits
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static bool IsAllDigits(this string str)
         {
             if (string.IsNullOrEmpty(str)) return false;

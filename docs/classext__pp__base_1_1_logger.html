@@ -88,6 +88,7 @@ $(document).ready(function(){initNavTree('classext__pp__base_1_1_logger.html',''
   <div class="summary">
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="classext__pp__base_1_1_logger-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ext_pp_base.Logger Class Reference</div>  </div>
@@ -96,12 +97,9 @@ $(document).ready(function(){initNavTree('classext__pp__base_1_1_logger.html',''
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a7629b389d904d96223fe1104a681e132"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_logger.html#a7629b389d904d96223fe1104a681e132">Log</a> (int mask, string message, <a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a> level)</td></tr>
-<tr class="memdesc:a7629b389d904d96223fe1104a681e132"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs a message in the specified mask and verbosity level  <a href="#a7629b389d904d96223fe1104a681e132">More...</a><br /></td></tr>
-<tr class="separator:a7629b389d904d96223fe1104a681e132"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f39624426a4e7548116eb98a311df20"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_logger.html#a6f39624426a4e7548116eb98a311df20">Log</a> (DebugLevel mask, string message, <a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a> level)</td></tr>
-<tr class="memdesc:a6f39624426a4e7548116eb98a311df20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs a message in the specified Debug and VerbosityLevel  <a href="#a6f39624426a4e7548116eb98a311df20">More...</a><br /></td></tr>
-<tr class="separator:a6f39624426a4e7548116eb98a311df20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bfe6bd63c897809ac5bce7e827ffb89"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_logger.html#a0bfe6bd63c897809ac5bce7e827ffb89">Log</a> (this <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html">ILoggable</a> obj, DebugLevel mask, <a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a> level, string format, params object[] objs)</td></tr>
+<tr class="memdesc:a0bfe6bd63c897809ac5bce7e827ffb89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extension of <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html" title="An empty interface that is used to Log where the log is coming from. Just add to any script and you c...">ILoggable</a>. Is used to log "from" an object.  <a href="#a0bfe6bd63c897809ac5bce7e827ffb89">More...</a><br /></td></tr>
+<tr class="separator:a0bfe6bd63c897809ac5bce7e827ffb89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c8fabcd8077bed8eeb740098f02a00c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_logger.html#a7c8fabcd8077bed8eeb740098f02a00c">Crash</a> (Exception ex, bool throwEx=true)</td></tr>
 <tr class="memdesc:a7c8fabcd8077bed8eeb740098f02a00c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements ADL.Crash to log a Exeption to the output stream as detailed as possible.  <a href="#a7c8fabcd8077bed8eeb740098f02a00c">More...</a><br /></td></tr>
 <tr class="separator:a7c8fabcd8077bed8eeb740098f02a00c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,6 +109,15 @@ Static Public Attributes</h2></td></tr>
 <tr class="memitem:a2fc8d6fe5d4e2f5deb9aecb97cae563e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_logger.html#a2fc8d6fe5d4e2f5deb9aecb97cae563e">VerbosityLevel</a> = Verbosity.LEVEL2</td></tr>
 <tr class="memdesc:a2fc8d6fe5d4e2f5deb9aecb97cae563e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Verbosity level Everything lower than this will be sent to the log output  <a href="#a2fc8d6fe5d4e2f5deb9aecb97cae563e">More...</a><br /></td></tr>
 <tr class="separator:a2fc8d6fe5d4e2f5deb9aecb97cae563e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a171a9356f1d2d1539ecb8d49022eabb8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_logger.html#a171a9356f1d2d1539ecb8d49022eabb8">Log</a> (int mask, <a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a> level, string format, params object[] objs)</td></tr>
+<tr class="memdesc:a171a9356f1d2d1539ecb8d49022eabb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs a message in the specified mask and verbosity level  <a href="#a171a9356f1d2d1539ecb8d49022eabb8">More...</a><br /></td></tr>
+<tr class="separator:a171a9356f1d2d1539ecb8d49022eabb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a3932d0dea547be63ec485ab83226f6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_logger.html#a7a3932d0dea547be63ec485ab83226f6">Log</a> (DebugLevel mask, <a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a> level, string format, params object[] objs)</td></tr>
+<tr class="memdesc:a7a3932d0dea547be63ec485ab83226f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logs a message in the specified Debug and VerbosityLevel  <a href="#a7a3932d0dea547be63ec485ab83226f6">More...</a><br /></td></tr>
+<tr class="separator:a7a3932d0dea547be63ec485ab83226f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a7c8fabcd8077bed8eeb740098f02a00c"></a>
@@ -158,8 +165,8 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a7629b389d904d96223fe1104a681e132"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7629b389d904d96223fe1104a681e132">&#9670;&nbsp;</a></span>Log() <span class="overload">[1/2]</span></h2>
+<a id="a171a9356f1d2d1539ecb8d49022eabb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a171a9356f1d2d1539ecb8d49022eabb8">&#9670;&nbsp;</a></span>Log() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -176,14 +183,20 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>message</em>, </td>
+          <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a>&#160;</td>
+          <td class="paramname"><em>level</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a>&#160;</td>
-          <td class="paramname"><em>level</em>&#160;</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">params object []&#160;</td>
+          <td class="paramname"><em>objs</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -193,7 +206,7 @@ Static Public Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -210,8 +223,8 @@ Static Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a6f39624426a4e7548116eb98a311df20"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f39624426a4e7548116eb98a311df20">&#9670;&nbsp;</a></span>Log() <span class="overload">[2/2]</span></h2>
+<a id="a7a3932d0dea547be63ec485ab83226f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a3932d0dea547be63ec485ab83226f6">&#9670;&nbsp;</a></span>Log() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,14 +241,85 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a>&#160;</td>
+          <td class="paramname"><em>level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>message</em>, </td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">params object []&#160;</td>
+          <td class="paramname"><em>objs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Logs a message in the specified Debug and VerbosityLevel </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mask</td><td></td></tr>
+    <tr><td class="paramname">level</td><td></td></tr>
+    <tr><td class="paramname">format</td><td></td></tr>
+    <tr><td class="paramname">objs</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0bfe6bd63c897809ac5bce7e827ffb89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bfe6bd63c897809ac5bce7e827ffb89">&#9670;&nbsp;</a></span>Log() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void ext_pp_base.Logger.Log </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html">ILoggable</a>&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">DebugLevel&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a>&#160;</td>
-          <td class="paramname"><em>level</em>&#160;</td>
+          <td class="paramname"><em>level</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">params object []&#160;</td>
+          <td class="paramname"><em>objs</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -250,12 +334,14 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Logs a message in the specified Debug and VerbosityLevel </p>
+<p>Extension of <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html" title="An empty interface that is used to Log where the log is coming from. Just add to any script and you c...">ILoggable</a>. Is used to log "from" an object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
+    <tr><td class="paramname">obj</td><td></td></tr>
     <tr><td class="paramname">mask</td><td></td></tr>
-    <tr><td class="paramname">message</td><td></td></tr>
     <tr><td class="paramname">level</td><td></td></tr>
+    <tr><td class="paramname">format</td><td></td></tr>
+    <tr><td class="paramname">objs</td><td></td></tr>
   </table>
   </dd>
 </dl>

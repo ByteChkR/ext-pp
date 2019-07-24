@@ -7,6 +7,9 @@ using ext_pp_base.settings;
 
 namespace ext_pp_base
 {
+    /// <summary>
+    /// A utility class that contains various string operations
+    /// </summary>
     public static class Utils
     {
         /// <summary>
@@ -35,7 +38,13 @@ namespace ext_pp_base
             return source;
         }
 
-
+        /// <summary>
+        /// Removes all the excess spaces around the specified separator
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="separator"></param>
+        /// <param name="logobj"></param>
+        /// <returns></returns>
         public static string RemoveExcessSpaces(string line, string separator, ILoggable logobj)
         {
             string ret = line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
@@ -88,6 +97,12 @@ namespace ext_pp_base
             return source.ToList().Where(x => IsStatement(x, statement)).ToArray();
         }
 
+        /// <summary>
+        /// Returns true if the source starts with the statement
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="statement"></param>
+        /// <returns></returns>
         public static bool IsStatement(string source, string statement)
         {
             return source.Trim().StartsWith(statement);
@@ -120,6 +135,11 @@ namespace ext_pp_base
             {typeof(bool), CreateTryParser<bool>()},
         };
 
+        /// <summary>
+        /// Creates parser from type.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         private static TryParse CreateTryParser<T>()
         {
             TryParse ret = null;
@@ -160,11 +180,26 @@ namespace ext_pp_base
 
         }
 
+        /// <summary>
+        /// generic version of parsing an array of string to array of T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="defaul"></param>
+        /// <returns></returns>
         public static T[] ParseArray<T>(string[] obj, object defaul)
         {
             return ParseArray(typeof(T), obj, defaul).OfType<T>().ToArray();
         }
 
+
+        /// <summary>
+        /// function can parse an array of string to array of type t
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="obj"></param>
+        /// <param name="defaul"></param>
+        /// <returns></returns>
         public static object[] ParseArray(Type t, string[] obj, object defaul)
         {
             if (obj == null) return null;
@@ -179,6 +214,13 @@ namespace ext_pp_base
             return ret;
         }
 
+        /// <summary>
+        /// parsing a string to object of type T
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="obj"></param>
+        /// <param name="defaul"></param>
+        /// <returns></returns>
         public static object Parse(Type t, string obj, object defaul)
         {
             if (t.IsEnum) return ParseEnum(t, obj, defaul);
@@ -186,11 +228,26 @@ namespace ext_pp_base
             return val ?? defaul;
         }
 
+        /// <summary>
+        /// generic version of parsing a string to object of type T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="defaul"></param>
+        /// <returns></returns>
         public static T Parse<T>(string obj, object defaul)
         {
             return (T)Parse(typeof(T), obj, defaul);
         }
 
+        /// <summary>
+        /// Parses an input string to an enum.
+        /// Supports simple AND/OR operations and can be specified as digit and by name
+        /// </summary>
+        /// <param name="enu"></param>
+        /// <param name="input"></param>
+        /// <param name="defaul"></param>
+        /// <returns></returns>
         private static object ParseEnum(Type enu, string input, object defaul)
         {
             if (input.IsAllDigits())

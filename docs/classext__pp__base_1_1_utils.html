@@ -87,17 +87,26 @@ $(document).ready(function(){initNavTree('classext__pp__base_1_1_utils.html','')
 <div class="header">
   <div class="summary">
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="classext__pp__base_1_1_utils-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ext_pp_base.Utils Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>A utility class that contains various string operations  
+ <a href="classext__pp__base_1_1_utils.html#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a7e813748713cb81abce35277b651e491"><td class="memItemLeft" align="right" valign="top">static List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a7e813748713cb81abce35277b651e491">RemoveStatements</a> (List&lt; string &gt; source, string[] statements)</td></tr>
-<tr class="memdesc:a7e813748713cb81abce35277b651e491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all lines of the source that start with one of the statements It takes care of possible indentations and spaces  <a href="#a7e813748713cb81abce35277b651e491">More...</a><br /></td></tr>
-<tr class="separator:a7e813748713cb81abce35277b651e491"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6d7ee1751b8976156ef7cb54ba7be33"><td class="memItemLeft" align="right" valign="top">static List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#ab6d7ee1751b8976156ef7cb54ba7be33">RemoveStatements</a> (List&lt; string &gt; source, string[] statements, <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html">ILoggable</a> logobj)</td></tr>
+<tr class="memdesc:ab6d7ee1751b8976156ef7cb54ba7be33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all lines of the source that start with one of the statements It takes care of possible indentations and spaces  <a href="#ab6d7ee1751b8976156ef7cb54ba7be33">More...</a><br /></td></tr>
+<tr class="separator:ab6d7ee1751b8976156ef7cb54ba7be33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa782c63533c3e954d80ec8c853c5d4df"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#aa782c63533c3e954d80ec8c853c5d4df">RemoveExcessSpaces</a> (string line, string separator, <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html">ILoggable</a> logobj)</td></tr>
+<tr class="memdesc:aa782c63533c3e954d80ec8c853c5d4df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all the excess spaces around the specified separator  <a href="#aa782c63533c3e954d80ec8c853c5d4df">More...</a><br /></td></tr>
+<tr class="separator:aa782c63533c3e954d80ec8c853c5d4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76007217cc205a23e359fb50733a84f7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a76007217cc205a23e359fb50733a84f7">ReplaceKeyWord</a> (string[] source, string replacement, string keyword)</td></tr>
 <tr class="memdesc:a76007217cc205a23e359fb50733a84f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces a keyword(single sequence of characters) with a replacement in the source lines supplied.  <a href="#a76007217cc205a23e359fb50733a84f7">More...</a><br /></td></tr>
 <tr class="separator:a76007217cc205a23e359fb50733a84f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -107,11 +116,82 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a99cb9177adfae2f08737114a9470ebcd"><td class="memItemLeft" align="right" valign="top">static string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a99cb9177adfae2f08737114a9470ebcd">FindStatements</a> (string[] source, string statement)</td></tr>
 <tr class="memdesc:a99cb9177adfae2f08737114a9470ebcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of lines where the line start with statement  <a href="#a99cb9177adfae2f08737114a9470ebcd">More...</a><br /></td></tr>
 <tr class="separator:a99cb9177adfae2f08737114a9470ebcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab76f64775573b5b0b8cb0a7f8aa2355f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#ab76f64775573b5b0b8cb0a7f8aa2355f">IsStatement</a> (string source, string statement)</td></tr>
+<tr class="memdesc:ab76f64775573b5b0b8cb0a7f8aa2355f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the source starts with the statement  <a href="#ab76f64775573b5b0b8cb0a7f8aa2355f">More...</a><br /></td></tr>
+<tr class="separator:ab76f64775573b5b0b8cb0a7f8aa2355f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e261422dca8b1413529f57ebbb2f492"><td class="memItemLeft" align="right" valign="top">static string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a6e261422dca8b1413529f57ebbb2f492">SplitAndRemoveFirst</a> (string statement, string separator)</td></tr>
 <tr class="memdesc:a6e261422dca8b1413529f57ebbb2f492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a line by the separator and removes the first entry Gets used for include to just be able to get the path  <a href="#a6e261422dca8b1413529f57ebbb2f492">More...</a><br /></td></tr>
 <tr class="separator:a6e261422dca8b1413529f57ebbb2f492"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82d05e5d0e02ced8157f792dffc20907"><td class="memItemLeft" align="right" valign="top">static T []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a82d05e5d0e02ced8157f792dffc20907">ParseArray&lt; T &gt;</a> (string[] obj, object defaul)</td></tr>
+<tr class="memdesc:a82d05e5d0e02ced8157f792dffc20907"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic version of parsing an array of string to array of T  <a href="#a82d05e5d0e02ced8157f792dffc20907">More...</a><br /></td></tr>
+<tr class="separator:a82d05e5d0e02ced8157f792dffc20907"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac28fddd159f55c0cb1e09fb89cd53f26"><td class="memItemLeft" align="right" valign="top">static object []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#ac28fddd159f55c0cb1e09fb89cd53f26">ParseArray</a> (Type t, string[] obj, object defaul)</td></tr>
+<tr class="memdesc:ac28fddd159f55c0cb1e09fb89cd53f26"><td class="mdescLeft">&#160;</td><td class="mdescRight">function can parse an array of string to array of type t  <a href="#ac28fddd159f55c0cb1e09fb89cd53f26">More...</a><br /></td></tr>
+<tr class="separator:ac28fddd159f55c0cb1e09fb89cd53f26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaac75ee26949d9f18365c1dad6a4dec3"><td class="memItemLeft" align="right" valign="top">static object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#aaac75ee26949d9f18365c1dad6a4dec3">Parse</a> (Type t, string obj, object defaul)</td></tr>
+<tr class="memdesc:aaac75ee26949d9f18365c1dad6a4dec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">parsing a string to object of type T  <a href="#aaac75ee26949d9f18365c1dad6a4dec3">More...</a><br /></td></tr>
+<tr class="separator:aaac75ee26949d9f18365c1dad6a4dec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95755725b67a434cd4c4fef77321cbd0"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a95755725b67a434cd4c4fef77321cbd0">Parse&lt; T &gt;</a> (string obj, object defaul)</td></tr>
+<tr class="memdesc:a95755725b67a434cd4c4fef77321cbd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic version of parsing a string to object of type T  <a href="#a95755725b67a434cd4c4fef77321cbd0">More...</a><br /></td></tr>
+<tr class="separator:a95755725b67a434cd4c4fef77321cbd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:aa6bba6884c83ffcaa467b0256e00f049"><td class="memItemLeft" align="right" valign="top"><a id="aa6bba6884c83ffcaa467b0256e00f049"></a>
+delegate bool&#160;</td><td class="memItemRight" valign="bottom"><b>TryParse</b> (string val, out object value)</td></tr>
+<tr class="separator:aa6bba6884c83ffcaa467b0256e00f049"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:ae56015848793f78460d5c2dabf6c9815"><td class="memItemLeft" align="right" valign="top">static TryParse&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#ae56015848793f78460d5c2dabf6c9815">CreateTryParser&lt; T &gt;</a> ()</td></tr>
+<tr class="memdesc:ae56015848793f78460d5c2dabf6c9815"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates parser from type.  <a href="#ae56015848793f78460d5c2dabf6c9815">More...</a><br /></td></tr>
+<tr class="separator:ae56015848793f78460d5c2dabf6c9815"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f29e4061ee9d35f158baae710a04669"><td class="memItemLeft" align="right" valign="top">static object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a6f29e4061ee9d35f158baae710a04669">ParseEnum</a> (Type enu, string input, object defaul)</td></tr>
+<tr class="memdesc:a6f29e4061ee9d35f158baae710a04669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses an input string to an enum. Supports simple AND/OR operations and can be specified as digit and by name  <a href="#a6f29e4061ee9d35f158baae710a04669">More...</a><br /></td></tr>
+<tr class="separator:a6f29e4061ee9d35f158baae710a04669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr class="memitem:a99109f9bf962c889ed65b0fb10d7bf32"><td class="memItemLeft" align="right" valign="top">static readonly Dictionary&lt; Type, TryParse &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_parser</b></td></tr>
+<tr class="separator:a99109f9bf962c889ed65b0fb10d7bf32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A utility class that contains various string operations </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae56015848793f78460d5c2dabf6c9815"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae56015848793f78460d5c2dabf6c9815">&#9670;&nbsp;</a></span>CreateTryParser&lt; T &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static TryParse ext_pp_base.Utils.CreateTryParser&lt; T &gt; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates parser from type. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
 <a id="ac0c1720e0e84a6123db20a2a6c678bc6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac0c1720e0e84a6123db20a2a6c678bc6">&#9670;&nbsp;</a></span>FileExistsRelativeTo()</h2>
 
@@ -204,8 +284,370 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a7e813748713cb81abce35277b651e491"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e813748713cb81abce35277b651e491">&#9670;&nbsp;</a></span>RemoveStatements()</h2>
+<a id="ab76f64775573b5b0b8cb0a7f8aa2355f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab76f64775573b5b0b8cb0a7f8aa2355f">&#9670;&nbsp;</a></span>IsStatement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool ext_pp_base.Utils.IsStatement </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>statement</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns true if the source starts with the statement </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">source</td><td></td></tr>
+    <tr><td class="paramname">statement</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="aaac75ee26949d9f18365c1dad6a4dec3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaac75ee26949d9f18365c1dad6a4dec3">&#9670;&nbsp;</a></span>Parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static object ext_pp_base.Utils.Parse </td>
+          <td>(</td>
+          <td class="paramtype">Type&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>defaul</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>parsing a string to object of type T </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td></td></tr>
+    <tr><td class="paramname">obj</td><td></td></tr>
+    <tr><td class="paramname">defaul</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a95755725b67a434cd4c4fef77321cbd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95755725b67a434cd4c4fef77321cbd0">&#9670;&nbsp;</a></span>Parse&lt; T &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static T <a class="el" href="classext__pp__base_1_1_utils.html#aaac75ee26949d9f18365c1dad6a4dec3">ext_pp_base.Utils.Parse</a>&lt; T &gt; </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>defaul</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>generic version of parsing a string to object of type T </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td></td></tr>
+    <tr><td class="paramname">defaul</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="ac28fddd159f55c0cb1e09fb89cd53f26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac28fddd159f55c0cb1e09fb89cd53f26">&#9670;&nbsp;</a></span>ParseArray()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static object [] ext_pp_base.Utils.ParseArray </td>
+          <td>(</td>
+          <td class="paramtype">Type&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string []&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>defaul</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>function can parse an array of string to array of type t </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td></td></tr>
+    <tr><td class="paramname">obj</td><td></td></tr>
+    <tr><td class="paramname">defaul</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a82d05e5d0e02ced8157f792dffc20907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82d05e5d0e02ced8157f792dffc20907">&#9670;&nbsp;</a></span>ParseArray&lt; T &gt;()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static T [] <a class="el" href="classext__pp__base_1_1_utils.html#ac28fddd159f55c0cb1e09fb89cd53f26">ext_pp_base.Utils.ParseArray</a>&lt; T &gt; </td>
+          <td>(</td>
+          <td class="paramtype">string []&#160;</td>
+          <td class="paramname"><em>obj</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>defaul</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>generic version of parsing an array of string to array of T </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">obj</td><td></td></tr>
+    <tr><td class="paramname">defaul</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a6f29e4061ee9d35f158baae710a04669"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f29e4061ee9d35f158baae710a04669">&#9670;&nbsp;</a></span>ParseEnum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static object ext_pp_base.Utils.ParseEnum </td>
+          <td>(</td>
+          <td class="paramtype">Type&#160;</td>
+          <td class="paramname"><em>enu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>input</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>defaul</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Parses an input string to an enum. Supports simple AND/OR operations and can be specified as digit and by name </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enu</td><td></td></tr>
+    <tr><td class="paramname">input</td><td></td></tr>
+    <tr><td class="paramname">defaul</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="aa782c63533c3e954d80ec8c853c5d4df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa782c63533c3e954d80ec8c853c5d4df">&#9670;&nbsp;</a></span>RemoveExcessSpaces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static string ext_pp_base.Utils.RemoveExcessSpaces </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>line</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>separator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_loggable.html">ILoggable</a>&#160;</td>
+          <td class="paramname"><em>logobj</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Removes all the excess spaces around the specified separator </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td></td></tr>
+    <tr><td class="paramname">separator</td><td></td></tr>
+    <tr><td class="paramname">logobj</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="ab6d7ee1751b8976156ef7cb54ba7be33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6d7ee1751b8976156ef7cb54ba7be33">&#9670;&nbsp;</a></span>RemoveStatements()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -223,7 +665,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">string []&#160;</td>
-          <td class="paramname"><em>statements</em>&#160;</td>
+          <td class="paramname"><em>statements</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_loggable.html">ILoggable</a>&#160;</td>
+          <td class="paramname"><em>logobj</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -346,6 +794,29 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a99109f9bf962c889ed65b0fb10d7bf32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99109f9bf962c889ed65b0fb10d7bf32">&#9670;&nbsp;</a></span>_parser</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">readonly Dictionary&lt;Type, TryParse&gt; ext_pp_base.Utils._parser</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;Type, TryParse&gt;()</div><div class="line">        {</div><div class="line">            {typeof(<span class="keywordtype">string</span>), CreateTryParser&lt;string&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">int</span>), CreateTryParser&lt;int&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">float</span>), CreateTryParser&lt;float&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">char</span>), CreateTryParser&lt;char&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">bool</span>), CreateTryParser&lt;bool&gt;()},</div><div class="line">        }</div></div><!-- fragment -->
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

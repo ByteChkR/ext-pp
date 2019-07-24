@@ -1,11 +1,15 @@
 var searchData=
 [
-  ['set',['Set',['../classext__pp_1_1_definitions.html#ae1e3b74b76d83ad8a17676f632e82c3c',1,'ext_pp.Definitions.Set(string[] keys)'],['../classext__pp_1_1_definitions.html#a87624edd26cd365b5482c2b91d1b13c2',1,'ext_pp.Definitions.Set(string key)'],['../interfaceext__pp__base_1_1_i_definitions.html#aacbef7f1e8e9b39f8fc217014ab102d2',1,'ext_pp_base.IDefinitions.Set(string[] keys)'],['../interfaceext__pp__base_1_1_i_definitions.html#a304dc8e6ccee981923742b5799f2a178',1,'ext_pp_base.IDefinitions.Set(string key)']]],
-  ['setcomputingscheme',['SetComputingScheme',['../classext__pp_1_1_source_manager.html#a2aaa5024cbd77fdd4e9e41dfc20206a0',1,'ext_pp.SourceManager.SetComputingScheme()'],['../interfaceext__pp__base_1_1_i_source_manager.html#a8e04f269196bb55733f83a15091023a8',1,'ext_pp_base.ISourceManager.SetComputingScheme()']]],
-  ['setdone',['SetDone',['../classext__pp_1_1_source_manager.html#a74761a0085d3546cd7a333becbc3eecd',1,'ext_pp::SourceManager']]],
-  ['setfileprocessingchain',['SetFileProcessingChain',['../classext__pp_1_1_pre_processor.html#ac3f5debce703ff52844a9e440a1a8b90',1,'ext_pp::PreProcessor']]],
-  ['setsource',['SetSource',['../interfaceext__pp__base_1_1_i_source_script.html#a79da8261db24cb5fe9c3ab6f27535305',1,'ext_pp_base::ISourceScript']]],
-  ['sourcemanager',['SourceManager',['../classext__pp_1_1_source_manager.html#a108368b690770104a83fdecfe2b89be4',1,'ext_pp::SourceManager']]],
-  ['splitandremovefirst',['SplitAndRemoveFirst',['../classext__pp__base_1_1_utils.html#a6e261422dca8b1413529f57ebbb2f492',1,'ext_pp_base::Utils']]],
-  ['subarray_3c_20t_20_3e',['SubArray&lt; T &gt;',['../classext__pp__base_1_1_extensions.html#a970d9a5ffa1f7494732d7a63ff38fce8',1,'ext_pp_base.Extensions.SubArray&lt; T &gt;(this IEnumerable&lt; T &gt; arr, int start, int length)'],['../classext__pp__base_1_1_extensions.html#aa473f6e24d46c3bf330e07cfd89b522e',1,'ext_pp_base.Extensions.SubArray&lt; T &gt;(this IEnumerable&lt; T &gt; arr, int length)']]]
+  ['pack',['Pack',['../classext__pp__base_1_1_extensions.html#ac6aaf5e958ef5dea1116e34148220a45',1,'ext_pp_base::Extensions']]],
+  ['parse',['Parse',['../classext__pp__base_1_1_utils.html#aaac75ee26949d9f18365c1dad6a4dec3',1,'ext_pp_base::Utils']]],
+  ['parse_3c_20t_20_3e',['Parse&lt; T &gt;',['../classext__pp__base_1_1_utils.html#a95755725b67a434cd4c4fef77321cbd0',1,'ext_pp_base::Utils']]],
+  ['parsearray',['ParseArray',['../classext__pp__base_1_1_utils.html#ac28fddd159f55c0cb1e09fb89cd53f26',1,'ext_pp_base::Utils']]],
+  ['parsearray_3c_20t_20_3e',['ParseArray&lt; T &gt;',['../classext__pp__base_1_1_utils.html#a82d05e5d0e02ced8157f792dffc20907',1,'ext_pp_base::Utils']]],
+  ['parsechainsyntax',['ParseChainSyntax',['../classext__pp__cli_1_1_c_l_i.html#adf6e73521cc27bb5f355deb1ac225775',1,'ext_pp_cli::CLI']]],
+  ['parseenum',['ParseEnum',['../classext__pp__base_1_1_utils.html#a6f29e4061ee9d35f158baae710a04669',1,'ext_pp_base::Utils']]],
+  ['parselogparams',['ParseLogParams',['../classext__pp__cli_1_1_c_l_i.html#a3556d95646a4adb6142a3a2cc92ecd75',1,'ext_pp_cli::CLI']]],
+  ['plugininformation',['PluginInformation',['../structext__pp__cli_1_1_plugin_manager_1_1_plugin_information.html#a8f4835e3ec987d196b4a0442a41a3982',1,'ext_pp_cli::PluginManager::PluginInformation']]],
+  ['pluginmanager',['PluginManager',['../classext__pp__cli_1_1_plugin_manager.html#a3ac0a4359bc976f9b69624f1bfcd6633',1,'ext_pp_cli::PluginManager']]],
+  ['preapply',['PreApply',['../classext__pp__cli_1_1_c_l_i.html#a910946fb54364a3e689555c4f80f07d3',1,'ext_pp_cli::CLI']]],
+  ['process',['Process',['../classext__pp_1_1_pre_processor.html#a24d111ea1b8f27ebd3376f03b52b2389',1,'ext_pp::PreProcessor']]]
 ];

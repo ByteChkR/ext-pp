@@ -26,7 +26,7 @@ namespace ext_pp_plugins
             return this.line == line && (this.filename == "*" || this.filename == filename);
         }
 
-        public Breakpoint[] Parse(string breakpointstr, ILoggable logobj)
+        public static Breakpoint[] Parse(string breakpointstr, ILoggable logobj)
         {
             return Parse(breakpointstr.Pack(" ").ToArray(), logobj);
         }
@@ -61,14 +61,23 @@ namespace ext_pp_plugins
                     do
                     {
 
-                        if (!continueCreation) args[idx + 1] = GetInput();
-                        if (!continueCreation && args[idx + 1] == "-dbg-exit") exit = true;
+                        if (!continueCreation)
+                        {
+                            args[idx + 1] = GetInput();
+                        }
+                        if (!continueCreation && args[idx + 1] == "-dbg-exit")
+                        {
+                            exit = true;
+                        }
                         if (!exit && !int.TryParse(args[idx + 1], out b.stage))
                         {
                             Logger.Log(logobj, DebugLevel.LOGS,Verbosity.LEVEL1, "Stage is not a valid integer. To abort type -dbg-exit");
                             continueCreation = false;
                         }
-                        else if (!exit) continueCreation = true;
+                        else if (!exit)
+                        {
+                            continueCreation = true;
+                        }
 
                     } while (!continueCreation && !exit);
                 }
@@ -99,7 +108,10 @@ namespace ext_pp_plugins
                     } while (!continueCreation && !exit);
                 }
 
-                if (continueCreation) points.Add(b);
+                if (continueCreation)
+                {
+                    points.Add(b);
+                }
             }
 
             return points.ToArray();

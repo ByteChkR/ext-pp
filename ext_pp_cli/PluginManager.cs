@@ -129,7 +129,10 @@ namespace ext_pp_cli
         /// </summary>
         public PluginManager()
         {
-            if (!Directory.Exists(_defaultPluginFolder)) Directory.CreateDirectory(_defaultPluginFolder);
+            if (!Directory.Exists(_defaultPluginFolder))
+            {
+                Directory.CreateDirectory(_defaultPluginFolder);
+            }
             if (File.Exists(_configPath))
             {
                 Initialize();
@@ -508,7 +511,9 @@ namespace ext_pp_cli
         private void Save()
         {
             if (File.Exists(_configPath))
+            {
                 File.Delete(_configPath);
+            }
             FileStream fs = new FileStream(_configPath, FileMode.Create);
             _serializer.Serialize(fs, info);
             fs.Close();

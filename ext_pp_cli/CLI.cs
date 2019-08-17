@@ -179,20 +179,12 @@ namespace ext_pp_cli
         /// <summary>
         /// Instance of the plugin manager.
         /// </summary>
-        private PluginManager _pluginManager;
-        /// <summary>
-        /// Settings for the run.
-        /// </summary>
-        private readonly Settings _settings;
+        private readonly PluginManager _pluginManager;
         /// <summary>
         /// the chain used for it.
         /// </summary>
         private List<AbstractPlugin> _chain;
 
-        /// <summary>
-        /// Contains the Stream when logging to console.
-        /// </summary>
-        private static LogTextStream lts;
 
 
 
@@ -241,8 +233,8 @@ namespace ext_pp_cli
                 }
             }
 
-            args = arf.ToArray();
-            _settings = new Settings(AnalyzeArgs(args));
+            string[] arguments = arf.ToArray();
+            Settings _settings = new Settings(AnalyzeArgs(arguments));
             PreApply(_settings);
 
 
@@ -286,7 +278,10 @@ namespace ext_pp_cli
                     }
                 }
 
-                if (!PluginRefresh && !PluginListDirs && !PluginListIncs && !PluginListManIncs) return;
+                if (!PluginRefresh && !PluginListDirs && !PluginListIncs && !PluginListManIncs)
+                {
+                    return;
+                }
             }
 
             if (PluginListDirs)
@@ -444,7 +439,7 @@ namespace ext_pp_cli
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        private KeyValuePair<int, bool> ParseLogParams(string input)
+        private static KeyValuePair<int, bool> ParseLogParams(string input)
         {
             int mask = -1;
             bool timestamp = true;
@@ -453,7 +448,9 @@ namespace ext_pp_cli
             {
 
                 if (vars[0] != "all")
-                    mask = (int)Utils.Parse(typeof(DebugLevel), vars[0], -1);
+                {
+                    mask = (int) Utils.Parse(typeof(DebugLevel), vars[0], -1);
+                }
                 if (vars.Length > 1)
                 {
                     bool.TryParse(vars[1], out timestamp);
@@ -520,7 +517,9 @@ namespace ext_pp_cli
                 path = arg; //Set the path
                 names = new[] { path };
                 if (!_pluginManager.GetPathByPrefix(arg, out path) && !_pluginManager.GetPathByName(arg, out path))
+                {
                     names = null; //Will change path if it matches prefix
+                }
             }
 
         }
@@ -657,9 +656,15 @@ namespace ext_pp_cli
         public Dictionary<string, string[]> AnalyzeArgs(string[] args)
         {
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
-            if (args.Length == 0) return ret;
+            if (args.Length == 0)
+            {
+                return ret;
+            }
             int cmdIdx = FindNextCommand(args, -1);
-            if (cmdIdx == args.Length) return ret;
+            if (cmdIdx == args.Length)
+            {
+                return ret;
+            }
             do
             {
                 int tmpidx = FindNextCommand(args, cmdIdx);
@@ -683,7 +688,7 @@ namespace ext_pp_cli
             Debug.AddPrefixForMask(-1, "[ALL]");
             Debug.CheckForUpdates = false;
             Debug.AdlWarningMask = (int)DebugLevel.WARNINGS;
-            lts = new LogTextStream(
+            LogTextStream lts = new LogTextStream(
                 Console.OpenStandardOutput(),
                 -1,
                 MatchType.MatchAll,
@@ -699,11 +704,14 @@ namespace ext_pp_cli
         /// <param name="args"></param>
         /// <param name="start"></param>
         /// <returns></returns>
-        private int FindNextCommand(string[] args, int start)
+        private static int FindNextCommand(string[] args, int start)
         {
             for (int i = start + 1; i < args.Length; i++)
             {
-                if (args[i].StartsWith('-')) return i;
+                if (args[i].StartsWith('-'))
+                {
+                    return i;
+                }
             }
 
             return args.Length;
@@ -718,9 +726,12 @@ namespace ext_pp_cli
         /// <param name="timestamp"></param>
         private static void AddLogOutput(string file, int mask, bool timestamp)
         {
-            if (File.Exists(file)) File.Delete(file);
-            LogTextStream lts = new LogTextStream(File.OpenWrite(file), mask, MatchType.MatchAll, timestamp);
-            Debug.AddOutputStream(lts);
+            if (File.Exists(file))
+            {
+                File.Delete(file);
+            }
+            LogTextStream lll = new LogTextStream(File.OpenWrite(file), mask, MatchType.MatchAll, timestamp);
+            Debug.AddOutputStream(lll);
         }
 
         /// <summary>
@@ -761,7 +772,7 @@ namespace ext_pp_cli
             else
                 new CLI(args);
 #endif
-
+            //Yeet. Codacy thinks my Entry method is empty.
         }
 
         // No comments on this part ;)
@@ -796,7 +807,10 @@ namespace ext_pp_cli
         public static string GenerateExpression(string defName, int maxDefNr, int maxParams, int chanceToRecurse)
         {
             Random r = new Random();
-            if (maxParams == 0) return defName + r.Next(0, maxDefNr);
+            if (maxParams == 0)
+            {
+                return defName + r.Next(0, maxDefNr);
+            }
             int max = r.Next(1, maxParams);
             string expr = "";
             for (int j = 0; j < max; j++)

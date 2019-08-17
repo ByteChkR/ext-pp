@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace ext_pp.tests
 {
-    public class Tests
+    public static class Tests
     {
         private static string ResourceFolder { get; } = Path.GetFullPath("../../../res/");
 

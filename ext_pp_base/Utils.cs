@@ -174,17 +174,21 @@ namespace ext_pp_base
                     return r;
                 };
             }
-            else if (typeof(T) == typeof(bool)) ret = (string val, out object value) =>
+            else if (typeof(T) == typeof(bool))
             {
-                bool r = Boolean.TryParse(val, out bool v);
-                if (String.IsNullOrEmpty(val))
+                ret = (string val, out object value) =>
                 {
-                    r = true;
-                    v = true;
-                }
-                value = v;
-                return r;
-            };
+                    bool r = Boolean.TryParse(val, out bool v);
+                    if (String.IsNullOrEmpty(val))
+                    {
+                        r = true;
+                        v = true;
+                    }
+
+                    value = v;
+                    return r;
+                };
+            }
             else if (typeof(T) == typeof(string))
             {
                 ret = (string val, out object value) =>

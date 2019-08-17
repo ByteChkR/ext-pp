@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace ext_pp_base
-{ 
+{
     public static class PropertyHelper
     {
         /// <summary>
@@ -49,9 +49,10 @@ namespace ext_pp_base
             }
 
             if (body.NodeType == ExpressionType.MemberAccess)
-                return (PropertyInfo) ((MemberExpression) body).Member;
-            else
-                return null;
+            {
+                return (PropertyInfo)((MemberExpression)body).Member;
+            }
+            return null;
         }
 
         /// <summary>

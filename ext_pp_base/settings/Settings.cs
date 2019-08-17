@@ -21,9 +21,14 @@ namespace ext_pp_base.settings
         /// Default/Preset Constructor
         /// </summary>
         /// <param name="settings"></param>
-        public Settings(Dictionary<string, string[]> settings = null)
+        public Settings(Dictionary<string, string[]> settings)
         {
             _settings = settings ?? new Dictionary<string, string[]>();
+        }
+
+        public Settings() : this(null)
+        {
+
         }
 
         /// <summary>
@@ -223,7 +228,10 @@ namespace ext_pp_base.settings
         public void ApplySettingArray(CommandInfo info, object obj)
         {
             string[] cmdVal = FindCommandValue(info);
-            if (cmdVal == null) return;
+            if (cmdVal == null)
+            {
+                return;
+            }
             string[] val = Utils.ParseArray(info.Field.PropertyType.IsArray ?
                 info.Field.PropertyType.GetElementType() :
                 info.Field.PropertyType,

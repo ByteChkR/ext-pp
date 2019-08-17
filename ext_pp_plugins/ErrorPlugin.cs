@@ -81,7 +81,7 @@ namespace ext_pp_plugins
 
 
 
-        public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        public static bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             return true;
         }

@@ -197,7 +197,7 @@ namespace ext_pp_plugins
                              line.StartsWith(DefineKeyword))
                     {
 
-                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", DefineKeyword); ;
+                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", DefineKeyword);
                         defs.Set(Utils.SplitAndRemoveFirst(line, Separator));
                         solvedFile.Add(lastPass[i]);
                     }
@@ -298,7 +298,6 @@ namespace ext_pp_plugins
                 }
                 else if (expression[i] == "(")
                 {
-                    //i++;
                     if (expectOperator)
                     {
                         isOr = false;
@@ -365,7 +364,7 @@ namespace ext_pp_plugins
         {
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Fixing expression: {0}" , line);
-            List<char> ret = new List<char>();
+            
 
             string r = line;
             r = SurroundWithSpaces(r, OrOperator);

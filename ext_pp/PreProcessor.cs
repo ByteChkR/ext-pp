@@ -163,8 +163,7 @@ namespace ext_pp
                 sm.SetLock(false);
                 sm.TryCreateScript(out ISourceScript sss, _sep, f, f, new Dictionary<string, object>());
                 sm.SetLock(true);
-                List<ISourceScript> all = new List<ISourceScript>();
-                sm.AddToTodo(sss);
+               sm.AddToTodo(sss);
             }
 
             ISourceScript ss = sm.NextItem;

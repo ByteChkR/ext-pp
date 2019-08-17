@@ -425,7 +425,7 @@ namespace ext_pp_cli
             settings.ApplySettings(Info, this);
 
 
-            Logger.VerbosityLevel = (Verbosity)(DebugLvl);
+            Logger.VerbosityLevel = DebugLvl;
 
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Verbosity Level set to: {0}", Logger.VerbosityLevel);

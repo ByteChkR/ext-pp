@@ -139,9 +139,7 @@ namespace ext_pp_base.settings
             }
 
             return new Settings(ret);
-            //return new Settings(_settings.Where(x => x.Key.StartsWith(prfx) || (includeShared && x.Key.StartsWith(GlobalSettings)))
-            //    .ToDictionary(x => x.Key.Replace(prefix + ":", ""), y => y.Value));
-        }
+          }
 
 
 
@@ -167,12 +165,12 @@ namespace ext_pp_base.settings
         private string[] FindCommandValue(CommandInfo c)
         {
             string key = "--" + c.Command;
-            List<string> s = new List<string>();
             if (_settings.ContainsKey(key))
             {
                 return _settings[key];
             }
-            else if (c.ShortCut != "" && _settings.ContainsKey("-" + c.ShortCut)) return _settings["-" + c.ShortCut];
+
+            if (c.ShortCut != "" && _settings.ContainsKey("-" + c.ShortCut)) return _settings["-" + c.ShortCut];
             {
                 return null;
             }

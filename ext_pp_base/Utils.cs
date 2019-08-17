@@ -232,7 +232,7 @@ namespace ext_pp_base
             object[] ret = new object[obj.Length];
             for (var index = 0; index < obj.Length; index++)
             {
-                var s = obj[index];
+                
                 if (t.IsEnum)
                 {
                     ret[index] = ParseEnum(t, obj[index], defaul);

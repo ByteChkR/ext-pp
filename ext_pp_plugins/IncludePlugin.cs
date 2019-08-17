@@ -99,7 +99,6 @@ namespace ext_pp_plugins
                 }
                 else
                 {
-                    /*if (path != "")*/
                     return false; //We crash if we didnt find the file. but if the user forgets to specify the path we will just log the error
                 }
 
@@ -114,11 +113,11 @@ namespace ext_pp_plugins
         private bool GetISourceScript(ISourceManager manager, string statement, string currentPath, out List<ISourceScript> scripts)
         {
             var vars = Utils.SplitAndRemoveFirst(statement, Separator);
-            //genParams = new string[0];
+            
             scripts = new List<ISourceScript>();
             if (vars.Length != 0)
             {
-                //filePath = vars[0];
+               
                 if (!manager.GetComputingScheme()(vars, currentPath, out var filepath, out var key, out var pluginCache))
                 {
                     this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Invalid Include Statement");

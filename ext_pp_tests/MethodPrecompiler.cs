@@ -43,16 +43,6 @@ namespace ext_pp.tests
                     .FirstOrDefault(method => method.Name == methodName);
         }
 
-        private static MethodInfo[] FindMethodsWithName(string methodName)
-        {
-            return
-                Assembly.GetExecutingAssembly()
-                    .GetTypes()
-                    .SelectMany(type => type.GetMethods(MethodBindingFlags))
-                    .Where(x => x.Name == methodName)
-                    .ToArray();
-        }
-
         private const BindingFlags MethodBindingFlags =
             BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic |
             BindingFlags.Instance | BindingFlags.Static;

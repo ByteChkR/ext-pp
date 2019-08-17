@@ -293,7 +293,7 @@ namespace ext_pp_cli
         /// <param name="name"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static bool GetPluginInfoByName(PluginManagerDatabase pmd,string name, out PluginInformation val)
+        public static bool TryGetPluginInfoByName(PluginManagerDatabase pmd,string name, out PluginInformation val)
         {
             for (int i = 0; i < pmd.Cache.Count; i++)
             {
@@ -315,7 +315,7 @@ namespace ext_pp_cli
         /// <param name="prefix"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static bool GetPluginInfoByPrefix(PluginManagerDatabase pmd, string prefix, out PluginInformation val)
+        public static bool TryGetPluginInfoByPrefix(PluginManagerDatabase pmd, string prefix, out PluginInformation val)
         {
             for (int i = 0; i < pmd.Cache.Count; i++)
             {
@@ -339,7 +339,7 @@ namespace ext_pp_cli
         /// <param name="prefix"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static bool GetPluginInfoByPathAndPrefix(PluginManagerDatabase pmd, string file, string prefix, out PluginInformation val)
+        public static bool TryGetPluginInfoByPathAndPrefix(PluginManagerDatabase pmd, string file, string prefix, out PluginInformation val)
         {
 
             for (int i = 0; i < pmd.Cache.Count; i++)
@@ -410,7 +410,7 @@ namespace ext_pp_cli
 
             foreach (var name in names)
             {
-                if (GetPluginInfoByPathAndPrefix(info,path, name, out PluginInformation val))
+                if (TryGetPluginInfoByPathAndPrefix(info,path, name, out PluginInformation val))
                 {
                     this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n{0}", val.GetDescription(shortDesc));
                 }
@@ -559,9 +559,9 @@ namespace ext_pp_cli
         /// <param name="name"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public bool GetPathByName(string name, out string path)
+        public bool TryGetPathByName(string name, out string path)
         {
-            if (GetPluginInfoByName(info ,name, out var pli))
+            if (TryGetPluginInfoByName(info ,name, out var pli))
             {
                 path = pli.Path;
                 return true;
@@ -577,9 +577,9 @@ namespace ext_pp_cli
         /// <param name="prefix"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public bool GetPathByPrefix(string prefix, out string path)
+        public bool TryGetPathByPrefix(string prefix, out string path)
         {
-            if (GetPluginInfoByPrefix(info,prefix, out var pli))
+            if (TryGetPluginInfoByPrefix(info,prefix, out var pli))
             {
                 path = pli.Path;
                 return true;

@@ -515,7 +515,7 @@ namespace ext_pp_cli
             {
                 path = arg; //Set the path
                 names = new[] { path };
-                if (!_pluginManager.GetPathByPrefix(arg, out path) && !_pluginManager.GetPathByName(arg, out path))
+                if (!_pluginManager.TryGetPathByPrefix(arg, out path) && !_pluginManager.TryGetPathByName(arg, out path))
                 {
                     names = null; //Will change path if it matches prefix
                 }

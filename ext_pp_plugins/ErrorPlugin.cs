@@ -11,7 +11,7 @@ namespace ext_pp_plugins
     public class ErrorPlugin : AbstractPlugin
     {
 
-        public override string[] Prefix => new string[] { "err", "Error" };
+        public override string[] Prefix => new [] { "err", "Error" };
 
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture)=="onfinishup" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
         public override PluginType PluginType => Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
@@ -21,7 +21,7 @@ namespace ext_pp_plugins
         public string ErrorKeyword { get; set; } = "#error";
         public string Separator { get; set; } = " ";
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
             new CommandInfo("set-error","e", PropertyHelper.GetPropertyInfo(typeof(ErrorPlugin), nameof(ErrorKeyword)),
                 "Sets the keyword that is used to trigger errors during compilation"),
@@ -70,7 +70,10 @@ namespace ext_pp_plugins
 
         public string LineStage(string source)
         {
-            if (!Utils.IsStatement(source, ErrorKeyword)) return source;
+            if (!Utils.IsStatement(source, ErrorKeyword))
+            {
+                return source;
+            }
             string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
             Logger.Crash(new Exception("Error " + err), true);
             return "";

@@ -90,7 +90,10 @@ namespace ext_pp_base
         /// <returns></returns>
         public static bool IsAllDigits(this string str)
         {
-            if (string.IsNullOrEmpty(str)) return false;
+            if (string.IsNullOrEmpty(str))
+            {
+                return false;
+            }
             return str.All(char.IsDigit);
         }
 

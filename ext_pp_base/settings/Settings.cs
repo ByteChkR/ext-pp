@@ -33,8 +33,14 @@ namespace ext_pp_base.settings
         /// <param name="value"></param>
         public void Set(string key, string[] value)
         {
-            if (_settings.ContainsKey(key)) _settings[key] = value;
-            else _settings.Add(key, value);
+            if (_settings.ContainsKey(key))
+            {
+                _settings[key] = value;
+            }
+            else
+            {
+                _settings.Add(key, value);
+            }
         }
 
         /// <summary>
@@ -85,7 +91,7 @@ namespace ext_pp_base.settings
         /// <param name="prefixes"></param>
         /// <param name="includeGlobalConfig"></param>
         /// <returns></returns>
-        public Settings GetSettingsWithPrefix(string[] prefixes, bool includeGlobalConfig = false)
+        public Settings GetSettingsWithPrefix(string[] prefixes, bool includeGlobalConfig)
         {
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
             Dictionary<string, string[]> tmp = new Dictionary<string, string[]>();
@@ -101,14 +107,19 @@ namespace ext_pp_base.settings
             return new Settings(ret);
         }
 
+        public Settings GetSettingsWithPrefix(string[] prefixes)
+        {
+            return GetSettingsWithPrefix(prefixes, false);
+        }
+
         /// <summary>
-        /// Returns a setting object that contains the settings with prefix.
-        /// </summary>
-        /// <param name="prefix"></param>
-        /// <param name="argBegin"></param>
-        /// <param name="includeShared"></param>
-        /// <returns></returns>
-        private Settings GetSettingsWithPrefix(string prefix, string argBegin, bool includeShared = false)
+            /// Returns a setting object that contains the settings with prefix.
+            /// </summary>
+            /// <param name="prefix"></param>
+            /// <param name="argBegin"></param>
+            /// <param name="includeShared"></param>
+            /// <returns></returns>
+            private Settings GetSettingsWithPrefix(string prefix, string argBegin, bool includeShared)
         {
             string prfx = argBegin + prefix + ":";
             bool isGlob;
@@ -128,13 +139,18 @@ namespace ext_pp_base.settings
             //    .ToDictionary(x => x.Key.Replace(prefix + ":", ""), y => y.Value));
         }
 
+        private Settings GetSettingsWithPrefix(string prefix, string argBegin)
+        {
+            return GetSettingsWithPrefix(prefix, argBegin, false);
+        }
+
         /// <summary>
-        /// Wrapper that returns the settings of the prefix.
-        /// </summary>
-        /// <param name="prefix"></param>
-        /// <param name="includeShared"></param>
-        /// <returns></returns>
-        public Settings GetSettingsWithPrefix(string prefix, bool includeShared = false)
+            /// Wrapper that returns the settings of the prefix.
+            /// </summary>
+            /// <param name="prefix"></param>
+            /// <param name="includeShared"></param>
+            /// <returns></returns>
+            public Settings GetSettingsWithPrefix(string prefix, bool includeShared)
         {
             Settings s = GetSettingsWithPrefix(prefix, "--", includeShared);
             s = s.Merge(GetSettingsWithPrefix(prefix, "-", includeShared));
@@ -142,13 +158,23 @@ namespace ext_pp_base.settings
 
         }
 
+        public Settings GetSettingsWithPrefix(string prefix)
+        {
+            return GetSettingsWithPrefix(prefix, false);
+        }
+
         private string[] FindCommandValue(CommandInfo c)
         {
             string key = "--" + c.Command;
             List<string> s = new List<string>();
-            if (_settings.ContainsKey(key)) return _settings[key];
+            if (_settings.ContainsKey(key))
+            {
+                return _settings[key];
+            }
             else if (c.ShortCut != "" && _settings.ContainsKey("-" + c.ShortCut)) return _settings["-" + c.ShortCut];
-            return null;
+            {
+                return null;
+            }
         }
 
         /// <summary>

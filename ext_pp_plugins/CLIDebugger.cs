@@ -39,7 +39,10 @@ namespace ext_pp_plugins
 
         public static Breakpoint[] Parse(string[] breakpointarr, ILoggable logobj)
         {
-            if (breakpointarr == null) return new Breakpoint[0];
+            if (breakpointarr == null)
+            {
+                return new Breakpoint[0];
+            }
             List<Breakpoint> points = new List<Breakpoint>();
             foreach (var breakpoint in breakpointarr)
             {
@@ -75,8 +78,14 @@ namespace ext_pp_plugins
                     do
                     {
 
-                        if (!continueCreation) args[idx + 1] = GetInput();
-                        if (!continueCreation && args[idx + 1] == "-dbg-exit") exit = true;
+                        if (!continueCreation)
+                        {
+                            args[idx + 1] = GetInput();
+                        }
+                        if (!continueCreation && args[idx + 1] == "-dbg-exit")
+                        {
+                            exit = true;
+                        }
                         if (!exit && !int.TryParse(args[idx + 1], out b.line))
                         {
                             Logger.Log(logobj, DebugLevel.LOGS,Verbosity.LEVEL1, "Line is not a valid integer. To abort type -dbg-exit");
@@ -106,11 +115,11 @@ namespace ext_pp_plugins
         public override string[] Prefix => new[] { "dbg" };
         public string[] Breakpoints { get; set; }
         private List<Breakpoint> _breakpoints = new List<Breakpoint>();
-        private bool isBreaking = false;
-        private int lineCount = 0;
+        private bool isBreaking;
+        private int lineCount;
 
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
             new CommandInfo("set-breakpoint", "bp", PropertyHelper.GetPropertyInfo(typeof(CLIDebugger), nameof(Breakpoints)),
                 "Sets the breakpoints for the session.\n" +
@@ -175,7 +184,10 @@ namespace ext_pp_plugins
                             else if (getInput.StartsWith("-dbg-dump "))
                             {
                                 string ff = getInput.Split(" ")[1];
-                                if (ff != "")File.WriteAllLines(ff, source);
+                                if (ff != "")
+                                {
+                                    File.WriteAllLines(ff, source);
+                                }
                             }
                             else if (getInput.StartsWith("-dbg-add-bp "))
                             {
@@ -213,7 +225,7 @@ namespace ext_pp_plugins
         }
 
 
-        public string LineStage(string source)
+        public static string LineStage(string source)
         {
             return source;
         }

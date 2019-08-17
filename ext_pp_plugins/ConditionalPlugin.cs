@@ -34,7 +34,7 @@ namespace ext_pp_plugins
         public string Stage { get; set; } = "onload";
 
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
             new CommandInfo("set-define", "d", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)),
                 "Sets the keyword that is used to define variables during the compilation."),
@@ -247,7 +247,7 @@ namespace ext_pp_plugins
                 if (line.StartsWith(StartCondition))
                 {
                     this.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Found nested opening conditional block...");
-                    i += GetBlockSize(source, i);
+                    i += GetBlockSize(source, i); //Skip Indices that are "inside" the if clause
                     tolerance++;
                 }
 
@@ -310,11 +310,20 @@ namespace ext_pp_plugins
                 }
                 else
                 {
-                    if (expectOperator) isOr = false;
+                    if (expectOperator)
+                    {
+                        isOr = false;
+                    }
                     expectOperator = true;
                     bool tmp = EvaluateExpression(expression[i], defs);
-                    if (isOr) ret |= tmp;
-                    else ret &= tmp;
+                    if (isOr)
+                    {
+                        ret |= tmp;
+                    }
+                    else
+                    {
+                        ret &= tmp;
+                    }
                 }
             }
 
@@ -331,9 +340,13 @@ namespace ext_pp_plugins
                 return false;
             }
 
-            if (neg) expression = expression.Substring(1, expression.Length - 1);
+            string exp=expression;
+            if (neg)
+            {
+                exp = expression.Substring(1, expression.Length - 1);
+            }
 
-            var val = defs.Check(expression);
+            var val = defs.Check(exp);
 
             val = neg ? !val : val;
 

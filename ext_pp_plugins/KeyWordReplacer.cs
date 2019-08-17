@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using ext_pp_base;
 using ext_pp_base.settings;
 
@@ -7,8 +8,8 @@ namespace ext_pp_plugins
 {
     public class KeyWordReplacer : AbstractPlugin
     {
-        public override PluginType PluginType => (Order.ToLower() == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE);
-        public override ProcessStage ProcessStages => Stage.ToLower() == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
+        public override PluginType PluginType => (Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE);
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
 
         public string Order { get; set; } = "after";
         public string Stage { get; set; } = "onfinishup";
@@ -33,8 +34,10 @@ namespace ext_pp_plugins
                     ret.Add(SurroundingChar + "TIME" + SurroundingChar, time.ToString(TimeFormatString));
                 }
 
-                if (Keywords == null) return ret;
-
+                if (Keywords == null)
+                {
+                    return ret;
+                }
                 for (int i = 0; i < Keywords.Length; i++)
                 {
                     string[] s = Keywords[i].Split(":");
@@ -45,7 +48,7 @@ namespace ext_pp_plugins
             }
         }
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
             new CommandInfo("set-order", "o", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(Order)),
                 "Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
@@ -87,7 +90,7 @@ namespace ext_pp_plugins
             return FullScriptStage(script, sourceManager, defTable);
         }
 
-        public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        public static bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             return true;
         }
@@ -110,19 +113,20 @@ namespace ext_pp_plugins
 
         public string LineStage(string source)
         {
+            string ret = source;
             Dictionary<string, string> keywords = _keywords;
             foreach (var keyword in keywords)
             {
                 string key = SurroundingChar + keyword.Key + SurroundingChar;
-                if (source.Contains(key))
+                if (ret.Contains(key))
                 {
                     this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing {0} with {1}", key, keyword.Value);
-                    source = source.Replace(key, keyword.Value);
+                    ret = ret.Replace(key, keyword.Value);
                 }
             }
 
 
-            return source;
+            return ret;
         }
 
     }

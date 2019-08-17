@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using ext_pp_base;
@@ -9,8 +10,8 @@ namespace ext_pp_plugins
     public class WarningPlugin : AbstractPlugin
     {
         public override string[] Prefix => new string[] { "wrn" , "Warning"};
-        public override ProcessStage ProcessStages => Stage.ToLower() == "onfinishup" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
-        public override PluginType PluginType => Order.ToLower() == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onfinishup" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
+        public override PluginType PluginType => Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
 
         public string Order { get; set; } = "after";
         public string Stage { get; set; } = "onfinishup";
@@ -62,7 +63,10 @@ namespace ext_pp_plugins
 
         public string LineStage(string source)
         {
-            if (!Utils.IsStatement(source, WarningKeyword)) return source;
+            if (!Utils.IsStatement(source, WarningKeyword))
+            {
+                return source;
+            }
             string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
             this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Warning: {0}" , err);
             return "";

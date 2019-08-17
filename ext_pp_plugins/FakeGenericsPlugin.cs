@@ -10,7 +10,7 @@ namespace ext_pp_plugins
 {
     public class FakeGenericsPlugin : AbstractPlugin
     {
-        public override string[] Prefix => new string[] { "gen", "FakeGen" };
+        public override string[] Prefix => new [] { "gen", "FakeGen" };
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture)=="onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
         public string Stage { get; set; } = "onmain";
@@ -40,7 +40,10 @@ namespace ext_pp_plugins
         {
             pluginCache = new Dictionary<string, object>();
             filePath = key = "";
-            if (vars.Length == 0) return false;
+            if (vars.Length == 0)
+            {
+                return false;
+            }
             string[] genParams = vars.Length > 1 ?
                 vars.SubArray(1, vars.Length - 1).ToArray() : new string[0];
             string dir = Directory.GetCurrentDirectory();
@@ -50,7 +53,9 @@ namespace ext_pp_plugins
             Directory.SetCurrentDirectory(dir);
             key += (genParams.Length > 0 ? "." + genParams.Unpack(Separator) : "");
             if (genParams.Length != 0)
+            {
                 pluginCache.Add("genParams", genParams);
+            }
             return true;
         }
 
@@ -67,7 +72,10 @@ namespace ext_pp_plugins
 
         public bool FullScriptStage(ISourceScript file, ISourceManager sourceManager, IDefinitions defs)
         {
-            if (!file.HasValueOfType<string[]>("genParams")) return true; //No error, we just dont have any generic parameters to replace.
+            if (!file.HasValueOfType<string[]>("genParams"))
+            {
+                return true; //No error, we just dont have any generic parameters to replace.
+            }
 
             string[] GenParams = file.GetValueFromCache<string[]>("genParams");
 

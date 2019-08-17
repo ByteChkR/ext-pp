@@ -52,7 +52,7 @@ namespace ext_pp
                 return;
             }
             _computeScheme = scheme;
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Changed Computing Scheme to: {0}" , scheme.Method.Name);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Changed Computing Scheme to: {0}", scheme.Method.Name);
         }
 
         public int GetTodoCount()
@@ -82,8 +82,11 @@ namespace ext_pp
             pluginCache = new Dictionary<string, object>();
             filePath = "";
             key = "";
-            
-            if (vars.Length == 0) return false;
+
+            if (vars.Length == 0)
+            {
+                return false;
+            }
             string dir = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(currentPath);
             key =
@@ -119,7 +122,7 @@ namespace ext_pp
         /// <param name="script"></param>
         public void FixOrder(ISourceScript script)
         {
-            this.Log(DebugLevel.LOGS , Verbosity.LEVEL3,"Fixing Build Order of file: {0}" , Path.GetFileName(script.GetFilePath()));
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFilePath()));
             int idx = IndexOfFile(script.GetKey());
             var a = _sources[idx];
             var ab = _doneState[idx];
@@ -149,7 +152,7 @@ namespace ext_pp
         {
             if (!IsIncluded(script))
             {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Adding Script to Todo List: {0}" , Path.GetFileName(script.GetFilePath()));
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Adding Script to Todo List: {0}", Path.GetFileName(script.GetFilePath()));
                 AddFile(script, false);
                 _doneState.Add(ProcessStage.QUEUED);
             }
@@ -166,7 +169,7 @@ namespace ext_pp
             {
                 _doneState[IndexOfFile(script.GetKey())] = stage;
 
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Finished Script: {0}" , Path.GetFileName(script.GetFilePath()));
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Finished Script: {0}", Path.GetFileName(script.GetFilePath()));
             }
         }
 
@@ -187,7 +190,10 @@ namespace ext_pp
         /// <param name="checkForExistingKey"></param>
         private void AddFile(ISourceScript script, bool checkForExistingKey)
         {
-            if (checkForExistingKey && ContainsFile(script.GetKey())) return;
+            if (checkForExistingKey && ContainsFile(script.GetKey()))
+            {
+                return;
+            }
             _sources.Add(script);
 
         }
@@ -212,7 +218,10 @@ namespace ext_pp
         {
             for (var i = 0; i < _sources.Count; i++)
             {
-                if (_sources[i].GetKey() == key) return i;
+                if (_sources[i].GetKey() == key)
+                {
+                    return i;
+                }
             }
 
             return -1;

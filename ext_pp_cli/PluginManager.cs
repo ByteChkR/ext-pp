@@ -64,9 +64,14 @@ namespace ext_pp_cli
             /// </summary>
             /// <param name="shortDesc"></param>
             /// <returns></returns>
-            public string GetDescription(bool shortDesc = true)
+            public string GetDescription(bool shortDesc)
             {
                 return Name + ": \n" + Path + "\nPrefixes:\n\t" + Prefixes.Unpack("\n\t") + (shortDesc ? "" : "\nCommand Info: \n\t" + Data.Select(x => x.ToString()).Unpack("\n\t"));
+            }
+
+            public string GetDescription()
+            {
+                return GetDescription(true);
             }
 
             public override string ToString()
@@ -246,20 +251,20 @@ namespace ext_pp_cli
             }
             else
             {
-                file = Path.GetFullPath(file);
-                if (info.Cache.Count(x => x.Path == file) != 0) return;
+                string fullpath = Path.GetFullPath(file);
+                if (info.Cache.Count(x => x.Path == fullpath) != 0) return;
 
-                info.IncludedFiles.Add(file);
+                info.IncludedFiles.Add(fullpath);
 
-                List<AbstractPlugin> plugins = FromFile(file);
+                List<AbstractPlugin> plugins = FromFile(fullpath);
 
                 List<PluginInformation> val = new List<PluginInformation>();
 
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding {0} plugins from {1}", plugins.Count, file);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding {0} plugins from {1}", plugins.Count, fullpath);
 
                 for (int i = 0; i < plugins.Count; i++)
                 {
-                    val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, file, plugins[i].Info.Select(x => x.Meta).ToArray()));
+                    val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, fullpath, plugins[i].Info.Select(x => x.Meta).ToArray()));
                 }
                 info.Cache.AddRange(val);
 
@@ -353,9 +358,12 @@ namespace ext_pp_cli
                 return new PluginInformation[0];
             }
             List<PluginInformation> ret = new List<PluginInformation>();
-            foreach (var info in info.Cache)
+            foreach (var inf in info.Cache)
             {
-                if (info.Path == pathToLib) ret.Add(info);
+                if (inf.Path == pathToLib)
+                {
+                    ret.Add(inf);
+                }
             }
 
             return ret.ToArray();
@@ -374,7 +382,10 @@ namespace ext_pp_cli
             if (names == null)
             {
                 PluginInformation[] inf = GetAllInLib(path);
-                if (inf.Length == 0) return false;
+                if (inf.Length == 0)
+                {
+                    return false;
+                }
                 foreach (var name in inf)
                 {
 
@@ -509,16 +520,19 @@ namespace ext_pp_cli
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "First start of Plugin Manager. Setting up...");
             FileStream fs = new FileStream(_configPath, FileMode.Create);
-            info = new PluginManagerDatabase()
+            info = new PluginManagerDatabase
             {
                 IncludedFiles = new List<string>(),
                 Cache = new List<PluginInformation>(),
-                IncludedDirectories = new List<string>()
+                IncludedDirectories = new List<string>
                 {
                     _defaultPluginFolder
                 }
             };
-            if (!Directory.Exists(_defaultPluginFolder)) Directory.CreateDirectory(_defaultPluginFolder);
+            if (!Directory.Exists(_defaultPluginFolder))
+            {
+                Directory.CreateDirectory(_defaultPluginFolder);
+            }
             _serializer.Serialize(fs, info);
             fs.Close();
             Refresh();

@@ -8,15 +8,15 @@ namespace ext_pp_plugins
 {
     public class IncludePlugin : AbstractPlugin
     {
-        public override string[] Cleanup => new string[] { IncludeKeyword };
+        public override string[] Cleanup => new [] { IncludeKeyword };
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => ProcessStage.ON_MAIN;
-        public override string[] Prefix => new string[] { "inc" ,"Include"};
+        public override string[] Prefix => new [] { "inc" ,"Include"};
         public string IncludeKeyword { get; set; } = "#include";
         public string IncludeInlineKeyword { get; set; } = "#includeinl";
         public string Separator { get; set; } = " ";
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
             new CommandInfo("set-include", "i", PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(IncludeKeyword)),
                 "Sets the keyword that is used to include other files into the build process."),

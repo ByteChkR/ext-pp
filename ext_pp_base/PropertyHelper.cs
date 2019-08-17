@@ -70,13 +70,13 @@ namespace ext_pp_base
             {
                 body = ((LambdaExpression)body).Body;
             }
-            switch (body.NodeType)
+
+            if (body.NodeType == ExpressionType.MemberAccess)
             {
-                case ExpressionType.MemberAccess:
-                    return (FieldInfo)((MemberExpression)body).Member;
-                default:
-                    return null;
+                return (FieldInfo)((MemberExpression)body).Member;
             }
+
+            return null;
         }
     }
 }

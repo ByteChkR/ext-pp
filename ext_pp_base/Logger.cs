@@ -48,7 +48,7 @@ namespace ext_pp_base
         /// <param name="level"></param>
         /// <param name="format"></param>
         /// <param name="objs"></param>
-        public static void Log(this ILoggable obj, DebugLevel mask,Verbosity level, string format,  params object[] objs)
+        public static void Log(this ILoggable obj, DebugLevel mask, Verbosity level, string format, params object[] objs)
         {
             Log(mask, level, "[" + obj.GetType().Name + "]" + format, objs);
         }
@@ -59,10 +59,18 @@ namespace ext_pp_base
         /// </summary>
         /// <param name="ex"></param>
         /// <param name="throwEx">if it should only log and not throw the exception specify this to be false</param>
-        public static void Crash(Exception ex, bool throwEx = true)
+        public static void Crash(Exception ex, bool throwEx)
         {
             ADL.Crash.CrashHandler.Log(ex);
-            if (throwEx) throw ex;
+            if (throwEx)
+            {
+                throw ex;
+            }
+        }
+
+        public static void Crash(Exception ex)
+        {
+            Crash(ex, false);
         }
     }
 }

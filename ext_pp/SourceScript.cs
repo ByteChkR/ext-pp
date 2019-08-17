@@ -21,11 +21,7 @@ namespace ext_pp
         /// Flag to check if the file was already loaded into memory
         /// </summary>
         public bool IsSourceLoaded => _source != null;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private readonly string _separator;
+        
 
         /// <summary>
         /// The key that will get assigned to this script.
@@ -50,7 +46,6 @@ namespace ext_pp
             _key = key;
             _pluginCache = pluginCache;
             _filepath = path;
-            _separator = separator;
         }
 
         /// <summary>

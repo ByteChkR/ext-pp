@@ -7,6 +7,7 @@ Small plugin based external text preprocessor that can introduce artificial stat
 You can find the documentation [HERE](https://bytechkr.github.io/ext-pp/)
 
 ## Status:
+Code Quality: [![Codacy Badge](https://api.codacy.com/project/badge/Grade/94c3df94ad954b8b90dbb5a3b0832a33)](https://www.codacy.com/app/ByteChkR/ext-pp?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ByteChkR/ext-pp&amp;utm_campaign=Badge_Grade)  
 Master: [![Build Status](https://travis-ci.com/ByteChkR/ext-pp.svg?branch=master)](https://travis-ci.com/ByteChkR/ext-pp)  
 Develop: [![Build Status](https://travis-ci.com/ByteChkR/ext-pp.svg?branch=develop)](https://travis-ci.com/ByteChkR/ext-pp)
 

@@ -754,7 +754,7 @@ namespace ext_pp_cli
                 arf = Console.ReadLine().Pack(" ").ToArray();
                 if(arf.Contains("exit"))exit=true;
                 c = new CLI(arf);
-                c.Shutdown();
+                CLI.Shutdown();
                 c = null;
             } while (!exit);
 

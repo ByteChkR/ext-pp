@@ -13,10 +13,10 @@ namespace ext_pp_plugins
 
         public string Stage { get; set; } = "onload";
         public string MultiLineKeyword { get; set; } = "__";
-        public override string[] Prefix => new string[] { "mlp", "MultiLine" };
+        public override string[] Prefix => new[] { "mlp", "MultiLine" };
 
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
             new CommandInfo("set-stage", "ss", PropertyHelper.GetPropertyInfo(typeof(MultiLinePlugin), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),

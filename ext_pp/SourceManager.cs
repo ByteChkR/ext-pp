@@ -47,7 +47,10 @@ namespace ext_pp
         /// <param name="scheme"></param>
         public void SetComputingScheme(DelKeyComputingScheme scheme)
         {
-            if (scheme == null) return;
+            if (scheme == null)
+            {
+                return;
+            }
             _computeScheme = scheme;
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Changed Computing Scheme to: {0}" , scheme.Method.Name);
         }
@@ -230,7 +233,7 @@ namespace ext_pp
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
         /// <returns></returns>
-        public bool CreateScript(out ISourceScript script, string separator, string file, string key, Dictionary<string, object> pluginCache)
+        public bool TryCreateScript(out ISourceScript script, string separator, string file, string key, Dictionary<string, object> pluginCache)
         {
             if (LockScriptCreation)
             {

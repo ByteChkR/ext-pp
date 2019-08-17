@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using ext_pp_base;
@@ -12,8 +13,8 @@ namespace ext_pp_plugins
 
         public override string[] Prefix => new string[] { "err", "Error" };
 
-        public override ProcessStage ProcessStages => Stage.ToLower()=="onfinishup" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
-        public override PluginType PluginType => Order.ToLower() == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture)=="onfinishup" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
+        public override PluginType PluginType => Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
 
         public string Order { get; set; } = "after";
         public string Stage { get; set; } = "onfinishup";

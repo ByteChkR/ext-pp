@@ -36,16 +36,22 @@ namespace ext_pp_plugins
             return base.OnMain_LineStage(source);
         }
 
-        private string LineStage(string source)
+        private static string LineStage(string source)
         {
             return source.ToUpper();
         }
 
         public override string[] Prefix => new[] {"tup", "ToUpper"};
+        /// <summary>
+        /// No initialization needed for this plugin.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="sourceManager"></param>
+        /// <param name="defTable"></param>
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
-            
+            // No initialization needed for this plugin.
         }
 
-      }
+    }
 }

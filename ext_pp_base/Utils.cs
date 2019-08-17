@@ -117,7 +117,10 @@ namespace ext_pp_base
         /// <returns></returns>
         public static string[] SplitAndRemoveFirst(string statement, string separator)
         {
-            if (String.IsNullOrEmpty(statement)) return new string[0];
+            if (String.IsNullOrEmpty(statement))
+            {
+                return new string[0];
+            }
 
             var ret = statement.Split(separator);
 
@@ -126,7 +129,7 @@ namespace ext_pp_base
 
 
         private delegate bool TryParse(string val, out object value);
-        private static readonly Dictionary<Type, TryParse> _parser = new Dictionary<Type, TryParse>()
+        private static readonly Dictionary<Type, TryParse> _parser = new Dictionary<Type, TryParse>
         {
             {typeof(string), CreateTryParser<string>()},
             {typeof(int), CreateTryParser<int>()},
@@ -259,7 +262,7 @@ namespace ext_pp_base
                 return Int32.Parse(input);
             }
 
-            if (!enu.IsEnum || input == null) return defaul;
+            if (!enu.IsEnum) return defaul;
 
             int ret = -1;
 
@@ -271,8 +274,14 @@ namespace ext_pp_base
                 foreach (var or in ors)
                 {
                     string enumStr = or.Trim();
-                    if (r == -1) r = (int)Enum.Parse(enu, enumStr);
-                    else r |= (int)Enum.Parse(enu, enumStr);
+                    if (r == -1)
+                    {
+                        r = (int)Enum.Parse(enu, enumStr);
+                    }
+                    else
+                    {
+                        r |= (int)Enum.Parse(enu, enumStr);
+                    }
                 }
 
                 if (ret == -1) ret = r;

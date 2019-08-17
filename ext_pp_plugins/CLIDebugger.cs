@@ -82,7 +82,10 @@ namespace ext_pp_plugins
                             Logger.Log(logobj, DebugLevel.LOGS,Verbosity.LEVEL1, "Line is not a valid integer. To abort type -dbg-exit");
                             continueCreation = false;
                         }
-                        else if (!exit) continueCreation = true;
+                        else if (!exit)
+                        {
+                            continueCreation = true;
+                        }
 
                     } while (!continueCreation && !exit);
                 }
@@ -100,7 +103,7 @@ namespace ext_pp_plugins
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => ProcessStage.ON_LOAD_STAGE | ProcessStage.ON_MAIN;
 
-        public override string[] Prefix => new string[] { "dbg" };
+        public override string[] Prefix => new[] { "dbg" };
         public string[] Breakpoints { get; set; }
         private List<Breakpoint> _breakpoints = new List<Breakpoint>();
         private bool isBreaking = false;

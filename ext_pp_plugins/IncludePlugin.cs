@@ -64,7 +64,9 @@ namespace ext_pp_plugins
                         source.InsertRange(i, File.ReadAllLines(args[0]));
                     }
                     else
-                        this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "File does not exist: {0}" , args[0]);
+                    {
+                        this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "File does not exist: {0}", args[0]);
+                    }
                 }
             }
             script.SetSource(source.ToArray());
@@ -131,7 +133,7 @@ namespace ext_pp_plugins
                     foreach (var file in files)
                     {
 
-                        if (manager.CreateScript(out ISourceScript iss, Separator, file, key.Replace(filepath, file), pluginCache))
+                        if (manager.TryCreateScript(out ISourceScript iss, Separator, file, key.Replace(filepath, file), pluginCache))
                         {
                             scripts.Add(iss);
                         }
@@ -139,8 +141,10 @@ namespace ext_pp_plugins
                 }
                 else
                 {
-                    if (manager.CreateScript(out ISourceScript iss, Separator, filepath, key, pluginCache))
+                    if (manager.TryCreateScript(out ISourceScript iss, Separator, filepath, key, pluginCache))
+                    {
                         scripts.Add(iss);
+                    }
                 }
 
 

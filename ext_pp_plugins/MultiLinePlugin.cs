@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using ext_pp_base;
 using ext_pp_base.settings;
@@ -8,7 +9,7 @@ namespace ext_pp_plugins
     public class MultiLinePlugin : AbstractPlugin
     {
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
-        public override ProcessStage ProcessStages => Stage.ToLower()=="onload" ?  ProcessStage.ON_LOAD_STAGE: ProcessStage.ON_MAIN;
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture)=="onload" ?  ProcessStage.ON_LOAD_STAGE: ProcessStage.ON_MAIN;
 
         public string Stage { get; set; } = "onload";
         public string MultiLineKeyword { get; set; } = "__";
@@ -77,7 +78,7 @@ namespace ext_pp_plugins
         }
 
 
-        public string LineStage(string source)
+        public static string LineStage(string source)
         {
             return source;
         }

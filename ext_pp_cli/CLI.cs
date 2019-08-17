@@ -44,7 +44,7 @@ namespace ext_pp_cli
         /// List of Command infos that are directly used by the CLI
         /// They have no prefix
         /// </summary>
-        private List<CommandInfo> Info => new List<CommandInfo>()
+        private static List<CommandInfo> Info => new List<CommandInfo>
         {
             new CommandInfo("input", "i", PropertyHelper<CLI>.GetPropertyInfo(x=>x.Input),
                 "--input filepath,filepath filepath,filepath\r\n\t, separated = the same compilation\r\n\t[space] separated means gets queued after the compilation of the first one"),
@@ -85,7 +85,7 @@ namespace ext_pp_cli
         /// <summary>
         /// Contains the Parameters for the -l2f and --logToFile commands.
         /// </summary>
-        public string[] LogToFileParams { get; set; };
+        public string[] LogToFileParams { get; set; }
 
         /// <summary>
         /// A flag that is used to determine if the log2file flag was set.
@@ -199,7 +199,7 @@ namespace ext_pp_cli
         /// <summary>
         /// Shuts down the cli by removing all output streams from adl.
         /// </summary>
-        public void Shutdown()
+        public static void Shutdown()
         {
             Debug.RemoveAllOutputStreams();
         }
@@ -292,19 +292,28 @@ namespace ext_pp_cli
             if (PluginListDirs)
             {
                 _pluginManager.ListCachedFolders();
-                if (!PluginRefresh && !PluginListIncs && !PluginListManIncs) return;
+                if (!PluginRefresh && !PluginListIncs && !PluginListManIncs)
+                {
+                    return;
+                }
             }
 
             if (PluginListIncs)
             {
-                _pluginManager.ListCachedPlugins();
-                if (!PluginRefresh && !PluginListManIncs) return;
+                _pluginManager.ListCachedPlugins(false);
+                if (!PluginRefresh && !PluginListManIncs)
+                {
+                     return;
+                }
             }
 
             if (PluginListManIncs)
             {
                 _pluginManager.ListManuallyCachedFiles();
-                if (!PluginRefresh) return;
+                if (!PluginRefresh)
+                {
+                    return;
+                }
             }
 
             if (PluginRefresh)
@@ -315,8 +324,11 @@ namespace ext_pp_cli
 
             if (HelpParams != null || HelpAllParams != null)
             {
-                bool ListCommands = false;
-                if ((ListCommands = (HelpAllParams != null))) HelpParams = HelpAllParams;
+                bool listCommands = HelpAllParams != null;
+                if (listCommands)
+                {
+                    HelpParams = HelpAllParams;
+                }
                 if (HelpParams.Length == 0)
                 {
                     this.Log(DebugLevel.LOGS, Verbosity.SILENT, "\n{0}", Info.ListAllCommands(new[] { "" }).Unpack("\n"));
@@ -329,7 +341,10 @@ namespace ext_pp_cli
                     {
 
                         ParseChainSyntax(file, out string path, out string[] names);
-                        if (_pluginManager.DisplayHelp(path, names, !ListCommands)) continue;
+                        if (_pluginManager.DisplayHelp(path, names, !listCommands))
+                        {
+                            continue;
+                        }
 
                         List<AbstractPlugin> plugins = CreatePluginChain(new[] { file }, true).ToList();
                         this.Log(DebugLevel.LOGS, Verbosity.SILENT, "Listing Plugins: ");
@@ -793,20 +808,32 @@ namespace ext_pp_cli
             {
                 int exprType = r.Next(0, 4 + chanceToRecurse);
                 if (exprType == 0)
+                {
                     expr += defName + r.Next(0, maxDefNr);
+                }
                 else if (exprType == 1)
+                {
                     expr += defName + r.Next(0, maxDefNr);
+                }
                 else if (exprType == 2)
+                {
                     expr += defName + r.Next(0, maxDefNr);
+                }
                 else if (exprType == 3)
+                {
                     expr += defName + r.Next(0, maxDefNr);
+                }
                 else
                 {
                     int maxprm = max - max / 2;
                     expr += "(" + GenerateExpression(defName, maxDefNr, maxprm, chanceToRecurse) + ")";
 
                 }
-                if (j != max - 1) expr += (r.Next(0, 2) == 0 ? " || " : " && ");
+
+                if (j != max - 1)
+                {
+                    expr += (r.Next(0, 2) == 0 ? " || " : " && ");
+                }
             }
 
             return expr;

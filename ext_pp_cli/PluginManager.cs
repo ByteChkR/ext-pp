@@ -176,7 +176,7 @@ namespace ext_pp_cli
         /// Lists all cached plugins
         /// </summary>
         /// <param name="shortDesc">should skip the commands/help for commands</param>
-        public void ListCachedPlugins(bool shortDesc = false)
+        public void ListCachedPlugins(bool shortDesc)
         {
             for (int i = 0; i < info.Cache.Count; i++)
             {
@@ -264,7 +264,11 @@ namespace ext_pp_cli
                 info.Cache.AddRange(val);
 
             }
-            if (save) Save();
+
+            if (save)
+            {
+                Save();
+            }
         }
 
         /// <summary>
@@ -344,7 +348,10 @@ namespace ext_pp_cli
         /// <returns></returns>
         private PluginInformation[] GetAllInLib(string pathToLib)
         {
-            if (!File.Exists(pathToLib)) return new PluginInformation[0];
+            if (!File.Exists(pathToLib))
+            {
+                return new PluginInformation[0];
+            }
             List<PluginInformation> ret = new List<PluginInformation>();
             foreach (var info in info.Cache)
             {

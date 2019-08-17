@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,12 +12,12 @@ namespace ext_pp_plugins
     {
         public override string[] Prefix => new string[] { "gen", "FakeGen" };
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
-        public override ProcessStage ProcessStages => Stage.ToLower()=="onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture)=="onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
         public string Stage { get; set; } = "onmain";
         public string GenericKeyword { get; set; } = "#type";
         public string Separator { get; set; } = " ";
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
             new CommandInfo("set-genkeyword","g", PropertyHelper.GetPropertyInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
                 "Sets the keyword that is used when writing pseudo generic code."),

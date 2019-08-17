@@ -71,6 +71,36 @@ namespace ext_pp
 
 
         /// <summary>
+        /// Compiles a File with the definitions and settings provided
+        /// </summary>
+        /// <param name="files">FilePaths of the files.</param>
+        /// <param name="settings"></param>
+        /// <param name="defs">Definitions</param>
+        /// <returns>Array of Compiled Lines</returns>
+        public string[] Compile(string[] files,  IDefinitions defs)
+        {
+
+            return Compile(files, null, defs);
+        }
+
+
+        /// <summary>
+        /// Compiles a File with the definitions and settings provided
+        /// </summary>
+        /// <param name="files">FilePaths of the files.</param>
+        /// <param name="settings"></param>
+        /// <param name="defs">Definitions</param>
+        /// <returns>Array of Compiled Lines</returns>
+        public string[] Compile(string[] files, Settings settings)
+        {
+
+            return Compile(files, settings, null);
+        }
+
+
+
+
+        /// <summary>
         /// Initializing all Plugins with the settings, definitions and the source manager for this compilation
         /// </summary>
         /// <param name="settings"></param>
@@ -131,7 +161,7 @@ namespace ext_pp
                 Directory.SetCurrentDirectory(Path.GetDirectoryName(f));
 
                 sm.SetLock(false);
-                sm.CreateScript(out ISourceScript sss, _sep, f, f, new Dictionary<string, object>());
+                sm.TryCreateScript(out ISourceScript sss, _sep, f, f, new Dictionary<string, object>());
                 sm.SetLock(true);
                 List<ISourceScript> all = new List<ISourceScript>();
                 sm.AddToTodo(sss);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,9 +15,9 @@ namespace ext_pp_plugins
 
         private static StringBuilder _sb = new StringBuilder();
 
-        public override string[] Cleanup => new string[] { DefineKeyword, UndefineKeyword };
-        public override string[] Prefix => new string[] { "con", "Conditional" };
-        public override ProcessStage ProcessStages => Stage.ToLower() == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public override string[] Cleanup => new [] { DefineKeyword, UndefineKeyword };
+        public override string[] Prefix => new [] { "con", "Conditional" };
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public string StartCondition { get; set; } = "#if";
         public string ElseIfCondition { get; set; } = "#elseif";
@@ -213,8 +214,14 @@ namespace ext_pp_plugins
                     }
                 }
 
-                if (ret) lastPass = solvedFile;
-                else break;
+                if (ret)
+                {
+                    lastPass = solvedFile;
+                }
+                else
+                {
+                    break;
+                }
                 solvedFile = new List<string>();
 
 

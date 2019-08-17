@@ -15,7 +15,7 @@ namespace ext_pp
         /// <summary>
         /// if the source was requested at least once, it remains cached in here
         /// </summary>
-        private string[] _source = null;
+        private string[] _source;
 
         /// <summary>
         /// Flag to check if the file was already loaded into memory

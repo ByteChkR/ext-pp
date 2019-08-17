@@ -139,7 +139,7 @@ namespace ext_pp_base.settings
             }
 
             return new Settings(ret);
-          }
+        }
 
 
 
@@ -170,10 +170,12 @@ namespace ext_pp_base.settings
                 return _settings[key];
             }
 
-            if (c.ShortCut != "" && _settings.ContainsKey("-" + c.ShortCut)) return _settings["-" + c.ShortCut];
+            if (c.ShortCut != "" && _settings.ContainsKey("-" + c.ShortCut))
             {
-                return null;
+                return _settings["-" + c.ShortCut];
             }
+
+            return null;
         }
 
         /// <summary>

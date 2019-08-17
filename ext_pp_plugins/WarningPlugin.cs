@@ -9,16 +9,16 @@ namespace ext_pp_plugins
 {
     public class WarningPlugin : AbstractPlugin
     {
-        public override string[] Prefix => new string[] { "wrn" , "Warning"};
+        public override string[] Prefix => new [] { "wrn" , "Warning"};
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onfinishup" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
-        public override PluginType PluginType => Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
+        public override PluginType PluginTypeToggle => Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
 
         public string Order { get; set; } = "after";
         public string Stage { get; set; } = "onfinishup";
         public string WarningKeyword { get; set; } = "#warning";
         public string Separator { get; set; } = " ";
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
             new CommandInfo("set-warning", "w", PropertyHelper.GetPropertyInfo(typeof(WarningPlugin), nameof(WarningKeyword)),
                 "sets the keyword that is used to trigger warnings during compilation"),
@@ -73,7 +73,7 @@ namespace ext_pp_plugins
         }
 
 
-        public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        public static bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             return true;
         }

@@ -14,7 +14,7 @@ namespace ext_pp_plugins
         public override string[] Prefix => new [] { "err", "Error" };
 
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture)=="onfinishup" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
-        public override PluginType PluginType => Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
+        public override PluginType PluginTypeToggle => Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
 
         public string Order { get; set; } = "after";
         public string Stage { get; set; } = "onfinishup";

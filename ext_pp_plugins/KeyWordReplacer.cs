@@ -8,7 +8,7 @@ namespace ext_pp_plugins
 {
     public class KeyWordReplacer : AbstractPlugin
     {
-        public override PluginType PluginType => (Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE);
+        public override PluginType PluginTypeToggle => (Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE);
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
 
         public string Order { get; set; } = "after";
@@ -18,7 +18,7 @@ namespace ext_pp_plugins
         public string DateFormatString { get; set; } = "dd/MM/yyyy";
         public string TimeFormatString { get; set; } = "hh:mm:ss";
         public string SurroundingChar { get; set; } = "$";
-        public override string[] Prefix => new string[] { "kwr", "KWReplacer" };
+        public override string[] Prefix => new [] { "kwr", "KWReplacer" };
         public string[] Keywords { get; set; }
         private DateTime time;
         private Dictionary<string, string> _keywords

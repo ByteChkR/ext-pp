@@ -32,7 +32,10 @@ namespace ext_pp_base
             for (var i = 0; i < enumerable.Count(); i++)
             {
                 _sb.Append(enumerable.ElementAt(i));
-                if (i < enumerable.Count() - 1) _sb.Append(separator);
+                if (i < enumerable.Count() - 1)
+                {
+                    _sb.Append(separator);
+                }
             }
 
             return _sb.ToString();

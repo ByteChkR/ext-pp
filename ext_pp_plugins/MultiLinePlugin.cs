@@ -8,7 +8,7 @@ namespace ext_pp_plugins
 {
     public class MultiLinePlugin : AbstractPlugin
     {
-        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
+        public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture)=="onload" ?  ProcessStage.ON_LOAD_STAGE: ProcessStage.ON_MAIN;
 
         public string Stage { get; set; } = "onload";

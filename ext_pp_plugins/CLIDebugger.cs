@@ -109,7 +109,7 @@ namespace ext_pp_plugins
 
     public class CLIDebugger : AbstractPlugin
     {
-        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
+        public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => ProcessStage.ON_LOAD_STAGE | ProcessStage.ON_MAIN;
 
         public override string[] Prefix => new[] { "dbg" };

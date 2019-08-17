@@ -74,7 +74,10 @@ namespace ext_pp
         /// <returns></returns>
         public string[] GetSource()
         {
-            if (_source == null) Load();
+            if (_source == null)
+            {
+                Load();
+            }
             return _source;
         }
 
@@ -146,7 +149,10 @@ namespace ext_pp
         {
 
             _source = new string[0];
-            if (!File.Exists(_filepath)) return false;
+            if (!File.Exists(_filepath))
+            {
+                return false;
+            }
             _source = File.ReadAllLines(_filepath);
 
 

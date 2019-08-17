@@ -146,13 +146,13 @@ namespace ext_pp
         /// <param name="settings"></param>
         /// <param name="defs"></param>
         /// <returns>Returns a list of files that can be compiled in reverse order</returns>
-        public ISourceScript[] Process(string[] files, Settings settings = null, IDefinitions defs = null)
+        public ISourceScript[] Process(string[] files, Settings settings, IDefinitions defs)
         {
             string dir = Directory.GetCurrentDirectory();
-            defs = defs ?? new Definitions();
+            IDefinitions definitions = defs ?? new Definitions();
             SourceManager sm = new SourceManager(_plugins);
 
-            InitializePlugins(settings, defs, sm);
+            InitializePlugins(settings, definitions, sm);
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Processing of Files: {0}", files.Unpack(", "));
             foreach (var file in files)
@@ -172,13 +172,16 @@ namespace ext_pp
             do
             {
 
-                if (!(ss as SourceScript).IsSourceLoaded) RunStages(ProcessStage.ON_LOAD_STAGE, ss, sm, defs);
+                if (!(ss as SourceScript).IsSourceLoaded)
+                {
+                    RunStages(ProcessStage.ON_LOAD_STAGE, ss, sm, definitions);
+                }
 
                 this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Remaining Files: {0}", sm.GetTodoCount());
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(ss.GetFilePath()));
                 //RUN MAIN
                 sm.SetLock(false);
-                RunStages(ProcessStage.ON_MAIN, ss, sm, defs);
+                RunStages(ProcessStage.ON_MAIN, ss, sm, definitions);
                 sm.SetLock(true);
                 sm.SetState(ss, ProcessStage.ON_FINISH_UP);
                 ss = sm.NextItem;
@@ -191,7 +194,7 @@ namespace ext_pp
             foreach (var finishedScript in ret)
             {
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(finishedScript.GetFilePath()));
-                RunStages(ProcessStage.ON_FINISH_UP, finishedScript, sm, defs);
+                RunStages(ProcessStage.ON_FINISH_UP, finishedScript, sm, definitions);
             }
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finished Processing Files.");
             return ret;
@@ -210,10 +213,18 @@ namespace ext_pp
         private bool RunStages(ProcessStage stage, ISourceScript script, ISourceManager sourceManager,
             IDefinitions defTable)
         {
-            if (!RunPluginStage(PluginType.LINE_PLUGIN_BEFORE, stage, script, sourceManager, defTable)) return false;
-            if (stage != ProcessStage.ON_FINISH_UP)
-                if (!RunPluginStage(PluginType.FULL_SCRIPT_PLUGIN, stage, script, sourceManager, defTable)) return false;
-            if (!RunPluginStage(PluginType.LINE_PLUGIN_AFTER, stage, script, sourceManager, defTable)) return false;
+            if (!RunPluginStage(PluginType.LINE_PLUGIN_BEFORE, stage, script, sourceManager, defTable))
+            {
+                return false;
+            }
+            if (stage != ProcessStage.ON_FINISH_UP && !RunPluginStage(PluginType.FULL_SCRIPT_PLUGIN, stage, script, sourceManager, defTable))
+            {
+                return false;
+            }
+            if (!RunPluginStage(PluginType.LINE_PLUGIN_AFTER, stage, script, sourceManager, defTable))
+            {
+                return false;
+            }
             return true;
         }
 

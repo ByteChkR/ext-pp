@@ -18,7 +18,7 @@ namespace ext_pp_plugins
         public override string[] Cleanup => new [] { DefineKeyword, UndefineKeyword };
         public override string[] Prefix => new [] { "con", "Conditional" };
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
-        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
+        public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         public string StartCondition { get; set; } = "#if";
         public string ElseIfCondition { get; set; } = "#elseif";
         public string ElseCondition { get; set; } = "#else";
@@ -299,13 +299,22 @@ namespace ext_pp_plugins
                 else if (expression[i] == "(")
                 {
                     //i++;
-                    if (expectOperator) isOr = false;
+                    if (expectOperator)
+                    {
+                        isOr = false;
+                    }
                     expectOperator = true;
 
                     int size = IndexOfClosingBracket(expression, i) - i - 1;
                     bool tmp = EvaluateConditional(expression.SubArray(i + 1, size).ToArray(), defs);
-                    if (isOr) ret |= tmp;
-                    else ret &= tmp;
+                    if (isOr)
+                    {
+                        ret |= tmp;
+                    }
+                    else
+                    {
+                        ret &= tmp;
+                    }
                     i += size;
                 }
                 else

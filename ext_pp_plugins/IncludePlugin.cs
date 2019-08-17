@@ -9,7 +9,7 @@ namespace ext_pp_plugins
     public class IncludePlugin : AbstractPlugin
     {
         public override string[] Cleanup => new [] { IncludeKeyword };
-        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
+        public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => ProcessStage.ON_MAIN;
         public override string[] Prefix => new [] { "inc" ,"Include"};
         public string IncludeKeyword { get; set; } = "#include";

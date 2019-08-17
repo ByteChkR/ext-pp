@@ -58,7 +58,7 @@ namespace ext_pp_cli
         /// <returns></returns>
         public static string[] ToMarkdown(this AbstractPlugin plugin)
         {
-            List<string> ret = new List<string>()
+            List<string> ret = new List<string>
             {
                 "______________________________________________",
               "#### "+plugin.GetType().Name+ " Information:",

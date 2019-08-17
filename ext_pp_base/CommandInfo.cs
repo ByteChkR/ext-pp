@@ -107,13 +107,30 @@ namespace ext_pp_base
         /// <param name="helpText"></param>
         /// <param name="defaultIfNotSpecified"></param>
         /// <param name="global"></param>
-        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText, object defaultIfNotSpecified = null, bool global = false)
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText, object defaultIfNotSpecified, bool global)
         {
             Field = field;
             Meta = new CommandMetaData(command, shortcut, helpText, global);
             DefaultIfNotSpecified = defaultIfNotSpecified;
         }
-        
+
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helptext) : this(command, shortcut, field, helptext, null, false)
+        {
+
+        }
+
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helptext,
+            object defaultIfNotSpecified) : this(command, shortcut, field, helptext, defaultIfNotSpecified, false)
+        {
+
+        }
+
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helptext,
+            bool global) : this(command, shortcut, field, helptext, null, global)
+        {
+
+        }
+
 
         /// <summary>
         /// Writes the information as readable text.

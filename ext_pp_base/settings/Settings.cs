@@ -161,8 +161,14 @@ namespace ext_pp_base.settings
         {
             foreach (var commandInfo in infos)
             {
-                if (commandInfo.Field.PropertyType.IsArray) ApplySettingArray(commandInfo, obj);
-                else ApplySettingFirst(commandInfo.Field.PropertyType, commandInfo, obj);
+                if (commandInfo.Field.PropertyType.IsArray)
+                {
+                    ApplySettingArray(commandInfo, obj);
+                }
+                else
+                {
+                    ApplySettingFirst(commandInfo.Field.PropertyType, commandInfo, obj);
+                }
             }
         }
 

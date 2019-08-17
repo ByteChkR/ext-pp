@@ -85,7 +85,7 @@ namespace ext_pp_cli
         /// <summary>
         /// Contains the Parameters for the -l2f and --logToFile commands.
         /// </summary>
-        public string[] LogToFileParams { get; set; } = null;
+        public string[] LogToFileParams { get; set; };
 
         /// <summary>
         /// A flag that is used to determine if the log2file flag was set.
@@ -95,7 +95,7 @@ namespace ext_pp_cli
         /// <summary>
         /// Flag to output the result to the console.
         /// </summary>
-        public bool OutputToConsole { get; set; } = false;
+        public bool OutputToConsole { get; set; }
 
         /// <summary>
         /// The input files
@@ -110,27 +110,27 @@ namespace ext_pp_cli
         /// <summary>
         /// Predefined definitions from --defines and -defs
         /// </summary>
-        public string[] DefinesParams { get; set; } = null;
+        public string[] DefinesParams { get; set; }
 
         /// <summary>
         /// Forces the cli to ignore collections.
         /// </summary>
-        public bool NoCollections { get; set; } = false;
+        public bool NoCollections { get; set; }
 
         /// <summary>
         /// Contains the parameters for the plugin chain
         /// </summary>
-        public string[] ChainParams { get; set; } = null;
+        public string[] ChainParams { get; set; }
 
         /// <summary>
         /// Contains the parameters for the help parameter
         /// </summary>
-        public string[] HelpParams { get; set; } = null;
+        public string[] HelpParams { get; set; }
 
         /// <summary>
         /// Contains the parameters for the help all parameter
         /// </summary>
-        public string[] HelpAllParams { get; set; } = null;
+        public string[] HelpAllParams { get; set; }
 
         /// <summary>
         /// Debug level of the process.
@@ -140,37 +140,37 @@ namespace ext_pp_cli
         /// <summary>
         /// Show the version at the start and exit.
         /// </summary>
-        public bool ShowVersion { get; set; } = false;
+        public bool ShowVersion { get; set; }
 
         /// <summary>
         /// parameter for the --pm-add and -pm-a commands.
         /// </summary>
-        public string[] PluginAdd { get; set; } = null;
+        public string[] PluginAdd { get; set; }
 
         /// <summary>
         /// Flag if the settings contain the -pm-r/--pm-refresh command
         /// </summary>
-        public bool PluginRefresh { get; set; } = false;
+        public bool PluginRefresh { get; set; }
 
         /// <summary>
         /// Flag if the settings contain the -pm-ld/--pm-list-dirr command
         /// </summary>
-        public bool PluginListDirs { get; set; } = false;
+        public bool PluginListDirs { get; set; }
 
         /// <summary>
         /// Flag if the settings contain the -pm-lf/--pm-list-file command
         /// </summary>
-        public bool PluginListIncs { get; set; } = false;
+        public bool PluginListIncs { get; set; }
 
         /// <summary>
         /// Flag if the settings contain the -pm-lmf/--pm-list-manual-files command
         /// </summary>
-        public bool PluginListManIncs { get; set; } = false;
+        public bool PluginListManIncs { get; set; }
 
         /// <summary>
         /// Flag if the settings contain the -pm-a/--pm-all command
         /// </summary>
-        public bool PluginListAll { get; set; } = false;
+        public bool PluginListAll { get; set; }
 
         /// <summary>
         /// Definitions.

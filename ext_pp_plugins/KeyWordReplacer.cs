@@ -12,13 +12,13 @@ namespace ext_pp_plugins
 
         public string Order { get; set; } = "after";
         public string Stage { get; set; } = "onfinishup";
-        public bool NoDefaultKeywords { get; set; } = false;
+        public bool NoDefaultKeywords { get; set; }
         public string DateTimeFormatString { get; set; } = "dd/MM/yyyy hh:mm:ss";
         public string DateFormatString { get; set; } = "dd/MM/yyyy";
         public string TimeFormatString { get; set; } = "hh:mm:ss";
         public string SurroundingChar { get; set; } = "$";
         public override string[] Prefix => new string[] { "kwr", "KWReplacer" };
-        public string[] Keywords { get; set; } = null;
+        public string[] Keywords { get; set; }
         private DateTime time;
         private Dictionary<string, string> _keywords
         {

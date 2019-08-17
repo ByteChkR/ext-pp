@@ -23,7 +23,10 @@ namespace ext_pp_base
         /// <returns></returns>
         public static string Unpack(this IEnumerable<object> arr, string separator)
         {
-            if (arr == null) return string.Empty;
+            if (arr == null)
+            {
+                return string.Empty;
+            }
             _sb.Clear();
             var enumerable = arr as object[] ?? arr.ToArray();
             for (var i = 0; i < enumerable.Count(); i++)

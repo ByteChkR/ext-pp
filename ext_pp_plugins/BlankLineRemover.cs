@@ -10,24 +10,22 @@ namespace ext_pp_plugins
         public override PluginType PluginType => (Order.ToLower() == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE);
         public override ProcessStage ProcessStages => Stage.ToLower() == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
 
-        public string Order = "after";
-        public string Stage = "onfinishup";
-        public string BlankLineRemovalKeyword = "###remove###";
+        public string Order { get; set; } = "after";
+        public string Stage { get; set; } = "onfinishup";
+        public string BlankLineRemovalKeyword { get; set; } = "###remove###";
         public override string[] Prefix => new[] { "blr", "BLRemover" };
         public override string[] Cleanup => new[] { BlankLineRemovalKeyword };
 
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("set-removekeyword", "k", PropertyHelper.GetFieldInfo(typeof(BlankLineRemover), nameof(BlankLineRemovalKeyword)),
+            new CommandInfo("set-removekeyword", "k", PropertyHelper.GetPropertyInfo(typeof(BlankLineRemover), nameof(BlankLineRemovalKeyword)),
                 "This will get inserted whenever a blank line is detected. This will be removed in the native cleanup of the PreProcessor"),
-            new CommandInfo("set-order", "o", PropertyHelper.GetFieldInfo(typeof(BlankLineRemover), nameof(Order)),
+            new CommandInfo("set-order", "o", PropertyHelper.GetPropertyInfo(typeof(BlankLineRemover), nameof(Order)),
                 "Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
-            new CommandInfo("set-stage","ss", PropertyHelper.GetFieldInfo(typeof(BlankLineRemover), nameof(Stage)),
+            new CommandInfo("set-stage","ss", PropertyHelper.GetPropertyInfo(typeof(BlankLineRemover), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
         };
-
-
 
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)

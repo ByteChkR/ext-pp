@@ -10,16 +10,16 @@ namespace ext_pp_plugins
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => Stage.ToLower()=="onload" ?  ProcessStage.ON_LOAD_STAGE: ProcessStage.ON_MAIN;
 
-        public string Stage = "onload";
-        public string MultiLineKeyword = "__";
+        public string Stage { get; set; } = "onload";
+        public string MultiLineKeyword { get; set; } = "__";
         public override string[] Prefix => new string[] { "mlp", "MultiLine" };
 
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(MultiLinePlugin), nameof(Stage)),
+            new CommandInfo("set-stage", "ss", PropertyHelper.GetPropertyInfo(typeof(MultiLinePlugin), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
-            new CommandInfo("set-mlkeyword", "mlk", PropertyHelper.GetFieldInfo(typeof(MultiLinePlugin), nameof(MultiLineKeyword)),
+            new CommandInfo("set-mlkeyword", "mlk", PropertyHelper.GetPropertyInfo(typeof(MultiLinePlugin), nameof(MultiLineKeyword)),
                 "Sets the keyword that is used to detect when to lines should be merged. The line containing the keyword will be merges with the next line in the file"),
         };
 

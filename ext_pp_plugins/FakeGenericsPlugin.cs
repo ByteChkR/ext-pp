@@ -12,16 +12,17 @@ namespace ext_pp_plugins
         public override string[] Prefix => new string[] { "gen", "FakeGen" };
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => Stage.ToLower()=="onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
-        public string Stage = "onmain";
-        public string GenericKeyword = "#type";
-        public string Separator = " ";
+        public string Stage { get; set; } = "onmain";
+        public string GenericKeyword { get; set; } = "#type";
+        public string Separator { get; set; } = " ";
+
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("set-genkeyword","g", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
+            new CommandInfo("set-genkeyword","g", PropertyHelper.GetPropertyInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
                 "Sets the keyword that is used when writing pseudo generic code."),
-            new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Separator)),
+            new CommandInfo("set-separator", "s", PropertyHelper.GetPropertyInfo(typeof(FakeGenericsPlugin), nameof(Separator)),
                 "Sets the separator that is used to separate different generic types"),
-            new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Stage)),
+            new CommandInfo("set-stage", "ss", PropertyHelper.GetPropertyInfo(typeof(FakeGenericsPlugin), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
         };
 

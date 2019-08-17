@@ -108,7 +108,7 @@ namespace ext_pp_base.settings
         /// <param name="argBegin"></param>
         /// <param name="includeShared"></param>
         /// <returns></returns>
-        private Settings getSettingsWithPrefix(string prefix, string argBegin, bool includeShared = false)
+        private Settings GetSettingsWithPrefix(string prefix, string argBegin, bool includeShared = false)
         {
             string prfx = argBegin + prefix + ":";
             bool isGlob;
@@ -136,8 +136,8 @@ namespace ext_pp_base.settings
         /// <returns></returns>
         public Settings GetSettingsWithPrefix(string prefix, bool includeShared = false)
         {
-            Settings s = getSettingsWithPrefix(prefix, "--", includeShared);
-            s = s.Merge(getSettingsWithPrefix(prefix, "-", includeShared));
+            Settings s = GetSettingsWithPrefix(prefix, "--", includeShared);
+            s = s.Merge(GetSettingsWithPrefix(prefix, "-", includeShared));
             return s;
 
         }
@@ -161,8 +161,8 @@ namespace ext_pp_base.settings
         {
             foreach (var commandInfo in infos)
             {
-                if (commandInfo.Field.FieldType.IsArray) ApplySettingArray(commandInfo, obj);
-                else ApplySettingFirst(commandInfo.Field.FieldType, commandInfo, obj);
+                if (commandInfo.Field.PropertyType.IsArray) ApplySettingArray(commandInfo, obj);
+                else ApplySettingFirst(commandInfo.Field.PropertyType, commandInfo, obj);
             }
         }
 
@@ -196,9 +196,9 @@ namespace ext_pp_base.settings
         {
             string[] cmdVal = FindCommandValue(info);
             if (cmdVal == null) return;
-            string[] val = Utils.ParseArray(info.Field.FieldType.IsArray ?
-                info.Field.FieldType.GetElementType() :
-                info.Field.FieldType,
+            string[] val = Utils.ParseArray(info.Field.PropertyType.IsArray ?
+                info.Field.PropertyType.GetElementType() :
+                info.Field.PropertyType,
                 cmdVal, info.DefaultIfNotSpecified)
                 .OfType<string>().ToArray();
             info.Field.SetValue(obj, val);

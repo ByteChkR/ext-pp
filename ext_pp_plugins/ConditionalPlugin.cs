@@ -18,48 +18,48 @@ namespace ext_pp_plugins
         public override string[] Prefix => new string[] { "con", "Conditional" };
         public override ProcessStage ProcessStages => Stage.ToLower() == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
-        public string StartCondition = "#if";
-        public string ElseIfCondition = "#elseif";
-        public string ElseCondition = "#else";
-        public string EndCondition = "#endif";
-        public string UndefineKeyword = "#undefine";
-        public string DefineKeyword = "#define";
-        public string OrOperator = "||";
-        public string NotOperator = "!";
-        public string AndOperator = "&&";
-        public string Separator = " ";
-        public bool EnableDefine = true;
-        public bool EnableUndefine = true;
-        public string Stage = "onload";
+        public string StartCondition { get; set; } = "#if";
+        public string ElseIfCondition { get; set; } = "#elseif";
+        public string ElseCondition { get; set; } = "#else";
+        public string EndCondition { get; set; } = "#endif";
+        public string UndefineKeyword { get; set; } = "#undefine";
+        public string DefineKeyword { get; set; } = "#define";
+        public string OrOperator { get; set; } = "||";
+        public string NotOperator { get; set; } = "!";
+        public string AndOperator { get; set; } = "&&";
+        public string Separator { get; set; } = " ";
+        public bool EnableDefine { get; set; } = true;
+        public bool EnableUndefine { get; set; } = true;
+        public string Stage { get; set; } = "onload";
 
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("set-define", "d", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)),
+            new CommandInfo("set-define", "d", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)),
                 "Sets the keyword that is used to define variables during the compilation."),
-            new CommandInfo("set-undefine", "u", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword)),
+            new CommandInfo("set-undefine", "u", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword)),
                 "Sets the keyword that is used to undefine previously defined variables during the compilation."),
-            new CommandInfo("set-if","if", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(StartCondition)),
+            new CommandInfo("set-if","if", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(StartCondition)),
                 "Sets the keyword that is used to start a new condition block."),
-            new CommandInfo("set-elseif","elif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseIfCondition)),
+            new CommandInfo("set-elseif","elif", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(ElseIfCondition)),
                 "Sets the keyword that is used to continue a previously started condition block with another condition block."),
-            new CommandInfo("set-else", "else", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseCondition)),
+            new CommandInfo("set-else", "else", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(ElseCondition)),
             "Sets the keyword that is used to start a new condition block that is taken when the previous blocks evaluated to false."),
-            new CommandInfo("set-endif", "eif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EndCondition)),
+            new CommandInfo("set-endif", "eif", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EndCondition)),
                 "Sets the keyword that is used to end a previously started condition block."),
-            new CommandInfo("set-not","n", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(NotOperator)),
+            new CommandInfo("set-not","n", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(NotOperator)),
                 "Sets the keyword that is used to negate an expression in if conditions."),
-            new CommandInfo("set-and","a", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(AndOperator)),
+            new CommandInfo("set-and","a", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(AndOperator)),
                 "Sets the keyword for the logical AND operator"),
-            new CommandInfo("set-or","o", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
+            new CommandInfo("set-or","o", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
                 "Sets the keyword for the logical OR operator"),
-            new CommandInfo("enable-define", "eD", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableDefine)),
+            new CommandInfo("enable-define", "eD", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EnableDefine)),
                 "Enables/Disables the detection of define statements(defines can still be set via the defines object/the command line)"),
-            new CommandInfo("enable-undefine","eU", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableUndefine)),
+            new CommandInfo("enable-undefine","eU", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EnableUndefine)),
                 "Enables/Disables the detection of undefine statements"),
-            new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(Stage)),
+            new CommandInfo("set-stage", "ss", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
-            new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(Separator)),
+            new CommandInfo("set-separator", "s", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(Separator)),
                 "Sets the separator that is used to separate different generic types"),
         };
 

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace ext_pp_base
 {
@@ -10,25 +12,28 @@ namespace ext_pp_base
     public struct CommandMetaData
     {
 
-
-        public string HelpText { get; }
+        [XmlElement]
+        public string HelpText { get; set; }
 
         /// <summary>
         /// The shortcut for the command
         /// Can be accessed with -
         /// </summary>
-        public string ShortCut { get; }
+        [XmlElement]
+        public string ShortCut { get; set; }
 
         /// <summary>
         /// If this parameter can be set by a global prefix
         /// </summary>
-        public bool IncludeGlobal { get; }
+        [XmlElement]
+        public bool IncludeGlobal { get; set; }
 
         /// <summary>
         /// The command.
         /// Can be accessed with --
         /// </summary>
-        public string Command { get; }
+        [XmlElement]
+        public string Command { get; set; }
 
         /// <summary>
         /// Constructor
@@ -83,7 +88,7 @@ namespace ext_pp_base
         /// <summary>
         /// The field that will be set with reflection
         /// </summary>
-        public readonly FieldInfo Field;
+        public readonly PropertyInfo Field;
         /// <summary>
         /// Wrapper to separate serializable info from the command info.
         /// </summary>
@@ -102,12 +107,13 @@ namespace ext_pp_base
         /// <param name="helpText"></param>
         /// <param name="defaultIfNotSpecified"></param>
         /// <param name="global"></param>
-        public CommandInfo(string command, string shortcut, FieldInfo field, string helpText, object defaultIfNotSpecified = null, bool global = false)
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText, object defaultIfNotSpecified = null, bool global = false)
         {
             Field = field;
             Meta = new CommandMetaData(command, shortcut, helpText, global);
             DefaultIfNotSpecified = defaultIfNotSpecified;
         }
+        
 
         /// <summary>
         /// Writes the information as readable text.

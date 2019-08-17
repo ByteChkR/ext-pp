@@ -77,7 +77,9 @@ namespace ext_pp
         private static bool ComputeFileNameAndKey_Default(string[] vars, string currentPath, out string filePath, out string key, out Dictionary<string, object> pluginCache)
         {
             pluginCache = new Dictionary<string, object>();
-            filePath = key = "";
+            filePath = "";
+            key = "";
+            
             if (vars.Length == 0) return false;
             string dir = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(currentPath);

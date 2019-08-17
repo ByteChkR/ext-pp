@@ -12,17 +12,17 @@ namespace ext_pp_plugins
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => ProcessStage.ON_MAIN;
         public override string[] Prefix => new string[] { "inc" ,"Include"};
-        public string IncludeKeyword = "#include";
-        public string IncludeInlineKeyword = "#includeinl";
-        public string Separator = " ";
+        public string IncludeKeyword { get; set; } = "#include";
+        public string IncludeInlineKeyword { get; set; } = "#includeinl";
+        public string Separator { get; set; } = " ";
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("set-include", "i", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(IncludeKeyword)),
+            new CommandInfo("set-include", "i", PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(IncludeKeyword)),
                 "Sets the keyword that is used to include other files into the build process."),
-            new CommandInfo("set-include-inline", "ii", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(IncludeInlineKeyword)),
+            new CommandInfo("set-include-inline", "ii", PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(IncludeInlineKeyword)),
                 "Sets the keyword that is used to insert other files directly into the current file"),
-            new CommandInfo("set-separator","s", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(Separator)),
+            new CommandInfo("set-separator","s", PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(Separator)),
                 "Sets the separator that is used to separate the include statement from the filepath"),
             };
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)

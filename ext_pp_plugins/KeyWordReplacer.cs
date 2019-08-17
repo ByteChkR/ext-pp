@@ -10,15 +10,15 @@ namespace ext_pp_plugins
         public override PluginType PluginType => (Order.ToLower() == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE);
         public override ProcessStage ProcessStages => Stage.ToLower() == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
 
-        public string Order = "after";
-        public string Stage = "onfinishup";
-        public bool NoDefaultKeywords = false;
-        public string DateTimeFormatString = "dd/MM/yyyy hh:mm:ss";
-        public string DateFormatString = "dd/MM/yyyy";
-        public string TimeFormatString = "hh:mm:ss";
-        public string SurroundingChar = "$";
+        public string Order { get; set; } = "after";
+        public string Stage { get; set; } = "onfinishup";
+        public bool NoDefaultKeywords { get; set; } = false;
+        public string DateTimeFormatString { get; set; } = "dd/MM/yyyy hh:mm:ss";
+        public string DateFormatString { get; set; } = "dd/MM/yyyy";
+        public string TimeFormatString { get; set; } = "hh:mm:ss";
+        public string SurroundingChar { get; set; } = "$";
         public override string[] Prefix => new string[] { "kwr", "KWReplacer" };
-        public string[] Keywords = null;
+        public string[] Keywords { get; set; } = null;
         private DateTime time;
         private Dictionary<string, string> _keywords
         {
@@ -47,21 +47,21 @@ namespace ext_pp_plugins
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("set-order", "o", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(Order)),
+            new CommandInfo("set-order", "o", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(Order)),
                 "Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
-            new CommandInfo("set-stage","ss", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(Stage)),
+            new CommandInfo("set-stage","ss", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
-            new CommandInfo("no-defaultkeywords","nod", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(NoDefaultKeywords)),
+            new CommandInfo("no-defaultkeywords","nod", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(NoDefaultKeywords)),
                 "Disables $TIME$, $DATE$ and $DATE_TIME$"),
-            new CommandInfo("set-dtformat","dtf", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(DateTimeFormatString)),
+            new CommandInfo("set-dtformat","dtf", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(DateTimeFormatString)),
                 "Sets the datetime format string used when setting the default variables"),
-            new CommandInfo("set-tformat", "tf", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(TimeFormatString)),
+            new CommandInfo("set-tformat", "tf", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(TimeFormatString)),
                 "Sets the time format string used when setting the default variables"),
-            new CommandInfo("set-dformat", "df", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(DateFormatString)),
+            new CommandInfo("set-dformat", "df", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(DateFormatString)),
                 "Sets the date format string used when setting the default variables"),
-            new CommandInfo("set-surrkeyword","sc", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(DateFormatString)),
+            new CommandInfo("set-surrkeyword","sc", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(SurroundingChar)),
                 "Sets the Surrounding char that escapes the variable names"),
-            new CommandInfo("set-kwdata","kwd", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(Keywords)),
+            new CommandInfo("set-kwdata","kwd", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(Keywords)),
                 "Sets the Keywords that need to be replaced with values. <keyword>:<value>"),
 
         };

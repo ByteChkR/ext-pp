@@ -133,10 +133,10 @@ namespace ext_pp
         public bool Load()
         {
 
-            bool ret;
-            if (!(ret = LoadSource()))
+            bool ret = LoadSource();
+            if (!ret)
             {
-                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}" , _filepath);
+                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}", _filepath);
 
             }
 

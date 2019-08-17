@@ -46,46 +46,46 @@ namespace ext_pp_cli
         /// </summary>
         private List<CommandInfo> Info => new List<CommandInfo>()
         {
-            new CommandInfo("input", "i", PropertyHelper<CLI>.GetFieldInfo(x=>x.Input),
+            new CommandInfo("input", "i", PropertyHelper<CLI>.GetPropertyInfo(x=>x.Input),
                 "--input filepath,filepath filepath,filepath\r\n\t, separated = the same compilation\r\n\t[space] separated means gets queued after the compilation of the first one"),
-            new CommandInfo("output", "o", PropertyHelper<CLI>.GetFieldInfo(x=>x.Output),
+            new CommandInfo("output", "o", PropertyHelper<CLI>.GetPropertyInfo(x=>x.Output),
                 "--output filepath filepath filepath\r\n\t[space] separated list of output files."),
-            new CommandInfo("defines", "d", PropertyHelper<CLI>.GetFieldInfo(x=>x.DefinesParams),
+            new CommandInfo("defines", "d", PropertyHelper<CLI>.GetPropertyInfo(x=>x.DefinesParams),
                 "--defines <vars>\r\n\t, [space] separated list of predefines values"),
-            new CommandInfo("chain", "c", PropertyHelper<CLI>.GetFieldInfo(x=>x.ChainParams),
+            new CommandInfo("chain", "c", PropertyHelper<CLI>.GetPropertyInfo(x=>x.ChainParams),
                 "--chain [filepath]\r\n\t, separated list of plugins\r\n\t\t[filepath]:pluginname => loads a plugin by assembly name\r\n\t\t[filepath]:prefix => loads a plugin with prefix\r\n\t\t[filepath]:(collection) => loads a list(chain) of plugins from an IChainCollection with the specified name\r\n\t\tthe plugins in the /plugin folder can be directly accessed by using the prefix instead of the lines above"),
-            new CommandInfo("log-to-file", "l2f",PropertyHelper<CLI>.GetFieldInfo(x=>x.LogToFileParams),
+            new CommandInfo("log-to-file", "l2f",PropertyHelper<CLI>.GetPropertyInfo(x=>x.LogToFileParams),
                 "--log-to-file <file> <settings>\r\n\tCreates a log file with the settings\r\n\t\t<mask>:<timestamp>\r\n\t\tdefault: all:true"),
-            new CommandInfo("write-to-console", "w2c", PropertyHelper<CLI>.GetFieldInfo(x=>x.OutputToConsole),
+            new CommandInfo("write-to-console", "w2c", PropertyHelper<CLI>.GetPropertyInfo(x=>x.OutputToConsole),
                 "--write2console [bool]\r\n\tWrites the result into the cout stream\r\n\tSets the verbosity to silent if not specified otherwise"),
-            new CommandInfo("verbosity", "v", PropertyHelper<CLI>.GetFieldInfo(x=>x.DebugLvl),
+            new CommandInfo("verbosity", "v", PropertyHelper<CLI>.GetPropertyInfo(x=>x.DebugLvl),
                 "--verbosity <int>\r\n\tSets the debug output granularity"),
-            new CommandInfo("version", "vv", PropertyHelper<CLI>.GetFieldInfo(x=>x.ShowVersion),
+            new CommandInfo("version", "vv", PropertyHelper<CLI>.GetPropertyInfo(x=>x.ShowVersion),
             "--version\r\n\tdisplays the current version"),
-            new CommandInfo("no-chain-collection", "nc", PropertyHelper<CLI>.GetFieldInfo(x=>x.NoCollections),
+            new CommandInfo("no-chain-collection", "nc", PropertyHelper<CLI>.GetPropertyInfo(x=>x.NoCollections),
                 "The CLI will not search for a ChainCollection in the specified assembly"),
-            new CommandInfo("help", "h", PropertyHelper<CLI>.GetFieldInfo(x=>x.HelpParams),
+            new CommandInfo("help", "h", PropertyHelper<CLI>.GetPropertyInfo(x=>x.HelpParams),
                 "	\t--help <chainstr>\r\n\t\tlists the commands of the CLI or with supplied chain, it will display the help info of each plugin."),
-            new CommandInfo("help-all", "hh", PropertyHelper<CLI>.GetFieldInfo(x=>x.HelpAllParams),
+            new CommandInfo("help-all", "hh", PropertyHelper<CLI>.GetPropertyInfo(x=>x.HelpAllParams),
                 "	\t--help-all <chainstr>\r\n\t\tlists the commands of the CLI or with supplied chain, it will display the help info of each plugin."),
-            new CommandInfo("pm-refresh", "pm-r", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginRefresh),
+            new CommandInfo("pm-refresh", "pm-r", PropertyHelper<CLI>.GetPropertyInfo(x=>x.PluginRefresh),
                 "--pm-refresh\r\n\t\tRefreshes the Plugin Manager."),
-            new CommandInfo("pm-add", "pm-a", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginAdd),
+            new CommandInfo("pm-add", "pm-a", PropertyHelper<CLI>.GetPropertyInfo(x=>x.PluginAdd),
                 "--pm-add <folder>\r\n\t\tAdds a folder with plugins to the Plugin Manager. All pluins in that folder can be referenced by their prefixes when specifies in --chain or --help"),
-            new CommandInfo("pm-list-dir", "pm-ld", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginListDirs),
+            new CommandInfo("pm-list-dir", "pm-ld", PropertyHelper<CLI>.GetPropertyInfo(x=>x.PluginListDirs),
                 "--pm-list-dir\r\n\t\tLists all Included dictionaries in Plugin Manager"),
-            new CommandInfo("pm-list-file", "pm-lf", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginListIncs),
+            new CommandInfo("pm-list-file", "pm-lf", PropertyHelper<CLI>.GetPropertyInfo(x=>x.PluginListIncs),
                 "--pm-list-file\r\n\t\tLists all Included and Cached Files in Plugin Manager" ),
-            new CommandInfo("pm-list-manual-files", "pm-lmf", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginListManIncs),
+            new CommandInfo("pm-list-manual-files", "pm-lmf", PropertyHelper<CLI>.GetPropertyInfo(x=>x.PluginListManIncs),
                 "--pm-list-manual-files\r\n\t\tLists all Manually Included and Cached Files in Plugin Manager" ),
-            new CommandInfo("pm-list-all", "pm-la", PropertyHelper<CLI>.GetFieldInfo(x=>x.PluginListAll),
+            new CommandInfo("pm-list-all", "pm-la", PropertyHelper<CLI>.GetPropertyInfo(x=>x.PluginListAll),
                 "--pm-list-all\r\n\t\tLists all Cached data."),
         };
 
         /// <summary>
         /// Contains the Parameters for the -l2f and --logToFile commands.
         /// </summary>
-        public string[] LogToFileParams { get; } = null;
+        public string[] LogToFileParams { get; set; } = null;
 
         /// <summary>
         /// A flag that is used to determine if the log2file flag was set.
@@ -95,82 +95,82 @@ namespace ext_pp_cli
         /// <summary>
         /// Flag to output the result to the console.
         /// </summary>
-        public bool OutputToConsole { get; } = false;
+        public bool OutputToConsole { get; set; } = false;
 
         /// <summary>
         /// The input files
         /// </summary>
-        public string[] Input { get; } = new string[0];
+        public string[] Input { get; set; } = new string[0];
 
         /// <summary>
         /// The output files.
         /// </summary>
-        public string[] Output { get; } = new string[0];
+        public string[] Output { get; set; } = new string[0];
 
         /// <summary>
         /// Predefined definitions from --defines and -defs
         /// </summary>
-        public string[] DefinesParams { get; } = null;
+        public string[] DefinesParams { get; set; } = null;
 
         /// <summary>
         /// Forces the cli to ignore collections.
         /// </summary>
-        public bool NoCollections { get; } = false;
+        public bool NoCollections { get; set; } = false;
 
         /// <summary>
         /// Contains the parameters for the plugin chain
         /// </summary>
-        public string[] ChainParams { get; } = null;
+        public string[] ChainParams { get; set; } = null;
 
         /// <summary>
         /// Contains the parameters for the help parameter
         /// </summary>
-        public string[] HelpParams { get; } = null;
+        public string[] HelpParams { get; set; } = null;
 
         /// <summary>
         /// Contains the parameters for the help all parameter
         /// </summary>
-        public string[] HelpAllParams { get; } = null;
+        public string[] HelpAllParams { get; set; } = null;
 
         /// <summary>
         /// Debug level of the process.
         /// </summary>
-        public Verbosity DebugLvl { get; } = Verbosity.LEVEL1;
+        public Verbosity DebugLvl { get; set; } = Verbosity.LEVEL1;
 
         /// <summary>
         /// Show the version at the start and exit.
         /// </summary>
-        public bool ShowVersion { get; } = false;
+        public bool ShowVersion { get; set; } = false;
 
         /// <summary>
         /// parameter for the --pm-add and -pm-a commands.
         /// </summary>
-        public string[] PluginAdd { get; } = null;
+        public string[] PluginAdd { get; set; } = null;
 
         /// <summary>
         /// Flag if the settings contain the -pm-r/--pm-refresh command
         /// </summary>
-        public bool PluginRefresh { get; } = false;
+        public bool PluginRefresh { get; set; } = false;
 
         /// <summary>
         /// Flag if the settings contain the -pm-ld/--pm-list-dirr command
         /// </summary>
-        public bool PluginListDirs { get; } = false;
+        public bool PluginListDirs { get; set; } = false;
 
         /// <summary>
         /// Flag if the settings contain the -pm-lf/--pm-list-file command
         /// </summary>
-        public bool PluginListIncs { get; } = false;
+        public bool PluginListIncs { get; set; } = false;
 
         /// <summary>
         /// Flag if the settings contain the -pm-lmf/--pm-list-manual-files command
         /// </summary>
-        public bool PluginListManIncs { get; } = false;
+        public bool PluginListManIncs { get; set; } = false;
 
         /// <summary>
         /// Flag if the settings contain the -pm-a/--pm-all command
         /// </summary>
-        public bool PluginListAll { get; } = false;
+        public bool PluginListAll { get; set; } = false;
 
         /// <summary>
         /// Definitions.

@@ -101,7 +101,7 @@ namespace ext_pp_plugins
         public override ProcessStage ProcessStages => ProcessStage.ON_LOAD_STAGE | ProcessStage.ON_MAIN;
 
         public override string[] Prefix => new string[] { "dbg" };
-        public string[] Breakpoints = null;
+        public string[] Breakpoints { get; set; } = null;
         private List<Breakpoint> _breakpoints = new List<Breakpoint>();
         private bool isBreaking = false;
         private int lineCount = 0;
@@ -109,7 +109,7 @@ namespace ext_pp_plugins
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
-            new CommandInfo("set-breakpoint", "bp", PropertyHelper.GetFieldInfo(typeof(CLIDebugger), nameof(Breakpoints)),
+            new CommandInfo("set-breakpoint", "bp", PropertyHelper.GetPropertyInfo(typeof(CLIDebugger), nameof(Breakpoints)),
                 "Sets the breakpoints for the session.\n" +
                 "Syntax: \nfile:<filepath> file:<filepath> file:<filepath>\n" +
                 "file:<filepath>:line:<line_nr>\n" +

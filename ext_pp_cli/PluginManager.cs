@@ -23,19 +23,26 @@ namespace ext_pp_cli
             /// <summary>
             /// All the prefixes used by the plugin
             /// </summary>
-            public string[] Prefixes;
+            [XmlElement]
+            public  string[] Prefixes { get; set; }
+
             /// <summary>
             /// Assembly Name
             /// </summary>
-            public string Name;
+            [XmlElement]
+            public  string Name { get; set; }
+
             /// <summary>
             /// Path of the library
             /// </summary>
-            public string Path;
+            [XmlElement]
+            public  string Path { get; set; }
+
             /// <summary>
             /// The Cached information about each command.
             /// </summary>
-            public CommandMetaData[] Data;
+            [XmlElement]
+            public  CommandMetaData[] Data { get; set; }
 
             /// <summary>
             /// Constructor
@@ -77,15 +84,18 @@ namespace ext_pp_cli
             /// <summary>
             /// The directories that will be automatically added when refreshed.
             /// </summary>
-            public List<string> IncludedDirectories;
+            public List<string> IncludedDirectories { get; set; }
+
             /// <summary>
             /// the included files that were included manually.
             /// </summary>
-            public List<string> IncludedFiles;
+            public List<string> IncludedFiles { get; set; }
+
             /// <summary>
             /// The cache of the plugin information.
             /// </summary>
-            public List<PluginInformation> Cache;
+            
+            public List<PluginInformation> Cache { get; set; }
         }
         /// <summary>
         /// Directory of the ext_pp_cli.dll library

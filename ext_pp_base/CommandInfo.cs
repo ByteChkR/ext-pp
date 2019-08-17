@@ -9,7 +9,7 @@ namespace ext_pp_base
     /// A Struct that contains all the information about the plugin
     /// </summary>
     [Serializable]
-    public struct CommandMetaData
+    public class CommandMetaData
     {
 
         [XmlElement]
@@ -64,7 +64,7 @@ namespace ext_pp_base
     /// <summary>
     /// A struct that is used to define custom commands.
     /// </summary>
-    public struct CommandInfo
+    public class CommandInfo
     {
         /// <summary>
         /// The help text of the command

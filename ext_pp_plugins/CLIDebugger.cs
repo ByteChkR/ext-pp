@@ -8,7 +8,7 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    struct Breakpoint
+    class Breakpoint
     {
         private int line;
         private string filename;

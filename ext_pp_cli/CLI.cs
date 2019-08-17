@@ -916,19 +916,21 @@ namespace ext_pp_cli
             for (int i = 0; i < max; i++)
             {
                 int paramMax = r.Next(1, maxParams);
-                string gens = " ";
+                StringBuilder gens = new StringBuilder();
+
+                gens.Append(' ');
                 for (int j = 0; j < paramMax; j++)
                 {
                     if (r.Next(0, 2) == 0)
                     {
-                        gens += "#type" + i + " ";
+                        gens.AppendFormat("#type{0} ", i);
                     }
                     else
                     {
-                        gens += GenerateRandomData(1, 15)[0] + " ";
+                        gens.AppendFormat("{0} ", GenerateRandomData(1, 15)[0]);
                     }
                 }
-                StringBuilder sb=new StringBuilder();
+                StringBuilder sb = new StringBuilder();
                 sb.Append("#include ");
                 sb.Append(file);
                 sb.Append(r.Next(0, maxNr));

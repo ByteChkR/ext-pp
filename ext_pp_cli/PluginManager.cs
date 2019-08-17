@@ -18,7 +18,7 @@ namespace ext_pp_cli
         /// Basic information about the plugin
         /// </summary>
         [Serializable]
-        public struct PluginInformation
+        public class PluginInformation
         {
             /// <summary>
             /// All the prefixes used by the plugin
@@ -84,7 +84,7 @@ namespace ext_pp_cli
         /// gets cached to disk.
         /// </summary>
         [Serializable]
-        public struct PluginManagerDatabase
+        public class PluginManagerDatabase
         {
             /// <summary>
             /// The directories that will be automatically added when refreshed.

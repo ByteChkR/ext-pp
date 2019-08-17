@@ -262,7 +262,10 @@ namespace ext_pp_base
                 return Int32.Parse(input);
             }
 
-            if (!enu.IsEnum) return defaul;
+            if (!enu.IsEnum)
+            {
+                return defaul;
+            }
 
             int ret = -1;
 

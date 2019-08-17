@@ -61,7 +61,7 @@ namespace ext_pp
         /// <param name="settings"></param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string[] files, Settings settings = null, IDefinitions defs = null)
+        public string[] Compile(string[] files, Settings settings, IDefinitions defs)
         {
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Pre Processor...");
@@ -77,7 +77,7 @@ namespace ext_pp
         /// <param name="settings"></param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string[] files,  IDefinitions defs)
+        public string[] Compile(string[] files, IDefinitions defs)
         {
 
             return Compile(files, null, defs);

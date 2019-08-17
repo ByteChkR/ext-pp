@@ -23,17 +23,17 @@ namespace ext_pp_plugins
 
         public override string OnFinishUp_LineStage(string source)
         {
-            return base.OnFinishUp_LineStage(source);
+            return LineStage(source);
         }
 
         public override string OnLoad_LineStage(string source)
         {
-            return base.OnLoad_LineStage(source);
+            return LineStage(source);
         }
 
         public override string OnMain_LineStage(string source)
         {
-            return base.OnMain_LineStage(source);
+            return LineStage(source);
         }
 
         private static string LineStage(string source)

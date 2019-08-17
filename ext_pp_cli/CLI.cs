@@ -807,19 +807,7 @@ namespace ext_pp_cli
             for (int j = 0; j < max; j++)
             {
                 int exprType = r.Next(0, 4 + chanceToRecurse);
-                if (exprType == 0)
-                {
-                    expr += defName + r.Next(0, maxDefNr);
-                }
-                else if (exprType == 1)
-                {
-                    expr += defName + r.Next(0, maxDefNr);
-                }
-                else if (exprType == 2)
-                {
-                    expr += defName + r.Next(0, maxDefNr);
-                }
-                else if (exprType == 3)
+                if (exprType >= 0 && exprType<=3)
                 {
                     expr += defName + r.Next(0, maxDefNr);
                 }

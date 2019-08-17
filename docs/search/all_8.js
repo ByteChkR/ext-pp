@@ -1,12 +1,8 @@
 var searchData=
 [
-  ['idefinitions',['IDefinitions',['../interfaceext__pp__base_1_1_i_definitions.html',1,'ext_pp_base']]],
-  ['includeplugin',['IncludePlugin',['../classext__pp__plugins_1_1_include_plugin.html',1,'ext_pp_plugins']]],
-  ['indexoffile',['IndexOfFile',['../classext__pp_1_1_source_manager.html#a88ead596aa2aaca262f91b21b0da739c',1,'ext_pp.SourceManager.IndexOfFile()'],['../interfaceext__pp__base_1_1_i_source_manager.html#affa1a52026c3ee6decda62d2ae7ba488',1,'ext_pp_base.ISourceManager.IndexOfFile()']]],
-  ['initialize',['Initialize',['../interfaceext__pp__base_1_1_i_plugin.html#a3d79bd1d38cbd52b8c2a6b88abf40dcc',1,'ext_pp_base.IPlugin.Initialize()'],['../classext__pp__plugins_1_1_conditional_plugin.html#ad27f732757c014f5299e96c1d30ff47a',1,'ext_pp_plugins.ConditionalPlugin.Initialize()'],['../classext__pp__plugins_1_1_error_plugin.html#a71757fb81de74b9d5c27f2d7513f456b',1,'ext_pp_plugins.ErrorPlugin.Initialize()'],['../classext__pp__plugins_1_1_fake_generics_plugin.html#a8de8e203e8502457cd3be0e7c50599ad',1,'ext_pp_plugins.FakeGenericsPlugin.Initialize()'],['../classext__pp__plugins_1_1_include_plugin.html#ab2ca93fc8cee3158557f1f27459e87e1',1,'ext_pp_plugins.IncludePlugin.Initialize()'],['../classext__pp__plugins_1_1_warning_plugin.html#a2a15c9a267353b668702babf698a1422',1,'ext_pp_plugins.WarningPlugin.Initialize()']]],
-  ['initializeplugins',['InitializePlugins',['../classext__pp_1_1_pre_processor.html#acf8ce33efb3609b5a8be7117f12c004b',1,'ext_pp::PreProcessor']]],
-  ['iplugin',['IPlugin',['../interfaceext__pp__base_1_1_i_plugin.html',1,'ext_pp_base']]],
-  ['isincluded',['IsIncluded',['../classext__pp_1_1_source_manager.html#a554b3715bc95d8adb0e9a23aea72d943',1,'ext_pp.SourceManager.IsIncluded()'],['../interfaceext__pp__base_1_1_i_source_manager.html#a564e403df268a57f88c9742210429e99',1,'ext_pp_base.ISourceManager.IsIncluded()']]],
-  ['isourcemanager',['ISourceManager',['../interfaceext__pp__base_1_1_i_source_manager.html',1,'ext_pp_base']]],
-  ['isourcescript',['ISourceScript',['../interfaceext__pp__base_1_1_i_source_script.html',1,'ext_pp_base']]]
+  ['haskey',['HasKey',['../classext__pp__base_1_1settings_1_1_settings.html#a98712987439459e435e570fa2bdb0f21',1,'ext_pp_base::settings::Settings']]],
+  ['hasvalueoftype_3c_20t_20_3e',['HasValueOfType&lt; T &gt;',['../interfaceext__pp__base_1_1_i_source_script.html#a40735ff0b6f7770ff862f9b0349b19ad',1,'ext_pp_base::ISourceScript']]],
+  ['helpallparams',['HelpAllParams',['../classext__pp__cli_1_1_c_l_i.html#aebb38114f919314c999123cfddcca3b0',1,'ext_pp_cli::CLI']]],
+  ['helpparams',['HelpParams',['../classext__pp__cli_1_1_c_l_i.html#a39ca3e5173fdd11ad3c7564e9ec428df',1,'ext_pp_cli::CLI']]],
+  ['helptext',['HelpText',['../classext__pp__cli_1_1_c_l_i.html#a2a11f572b5b7633728fdfdc2f7be036f',1,'ext_pp_cli.CLI.HelpText()'],['../structext__pp__base_1_1_command_meta_data.html#a8c6e967a057c6fc6ff27b74890992ef9',1,'ext_pp_base.CommandMetaData.HelpText()'],['../structext__pp__base_1_1_command_info.html#aa4755887b8fae9a9b358f2f629fd9c72',1,'ext_pp_base.CommandInfo.HelpText()']]]
 ];

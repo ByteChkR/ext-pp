@@ -18,9 +18,9 @@ namespace ext_pp_plugins
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
             new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(MultiLinePlugin), nameof(Stage)),
-                "set-stage [OnLoad|OnMain] *OnLoad*\r\n\t\t\tSets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+                "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
             new CommandInfo("set-mlkeyword", "mlk", PropertyHelper.GetFieldInfo(typeof(MultiLinePlugin), nameof(MultiLineKeyword)),
-                "set-mlkeyword [multipline keyword] *__*\r\n\t\t\tSets the keyword that is used to detect when to lines should be merged. The line containing the keyword will be merges with the next line in the file"),
+                "Sets the keyword that is used to detect when to lines should be merged. The line containing the keyword will be merges with the next line in the file"),
         };
 
 

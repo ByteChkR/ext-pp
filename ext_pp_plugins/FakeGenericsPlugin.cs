@@ -18,11 +18,11 @@ namespace ext_pp_plugins
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
             new CommandInfo("set-genkeyword","g", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
-                "set-genkeyword [generic keyword] *#type*\r\n\t\t\tSets the keyword that is used when writing pseudo generic code."),
+                "Sets the keyword that is used when writing pseudo generic code."),
             new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Separator)),
-                "set-separator [separator keyword] * *\r\n\t\t\tSets the separator that is used to separate different generic types"),
+                "Sets the separator that is used to separate different generic types"),
             new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Stage)),
-                "set-stage [OnLoad|OnMain] *OnMain*\r\n\t\t\tSets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+                "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
         };
 
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
@@ -69,20 +69,20 @@ namespace ext_pp_plugins
 
             string[] GenParams = file.GetValueFromCache<string[]>("genParams");
 
-            this.Log(DebugLevel.LOGS, "Discovering Generic Keywords...", Verbosity.LEVEL5);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Generic Keywords...");
             if (GenParams != null && GenParams.Length > 0)
             {
                 for (var i = GenParams.Length - 1; i >= 0; i--)
                 {
 
-                    this.Log(DebugLevel.LOGS, "Replacing Keyword " + GenericKeyword + i + " with " + GenParams[i] + " in file " + file.GetKey(), Verbosity.LEVEL6);
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Keyword {0}{1} with {2} in file {3}", GenericKeyword, i, GenParams[i], file.GetKey());
                     Utils.ReplaceKeyWord(file.GetSource(), GenParams[i],
                         GenericKeyword + i);
                 }
             }
 
 
-            this.Log(DebugLevel.LOGS, "Generic Keyword Replacement Finished", Verbosity.LEVEL5);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Generic Keyword Replacement Finished");
 
             return true;
         }

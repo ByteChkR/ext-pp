@@ -17,6 +17,9 @@ namespace ext_pp
         /// </summary>
         private string[] _source = null;
 
+        /// <summary>
+        /// Flag to check if the file was already loaded into memory
+        /// </summary>
         public bool IsSourceLoaded => _source != null;
 
         /// <summary>
@@ -133,7 +136,7 @@ namespace ext_pp
             bool ret;
             if (!(ret = LoadSource()))
             {
-                this.Log(DebugLevel.ERRORS, "Could not load file: " + _filepath, Verbosity.LEVEL1);
+                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}" , _filepath);
 
             }
 

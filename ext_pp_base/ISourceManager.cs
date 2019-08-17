@@ -4,8 +4,20 @@ using ext_pp_base.settings;
 
 namespace ext_pp_base
 {
+    /// <summary>
+    /// Defines the scheme on how the keys for identifying scripts get created.
+    /// </summary>
+    /// <param name="var"></param>
+    /// <param name="currentPath"></param>
+    /// <param name="filePath"></param>
+    /// <param name="key"></param>
+    /// <param name="pluginCache"></param>
+    /// <returns></returns>
     public delegate bool DelKeyComputingScheme(string[] var, string currentPath, out string filePath, out string key, out Dictionary<string, object> pluginCache);
     
+    /// <summary>
+    /// Interface that contains all methods for loading and managing source code.
+    /// </summary>
     public interface ISourceManager
     {
         /// <summary>

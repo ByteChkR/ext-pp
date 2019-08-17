@@ -20,13 +20,13 @@ namespace ext_pp_plugins
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
         {
             new CommandInfo("set-warning", "w", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(WarningKeyword)),
-                "set-warning [warning keyword] *#warning*\r\n\t\t\tSets the keyword that is used to trigger warnings during compilation"),
+                "sets the keyword that is used to trigger warnings during compilation"),
             new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Separator)),
-                "set-separator [separator keyword] * *\r\n\t\t\tSets the separator that is used to separate different generic types"),
+                "Sets the separator that is used to separate different generic types"),
             new CommandInfo("set-order","o", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Order)),
-                "set-order [Before|After] *After*\r\n\t\t\tSets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
+                "Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
             new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(WarningPlugin), nameof(Stage)),
-                "set-stage [OnLoad|OnFinishUp] *OnFinishUp*\r\n\t\t\tSets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+                "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
         };
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
@@ -64,7 +64,7 @@ namespace ext_pp_plugins
         {
             if (!Utils.IsStatement(source, WarningKeyword)) return source;
             string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
-            this.Log(DebugLevel.ERRORS, "Warning: " + err, Verbosity.LEVEL1);
+            this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Warning: {0}" , err);
             return "";
         }
 

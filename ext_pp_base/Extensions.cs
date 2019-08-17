@@ -1,28 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ext_pp_base
 {
+    /// <summary>
+    /// The Extension class contains a multitude of useful operations on arrays and strings.
+    /// </summary>
     public static class Extensions
     {
+        /// <summary>
+        /// String builder to be able to concat long arrays faster
+        /// </summary>
+        private static StringBuilder _sb = new StringBuilder();
+
         /// <summary>
         /// Concats the array into a string separated by the separator
         /// </summary>
         /// <param name="arr"></param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static string Unpack(this IEnumerable<string> arr, string separator)
+        public static string Unpack(this IEnumerable<object> arr, string separator)
         {
-            var s = "";
-            var enumerable = arr as string[] ?? arr.ToArray();
+            _sb.Clear();
+            var enumerable = arr as object[] ?? arr.ToArray();
             for (var i = 0; i < enumerable.Count(); i++)
             {
-                s += enumerable.ElementAt(i);
-                if (i < enumerable.Count() - 1) s += separator;
+                _sb.Append(enumerable.ElementAt(i));
+                if (i < enumerable.Count() - 1) _sb.Append(separator);
             }
 
-            return s;
+            return _sb.ToString();
         }
 
         /// <summary>
@@ -70,6 +79,11 @@ namespace ext_pp_base
         }
 
 
+        /// <summary>
+        /// Smart way to determine if a char sequence contains only digits
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static bool IsAllDigits(this string str)
         {
             if (string.IsNullOrEmpty(str)) return false;

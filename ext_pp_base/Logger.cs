@@ -18,28 +18,39 @@ namespace ext_pp_base
         /// <param name="mask"></param>
         /// <param name="message"></param>
         /// <param name="level"></param>
-        private static void Log(int mask, string message, Verbosity level)
+        private static void Log(int mask, Verbosity level, string format, params object[] objs)
         {
             if (level <= VerbosityLevel)
             {
-                ADL.Debug.Log(mask, message);
+                ADL.Debug.Log(mask, string.Format(format, objs));
             }
 
         }
+
         /// <summary>
         /// Logs a message in the specified Debug and VerbosityLevel
         /// </summary>
         /// <param name="mask"></param>
-        /// <param name="message"></param>
         /// <param name="level"></param>
-        private static void Log(DebugLevel mask, string message, Verbosity level)
+        /// <param name="format"></param>
+        /// <param name="objs"></param>
+        private static void Log(DebugLevel mask, Verbosity level, string format, params object[] objs)
         {
-            Log((int)mask, message, level);
+            Log((int)mask, level, format, objs);
         }
 
-        public static void Log(this ILoggable obj, DebugLevel mask, string message, Verbosity level)
+
+        /// <summary>
+        /// Extension of ILoggable. Is used to log "from" an object.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="mask"></param>
+        /// <param name="level"></param>
+        /// <param name="format"></param>
+        /// <param name="objs"></param>
+        public static void Log(this ILoggable obj, DebugLevel mask,Verbosity level, string format,  params object[] objs)
         {
-            Log(mask, "[" + obj.GetType().Name + "]" + message, level);
+            Log(mask, level, "[" + obj.GetType().Name + "]" + format, objs);
         }
 
 

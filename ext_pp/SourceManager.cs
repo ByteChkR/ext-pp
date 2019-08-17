@@ -30,14 +30,12 @@ namespace ext_pp
         /// </summary>
         private DelKeyComputingScheme _computeScheme;
 
-        private List<AbstractPlugin> _pluginChain;
         /// <summary>
         /// Empty Constructor
         /// Sets the compute scheme to the default(the file name)
         /// </summary>
         public SourceManager(List<AbstractPlugin> pluginChain)
         {
-            _pluginChain = pluginChain;
             SetComputingScheme(ComputeFileNameAndKey_Default);
         }
 
@@ -51,7 +49,7 @@ namespace ext_pp
         {
             if (scheme == null) return;
             _computeScheme = scheme;
-            this.Log(DebugLevel.LOGS, "Changed Computing Scheme to: " + scheme.Method.Name, Verbosity.LEVEL2);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Changed Computing Scheme to: {0}" , scheme.Method.Name);
         }
 
         public int GetTodoCount()
@@ -116,7 +114,7 @@ namespace ext_pp
         /// <param name="script"></param>
         public void FixOrder(ISourceScript script)
         {
-            this.Log(DebugLevel.LOGS, "Fixing Build Order of file: " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
+            this.Log(DebugLevel.LOGS , Verbosity.LEVEL3,"Fixing Build Order of file: {0}" , Path.GetFileName(script.GetFilePath()));
             int idx = IndexOfFile(script.GetKey());
             var a = _sources[idx];
             var ab = _doneState[idx];
@@ -146,7 +144,7 @@ namespace ext_pp
         {
             if (!IsIncluded(script))
             {
-                this.Log(DebugLevel.LOGS, "Adding Script to Todo List: " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Adding Script to Todo List: {0}" , Path.GetFileName(script.GetFilePath()));
                 AddFile(script, false);
                 _doneState.Add(ProcessStage.QUEUED);
             }
@@ -163,7 +161,7 @@ namespace ext_pp
             {
                 _doneState[IndexOfFile(script.GetKey())] = stage;
 
-                this.Log(DebugLevel.LOGS, "Finished Script: " + Path.GetFileName(script.GetFilePath()), Verbosity.LEVEL3);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Finished Script: {0}" , Path.GetFileName(script.GetFilePath()));
             }
         }
 
@@ -235,7 +233,7 @@ namespace ext_pp
             if (LockScriptCreation)
             {
                 script = null;
-                this.Log(DebugLevel.WARNINGS, "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?", Verbosity.LEVEL1);
+                this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
                 return false;
             }
 

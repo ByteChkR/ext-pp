@@ -173,14 +173,14 @@ namespace ext_pp
 
                 if (!(ss as SourceScript).IsSourceLoaded)
                 {
-                    RunStages(ProcessStage.ON_LOAD_STAGE, ss, sm, definitions);
+                    RunStages(this, ProcessStage.ON_LOAD_STAGE, ss, sm, definitions);
                 }
 
                 this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Remaining Files: {0}", sm.GetTodoCount());
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(ss.GetFilePath()));
                 //RUN MAIN
                 sm.SetLock(false);
-                RunStages(ProcessStage.ON_MAIN, ss, sm, definitions);
+                RunStages(this, ProcessStage.ON_MAIN, ss, sm, definitions);
                 sm.SetLock(true);
                 sm.SetState(ss, ProcessStage.ON_FINISH_UP);
                 ss = sm.NextItem;
@@ -193,7 +193,7 @@ namespace ext_pp
             foreach (var finishedScript in ret)
             {
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(finishedScript.GetFilePath()));
-                RunStages(ProcessStage.ON_FINISH_UP, finishedScript, sm, definitions);
+                RunStages(this, ProcessStage.ON_FINISH_UP, finishedScript, sm, definitions);
             }
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finished Processing Files.");
             return ret;
@@ -209,18 +209,18 @@ namespace ext_pp
         /// <param name="sourceManager"></param>
         /// <param name="defTable"></param>
         /// <returns></returns>
-        private bool RunStages(ProcessStage stage, ISourceScript script, ISourceManager sourceManager,
+        private static bool RunStages(PreProcessor pp, ProcessStage stage, ISourceScript script, ISourceManager sourceManager,
             IDefinitions defTable)
         {
-            if (!RunPluginStage(PluginType.LINE_PLUGIN_BEFORE, stage, script, sourceManager, defTable))
+            if (!pp.RunPluginStage(PluginType.LINE_PLUGIN_BEFORE, stage, script, sourceManager, defTable))
             {
                 return false;
             }
-            if (stage != ProcessStage.ON_FINISH_UP && !RunPluginStage(PluginType.FULL_SCRIPT_PLUGIN, stage, script, sourceManager, defTable))
+            if (stage != ProcessStage.ON_FINISH_UP && !pp.RunPluginStage(PluginType.FULL_SCRIPT_PLUGIN, stage, script, sourceManager, defTable))
             {
                 return false;
             }
-            if (!RunPluginStage(PluginType.LINE_PLUGIN_AFTER, stage, script, sourceManager, defTable))
+            if (!pp.RunPluginStage(PluginType.LINE_PLUGIN_AFTER, stage, script, sourceManager, defTable))
             {
                 return false;
             }
@@ -270,11 +270,10 @@ namespace ext_pp
         /// <param name="_lineStage"></param>
         /// <param name="stage"></param>
         /// <param name="source"></param>
-        private void RunLineStage(List<AbstractPlugin> _lineStage, ProcessStage stage, string[] source)
+        private static void RunLineStage(List<AbstractPlugin> _lineStage, ProcessStage stage, string[] source)
         {
             foreach (var abstractPlugin in _lineStage)
             {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Running Plugin: {0}: {1}", abstractPlugin, stage);
                 for (int i = 0; i < source.Length; i++)
                 {
                     if (stage == ProcessStage.ON_LOAD_STAGE)

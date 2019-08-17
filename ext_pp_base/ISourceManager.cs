@@ -9,7 +9,7 @@ namespace ext_pp_base
     public class ImportResult
     {
         private readonly Dictionary<string, object> _data = new Dictionary<string, object>();
-        private bool _result = false;
+        private bool _result;
         public void SetValue(string key, object value)
         {
             if (_data.ContainsKey(key))

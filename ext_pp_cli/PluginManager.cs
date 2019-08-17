@@ -252,7 +252,10 @@ namespace ext_pp_cli
             else
             {
                 string fullpath = Path.GetFullPath(file);
-                if (info.Cache.Count(x => x.Path == fullpath) != 0) return;
+                if (info.Cache.Count(x => x.Path == fullpath) != 0)
+                {
+                    return;
+                }
 
                 info.IncludedFiles.Add(fullpath);
 

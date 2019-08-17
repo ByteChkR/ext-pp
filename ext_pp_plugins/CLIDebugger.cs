@@ -116,7 +116,6 @@ namespace ext_pp_plugins
         public string[] Breakpoints { get; set; }
         private List<Breakpoint> _breakpoints = new List<Breakpoint>();
         private bool isBreaking;
-        private int lineCount;
 
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
@@ -156,7 +155,7 @@ namespace ext_pp_plugins
 
             foreach (var breakpoint in _breakpoints)
             {
-                for (lineCount = 0; lineCount < source.Count; lineCount++)
+                for (int lineCount = 0; lineCount < source.Count; lineCount++)
                 {
                     if (isBreaking)
                     {

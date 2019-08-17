@@ -10,9 +10,9 @@ namespace ext_pp_plugins
 {
     public class FakeGenericsPlugin : AbstractPlugin
     {
-        public override string[] Prefix => new [] { "gen", "FakeGen" };
+        public override string[] Prefix => new[] { "gen", "FakeGen" };
         public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
-        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture)=="onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
         public string Stage { get; set; } = "onmain";
         public string GenericKeyword { get; set; } = "#type";
         public string Separator { get; set; } = " ";
@@ -39,7 +39,8 @@ namespace ext_pp_plugins
             out Dictionary<string, object> pluginCache)
         {
             pluginCache = new Dictionary<string, object>();
-            filePath = key = "";
+            filePath = "";
+            key = "";
             if (vars.Length == 0)
             {
                 return false;
@@ -48,8 +49,8 @@ namespace ext_pp_plugins
                 vars.SubArray(1, vars.Length - 1).ToArray() : new string[0];
             string dir = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(currentPath);
-            key =
-                filePath = Path.GetFullPath(vars[0]);
+            filePath = Path.GetFullPath(vars[0]);
+            key = filePath;
             Directory.SetCurrentDirectory(dir);
             key += (genParams.Length > 0 ? "." + genParams.Unpack(Separator) : "");
             if (genParams.Length != 0)

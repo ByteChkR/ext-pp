@@ -75,7 +75,7 @@ namespace ext_pp_plugins
                 return source;
             }
             string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
-            Logger.Crash(new Exception("Error " + err), true);
+            Logger.Crash(new ProcessorException("Error " + err), true);
             return "";
         }
 

@@ -10,7 +10,7 @@ namespace ext_pp_base.settings
         /// <summary>
         /// Settings with this prefix will be forwarded to any plugin in the chain
         /// </summary>
-        public static string GlobalSettings = "glob";
+        public static string GlobalSettings { get; } = "glob";
 
         /// <summary>
         /// Dictionairy to store the settings for processing
@@ -94,10 +94,10 @@ namespace ext_pp_base.settings
         public Settings GetSettingsWithPrefix(string[] prefixes, bool includeGlobalConfig)
         {
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
-            Dictionary<string, string[]> tmp = new Dictionary<string, string[]>();
+
             for (int i = 0; i < prefixes.Length; i++)
             {
-                tmp = GetSettingsWithPrefix(prefixes[i], includeGlobalConfig)._settings;
+                Dictionary<string, string[]> tmp = GetSettingsWithPrefix(prefixes[i], includeGlobalConfig)._settings;
                 foreach (var args in tmp)
                 {
                     ret.Add(args.Key, args.Value);
@@ -113,22 +113,21 @@ namespace ext_pp_base.settings
         }
 
         /// <summary>
-            /// Returns a setting object that contains the settings with prefix.
-            /// </summary>
-            /// <param name="prefix"></param>
-            /// <param name="argBegin"></param>
-            /// <param name="includeShared"></param>
-            /// <returns></returns>
-            private Settings GetSettingsWithPrefix(string prefix, string argBegin, bool includeShared)
+        /// Returns a setting object that contains the settings with prefix.
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name="argBegin"></param>
+        /// <param name="includeShared"></param>
+        /// <returns></returns>
+        private Settings GetSettingsWithPrefix(string prefix, string argBegin, bool includeShared)
         {
             string prfx = argBegin + prefix + ":";
             bool isGlob;
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
             foreach (var setting in _settings)
             {
-                isGlob = false;
-                if (setting.Key.StartsWith(prfx) ||
-                    (isGlob = (includeShared && setting.Key.StartsWith(GlobalSettings))))
+                isGlob = includeShared && setting.Key.StartsWith(GlobalSettings);
+                if (setting.Key.StartsWith(prfx) || isGlob)
                 {
                     ret.Add(setting.Key.Replace((isGlob ? GlobalSettings : prefix) + ":", ""), setting.Value);
                 }
@@ -139,18 +138,15 @@ namespace ext_pp_base.settings
             //    .ToDictionary(x => x.Key.Replace(prefix + ":", ""), y => y.Value));
         }
 
-        private Settings GetSettingsWithPrefix(string prefix, string argBegin)
-        {
-            return GetSettingsWithPrefix(prefix, argBegin, false);
-        }
+
 
         /// <summary>
-            /// Wrapper that returns the settings of the prefix.
-            /// </summary>
-            /// <param name="prefix"></param>
-            /// <param name="includeShared"></param>
-            /// <returns></returns>
-            public Settings GetSettingsWithPrefix(string prefix, bool includeShared)
+        /// Wrapper that returns the settings of the prefix.
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <param name="includeShared"></param>
+        /// <returns></returns>
+        public Settings GetSettingsWithPrefix(string prefix, bool includeShared)
         {
             Settings s = GetSettingsWithPrefix(prefix, "--", includeShared);
             s = s.Merge(GetSettingsWithPrefix(prefix, "-", includeShared));

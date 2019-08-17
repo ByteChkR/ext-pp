@@ -89,8 +89,8 @@ namespace ext_pp
             }
             string dir = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(currentPath);
-            key =
-                filePath = Path.GetFullPath(vars[0]);
+            key  = Path.GetFullPath(vars[0]);
+            filePath = key;
             Directory.SetCurrentDirectory(dir);
             return true;
         }

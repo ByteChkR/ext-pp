@@ -242,8 +242,8 @@ namespace ext_pp_cli
             }
 
             args = arf.ToArray();
-
-            PreApply(_settings = new Settings(AnalyzeArgs(args)));
+            _settings = new Settings(AnalyzeArgs(args));
+            PreApply(_settings);
 
 
 
@@ -409,11 +409,6 @@ namespace ext_pp_cli
                         string outp = Path.GetFullPath(Output[index]);
                         string sr = src.Unpack("\n");
                         File.WriteAllText(outp, sr);
-                    }
-
-                    for (int i = 0; i < src.Length; i++)
-                    {
-                        Console.WriteLine(src[i]);
                     }
                 }
                 else
@@ -833,7 +828,6 @@ namespace ext_pp_cli
             Random r = new Random();
             for (int i = 0; i < amount; i++)
             {
-                Console.WriteLine("Creating File: " + i + "/" + (amount - 1));
                 List<string> ifs = GenerateIfStatements("TESTVAR", 50, 15);
                 List<string> incs = GenerateGenericIncludes(filename, amount, 10, 10);
                 incs.AddRange(GenerateRandomData(100, 50));

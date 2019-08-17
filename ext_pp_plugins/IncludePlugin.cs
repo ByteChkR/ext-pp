@@ -8,10 +8,10 @@ namespace ext_pp_plugins
 {
     public class IncludePlugin : AbstractPlugin
     {
-        public override string[] Cleanup => new [] { IncludeKeyword };
+        public override string[] Cleanup => new[] { IncludeKeyword };
         public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => ProcessStage.ON_MAIN;
-        public override string[] Prefix => new [] { "inc" ,"Include"};
+        public override string[] Prefix => new[] { "inc", "Include" };
         public string IncludeKeyword { get; set; } = "#include";
         public string IncludeInlineKeyword { get; set; } = "#includeinl";
         public string Separator { get; set; } = " ";
@@ -83,7 +83,7 @@ namespace ext_pp_plugins
                 {
                     foreach (var sourceScript in sources)
                     {
-                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Processing Include: {0}" , Path.GetFileName(sourceScript.GetFilePath()));
+                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Processing Include: {0}", Path.GetFileName(sourceScript.GetFilePath()));
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {
@@ -113,18 +113,22 @@ namespace ext_pp_plugins
         private bool GetISourceScript(ISourceManager manager, string statement, string currentPath, out List<ISourceScript> scripts)
         {
             var vars = Utils.SplitAndRemoveFirst(statement, Separator);
-            
+
             scripts = new List<ISourceScript>();
             if (vars.Length != 0)
             {
-               
-                if (!manager.GetComputingScheme()(vars, currentPath, out var filepath, out var key, out var pluginCache))
+                ImportResult importInfo = manager.GetComputingScheme()(vars, currentPath);
+                if (!importInfo)
                 {
                     this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Invalid Include Statement");
                     return false;
 
                 }
 
+                string filepath = importInfo.GetString("filename");
+                importInfo.RemoveEntry("filename");
+                string key = importInfo.GetString("key");
+                importInfo.RemoveEntry("key");
 
                 if (filepath.EndsWith("\\*") || filepath.EndsWith("/*"))
                 {
@@ -132,7 +136,7 @@ namespace ext_pp_plugins
                     foreach (var file in files)
                     {
 
-                        if (manager.TryCreateScript(out ISourceScript iss, Separator, file, key.Replace(filepath, file), pluginCache))
+                        if (manager.TryCreateScript(out ISourceScript iss, Separator, file, key.Replace(filepath, file), importInfo))
                         {
                             scripts.Add(iss);
                         }
@@ -140,7 +144,7 @@ namespace ext_pp_plugins
                 }
                 else
                 {
-                    if (manager.TryCreateScript(out ISourceScript iss, Separator, filepath, key, pluginCache))
+                    if (manager.TryCreateScript(out ISourceScript iss, Separator, filepath, key, importInfo))
                     {
                         scripts.Add(iss);
                     }

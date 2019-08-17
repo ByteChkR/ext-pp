@@ -31,7 +31,7 @@ namespace ext_pp
         /// <summary>
         /// A Cache that is shared with all plugins to exchange information between different processing steps
         /// </summary>
-        private readonly Dictionary<string, object> _pluginCache;
+        private readonly ImportResult _importInfo;
 
 
         /// <summary>
@@ -41,10 +41,10 @@ namespace ext_pp
         /// <param name="path"></param>
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
-        public SourceScript(string separator, string path, string key, Dictionary<string, object> pluginCache)
+        public SourceScript(string separator, string path, string key, ImportResult importInfo)
         {
             _key = key;
-            _pluginCache = pluginCache;
+            _importInfo = importInfo;
             _filepath = path;
         }
 
@@ -100,7 +100,7 @@ namespace ext_pp
         /// <returns></returns>
         public bool HasValueOfType<T>(string key)
         {
-            return _pluginCache.ContainsKey(key) && _pluginCache[key].GetType() == typeof(T);
+            return _importInfo.ContainsKey(key) && _importInfo.GetValue(key).GetType() == typeof(T);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace ext_pp
         /// <returns></returns>
         public T GetValueFromCache<T>(string key)
         {
-            return (T)_pluginCache[key];
+            return (T)_importInfo.GetValue(key);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace ext_pp
         /// <param name="value"></param>
         public void AddValueToCache(string key, object value)
         {
-            _pluginCache.Add(key, value);
+            _importInfo.SetValue(key, value);
         }
 
         /// <summary>

@@ -35,15 +35,15 @@ namespace ext_pp_plugins
         }
 
 
-        private bool ComputeNameAndKey_Generic(string[] vars, string currentPath, out string filePath, out string key,
-            out Dictionary<string, object> pluginCache)
+        private ImportResult ComputeNameAndKey_Generic(string[] vars, string currentPath)
         {
-            pluginCache = new Dictionary<string, object>();
-            filePath = "";
-            key = "";
+            ImportResult ret = new ImportResult();
+
+            string filePath = "";
+            string key = "";
             if (vars.Length == 0)
             {
-                return false;
+                return ret;
             }
             string[] genParams = vars.Length > 1 ?
                 vars.SubArray(1, vars.Length - 1).ToArray() : new string[0];
@@ -55,9 +55,12 @@ namespace ext_pp_plugins
             key += (genParams.Length > 0 ? "." + genParams.Unpack(Separator) : "");
             if (genParams.Length != 0)
             {
-                pluginCache.Add("genParams", genParams);
+                ret.SetValue("genParams", genParams);
             }
-            return true;
+            ret.SetValue("filename", filePath);
+            ret.SetValue("key", key);
+            ret.SetResult(true);
+            return ret;
         }
 
         public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)

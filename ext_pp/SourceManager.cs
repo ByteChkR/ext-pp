@@ -77,22 +77,27 @@ namespace ext_pp
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
         /// <returns></returns>
-        private static bool ComputeFileNameAndKey_Default(string[] vars, string currentPath, out string filePath, out string key, out Dictionary<string, object> pluginCache)
+        private static ImportResult ComputeFileNameAndKey_Default(string[] vars, string currentPath)
         {
-            pluginCache = new Dictionary<string, object>();
-            filePath = "";
-            key = "";
+            ImportResult ret = new ImportResult();
 
             if (vars.Length == 0)
             {
-                return false;
+                return ret;
             }
+            
             string dir = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(currentPath);
-            key  = Path.GetFullPath(vars[0]);
-            filePath = key;
+
+            string key = Path.GetFullPath(vars[0]);
+            ret.SetValue("filename", key);
+
             Directory.SetCurrentDirectory(dir);
-            return true;
+
+            ret.SetValue("key", key);
+            ret.SetResult(true);
+
+            return ret;
         }
 
         /// <summary>
@@ -242,7 +247,7 @@ namespace ext_pp
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
         /// <returns></returns>
-        public bool TryCreateScript(out ISourceScript script, string separator, string file, string key, Dictionary<string, object> pluginCache)
+        public bool TryCreateScript(out ISourceScript script, string separator, string file, string key, ImportResult pluginCache)
         {
             if (LockScriptCreation)
             {

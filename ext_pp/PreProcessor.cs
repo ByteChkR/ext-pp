@@ -161,7 +161,7 @@ namespace ext_pp
                 Directory.SetCurrentDirectory(Path.GetDirectoryName(f));
 
                 sm.SetLock(false);
-                sm.TryCreateScript(out ISourceScript sss, _sep, f, f, new Dictionary<string, object>());
+                sm.TryCreateScript(out ISourceScript sss, _sep, f, f, new ImportResult());
                 sm.SetLock(true);
                sm.AddToTodo(sss);
             }

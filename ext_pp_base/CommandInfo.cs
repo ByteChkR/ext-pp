@@ -9,26 +9,26 @@ namespace ext_pp_base
     [Serializable]
     public struct CommandMetaData
     {
-        /// <summary>
-        /// The help text of the command
-        /// </summary>
-        public string HelpText;
 
-        /// <summary>
-        /// The primary command.
-        /// Can be accessed with --
-        /// </summary>
-        public string Command;
+
+        public string HelpText { get; }
 
         /// <summary>
         /// The shortcut for the command
         /// Can be accessed with -
         /// </summary>
-        public string ShortCut;
+        public string ShortCut { get; }
+
         /// <summary>
         /// If this parameter can be set by a global prefix
         /// </summary>
-        public bool IncludeGlobal;
+        public bool IncludeGlobal { get; }
+
+        /// <summary>
+        /// The command.
+        /// Can be accessed with --
+        /// </summary>
+        public string Command { get; }
 
         /// <summary>
         /// Constructor
@@ -69,7 +69,7 @@ namespace ext_pp_base
         /// The primary command.
         /// Can be accessed with --
         /// </summary>
-        public string Command=>Meta.Command;
+        public string Command => Meta.Command;
         /// <summary>
         /// The shortcut for the command
         /// Can be accessed with -
@@ -105,10 +105,10 @@ namespace ext_pp_base
         public CommandInfo(string command, string shortcut, FieldInfo field, string helpText, object defaultIfNotSpecified = null, bool global = false)
         {
             Field = field;
-            Meta=new CommandMetaData(command, shortcut, helpText, global);
+            Meta = new CommandMetaData(command, shortcut, helpText, global);
             DefaultIfNotSpecified = defaultIfNotSpecified;
         }
-        
+
         /// <summary>
         /// Writes the information as readable text.
         /// </summary>

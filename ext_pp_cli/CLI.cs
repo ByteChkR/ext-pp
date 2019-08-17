@@ -85,75 +85,92 @@ namespace ext_pp_cli
         /// <summary>
         /// Contains the Parameters for the -l2f and --logToFile commands.
         /// </summary>
-        public string[] LogToFileParams = null;
+        public string[] LogToFileParams { get; } = null;
+
         /// <summary>
         /// A flag that is used to determine if the log2file flag was set.
         /// </summary>
         private bool LogToFile => LogToFileParams != null && LogToFileParams.Length != 0;
+
         /// <summary>
         /// Flag to output the result to the console.
         /// </summary>
-        private bool OutputToConsole = false;
+        public bool OutputToConsole { get; } = false;
+
         /// <summary>
         /// The input files
         /// </summary>
-        public string[] Input = new string[0];
+        public string[] Input { get; } = new string[0];
+
         /// <summary>
         /// The output files.
         /// </summary>
-        public string[] Output = new string[0];
+        public string[] Output { get; } = new string[0];
+
         /// <summary>
         /// Predefined definitions from --defines and -defs
         /// </summary>
-        public string[] DefinesParams = null;
+        public string[] DefinesParams { get; } = null;
+
         /// <summary>
         /// Forces the cli to ignore collections.
         /// </summary>
-        public bool NoCollections = false;
+        public bool NoCollections { get; } = false;
+
         /// <summary>
         /// Contains the parameters for the plugin chain
         /// </summary>
-        public string[] ChainParams = null;
+        public string[] ChainParams { get; } = null;
+
         /// <summary>
         /// Contains the parameters for the help parameter
         /// </summary>
-        public string[] HelpParams = null;
+        public string[] HelpParams { get; } = null;
+
         /// <summary>
         /// Contains the parameters for the help all parameter
         /// </summary>
-        public string[] HelpAllParams = null;
+        public string[] HelpAllParams { get; } = null;
+
         /// <summary>
         /// Debug level of the process.
         /// </summary>
-        public Verbosity DebugLvl = Verbosity.LEVEL1;
+        public Verbosity DebugLvl { get; } = Verbosity.LEVEL1;
+
         /// <summary>
         /// Show the version at the start and exit.
         /// </summary>
-        public bool ShowVersion = false;
+        public bool ShowVersion { get; } = false;
+
         /// <summary>
         /// parameter for the --pm-add and -pm-a commands.
         /// </summary>
-        public string[] PluginAdd = null;
+        public string[] PluginAdd { get; } = null;
+
         /// <summary>
         /// Flag if the settings contain the -pm-r/--pm-refresh command
         /// </summary>
-        public bool PluginRefresh = false;
+        public bool PluginRefresh { get; } = false;
+
         /// <summary>
         /// Flag if the settings contain the -pm-ld/--pm-list-dirr command
         /// </summary>
-        public bool PluginListDirs = false;
+        public bool PluginListDirs { get; } = false;
+
         /// <summary>
         /// Flag if the settings contain the -pm-lf/--pm-list-file command
         /// </summary>
-        public bool PluginListIncs = false;
+        public bool PluginListIncs { get; } = false;
+
         /// <summary>
         /// Flag if the settings contain the -pm-lmf/--pm-list-manual-files command
         /// </summary>
-        public bool PluginListManIncs = false;
+        public bool PluginListManIncs { get; } = false;
+
         /// <summary>
         /// Flag if the settings contain the -pm-a/--pm-all command
         /// </summary>
-        public bool PluginListAll = false;
+        public bool PluginListAll { get; } = false;
 
         /// <summary>
         /// Definitions.

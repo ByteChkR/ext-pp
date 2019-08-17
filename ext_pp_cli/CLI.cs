@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using ADL;
 using ADL.Configs;
 using ADL.Crash;
@@ -298,7 +299,7 @@ namespace ext_pp_cli
                 _pluginManager.ListCachedPlugins(false);
                 if (!PluginRefresh && !PluginListManIncs)
                 {
-                     return;
+                    return;
                 }
             }
 
@@ -449,7 +450,7 @@ namespace ext_pp_cli
 
                 if (vars[0] != "all")
                 {
-                    mask = (int) Utils.Parse(typeof(DebugLevel), vars[0], -1);
+                    mask = (int)Utils.Parse(typeof(DebugLevel), vars[0], -1);
                 }
                 if (vars.Length > 1)
                 {
@@ -459,7 +460,7 @@ namespace ext_pp_cli
             return new KeyValuePair<int, bool>(mask, timestamp);
 
         }
-        
+
         /// <summary>
         /// Applies/Brings the configuration of the CLI up and running so it can start the PreProcessing.
         /// </summary>
@@ -473,8 +474,6 @@ namespace ext_pp_cli
                 KeyValuePair<int, bool> ts = ParseLogParams(args.Length != 0 ? args[0] : "");
 
                 AddLogOutput(LogToFileParams[0], ts.Key, ts.Value);
-                //lts.Mask = new BitMask<DebugLevel>(DebugLevel.ERRORS | DebugLevel.WARNINGS |
-                //DebugLevel.INTERNAL_ERROR | DebugLevel.PROGRESS);
 
             }
 
@@ -812,28 +811,29 @@ namespace ext_pp_cli
                 return defName + r.Next(0, maxDefNr);
             }
             int max = r.Next(1, maxParams);
-            string expr = "";
+            StringBuilder expr = new StringBuilder();
             for (int j = 0; j < max; j++)
             {
                 int exprType = r.Next(0, 4 + chanceToRecurse);
-                if (exprType >= 0 && exprType<=3)
+                if (exprType >= 0 && exprType <= 3)
                 {
-                    expr += defName + r.Next(0, maxDefNr);
+                    expr.Append(defName);
+                    expr.Append(r.Next(0, maxDefNr));
                 }
                 else
                 {
                     int maxprm = max - max / 2;
-                    expr += "(" + GenerateExpression(defName, maxDefNr, maxprm, chanceToRecurse) + ")";
+                    expr.AppendFormat("({0})", GenerateExpression(defName, maxDefNr, maxprm, chanceToRecurse));
 
                 }
 
                 if (j != max - 1)
                 {
-                    expr += (r.Next(0, 2) == 0 ? " || " : " && ");
+                    expr.Append(r.Next(0, 2) == 0 ? " || " : " && ");
                 }
             }
 
-            return expr;
+            return expr.ToString();
 
         }
 
@@ -881,13 +881,13 @@ namespace ext_pp_cli
             List<string> ret = new List<string>();
             for (int i = 0; i < size; i++)
             {
-                string s = "";
+                StringBuilder s = new StringBuilder();
                 for (int j = 0; j < datalength; j++)
                 {
-                    s += (char)r.Next((int)'A', (int)'Z');
+                    s.Append((char)r.Next((int)'A', (int)'Z'));
                 }
 
-                ret.Add(s);
+                ret.Add(s.ToString());
             }
 
             return ret;
@@ -928,7 +928,13 @@ namespace ext_pp_cli
                         gens += GenerateRandomData(1, 15)[0] + " ";
                     }
                 }
-                ret.Add("#include " + file + r.Next(0, maxNr) + ".txt" + gens);
+                StringBuilder sb=new StringBuilder();
+                sb.Append("#include ");
+                sb.Append(file);
+                sb.Append(r.Next(0, maxNr));
+                sb.Append(".txt");
+                sb.Append(gens);
+                ret.Add(sb.ToString());
             }
 
             return ret;

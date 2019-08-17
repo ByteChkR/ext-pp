@@ -652,7 +652,7 @@ namespace ext_pp_cli
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public Dictionary<string, string[]> AnalyzeArgs(string[] args)
+        public static Dictionary<string, string[]> AnalyzeArgs(string[] args)
         {
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
             if (args.Length == 0)

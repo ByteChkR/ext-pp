@@ -293,13 +293,13 @@ namespace ext_pp_cli
         /// <param name="name"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public bool GetPluginInfoByName(string name, out PluginInformation val)
+        public static bool GetPluginInfoByName(PluginManagerDatabase pmd,string name, out PluginInformation val)
         {
-            for (int i = 0; i < info.Cache.Count; i++)
+            for (int i = 0; i < pmd.Cache.Count; i++)
             {
-                if (info.Cache[i].Name == name)
+                if (pmd.Cache[i].Name == name)
                 {
-                    val = info.Cache[i];
+                    val = pmd.Cache[i];
                     return true;
                 }
             }
@@ -315,13 +315,13 @@ namespace ext_pp_cli
         /// <param name="prefix"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public bool GetPluginInfoByPrefix(string prefix, out PluginInformation val)
+        public static bool GetPluginInfoByPrefix(PluginManagerDatabase pmd, string prefix, out PluginInformation val)
         {
-            for (int i = 0; i < info.Cache.Count; i++)
+            for (int i = 0; i < pmd.Cache.Count; i++)
             {
-                if (info.Cache[i].Prefixes.Contains(prefix))
+                if (pmd.Cache[i].Prefixes.Contains(prefix))
                 {
-                    val = info.Cache[i];
+                    val = pmd.Cache[i];
                     return true;
                 }
             }
@@ -339,14 +339,14 @@ namespace ext_pp_cli
         /// <param name="prefix"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public bool GetPluginInfoByPathAndPrefix(string file, string prefix, out PluginInformation val)
+        public static bool GetPluginInfoByPathAndPrefix(PluginManagerDatabase pmd, string file, string prefix, out PluginInformation val)
         {
 
-            for (int i = 0; i < info.Cache.Count; i++)
+            for (int i = 0; i < pmd.Cache.Count; i++)
             {
-                if (info.Cache[i].Path == file && info.Cache[i].Prefixes.Contains(prefix))
+                if (pmd.Cache[i].Path == file && pmd.Cache[i].Prefixes.Contains(prefix))
                 {
-                    val = info.Cache[i];
+                    val = pmd.Cache[i];
                     return true;
                 }
             }
@@ -410,7 +410,7 @@ namespace ext_pp_cli
 
             foreach (var name in names)
             {
-                if (GetPluginInfoByPathAndPrefix(path, name, out PluginInformation val))
+                if (GetPluginInfoByPathAndPrefix(info,path, name, out PluginInformation val))
                 {
                     this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n{0}", val.GetDescription(shortDesc));
                 }
@@ -561,7 +561,7 @@ namespace ext_pp_cli
         /// <returns></returns>
         public bool GetPathByName(string name, out string path)
         {
-            if (GetPluginInfoByName(name, out var pli))
+            if (GetPluginInfoByName(info ,name, out var pli))
             {
                 path = pli.Path;
                 return true;
@@ -579,7 +579,7 @@ namespace ext_pp_cli
         /// <returns></returns>
         public bool GetPathByPrefix(string prefix, out string path)
         {
-            if (GetPluginInfoByPrefix(prefix, out var pli))
+            if (GetPluginInfoByPrefix(info,prefix, out var pli))
             {
                 path = pli.Path;
                 return true;

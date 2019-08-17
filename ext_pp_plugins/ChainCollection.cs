@@ -8,7 +8,7 @@ namespace ext_pp_plugins
     {
         public string Name { get; } = "NO_NAME";
 
-        public List<Type> Chain => new List<Type>
+        private readonly List<Type> _defaultList = new List<Type>
             {
                 typeof(MultiLinePlugin),
                 typeof(KeyWordReplacer),
@@ -20,5 +20,6 @@ namespace ext_pp_plugins
                 typeof(BlankLineRemover),
             };
 
+        public List<Type> Chain => _defaultList;
     }
 }

@@ -88,15 +88,17 @@ namespace ext_pp_base
         /// <summary>
         /// The field that will be set with reflection
         /// </summary>
-        public readonly PropertyInfo Field;
+        public PropertyInfo Field { get; }
+
         /// <summary>
         /// Wrapper to separate serializable info from the command info.
         /// </summary>
-        public readonly CommandMetaData Meta;
+        public CommandMetaData Meta { get; }
+
         /// <summary>
         /// If true will set the value of the command to the default value if not specified directly in the settings
         /// </summary>
-        public readonly object DefaultIfNotSpecified;
+        public object DefaultIfNotSpecified { get; }
 
         /// <summary>
         /// Constructor

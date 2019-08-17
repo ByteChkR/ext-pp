@@ -59,6 +59,11 @@ namespace ext_pp_cli
                 Data = data;
             }
 
+            public PluginInformation()
+            {
+
+            }
+
             /// <summary>
             /// returns a description of the plugin
             /// </summary>

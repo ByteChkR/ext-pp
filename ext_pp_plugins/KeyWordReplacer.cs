@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using ext_pp_base;
 using ext_pp_base.settings;
 
@@ -7,18 +8,18 @@ namespace ext_pp_plugins
 {
     public class KeyWordReplacer : AbstractPlugin
     {
-        public override PluginType PluginType => (Order.ToLower() == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE);
-        public override ProcessStage ProcessStages => Stage.ToLower() == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
+        public override PluginType PluginTypeToggle => (Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE);
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
 
-        public string Order = "after";
-        public string Stage = "onfinishup";
-        public bool NoDefaultKeywords = false;
-        public string DateTimeFormatString = "dd/MM/yyyy hh:mm:ss";
-        public string DateFormatString = "dd/MM/yyyy";
-        public string TimeFormatString = "hh:mm:ss";
-        public string SurroundingChar = "$";
-        public override string[] Prefix => new string[] { "kwr", "KWReplacer" };
-        public string[] Keywords = null;
+        public string Order { get; set; } = "after";
+        public string Stage { get; set; } = "onfinishup";
+        public bool NoDefaultKeywords { get; set; }
+        public string DateTimeFormatString { get; set; } = "dd/MM/yyyy hh:mm:ss";
+        public string DateFormatString { get; set; } = "dd/MM/yyyy";
+        public string TimeFormatString { get; set; } = "hh:mm:ss";
+        public string SurroundingChar { get; set; } = "$";
+        public override string[] Prefix => new [] { "kwr", "KWReplacer" };
+        public string[] Keywords { get; set; }
         private DateTime time;
         private Dictionary<string, string> _keywords
         {
@@ -33,8 +34,10 @@ namespace ext_pp_plugins
                     ret.Add(SurroundingChar + "TIME" + SurroundingChar, time.ToString(TimeFormatString));
                 }
 
-                if (Keywords == null) return ret;
-
+                if (Keywords == null)
+                {
+                    return ret;
+                }
                 for (int i = 0; i < Keywords.Length; i++)
                 {
                     string[] s = Keywords[i].Split(":");
@@ -45,23 +48,23 @@ namespace ext_pp_plugins
             }
         }
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
-            new CommandInfo("set-order", "o", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(Order)),
+            new CommandInfo("set-order", "o", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(Order)),
                 "Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
-            new CommandInfo("set-stage","ss", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(Stage)),
+            new CommandInfo("set-stage","ss", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
-            new CommandInfo("no-defaultkeywords","nod", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(NoDefaultKeywords)),
+            new CommandInfo("no-defaultkeywords","nod", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(NoDefaultKeywords)),
                 "Disables $TIME$, $DATE$ and $DATE_TIME$"),
-            new CommandInfo("set-dtformat","dtf", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(DateTimeFormatString)),
+            new CommandInfo("set-dtformat","dtf", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(DateTimeFormatString)),
                 "Sets the datetime format string used when setting the default variables"),
-            new CommandInfo("set-tformat", "tf", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(TimeFormatString)),
+            new CommandInfo("set-tformat", "tf", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(TimeFormatString)),
                 "Sets the time format string used when setting the default variables"),
-            new CommandInfo("set-dformat", "df", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(DateFormatString)),
+            new CommandInfo("set-dformat", "df", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(DateFormatString)),
                 "Sets the date format string used when setting the default variables"),
-            new CommandInfo("set-surrkeyword","sc", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(DateFormatString)),
+            new CommandInfo("set-surrkeyword","sc", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(SurroundingChar)),
                 "Sets the Surrounding char that escapes the variable names"),
-            new CommandInfo("set-kwdata","kwd", PropertyHelper.GetFieldInfo(typeof(KeyWordReplacer), nameof(Keywords)),
+            new CommandInfo("set-kwdata","kwd", PropertyHelper.GetPropertyInfo(typeof(KeyWordReplacer), nameof(Keywords)),
                 "Sets the Keywords that need to be replaced with values. <keyword>:<value>"),
 
         };
@@ -87,7 +90,7 @@ namespace ext_pp_plugins
             return FullScriptStage(script, sourceManager, defTable);
         }
 
-        public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        public static bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             return true;
         }
@@ -110,19 +113,20 @@ namespace ext_pp_plugins
 
         public string LineStage(string source)
         {
+            string ret = source;
             Dictionary<string, string> keywords = _keywords;
             foreach (var keyword in keywords)
             {
                 string key = SurroundingChar + keyword.Key + SurroundingChar;
-                if (source.Contains(key))
+                if (ret.Contains(key))
                 {
                     this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing {0} with {1}", key, keyword.Value);
-                    source = source.Replace(key, keyword.Value);
+                    ret = ret.Replace(key, keyword.Value);
                 }
             }
 
 
-            return source;
+            return ret;
         }
 
     }

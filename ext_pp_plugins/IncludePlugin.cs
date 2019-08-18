@@ -8,21 +8,21 @@ namespace ext_pp_plugins
 {
     public class IncludePlugin : AbstractPlugin
     {
-        public override string[] Cleanup => new string[] { IncludeKeyword };
-        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
+        public override string[] Cleanup => new[] { IncludeKeyword };
+        public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => ProcessStage.ON_MAIN;
-        public override string[] Prefix => new string[] { "inc" ,"Include"};
-        public string IncludeKeyword = "#include";
-        public string IncludeInlineKeyword = "#includeinl";
-        public string Separator = " ";
+        public override string[] Prefix => new[] { "inc", "Include" };
+        public string IncludeKeyword { get; set; } = "#include";
+        public string IncludeInlineKeyword { get; set; } = "#includeinl";
+        public string Separator { get; set; } = " ";
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
-            new CommandInfo("set-include", "i", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(IncludeKeyword)),
+            new CommandInfo("set-include", "i", PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(IncludeKeyword)),
                 "Sets the keyword that is used to include other files into the build process."),
-            new CommandInfo("set-include-inline", "ii", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(IncludeInlineKeyword)),
+            new CommandInfo("set-include-inline", "ii", PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(IncludeInlineKeyword)),
                 "Sets the keyword that is used to insert other files directly into the current file"),
-            new CommandInfo("set-separator","s", PropertyHelper.GetFieldInfo(typeof(IncludePlugin), nameof(Separator)),
+            new CommandInfo("set-separator","s", PropertyHelper.GetPropertyInfo(typeof(IncludePlugin), nameof(Separator)),
                 "Sets the separator that is used to separate the include statement from the filepath"),
             };
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
@@ -64,7 +64,9 @@ namespace ext_pp_plugins
                         source.InsertRange(i, File.ReadAllLines(args[0]));
                     }
                     else
-                        this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "File does not exist: {0}" , args[0]);
+                    {
+                        this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "File does not exist: {0}", args[0]);
+                    }
                 }
             }
             script.SetSource(source.ToArray());
@@ -81,7 +83,7 @@ namespace ext_pp_plugins
                 {
                     foreach (var sourceScript in sources)
                     {
-                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Processing Include: {0}" , Path.GetFileName(sourceScript.GetFilePath()));
+                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Processing Include: {0}", Path.GetFileName(sourceScript.GetFilePath()));
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {
@@ -97,7 +99,6 @@ namespace ext_pp_plugins
                 }
                 else
                 {
-                    /*if (path != "")*/
                     return false; //We crash if we didnt find the file. but if the user forgets to specify the path we will just log the error
                 }
 
@@ -112,18 +113,22 @@ namespace ext_pp_plugins
         private bool GetISourceScript(ISourceManager manager, string statement, string currentPath, out List<ISourceScript> scripts)
         {
             var vars = Utils.SplitAndRemoveFirst(statement, Separator);
-            //genParams = new string[0];
+
             scripts = new List<ISourceScript>();
             if (vars.Length != 0)
             {
-                //filePath = vars[0];
-                if (!manager.GetComputingScheme()(vars, currentPath, out var filepath, out var key, out var pluginCache))
+                ImportResult importInfo = manager.GetComputingScheme()(vars, currentPath);
+                if (!importInfo)
                 {
                     this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Invalid Include Statement");
                     return false;
 
                 }
 
+                string filepath = importInfo.GetString("filename");
+                importInfo.RemoveEntry("filename");
+                string key = importInfo.GetString("key");
+                importInfo.RemoveEntry("key");
 
                 if (filepath.EndsWith("\\*") || filepath.EndsWith("/*"))
                 {
@@ -131,7 +136,7 @@ namespace ext_pp_plugins
                     foreach (var file in files)
                     {
 
-                        if (manager.CreateScript(out ISourceScript iss, Separator, file, key.Replace(filepath, file), pluginCache))
+                        if (manager.TryCreateScript(out ISourceScript iss, Separator, file, key.Replace(filepath, file), importInfo))
                         {
                             scripts.Add(iss);
                         }
@@ -139,8 +144,10 @@ namespace ext_pp_plugins
                 }
                 else
                 {
-                    if (manager.CreateScript(out ISourceScript iss, Separator, filepath, key, pluginCache))
+                    if (manager.TryCreateScript(out ISourceScript iss, Separator, filepath, key, importInfo))
+                    {
                         scripts.Add(iss);
+                    }
                 }
 
 

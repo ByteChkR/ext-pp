@@ -1,9 +1,63 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 using ext_pp_base.settings;
 
 namespace ext_pp_base
 {
+
+    public class ImportResult
+    {
+        private readonly Dictionary<string, object> _data = new Dictionary<string, object>();
+        private bool _result;
+        public void SetValue(string key, object value)
+        {
+            if (_data.ContainsKey(key))
+            {
+                _data[key] = value;
+
+            }
+            else
+            {
+                _data.Add(key, value);
+            }
+        }
+
+        public object GetValue(string key)
+        {
+            return _data[key];
+        }
+
+        public string GetString(string key)
+        {
+            return (string)_data[key];
+        }
+
+        public void SetResult(bool result)
+        {
+            _result = result;
+        }
+
+        public bool ContainsKey(string key)
+        {
+            return _data.ContainsKey(key);
+        }
+
+        public void RemoveEntry(string key)
+        {
+            if (_data.ContainsKey(key))
+            {
+                _data.Remove(key);
+            }
+        }
+
+        public static implicit operator bool(ImportResult obj)
+        {
+            return obj._result;
+        }
+    }
+
+
     /// <summary>
     /// Defines the scheme on how the keys for identifying scripts get created.
     /// </summary>
@@ -13,8 +67,8 @@ namespace ext_pp_base
     /// <param name="key"></param>
     /// <param name="pluginCache"></param>
     /// <returns></returns>
-    public delegate bool DelKeyComputingScheme(string[] var, string currentPath, out string filePath, out string key, out Dictionary<string, object> pluginCache);
-    
+    public delegate ImportResult DelKeyComputingScheme(string[] var, string currentPath);
+
     /// <summary>
     /// Interface that contains all methods for loading and managing source code.
     /// </summary>
@@ -69,7 +123,7 @@ namespace ext_pp_base
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
         /// <returns></returns>
-        bool CreateScript(out ISourceScript script,string separator, string file, string key,
-            Dictionary<string, object> pluginCache);
+        bool TryCreateScript(out ISourceScript script, string separator, string file, string key,
+            ImportResult importInfo);
     }
 }

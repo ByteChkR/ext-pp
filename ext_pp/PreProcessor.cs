@@ -61,13 +61,43 @@ namespace ext_pp
         /// <param name="settings"></param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string[] files, Settings settings = null, IDefinitions defs = null)
+        public string[] Compile(string[] files, Settings settings, IDefinitions defs)
         {
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Pre Processor...");
             ISourceScript[] src = Process(files, settings, defs);
             return Compile(src);
         }
+
+
+        /// <summary>
+        /// Compiles a File with the definitions and settings provided
+        /// </summary>
+        /// <param name="files">FilePaths of the files.</param>
+        /// <param name="settings"></param>
+        /// <param name="defs">Definitions</param>
+        /// <returns>Array of Compiled Lines</returns>
+        public string[] Compile(string[] files, IDefinitions defs)
+        {
+
+            return Compile(files, null, defs);
+        }
+
+
+        /// <summary>
+        /// Compiles a File with the definitions and settings provided
+        /// </summary>
+        /// <param name="files">FilePaths of the files.</param>
+        /// <param name="settings"></param>
+        /// <param name="defs">Definitions</param>
+        /// <returns>Array of Compiled Lines</returns>
+        public string[] Compile(string[] files, Settings settings)
+        {
+
+            return Compile(files, settings, null);
+        }
+
+
 
 
         /// <summary>
@@ -116,13 +146,13 @@ namespace ext_pp
         /// <param name="settings"></param>
         /// <param name="defs"></param>
         /// <returns>Returns a list of files that can be compiled in reverse order</returns>
-        public ISourceScript[] Process(string[] files, Settings settings = null, IDefinitions defs = null)
+        public ISourceScript[] Process(string[] files, Settings settings, IDefinitions defs)
         {
             string dir = Directory.GetCurrentDirectory();
-            defs = defs ?? new Definitions();
+            IDefinitions definitions = defs ?? new Definitions();
             SourceManager sm = new SourceManager(_plugins);
 
-            InitializePlugins(settings, defs, sm);
+            InitializePlugins(settings, definitions, sm);
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Processing of Files: {0}", files.Unpack(", "));
             foreach (var file in files)
@@ -131,10 +161,9 @@ namespace ext_pp
                 Directory.SetCurrentDirectory(Path.GetDirectoryName(f));
 
                 sm.SetLock(false);
-                sm.CreateScript(out ISourceScript sss, _sep, f, f, new Dictionary<string, object>());
+                sm.TryCreateScript(out ISourceScript sss, _sep, f, f, new ImportResult());
                 sm.SetLock(true);
-                List<ISourceScript> all = new List<ISourceScript>();
-                sm.AddToTodo(sss);
+               sm.AddToTodo(sss);
             }
 
             ISourceScript ss = sm.NextItem;
@@ -142,13 +171,16 @@ namespace ext_pp
             do
             {
 
-                if (!(ss as SourceScript).IsSourceLoaded) RunStages(ProcessStage.ON_LOAD_STAGE, ss, sm, defs);
+                if (!(ss as SourceScript).IsSourceLoaded)
+                {
+                    RunStages(this, ProcessStage.ON_LOAD_STAGE, ss, sm, definitions);
+                }
 
                 this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Remaining Files: {0}", sm.GetTodoCount());
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(ss.GetFilePath()));
                 //RUN MAIN
                 sm.SetLock(false);
-                RunStages(ProcessStage.ON_MAIN, ss, sm, defs);
+                RunStages(this, ProcessStage.ON_MAIN, ss, sm, definitions);
                 sm.SetLock(true);
                 sm.SetState(ss, ProcessStage.ON_FINISH_UP);
                 ss = sm.NextItem;
@@ -161,7 +193,7 @@ namespace ext_pp
             foreach (var finishedScript in ret)
             {
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(finishedScript.GetFilePath()));
-                RunStages(ProcessStage.ON_FINISH_UP, finishedScript, sm, defs);
+                RunStages(this, ProcessStage.ON_FINISH_UP, finishedScript, sm, definitions);
             }
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finished Processing Files.");
             return ret;
@@ -177,13 +209,21 @@ namespace ext_pp
         /// <param name="sourceManager"></param>
         /// <param name="defTable"></param>
         /// <returns></returns>
-        private bool RunStages(ProcessStage stage, ISourceScript script, ISourceManager sourceManager,
+        private static bool RunStages(PreProcessor pp, ProcessStage stage, ISourceScript script, ISourceManager sourceManager,
             IDefinitions defTable)
         {
-            if (!RunPluginStage(PluginType.LINE_PLUGIN_BEFORE, stage, script, sourceManager, defTable)) return false;
-            if (stage != ProcessStage.ON_FINISH_UP)
-                if (!RunPluginStage(PluginType.FULL_SCRIPT_PLUGIN, stage, script, sourceManager, defTable)) return false;
-            if (!RunPluginStage(PluginType.LINE_PLUGIN_AFTER, stage, script, sourceManager, defTable)) return false;
+            if (!pp.RunPluginStage(PluginType.LINE_PLUGIN_BEFORE, stage, script, sourceManager, defTable))
+            {
+                return false;
+            }
+            if (stage != ProcessStage.ON_FINISH_UP && !pp.RunPluginStage(PluginType.FULL_SCRIPT_PLUGIN, stage, script, sourceManager, defTable))
+            {
+                return false;
+            }
+            if (!pp.RunPluginStage(PluginType.LINE_PLUGIN_AFTER, stage, script, sourceManager, defTable))
+            {
+                return false;
+            }
             return true;
         }
 
@@ -230,11 +270,10 @@ namespace ext_pp
         /// <param name="_lineStage"></param>
         /// <param name="stage"></param>
         /// <param name="source"></param>
-        private void RunLineStage(List<AbstractPlugin> _lineStage, ProcessStage stage, string[] source)
+        private static void RunLineStage(List<AbstractPlugin> _lineStage, ProcessStage stage, string[] source)
         {
             foreach (var abstractPlugin in _lineStage)
             {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Running Plugin: {0}: {1}", abstractPlugin, stage);
                 for (int i = 0; i < source.Length; i++)
                 {
                     if (stage == ProcessStage.ON_LOAD_STAGE)

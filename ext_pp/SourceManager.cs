@@ -47,9 +47,12 @@ namespace ext_pp
         /// <param name="scheme"></param>
         public void SetComputingScheme(DelKeyComputingScheme scheme)
         {
-            if (scheme == null) return;
+            if (scheme == null)
+            {
+                return;
+            }
             _computeScheme = scheme;
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Changed Computing Scheme to: {0}" , scheme.Method.Name);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Changed Computing Scheme to: {0}", scheme.Method.Name);
         }
 
         public int GetTodoCount()
@@ -74,17 +77,27 @@ namespace ext_pp
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
         /// <returns></returns>
-        private static bool ComputeFileNameAndKey_Default(string[] vars, string currentPath, out string filePath, out string key, out Dictionary<string, object> pluginCache)
+        private static ImportResult ComputeFileNameAndKey_Default(string[] vars, string currentPath)
         {
-            pluginCache = new Dictionary<string, object>();
-            filePath = key = "";
-            if (vars.Length == 0) return false;
+            ImportResult ret = new ImportResult();
+
+            if (vars.Length == 0)
+            {
+                return ret;
+            }
+            
             string dir = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(currentPath);
-            key =
-                filePath = Path.GetFullPath(vars[0]);
+
+            string key = Path.GetFullPath(vars[0]);
+            ret.SetValue("filename", key);
+
             Directory.SetCurrentDirectory(dir);
-            return true;
+
+            ret.SetValue("key", key);
+            ret.SetResult(true);
+
+            return ret;
         }
 
         /// <summary>
@@ -114,7 +127,7 @@ namespace ext_pp
         /// <param name="script"></param>
         public void FixOrder(ISourceScript script)
         {
-            this.Log(DebugLevel.LOGS , Verbosity.LEVEL3,"Fixing Build Order of file: {0}" , Path.GetFileName(script.GetFilePath()));
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFilePath()));
             int idx = IndexOfFile(script.GetKey());
             var a = _sources[idx];
             var ab = _doneState[idx];
@@ -144,7 +157,7 @@ namespace ext_pp
         {
             if (!IsIncluded(script))
             {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Adding Script to Todo List: {0}" , Path.GetFileName(script.GetFilePath()));
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Adding Script to Todo List: {0}", Path.GetFileName(script.GetFilePath()));
                 AddFile(script, false);
                 _doneState.Add(ProcessStage.QUEUED);
             }
@@ -161,7 +174,7 @@ namespace ext_pp
             {
                 _doneState[IndexOfFile(script.GetKey())] = stage;
 
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Finished Script: {0}" , Path.GetFileName(script.GetFilePath()));
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Finished Script: {0}", Path.GetFileName(script.GetFilePath()));
             }
         }
 
@@ -182,7 +195,10 @@ namespace ext_pp
         /// <param name="checkForExistingKey"></param>
         private void AddFile(ISourceScript script, bool checkForExistingKey)
         {
-            if (checkForExistingKey && ContainsFile(script.GetKey())) return;
+            if (checkForExistingKey && ContainsFile(script.GetKey()))
+            {
+                return;
+            }
             _sources.Add(script);
 
         }
@@ -207,7 +223,10 @@ namespace ext_pp
         {
             for (var i = 0; i < _sources.Count; i++)
             {
-                if (_sources[i].GetKey() == key) return i;
+                if (_sources[i].GetKey() == key)
+                {
+                    return i;
+                }
             }
 
             return -1;
@@ -228,7 +247,7 @@ namespace ext_pp
         /// <param name="key"></param>
         /// <param name="pluginCache"></param>
         /// <returns></returns>
-        public bool CreateScript(out ISourceScript script, string separator, string file, string key, Dictionary<string, object> pluginCache)
+        public bool TryCreateScript(out ISourceScript script, string separator, string file, string key, ImportResult pluginCache)
         {
             if (LockScriptCreation)
             {

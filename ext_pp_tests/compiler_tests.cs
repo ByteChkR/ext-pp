@@ -9,22 +9,22 @@ using NUnit.Framework;
 
 namespace ext_pp.tests
 {
-    public class Tests
+    public static class Tests
     {
-        public static string ResourceFolder = Path.GetFullPath("../../../res/");
+        private static string ResourceFolder { get; } = Path.GetFullPath("../../../res/");
 
         [SetUp]
-        public void Setup()
+        public static void Setup()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
         }
 
         [Test]
-        public void IncludeCircular()
+        public static void IncludeCircular()
         {
 
             PreProcessor pp = new PreProcessor();
-            List<AbstractPlugin> lp = new List<AbstractPlugin>()
+            List<AbstractPlugin> lp = new List<AbstractPlugin>
             {
                 new IncludePlugin(),
             };
@@ -36,11 +36,11 @@ namespace ext_pp.tests
         }
 
         [Test]
-        public void IncludeGenericCircular()
+        public static void IncludeGenericCircular()
         {
             PreProcessor pp = new PreProcessor();
 
-            List<AbstractPlugin> lp = new List<AbstractPlugin>()
+            List<AbstractPlugin> lp = new List<AbstractPlugin>
             {
                 new FakeGenericsPlugin(),
                 new IncludePlugin(),
@@ -55,10 +55,10 @@ namespace ext_pp.tests
         }
 
         [Test]
-        public void TypePassing()
+        public static void TypePassing()
         {
             PreProcessor pp = new PreProcessor();
-            List<AbstractPlugin> lp = new List<AbstractPlugin>()
+            List<AbstractPlugin> lp = new List<AbstractPlugin>
             {
                 new FakeGenericsPlugin(),
                 new IncludePlugin(),

@@ -23,12 +23,19 @@ namespace ext_pp_base
         /// <returns></returns>
         public static string Unpack(this IEnumerable<object> arr, string separator)
         {
+            if (arr == null)
+            {
+                return string.Empty;
+            }
             _sb.Clear();
             var enumerable = arr as object[] ?? arr.ToArray();
             for (var i = 0; i < enumerable.Count(); i++)
             {
                 _sb.Append(enumerable.ElementAt(i));
-                if (i < enumerable.Count() - 1) _sb.Append(separator);
+                if (i < enumerable.Count() - 1)
+                {
+                    _sb.Append(separator);
+                }
             }
 
             return _sb.ToString();
@@ -86,7 +93,10 @@ namespace ext_pp_base
         /// <returns></returns>
         public static bool IsAllDigits(this string str)
         {
-            if (string.IsNullOrEmpty(str)) return false;
+            if (string.IsNullOrEmpty(str))
+            {
+                return false;
+            }
             return str.All(char.IsDigit);
         }
 

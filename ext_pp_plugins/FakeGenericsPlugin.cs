@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -9,19 +10,20 @@ namespace ext_pp_plugins
 {
     public class FakeGenericsPlugin : AbstractPlugin
     {
-        public override string[] Prefix => new string[] { "gen", "FakeGen" };
-        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
-        public override ProcessStage ProcessStages => Stage.ToLower()=="onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
-        public string Stage = "onmain";
-        public string GenericKeyword = "#type";
-        public string Separator = " ";
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override string[] Prefix => new[] { "gen", "FakeGen" };
+        public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public string Stage { get; set; } = "onmain";
+        public string GenericKeyword { get; set; } = "#type";
+        public string Separator { get; set; } = " ";
+
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
-            new CommandInfo("set-genkeyword","g", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
+            new CommandInfo("set-genkeyword","g", PropertyHelper.GetPropertyInfo(typeof(FakeGenericsPlugin), nameof(GenericKeyword)),
                 "Sets the keyword that is used when writing pseudo generic code."),
-            new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Separator)),
+            new CommandInfo("set-separator", "s", PropertyHelper.GetPropertyInfo(typeof(FakeGenericsPlugin), nameof(Separator)),
                 "Sets the separator that is used to separate different generic types"),
-            new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(FakeGenericsPlugin), nameof(Stage)),
+            new CommandInfo("set-stage", "ss", PropertyHelper.GetPropertyInfo(typeof(FakeGenericsPlugin), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
         };
 
@@ -33,23 +35,32 @@ namespace ext_pp_plugins
         }
 
 
-        private bool ComputeNameAndKey_Generic(string[] vars, string currentPath, out string filePath, out string key,
-            out Dictionary<string, object> pluginCache)
+        private ImportResult ComputeNameAndKey_Generic(string[] vars, string currentPath)
         {
-            pluginCache = new Dictionary<string, object>();
-            filePath = key = "";
-            if (vars.Length == 0) return false;
+            ImportResult ret = new ImportResult();
+
+            string filePath = "";
+            string key = "";
+            if (vars.Length == 0)
+            {
+                return ret;
+            }
             string[] genParams = vars.Length > 1 ?
                 vars.SubArray(1, vars.Length - 1).ToArray() : new string[0];
             string dir = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(currentPath);
-            key =
-                filePath = Path.GetFullPath(vars[0]);
+            filePath = Path.GetFullPath(vars[0]);
+            key = filePath;
             Directory.SetCurrentDirectory(dir);
             key += (genParams.Length > 0 ? "." + genParams.Unpack(Separator) : "");
             if (genParams.Length != 0)
-                pluginCache.Add("genParams", genParams);
-            return true;
+            {
+                ret.SetValue("genParams", genParams);
+            }
+            ret.SetValue("filename", filePath);
+            ret.SetValue("key", key);
+            ret.SetResult(true);
+            return ret;
         }
 
         public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
@@ -65,7 +76,10 @@ namespace ext_pp_plugins
 
         public bool FullScriptStage(ISourceScript file, ISourceManager sourceManager, IDefinitions defs)
         {
-            if (!file.HasValueOfType<string[]>("genParams")) return true; //No error, we just dont have any generic parameters to replace.
+            if (!file.HasValueOfType<string[]>("genParams"))
+            {
+                return true; //No error, we just dont have any generic parameters to replace.
+            }
 
             string[] GenParams = file.GetValueFromCache<string[]>("genParams");
 

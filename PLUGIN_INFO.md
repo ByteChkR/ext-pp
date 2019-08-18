@@ -129,7 +129,7 @@ ______________________________________________
 ______________________________________________
 #### ToLowerPlugin Information:
 
-* Prefix: tup, ToUpper
+* Prefix: tul, ToLower
 * Commands:
 
 		set-order/o

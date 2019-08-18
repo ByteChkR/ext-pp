@@ -10,7 +10,7 @@ namespace ext_pp_base.settings
         /// <summary>
         /// Settings with this prefix will be forwarded to any plugin in the chain
         /// </summary>
-        public static string GlobalSettings = "glob";
+        public static string GlobalSettings { get; } = "glob";
 
         /// <summary>
         /// Dictionairy to store the settings for processing
@@ -21,9 +21,14 @@ namespace ext_pp_base.settings
         /// Default/Preset Constructor
         /// </summary>
         /// <param name="settings"></param>
-        public Settings(Dictionary<string, string[]> settings = null)
+        public Settings(Dictionary<string, string[]> settings)
         {
             _settings = settings ?? new Dictionary<string, string[]>();
+        }
+
+        public Settings() : this(null)
+        {
+
         }
 
         /// <summary>
@@ -33,8 +38,14 @@ namespace ext_pp_base.settings
         /// <param name="value"></param>
         public void Set(string key, string[] value)
         {
-            if (_settings.ContainsKey(key)) _settings[key] = value;
-            else _settings.Add(key, value);
+            if (_settings.ContainsKey(key))
+            {
+                _settings[key] = value;
+            }
+            else
+            {
+                _settings.Add(key, value);
+            }
         }
 
         /// <summary>
@@ -85,13 +96,13 @@ namespace ext_pp_base.settings
         /// <param name="prefixes"></param>
         /// <param name="includeGlobalConfig"></param>
         /// <returns></returns>
-        public Settings GetSettingsWithPrefix(string[] prefixes, bool includeGlobalConfig = false)
+        public Settings GetSettingsWithPrefix(string[] prefixes, bool includeGlobalConfig)
         {
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
-            Dictionary<string, string[]> tmp = new Dictionary<string, string[]>();
+
             for (int i = 0; i < prefixes.Length; i++)
             {
-                tmp = GetSettingsWithPrefix(prefixes[i], includeGlobalConfig)._settings;
+                Dictionary<string, string[]> tmp = GetSettingsWithPrefix(prefixes[i], includeGlobalConfig)._settings;
                 foreach (var args in tmp)
                 {
                     ret.Add(args.Key, args.Value);
@@ -101,6 +112,11 @@ namespace ext_pp_base.settings
             return new Settings(ret);
         }
 
+        public Settings GetSettingsWithPrefix(string[] prefixes)
+        {
+            return GetSettingsWithPrefix(prefixes, false);
+        }
+
         /// <summary>
         /// Returns a setting object that contains the settings with prefix.
         /// </summary>
@@ -108,25 +124,24 @@ namespace ext_pp_base.settings
         /// <param name="argBegin"></param>
         /// <param name="includeShared"></param>
         /// <returns></returns>
-        private Settings getSettingsWithPrefix(string prefix, string argBegin, bool includeShared = false)
+        private Settings GetSettingsWithPrefix(string prefix, string argBegin, bool includeShared)
         {
             string prfx = argBegin + prefix + ":";
             bool isGlob;
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
             foreach (var setting in _settings)
             {
-                isGlob = false;
-                if (setting.Key.StartsWith(prfx) ||
-                    (isGlob = (includeShared && setting.Key.StartsWith(GlobalSettings))))
+                isGlob = includeShared && setting.Key.StartsWith(GlobalSettings);
+                if (setting.Key.StartsWith(prfx) || isGlob)
                 {
                     ret.Add(setting.Key.Replace((isGlob ? GlobalSettings : prefix) + ":", ""), setting.Value);
                 }
             }
 
             return new Settings(ret);
-            //return new Settings(_settings.Where(x => x.Key.StartsWith(prfx) || (includeShared && x.Key.StartsWith(GlobalSettings)))
-            //    .ToDictionary(x => x.Key.Replace(prefix + ":", ""), y => y.Value));
         }
+
+
 
         /// <summary>
         /// Wrapper that returns the settings of the prefix.
@@ -134,20 +149,32 @@ namespace ext_pp_base.settings
         /// <param name="prefix"></param>
         /// <param name="includeShared"></param>
         /// <returns></returns>
-        public Settings GetSettingsWithPrefix(string prefix, bool includeShared = false)
+        public Settings GetSettingsWithPrefix(string prefix, bool includeShared)
         {
-            Settings s = getSettingsWithPrefix(prefix, "--", includeShared);
-            s = s.Merge(getSettingsWithPrefix(prefix, "-", includeShared));
+            Settings s = GetSettingsWithPrefix(prefix, "--", includeShared);
+            s = s.Merge(GetSettingsWithPrefix(prefix, "-", includeShared));
             return s;
 
+        }
+
+        public Settings GetSettingsWithPrefix(string prefix)
+        {
+            return GetSettingsWithPrefix(prefix, false);
         }
 
         private string[] FindCommandValue(CommandInfo c)
         {
             string key = "--" + c.Command;
-            List<string> s = new List<string>();
-            if (_settings.ContainsKey(key)) return _settings[key];
-            else if (c.ShortCut != "" && _settings.ContainsKey("-" + c.ShortCut)) return _settings["-" + c.ShortCut];
+            if (_settings.ContainsKey(key))
+            {
+                return _settings[key];
+            }
+
+            if (c.ShortCut != "" && _settings.ContainsKey("-" + c.ShortCut))
+            {
+                return _settings["-" + c.ShortCut];
+            }
+
             return null;
         }
 
@@ -161,8 +188,14 @@ namespace ext_pp_base.settings
         {
             foreach (var commandInfo in infos)
             {
-                if (commandInfo.Field.FieldType.IsArray) ApplySettingArray(commandInfo, obj);
-                else ApplySettingFirst(commandInfo.Field.FieldType, commandInfo, obj);
+                if (commandInfo.Field.PropertyType.IsArray)
+                {
+                    ApplySettingArray(commandInfo, obj);
+                }
+                else
+                {
+                    ApplySettingFirst(commandInfo.Field.PropertyType, commandInfo, obj);
+                }
             }
         }
 
@@ -195,10 +228,13 @@ namespace ext_pp_base.settings
         public void ApplySettingArray(CommandInfo info, object obj)
         {
             string[] cmdVal = FindCommandValue(info);
-            if (cmdVal == null) return;
-            string[] val = Utils.ParseArray(info.Field.FieldType.IsArray ?
-                info.Field.FieldType.GetElementType() :
-                info.Field.FieldType,
+            if (cmdVal == null)
+            {
+                return;
+            }
+            string[] val = Utils.ParseArray(info.Field.PropertyType.IsArray ?
+                info.Field.PropertyType.GetElementType() :
+                info.Field.PropertyType,
                 cmdVal, info.DefaultIfNotSpecified)
                 .OfType<string>().ToArray();
             info.Field.SetValue(obj, val);

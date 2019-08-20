@@ -265,8 +265,7 @@ namespace ext_pp_cli
                 return;
             }
 
-
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, CLIHeader);
+            
 
             _pluginManager = new PluginManager();
 
@@ -755,7 +754,7 @@ namespace ext_pp_cli
         public static void Main(string[] args)
         {
             float start = Timer.MS; // Load assembly
-            Console.WriteLine(CLIHeader+ "\n{0}ms", start);
+            Console.WriteLine(CLIHeader, start);
 #if DEBUG
 
             if (args.Length == 0)

@@ -15,8 +15,7 @@ namespace ext_pp_plugins
             typeof(ConditionalPlugin),
             typeof(FakeGenericsPlugin),
             typeof(IncludePlugin),
-            typeof(WarningPlugin),
-            typeof(ErrorPlugin),
+            typeof(ExceptionPlugin),
             typeof(BlankLineRemover),
         };
     }

@@ -153,7 +153,7 @@ ______________________________________________
 ______________________________________________
 #### ExceptionPlugin Information:
 
-* Prefix: wrn, Warning
+* Prefix: ex, ExceptionPlugin
 * Commands:
 
 		set-error/e
@@ -166,6 +166,8 @@ ______________________________________________
 			Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts
 		set-stage/ss
 			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
+		set-throw-on-warning/tow
+			Enable this to throw on warnings.
 ______________________________________________
 #### FakeGenericsPlugin Information:
 

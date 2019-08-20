@@ -2,8 +2,6 @@
 using System.IO;
 using ext_pp_base;
 using ext_pp_base.settings;
-using NUnit.Framework;
-
 namespace ext_pp.tests
 {
     public static class TestHelper

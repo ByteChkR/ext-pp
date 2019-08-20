@@ -35,6 +35,8 @@ namespace ext_pp_base
         [XmlElement]
         public string Command { get; set; }
 
+        public CommandMetaData() { }
+
         /// <summary>
         /// Constructor
         /// </summary>

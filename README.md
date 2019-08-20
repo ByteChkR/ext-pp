@@ -65,6 +65,22 @@ ______________________________________________
 		Lists all Cached data.
 
 ______________________________________________
+#### Base64BlockDecoder Information:
+
+* Prefix: b64, Base64BlockDecoder
+* Commands:
+
+		set-stage/ss
+			Sets the Stage Type of the Plugin to be Executed OnLoad or OnMain
+		set-start-encode-keyword/ssek
+			Sets the keyword that is used to open a Encode block
+		set-end-encode-keyword/seek
+			Sets the keyword that is used to end a Encode block
+		set-start-decode-keyword/ssdk
+			Sets the keyword that is used to open a Decode block
+		set-end-decode-keyword/sedk
+			Sets the keyword that is used to end a Decode block
+______________________________________________
 #### BlankLineRemover Information:
 
 * Prefix: blr, BLRemover

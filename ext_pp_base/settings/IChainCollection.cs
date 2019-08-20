@@ -5,7 +5,7 @@ namespace ext_pp_base
 {
     public interface IChainCollection
     {
-        List<Type> Chain { get; }
-        string Name { get; }
+        List<Type> GetChain();
+        string GetName();
     }
 }

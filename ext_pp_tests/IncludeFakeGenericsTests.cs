@@ -9,7 +9,7 @@ using NUnit.Framework;
 
 namespace ext_pp.tests
 {
-    public static class Tests
+    public static class IncludeFakeGenericsTests
     {
         private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "compiler_tests/";
         [SetUp]

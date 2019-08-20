@@ -216,7 +216,7 @@ namespace ext_pp_plugins
 
         private KeyValuePair<bool, int> PrepareForConditionalEvaluation(string keyword, string line, IDefinitions defs, IReadOnlyList<string> lastPass, int i, List<string> solvedFile)
         {
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", ElseIfCondition);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", keyword);
             bool r = EvaluateConditional(line, defs);
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Evaluation: {0}", r);
             bool elseIsValid = !r;

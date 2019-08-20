@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace ext_pp.tests
 {
-    public class ChangeCharCaseTests
+    public static class ChangeCharCaseTests
     {
 
         private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "CCC_tests/";

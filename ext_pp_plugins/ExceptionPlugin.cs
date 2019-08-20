@@ -18,7 +18,7 @@ namespace ext_pp_plugins
         public string WarningKeyword { get; set; } = "#warning";
         public string ErrorKeyword { get; set; } = "#error";
         public string Separator { get; set; } = " ";
-        public bool ThrowOnWarning { get; set; } = false;
+        public bool ThrowOnWarning { get; set; }
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {

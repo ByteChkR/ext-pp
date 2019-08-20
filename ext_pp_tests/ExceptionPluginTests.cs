@@ -30,12 +30,12 @@ namespace ext_pp.tests
             });
             try
             {
-                var ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, s, "warning_test.txt");
+                TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, s, "warning_test.txt");
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
+                //It will throw if it works.
             }
         }
         [Test]
@@ -48,9 +48,9 @@ namespace ext_pp.tests
                 TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, "error_test.txt");
                 Assert.Fail();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
+                //It will throw if it works.
             }
         }
     }

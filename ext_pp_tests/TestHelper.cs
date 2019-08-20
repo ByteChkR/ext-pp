@@ -11,7 +11,7 @@ namespace ext_pp.tests
 
 
         private static string _resourceFolder { get; } = Path.GetFullPath("../../../res/");
-        public static string ResourceFolder = "";
+        public static string ResourceFolder { get; private set; } = "";
         
         public static void SetupPath()
         {

@@ -18,6 +18,7 @@ namespace ext_pp_plugins
         public string WarningKeyword { get; set; } = "#warning";
         public string ErrorKeyword { get; set; } = "#error";
         public string Separator { get; set; } = " ";
+        public bool ThrowOnWarning { get; set; } = false;
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
@@ -31,6 +32,8 @@ namespace ext_pp_plugins
                 "Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts"),
             new CommandInfo("set-stage", "ss", PropertyHelper.GetPropertyInfo(typeof(ExceptionPlugin), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
+            new CommandInfo("set-throw-on-warning", "tow", PropertyHelper.GetPropertyInfo(typeof(ExceptionPlugin), nameof(ThrowOnWarning)),
+                "Enable this to throw on warnings."),
         };
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable)
         {
@@ -44,7 +47,14 @@ namespace ext_pp_plugins
             if (Utils.IsStatement(source, WarningKeyword))
             {
                 string err = Utils.SplitAndRemoveFirst(source, Separator).Unpack(" ");
-                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Warning: {0}", err);
+                if (ThrowOnWarning)
+                {
+                    Logger.Crash(new ProcessorException("Warning " + err), true);
+                }
+                else
+                {
+                    this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Warning: {0}", err);
+                }
                 return "";
             }
 

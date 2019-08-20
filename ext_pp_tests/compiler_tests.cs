@@ -11,25 +11,19 @@ namespace ext_pp.tests
 {
     public static class Tests
     {
-        private static string ResourceFolder { get; } = Path.GetFullPath("../../../res/");
-
+        private static string ResourceFolder { get; } = TestHelper.ResourceFolder + "compiler_tests/";
         [SetUp]
-        public static void Setup()
+        public static void SetUp()
         {
-            Directory.SetCurrentDirectory(ResourceFolder);
+            TestHelper.SetupPath();
         }
 
         [Test]
         public static void IncludeCircular()
         {
+            Directory.SetCurrentDirectory(ResourceFolder);
+            var ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new IncludePlugin() }, new[] { "includecircular.cl" });
 
-            PreProcessor pp = new PreProcessor();
-            List<AbstractPlugin> lp = new List<AbstractPlugin>
-            {
-                new IncludePlugin(),
-            };
-            pp.SetFileProcessingChain(lp);
-            var ret = pp.Process(new[] { "includecircular.cl" }, new Settings(), new Definitions());
             Assert.AreEqual(
                 ret.Length,
                 3);
@@ -38,17 +32,8 @@ namespace ext_pp.tests
         [Test]
         public static void IncludeGenericCircular()
         {
-            PreProcessor pp = new PreProcessor();
-
-            List<AbstractPlugin> lp = new List<AbstractPlugin>
-            {
-                new FakeGenericsPlugin(),
-                new IncludePlugin(),
-            };
-
-            
-            pp.SetFileProcessingChain(lp);
-            var ret = pp.Process(new[] { "genericincludepassthrough.cl" }, new Settings(), new Definitions());
+            Directory.SetCurrentDirectory(ResourceFolder);
+            var ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), }, new[] { "genericincludepassthrough.cl" });
             Assert.AreEqual(
                 ret.Length,
                 5);
@@ -57,14 +42,9 @@ namespace ext_pp.tests
         [Test]
         public static void TypePassing()
         {
-            PreProcessor pp = new PreProcessor();
-            List<AbstractPlugin> lp = new List<AbstractPlugin>
-            {
-                new FakeGenericsPlugin(),
-                new IncludePlugin(),
-            };
-            pp.SetFileProcessingChain(lp);
-            var ret = pp.Process(new[] { "typePassing.cl" }, new Settings(), new Definitions());
+            Directory.SetCurrentDirectory(ResourceFolder);
+            var ret = TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new FakeGenericsPlugin(), new IncludePlugin(), }, new[] { "typePassing.cl" });
+
             Assert.AreEqual(
                 ret.Length,
                 4);

@@ -35,7 +35,7 @@ namespace ext_pp_cli
         {
             List<string> ret = new List<string>
             {
-                "Plugin Name: " + plugin.GetType().Name,
+                "Plugin GetName: " + plugin.GetType().Name,
                 "Plugin Namespace: " + plugin.GetType().Namespace,
                 "Plugin Version: " + plugin.GetType().Assembly.GetName().Version,
                 "Plugin Include Global: " + plugin.IncludeGlobal,
@@ -58,7 +58,7 @@ namespace ext_pp_cli
         /// <returns></returns>
         public static string[] ToMarkdown(this AbstractPlugin plugin)
         {
-            List<string> ret = new List<string>()
+            List<string> ret = new List<string>
             {
                 "______________________________________________",
               "#### "+plugin.GetType().Name+ " Information:",

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -9,57 +10,56 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class ConditionalPlugin : AbstractPlugin
+    public class ConditionalPlugin : AbstractFullScriptPlugin
     {
 
         private static StringBuilder _sb = new StringBuilder();
 
-        public override string[] Cleanup => new string[] { DefineKeyword, UndefineKeyword };
-        public override string[] Prefix => new string[] { "con", "Conditional" };
-        public override ProcessStage ProcessStages => Stage.ToLower() == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
-        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
-        public string StartCondition = "#if";
-        public string ElseIfCondition = "#elseif";
-        public string ElseCondition = "#else";
-        public string EndCondition = "#endif";
-        public string UndefineKeyword = "#undefine";
-        public string DefineKeyword = "#define";
-        public string OrOperator = "||";
-        public string NotOperator = "!";
-        public string AndOperator = "&&";
-        public string Separator = " ";
-        public bool EnableDefine = true;
-        public bool EnableUndefine = true;
-        public string Stage = "onload";
+        public override string[] Cleanup => new[] { DefineKeyword, UndefineKeyword };
+        public override string[] Prefix => new[] { "con", "Conditional" };
+        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
+        public string StartCondition { get; set; } = "#if";
+        public string ElseIfCondition { get; set; } = "#elseif";
+        public string ElseCondition { get; set; } = "#else";
+        public string EndCondition { get; set; } = "#endif";
+        public string UndefineKeyword { get; set; } = "#undefine";
+        public string DefineKeyword { get; set; } = "#define";
+        public string OrOperator { get; set; } = "||";
+        public string NotOperator { get; set; } = "!";
+        public string AndOperator { get; set; } = "&&";
+        public string Separator { get; set; } = " ";
+        public bool EnableDefine { get; set; } = true;
+        public bool EnableUndefine { get; set; } = true;
+        public string Stage { get; set; } = "onload";
 
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
-            new CommandInfo("set-define", "d", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)),
+            new CommandInfo("set-define", "d", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(DefineKeyword)),
                 "Sets the keyword that is used to define variables during the compilation."),
-            new CommandInfo("set-undefine", "u", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword)),
+            new CommandInfo("set-undefine", "u", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(UndefineKeyword)),
                 "Sets the keyword that is used to undefine previously defined variables during the compilation."),
-            new CommandInfo("set-if","if", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(StartCondition)),
+            new CommandInfo("set-if","if", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(StartCondition)),
                 "Sets the keyword that is used to start a new condition block."),
-            new CommandInfo("set-elseif","elif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseIfCondition)),
+            new CommandInfo("set-elseif","elif", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(ElseIfCondition)),
                 "Sets the keyword that is used to continue a previously started condition block with another condition block."),
-            new CommandInfo("set-else", "else", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(ElseCondition)),
+            new CommandInfo("set-else", "else", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(ElseCondition)),
             "Sets the keyword that is used to start a new condition block that is taken when the previous blocks evaluated to false."),
-            new CommandInfo("set-endif", "eif", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EndCondition)),
+            new CommandInfo("set-endif", "eif", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EndCondition)),
                 "Sets the keyword that is used to end a previously started condition block."),
-            new CommandInfo("set-not","n", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(NotOperator)),
+            new CommandInfo("set-not","n", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(NotOperator)),
                 "Sets the keyword that is used to negate an expression in if conditions."),
-            new CommandInfo("set-and","a", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(AndOperator)),
+            new CommandInfo("set-and","a", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(AndOperator)),
                 "Sets the keyword for the logical AND operator"),
-            new CommandInfo("set-or","o", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
+            new CommandInfo("set-or","o", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(OrOperator)),
                 "Sets the keyword for the logical OR operator"),
-            new CommandInfo("enable-define", "eD", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableDefine)),
+            new CommandInfo("enable-define", "eD", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EnableDefine)),
                 "Enables/Disables the detection of define statements(defines can still be set via the defines object/the command line)"),
-            new CommandInfo("enable-undefine","eU", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(EnableUndefine)),
+            new CommandInfo("enable-undefine","eU", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(EnableUndefine)),
                 "Enables/Disables the detection of undefine statements"),
-            new CommandInfo("set-stage", "ss", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(Stage)),
+            new CommandInfo("set-stage", "ss", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
-            new CommandInfo("set-separator", "s", PropertyHelper.GetFieldInfo(typeof(ConditionalPlugin), nameof(Separator)),
+            new CommandInfo("set-separator", "s", PropertyHelper.GetPropertyInfo(typeof(ConditionalPlugin), nameof(Separator)),
                 "Sets the separator that is used to separate different generic types"),
         };
 
@@ -70,17 +70,8 @@ namespace ext_pp_plugins
 
         }
 
-        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
 
-        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-        public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        public override bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL4, "Starting Condition Solver passes on file: {0}", Path.GetFileName(file.GetFilePath()));
             bool ret = true;
@@ -103,19 +94,13 @@ namespace ext_pp_plugins
                     string line = lastPass[i].TrimStart();
                     if (IsKeyWord(line, StartCondition))
                     {
-                        this.Log(DebugLevel.LOGS,  Verbosity.LEVEL5, "Found a {0} Statement", StartCondition);
-                        bool r = EvaluateConditional(line, defs);
-                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Evaluation: {0}", r);
-                        elseIsValid = !r;
-                        int size = GetBlockSize(lastPass, i);
-                        if (r)
-                        {
-                            solvedFile.AddRange(lastPass.SubArray(i + 1, size));
-                            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Adding Branch To Solved File.");
-                        }
+                        KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(ElseIfCondition, line, defs, lastPass, i,
+                            solvedFile);
+
+                        elseIsValid = prep.Key;
+                        i += prep.Value;
 
                         openIf++;
-                        i += size;
                         foundConditions = true;
                         expectEndOrIf = false;
                     }
@@ -123,18 +108,11 @@ namespace ext_pp_plugins
                     {
                         if (!expectEndOrIf && openIf > 0)
                         {
-                            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", ElseIfCondition);
-                            bool r = EvaluateConditional(line, defs);
-                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Evaluation: {0}", r);
-                            elseIsValid = !r;
-                            int size = GetBlockSize(lastPass, i);
-                            if (r)
-                            {
-                                solvedFile.AddRange(lastPass.SubArray(i + 1, size));
-                                this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Adding Branch To Solved File.");
-                            }
+                            KeyValuePair<bool, int> prep = PrepareForConditionalEvaluation(ElseIfCondition, line, defs, lastPass, i,
+                                solvedFile);
 
-                            i += size;
+                            elseIsValid = prep.Key;
+                            i += prep.Value;
                             foundConditions = true;
                         }
                         else if (expectEndOrIf)
@@ -196,7 +174,7 @@ namespace ext_pp_plugins
                              line.StartsWith(DefineKeyword))
                     {
 
-                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", DefineKeyword); ;
+                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", DefineKeyword);
                         defs.Set(Utils.SplitAndRemoveFirst(line, Separator));
                         solvedFile.Add(lastPass[i]);
                     }
@@ -213,8 +191,14 @@ namespace ext_pp_plugins
                     }
                 }
 
-                if (ret) lastPass = solvedFile;
-                else break;
+                if (ret)
+                {
+                    lastPass = solvedFile;
+                }
+                else
+                {
+                    break;
+                }
                 solvedFile = new List<string>();
 
 
@@ -230,6 +214,22 @@ namespace ext_pp_plugins
         }
 
 
+        private KeyValuePair<bool, int> PrepareForConditionalEvaluation(string keyword, string line, IDefinitions defs, IReadOnlyList<string> lastPass, int i, List<string> solvedFile)
+        {
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Found a {0} Statement", keyword);
+            bool r = EvaluateConditional(line, defs);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Evaluation: {0}", r);
+            bool elseIsValid = !r;
+            int size = GetBlockSize(lastPass, i);
+            if (r)
+            {
+                solvedFile.AddRange(lastPass.SubArray(i + 1, size));
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Adding Branch To Solved File.");
+            }
+
+            return new KeyValuePair<bool, int>(elseIsValid, size);
+        }
+
         private int GetBlockSize(IReadOnlyList<string> source, int start)
         {
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Finding End of conditional block...");
@@ -240,7 +240,7 @@ namespace ext_pp_plugins
                 if (line.StartsWith(StartCondition))
                 {
                     this.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Found nested opening conditional block...");
-                    i += GetBlockSize(source, i);
+                    i += GetBlockSize(source, i); //Skip Indices that are "inside" the if clause
                     tolerance++;
                 }
 
@@ -276,7 +276,7 @@ namespace ext_pp_plugins
         private bool EvaluateConditional(string[] expression, IDefinitions defs)
         {
 
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Evaluating Expression: {0}" , expression.Unpack(" "));
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL7, "Evaluating Expression: {0}", expression.Unpack(" "));
 
             bool ret = true;
             bool isOr = false;
@@ -291,23 +291,40 @@ namespace ext_pp_plugins
                 }
                 else if (expression[i] == "(")
                 {
-                    //i++;
-                    if (expectOperator) isOr = false;
+                    if (expectOperator)
+                    {
+                        isOr = false;
+                    }
                     expectOperator = true;
 
                     int size = IndexOfClosingBracket(expression, i) - i - 1;
                     bool tmp = EvaluateConditional(expression.SubArray(i + 1, size).ToArray(), defs);
-                    if (isOr) ret |= tmp;
-                    else ret &= tmp;
+                    if (isOr)
+                    {
+                        ret |= tmp;
+                    }
+                    else
+                    {
+                        ret &= tmp;
+                    }
                     i += size;
                 }
                 else
                 {
-                    if (expectOperator) isOr = false;
+                    if (expectOperator)
+                    {
+                        isOr = false;
+                    }
                     expectOperator = true;
                     bool tmp = EvaluateExpression(expression[i], defs);
-                    if (isOr) ret |= tmp;
-                    else ret &= tmp;
+                    if (isOr)
+                    {
+                        ret |= tmp;
+                    }
+                    else
+                    {
+                        ret &= tmp;
+                    }
                 }
             }
 
@@ -324,9 +341,13 @@ namespace ext_pp_plugins
                 return false;
             }
 
-            if (neg) expression = expression.Substring(1, expression.Length - 1);
+            string exp = expression;
+            if (neg)
+            {
+                exp = expression.Substring(1, expression.Length - 1);
+            }
 
-            var val = defs.Check(expression);
+            var val = defs.Check(exp);
 
             val = neg ? !val : val;
 
@@ -335,8 +356,8 @@ namespace ext_pp_plugins
         private string FixCondition(string line)
         {
 
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Fixing expression: {0}" , line);
-            List<char> ret = new List<char>();
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Fixing expression: {0}", line);
+
 
             string r = line;
             r = SurroundWithSpaces(r, OrOperator);
@@ -345,7 +366,7 @@ namespace ext_pp_plugins
             r = SurroundWithSpaces(r, ")");
             string rr = Utils.RemoveExcessSpaces(r, Separator, this);
 
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Fixed condition(new): {0}" , rr);
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Fixed condition(new): {0}", rr);
             return rr;
 
         }

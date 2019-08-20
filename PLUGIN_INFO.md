@@ -1,4 +1,20 @@
 ______________________________________________
+#### Base64BlockDecoder Information:
+
+* Prefix: b64, Base64BlockDecoder
+* Commands:
+
+		set-stage/ss
+			Sets the Stage Type of the Plugin to be Executed OnLoad or OnMain
+		set-start-encode-keyword/ssek
+			Sets the keyword that is used to open a Encode block
+		set-end-encode-keyword/seek
+			Sets the keyword that is used to end a Encode block
+		set-start-decode-keyword/ssdk
+			Sets the keyword that is used to open a Decode block
+		set-end-decode-keyword/sedk
+			Sets the keyword that is used to end a Decode block
+______________________________________________
 #### BlankLineRemover Information:
 
 * Prefix: blr, BLRemover
@@ -10,6 +26,18 @@ ______________________________________________
 			Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts
 		set-stage/ss
 			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
+______________________________________________
+#### ChangeCharCase Information:
+
+* Prefix: ccc, ChangeCharCase
+* Commands:
+
+		set-order/o
+			Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts
+		set-stage/ss
+			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
+		set-case/sc
+			Sets the Case that will transform the text. Options: tolower(default)/toupper
 ______________________________________________
 #### CLIDebugger Information:
 
@@ -57,19 +85,23 @@ ______________________________________________
 		set-separator/s
 			Sets the separator that is used to separate different generic types
 ______________________________________________
-#### ErrorPlugin Information:
+#### ExceptionPlugin Information:
 
-* Prefix: err, Error
+* Prefix: ex, ExceptionPlugin
 * Commands:
 
 		set-error/e
 			Sets the keyword that is used to trigger errors during compilation
+		set-warning/w
+			sets the keyword that is used to trigger warnings during compilation
 		set-separator/s
-			Sets the separator that is used to separate the error keyword from the error text
+			Sets the separator that is used to separate different generic types
 		set-order/o
 			Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts
 		set-stage/ss
 			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
+		set-throw-on-warning/tow
+			Enable this to throw on warnings.
 ______________________________________________
 #### FakeGenericsPlugin Information:
 
@@ -126,37 +158,3 @@ ______________________________________________
 			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
 		set-mlkeyword/mlk
 			Sets the keyword that is used to detect when to lines should be merged. The line containing the keyword will be merges with the next line in the file
-______________________________________________
-#### ToLowerPlugin Information:
-
-* Prefix: tup, ToUpper
-* Commands:
-
-		set-order/o
-			Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts
-		set-stage/ss
-			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
-______________________________________________
-#### ToUpperPlugin Information:
-
-* Prefix: tup, ToUpper
-* Commands:
-
-		set-order/o
-			Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts
-		set-stage/ss
-			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp
-______________________________________________
-#### WarningPlugin Information:
-
-* Prefix: wrn, Warning
-* Commands:
-
-		set-warning/w
-			sets the keyword that is used to trigger warnings during compilation
-		set-separator/s
-			Sets the separator that is used to separate different generic types
-		set-order/o
-			Sets the Line Order to be Executed BEFORE the Fullscripts or AFTER the Fullscripts
-		set-stage/ss
-			Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp

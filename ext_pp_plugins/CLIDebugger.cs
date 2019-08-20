@@ -8,7 +8,7 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    struct Breakpoint
+    class Breakpoint
     {
         private int line;
         private string filename;
@@ -26,7 +26,7 @@ namespace ext_pp_plugins
             return this.line == line && (this.filename == "*" || this.filename == filename);
         }
 
-        public Breakpoint[] Parse(string breakpointstr, ILoggable logobj)
+        public static Breakpoint[] Parse(string breakpointstr, ILoggable logobj)
         {
             return Parse(breakpointstr.Pack(" ").ToArray(), logobj);
         }
@@ -39,7 +39,10 @@ namespace ext_pp_plugins
 
         public static Breakpoint[] Parse(string[] breakpointarr, ILoggable logobj)
         {
-            if (breakpointarr == null) return new Breakpoint[0];
+            if (breakpointarr == null)
+            {
+                return new Breakpoint[0];
+            }
             List<Breakpoint> points = new List<Breakpoint>();
             foreach (var breakpoint in breakpointarr)
             {
@@ -58,14 +61,23 @@ namespace ext_pp_plugins
                     do
                     {
 
-                        if (!continueCreation) args[idx + 1] = GetInput();
-                        if (!continueCreation && args[idx + 1] == "-dbg-exit") exit = true;
+                        if (!continueCreation)
+                        {
+                            args[idx + 1] = GetInput();
+                        }
+                        if (!continueCreation && args[idx + 1] == "-dbg-exit")
+                        {
+                            exit = true;
+                        }
                         if (!exit && !int.TryParse(args[idx + 1], out b.stage))
                         {
                             Logger.Log(logobj, DebugLevel.LOGS,Verbosity.LEVEL1, "Stage is not a valid integer. To abort type -dbg-exit");
                             continueCreation = false;
                         }
-                        else if (!exit) continueCreation = true;
+                        else if (!exit)
+                        {
+                            continueCreation = true;
+                        }
 
                     } while (!continueCreation && !exit);
                 }
@@ -75,19 +87,31 @@ namespace ext_pp_plugins
                     do
                     {
 
-                        if (!continueCreation) args[idx + 1] = GetInput();
-                        if (!continueCreation && args[idx + 1] == "-dbg-exit") exit = true;
+                        if (!continueCreation)
+                        {
+                            args[idx + 1] = GetInput();
+                        }
+                        if (!continueCreation && args[idx + 1] == "-dbg-exit")
+                        {
+                            exit = true;
+                        }
                         if (!exit && !int.TryParse(args[idx + 1], out b.line))
                         {
                             Logger.Log(logobj, DebugLevel.LOGS,Verbosity.LEVEL1, "Line is not a valid integer. To abort type -dbg-exit");
                             continueCreation = false;
                         }
-                        else if (!exit) continueCreation = true;
+                        else if (!exit)
+                        {
+                            continueCreation = true;
+                        }
 
                     } while (!continueCreation && !exit);
                 }
 
-                if (continueCreation) points.Add(b);
+                if (continueCreation)
+                {
+                    points.Add(b);
+                }
             }
 
             return points.ToArray();
@@ -95,21 +119,19 @@ namespace ext_pp_plugins
         }
     }
 
-    public class CLIDebugger : AbstractPlugin
+    public class CLIDebugger : AbstractFullScriptPlugin
     {
-        public override PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => ProcessStage.ON_LOAD_STAGE | ProcessStage.ON_MAIN;
 
-        public override string[] Prefix => new string[] { "dbg" };
-        public string[] Breakpoints = null;
+        public override string[] Prefix => new[] { "dbg" };
+        public string[] Breakpoints { get; set; }
         private List<Breakpoint> _breakpoints = new List<Breakpoint>();
-        private bool isBreaking = false;
-        private int lineCount = 0;
+        private bool isBreaking;
 
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
-            new CommandInfo("set-breakpoint", "bp", PropertyHelper.GetFieldInfo(typeof(CLIDebugger), nameof(Breakpoints)),
+            new CommandInfo("set-breakpoint", "bp", PropertyHelper.GetPropertyInfo(typeof(CLIDebugger), nameof(Breakpoints)),
                 "Sets the breakpoints for the session.\n" +
                 "Syntax: \nfile:<filepath> file:<filepath> file:<filepath>\n" +
                 "file:<filepath>:line:<line_nr>\n" +
@@ -125,26 +147,14 @@ namespace ext_pp_plugins
             settings.ApplySettings(Info, this);
             _breakpoints = Breakpoint.Parse(Breakpoints,this).ToList();
         }
-
-        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
-            IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
-            IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-        public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        
+        public override bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             List<string> source = file.GetSource().ToList();
 
             foreach (var breakpoint in _breakpoints)
             {
-                for (lineCount = 0; lineCount < source.Count; lineCount++)
+                for (int lineCount = 0; lineCount < source.Count; lineCount++)
                 {
                     if (isBreaking)
                     {
@@ -172,7 +182,10 @@ namespace ext_pp_plugins
                             else if (getInput.StartsWith("-dbg-dump "))
                             {
                                 string ff = getInput.Split(" ")[1];
-                                if (ff != "")File.WriteAllLines(ff, source);
+                                if (ff != "")
+                                {
+                                    File.WriteAllLines(ff, source);
+                                }
                             }
                             else if (getInput.StartsWith("-dbg-add-bp "))
                             {
@@ -193,27 +206,7 @@ namespace ext_pp_plugins
 
             return true;
         }
-
-        public override string OnLoad_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-        public override string OnMain_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-        public override string OnFinishUp_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-
-        public string LineStage(string source)
-        {
-            return source;
-        }
+        
 
     }
 }

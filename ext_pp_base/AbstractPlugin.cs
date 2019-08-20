@@ -20,7 +20,7 @@ namespace ext_pp_base
         public static List<AbstractPlugin> GetPluginsForStage(List<AbstractPlugin> plugins, PluginType type, ProcessStage stage)
         {
             return plugins.Where(
-                x => ADL.BitMask.IsContainedInMask((int)x.PluginType, (int)type, true) &&
+                x => ADL.BitMask.IsContainedInMask((int)x.PluginTypeToggle, (int)type, true) &&
                      ADL.BitMask.IsContainedInMask((int)x.ProcessStages, (int)stage, true)).ToList();
         }
 
@@ -36,7 +36,7 @@ namespace ext_pp_base
         /// <summary>
         /// Specifies the plugin type. Fullscript or Line Script
         /// </summary>
-        public virtual PluginType PluginType => PluginType.FULL_SCRIPT_PLUGIN;
+        public virtual PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         /// <summary>
         /// Specifies the order on what "event" the plugin should execute
         /// </summary>

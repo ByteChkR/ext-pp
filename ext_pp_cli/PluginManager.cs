@@ -18,24 +18,31 @@ namespace ext_pp_cli
         /// Basic information about the plugin
         /// </summary>
         [Serializable]
-        public struct PluginInformation
+        public class PluginInformation
         {
             /// <summary>
             /// All the prefixes used by the plugin
             /// </summary>
-            public string[] Prefixes;
+            [XmlElement]
+            public string[] Prefixes { get; set; }
+
             /// <summary>
-            /// Assembly Name
+            /// Assembly GetName
             /// </summary>
-            public string Name;
+            [XmlElement]
+            public string Name { get; set; }
+
             /// <summary>
             /// Path of the library
             /// </summary>
-            public string Path;
+            [XmlElement]
+            public string Path { get; set; }
+
             /// <summary>
             /// The Cached information about each command.
             /// </summary>
-            public CommandMetaData[] Data;
+            [XmlElement]
+            public CommandMetaData[] Data { get; set; }
 
             /// <summary>
             /// Constructor
@@ -52,14 +59,24 @@ namespace ext_pp_cli
                 Data = data;
             }
 
+            public PluginInformation()
+            {
+
+            }
+
             /// <summary>
             /// returns a description of the plugin
             /// </summary>
             /// <param name="shortDesc"></param>
             /// <returns></returns>
-            public string GetDescription(bool shortDesc = true)
+            public string GetDescription(bool shortDesc)
             {
                 return Name + ": \n" + Path + "\nPrefixes:\n\t" + Prefixes.Unpack("\n\t") + (shortDesc ? "" : "\nCommand Info: \n\t" + Data.Select(x => x.ToString()).Unpack("\n\t"));
+            }
+
+            public string GetDescription()
+            {
+                return GetDescription(true);
             }
 
             public override string ToString()
@@ -72,20 +89,24 @@ namespace ext_pp_cli
         /// gets cached to disk.
         /// </summary>
         [Serializable]
-        public struct PluginManagerDatabase
+        public class PluginManagerDatabase
         {
             /// <summary>
             /// The directories that will be automatically added when refreshed.
             /// </summary>
-            public List<string> IncludedDirectories;
+            public List<string> IncludedDirectories { get; set; } = new List<string>();
+
             /// <summary>
             /// the included files that were included manually.
             /// </summary>
-            public List<string> IncludedFiles;
+            public List<string> IncludedFiles { get; set; } = new List<string>();
+
             /// <summary>
             /// The cache of the plugin information.
             /// </summary>
-            public List<PluginInformation> Cache;
+
+            public List<PluginInformation> Cache { get; set; } = new List<PluginInformation>();
+            
         }
         /// <summary>
         /// Directory of the ext_pp_cli.dll library
@@ -114,7 +135,10 @@ namespace ext_pp_cli
         /// </summary>
         public PluginManager()
         {
-            if (!Directory.Exists(_defaultPluginFolder)) Directory.CreateDirectory(_defaultPluginFolder);
+            if (!Directory.Exists(_defaultPluginFolder))
+            {
+                Directory.CreateDirectory(_defaultPluginFolder);
+            }
             if (File.Exists(_configPath))
             {
                 Initialize();
@@ -166,7 +190,7 @@ namespace ext_pp_cli
         /// Lists all cached plugins
         /// </summary>
         /// <param name="shortDesc">should skip the commands/help for commands</param>
-        public void ListCachedPlugins(bool shortDesc = false)
+        public void ListCachedPlugins(bool shortDesc)
         {
             for (int i = 0; i < info.Cache.Count; i++)
             {
@@ -236,25 +260,32 @@ namespace ext_pp_cli
             }
             else
             {
-                file = Path.GetFullPath(file);
-                if (info.Cache.Count(x => x.Path == file) != 0) return;
+                string fullpath = Path.GetFullPath(file);
+                if (info.Cache.Count(x => x.Path == fullpath) != 0)
+                {
+                    return;
+                }
 
-                info.IncludedFiles.Add(file);
+                info.IncludedFiles.Add(fullpath);
 
-                List<AbstractPlugin> plugins = FromFile(file);
+                List<AbstractPlugin> plugins = FromFile(fullpath);
 
                 List<PluginInformation> val = new List<PluginInformation>();
 
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding {0} plugins from {1}", plugins.Count, file);
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding {0} plugins from {1}", plugins.Count, fullpath);
 
                 for (int i = 0; i < plugins.Count; i++)
                 {
-                    val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, file, plugins[i].Info.Select(x => x.Meta).ToArray()));
+                    val.Add(new PluginInformation(plugins[i].Prefix, plugins[i].GetType().Name, fullpath, plugins[i].Info.Select(x => x.Meta).ToArray()));
                 }
                 info.Cache.AddRange(val);
 
             }
-            if (save) Save();
+
+            if (save)
+            {
+                Save();
+            }
         }
 
         /// <summary>
@@ -263,13 +294,13 @@ namespace ext_pp_cli
         /// <param name="name"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public bool GetPluginInfoByName(string name, out PluginInformation val)
+        public static bool TryGetPluginInfoByName(PluginManagerDatabase pmd, string name, out PluginInformation val)
         {
-            for (int i = 0; i < info.Cache.Count; i++)
+            for (int i = 0; i < pmd.Cache.Count; i++)
             {
-                if (info.Cache[i].Name == name)
+                if (pmd.Cache[i].Name == name)
                 {
-                    val = info.Cache[i];
+                    val = pmd.Cache[i];
                     return true;
                 }
             }
@@ -285,13 +316,13 @@ namespace ext_pp_cli
         /// <param name="prefix"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public bool GetPluginInfoByPrefix(string prefix, out PluginInformation val)
+        public static bool TryGetPluginInfoByPrefix(PluginManagerDatabase pmd, string prefix, out PluginInformation val)
         {
-            for (int i = 0; i < info.Cache.Count; i++)
+            for (int i = 0; i < pmd.Cache.Count; i++)
             {
-                if (info.Cache[i].Prefixes.Contains(prefix))
+                if (pmd.Cache[i].Prefixes.Contains(prefix))
                 {
-                    val = info.Cache[i];
+                    val = pmd.Cache[i];
                     return true;
                 }
             }
@@ -309,14 +340,14 @@ namespace ext_pp_cli
         /// <param name="prefix"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public bool GetPluginInfoByPathAndPrefix(string file, string prefix, out PluginInformation val)
+        public static bool TryGetPluginInfoByPathAndPrefix(PluginManagerDatabase pmd, string file, string prefix, out PluginInformation val)
         {
 
-            for (int i = 0; i < info.Cache.Count; i++)
+            for (int i = 0; i < pmd.Cache.Count; i++)
             {
-                if (info.Cache[i].Path == file && info.Cache[i].Prefixes.Contains(prefix))
+                if (pmd.Cache[i].Path == file && pmd.Cache[i].Prefixes.Contains(prefix))
                 {
-                    val = info.Cache[i];
+                    val = pmd.Cache[i];
                     return true;
                 }
             }
@@ -334,11 +365,17 @@ namespace ext_pp_cli
         /// <returns></returns>
         private PluginInformation[] GetAllInLib(string pathToLib)
         {
-            if (!File.Exists(pathToLib)) return new PluginInformation[0];
-            List<PluginInformation> ret = new List<PluginInformation>();
-            foreach (var info in info.Cache)
+            if (!File.Exists(pathToLib))
             {
-                if (info.Path == pathToLib) ret.Add(info);
+                return new PluginInformation[0];
+            }
+            List<PluginInformation> ret = new List<PluginInformation>();
+            foreach (var inf in info.Cache)
+            {
+                if (inf.Path == pathToLib)
+                {
+                    ret.Add(inf);
+                }
             }
 
             return ret.ToArray();
@@ -357,7 +394,10 @@ namespace ext_pp_cli
             if (names == null)
             {
                 PluginInformation[] inf = GetAllInLib(path);
-                if (inf.Length == 0) return false;
+                if (inf.Length == 0)
+                {
+                    return false;
+                }
                 foreach (var name in inf)
                 {
 
@@ -371,7 +411,7 @@ namespace ext_pp_cli
 
             foreach (var name in names)
             {
-                if (GetPluginInfoByPathAndPrefix(path, name, out PluginInformation val))
+                if (TryGetPluginInfoByPathAndPrefix(info, path, name, out PluginInformation val))
                 {
                     this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n{0}", val.GetDescription(shortDesc));
                 }
@@ -412,7 +452,7 @@ namespace ext_pp_cli
                 }
                 else
                 {
-                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Discovering Files in {0}" , info.IncludedDirectories[i]);
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Discovering Files in {0}", info.IncludedDirectories[i]);
                     string[] files = Directory.GetFiles(info.IncludedDirectories[i], "*.dll");
                     foreach (var file in files)
                     {
@@ -461,9 +501,9 @@ namespace ext_pp_cli
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}" , path);
+                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}", path);
                 // ignored
             }
 
@@ -477,7 +517,9 @@ namespace ext_pp_cli
         private void Save()
         {
             if (File.Exists(_configPath))
+            {
                 File.Delete(_configPath);
+            }
             FileStream fs = new FileStream(_configPath, FileMode.Create);
             _serializer.Serialize(fs, info);
             fs.Close();
@@ -492,16 +534,19 @@ namespace ext_pp_cli
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "First start of Plugin Manager. Setting up...");
             FileStream fs = new FileStream(_configPath, FileMode.Create);
-            info = new PluginManagerDatabase()
+            info = new PluginManagerDatabase
             {
                 IncludedFiles = new List<string>(),
                 Cache = new List<PluginInformation>(),
-                IncludedDirectories = new List<string>()
+                IncludedDirectories = new List<string>
                 {
                     _defaultPluginFolder
                 }
             };
-            if (!Directory.Exists(_defaultPluginFolder)) Directory.CreateDirectory(_defaultPluginFolder);
+            if (!Directory.Exists(_defaultPluginFolder))
+            {
+                Directory.CreateDirectory(_defaultPluginFolder);
+            }
             _serializer.Serialize(fs, info);
             fs.Close();
             Refresh();
@@ -515,9 +560,9 @@ namespace ext_pp_cli
         /// <param name="name"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public bool GetPathByName(string name, out string path)
+        public bool TryGetPathByName(string name, out string path)
         {
-            if (GetPluginInfoByName(name, out var pli))
+            if (TryGetPluginInfoByName(info, name, out var pli))
             {
                 path = pli.Path;
                 return true;
@@ -533,9 +578,9 @@ namespace ext_pp_cli
         /// <param name="prefix"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public bool GetPathByPrefix(string prefix, out string path)
+        public bool TryGetPathByPrefix(string prefix, out string path)
         {
-            if (GetPluginInfoByPrefix(prefix, out var pli))
+            if (TryGetPluginInfoByPrefix(info, prefix, out var pli))
             {
                 path = pli.Path;
                 return true;

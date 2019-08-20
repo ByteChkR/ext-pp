@@ -4,26 +4,19 @@ using ext_pp_base;
 
 namespace ext_pp_plugins
 {
-    public class ChainCollection:IChainCollection
+    public class ChainCollection : IChainCollection
     {
-        public string GetName()
-        {
-            return "Default_Chain";
-        }
+        public string GetName() => "Default";
 
-        public List<Type> GetChain()
+        public List<Type> GetChain() => new List<Type>
         {
-            return new List<Type>()
-            {
-                typeof(MultiLinePlugin),
-                typeof(KeyWordReplacer),
-                typeof(ConditionalPlugin),
-                typeof(FakeGenericsPlugin),
-                typeof(IncludePlugin),
-                typeof(WarningPlugin),
-                typeof(ErrorPlugin),
-                typeof(BlankLineRemover),
-            };
-        }
+            typeof(MultiLinePlugin),
+            typeof(KeyWordReplacer),
+            typeof(ConditionalPlugin),
+            typeof(FakeGenericsPlugin),
+            typeof(IncludePlugin),
+            typeof(ExceptionPlugin),
+            typeof(BlankLineRemover),
+        };
     }
 }

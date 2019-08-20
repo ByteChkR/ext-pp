@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace ext_pp_base
 {
@@ -7,28 +9,33 @@ namespace ext_pp_base
     /// A Struct that contains all the information about the plugin
     /// </summary>
     [Serializable]
-    public struct CommandMetaData
+    public class CommandMetaData
     {
-        /// <summary>
-        /// The help text of the command
-        /// </summary>
-        public string HelpText;
 
-        /// <summary>
-        /// The primary command.
-        /// Can be accessed with --
-        /// </summary>
-        public string Command;
+        [XmlElement]
+        public string HelpText { get; set; }
 
         /// <summary>
         /// The shortcut for the command
         /// Can be accessed with -
         /// </summary>
-        public string ShortCut;
+        [XmlElement]
+        public string ShortCut { get; set; }
+
         /// <summary>
         /// If this parameter can be set by a global prefix
         /// </summary>
-        public bool IncludeGlobal;
+        [XmlElement]
+        public bool IncludeGlobal { get; set; }
+
+        /// <summary>
+        /// The command.
+        /// Can be accessed with --
+        /// </summary>
+        [XmlElement]
+        public string Command { get; set; }
+
+        public CommandMetaData() { }
 
         /// <summary>
         /// Constructor
@@ -59,7 +66,7 @@ namespace ext_pp_base
     /// <summary>
     /// A struct that is used to define custom commands.
     /// </summary>
-    public struct CommandInfo
+    public class CommandInfo
     {
         /// <summary>
         /// The help text of the command
@@ -69,7 +76,7 @@ namespace ext_pp_base
         /// The primary command.
         /// Can be accessed with --
         /// </summary>
-        public string Command=>Meta.Command;
+        public string Command => Meta.Command;
         /// <summary>
         /// The shortcut for the command
         /// Can be accessed with -
@@ -83,15 +90,17 @@ namespace ext_pp_base
         /// <summary>
         /// The field that will be set with reflection
         /// </summary>
-        public readonly FieldInfo Field;
+        public PropertyInfo Field { get; }
+
         /// <summary>
         /// Wrapper to separate serializable info from the command info.
         /// </summary>
-        public readonly CommandMetaData Meta;
+        public CommandMetaData Meta { get; }
+
         /// <summary>
         /// If true will set the value of the command to the default value if not specified directly in the settings
         /// </summary>
-        public readonly object DefaultIfNotSpecified;
+        public object DefaultIfNotSpecified { get; }
 
         /// <summary>
         /// Constructor
@@ -102,13 +111,31 @@ namespace ext_pp_base
         /// <param name="helpText"></param>
         /// <param name="defaultIfNotSpecified"></param>
         /// <param name="global"></param>
-        public CommandInfo(string command, string shortcut, FieldInfo field, string helpText, object defaultIfNotSpecified = null, bool global = false)
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText, object defaultIfNotSpecified, bool global)
         {
             Field = field;
-            Meta=new CommandMetaData(command, shortcut, helpText, global);
+            Meta = new CommandMetaData(command, shortcut, helpText, global);
             DefaultIfNotSpecified = defaultIfNotSpecified;
         }
-        
+
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helptext) : this(command, shortcut, field, helptext, null, false)
+        {
+
+        }
+
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helptext,
+            object defaultIfNotSpecified) : this(command, shortcut, field, helptext, defaultIfNotSpecified, false)
+        {
+
+        }
+
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helptext,
+            bool global) : this(command, shortcut, field, helptext, null, global)
+        {
+
+        }
+
+
         /// <summary>
         /// Writes the information as readable text.
         /// </summary>

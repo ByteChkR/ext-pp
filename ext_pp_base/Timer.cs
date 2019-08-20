@@ -12,7 +12,7 @@ namespace ext_pp_base
         
 
         private Stopwatch StopWatch { get; } = new Stopwatch();
-        public long LastLap { get; private set; } = 0;
+        public long LastLap { get; private set; }
 
         public Timer()
         {

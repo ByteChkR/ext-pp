@@ -8,7 +8,7 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class ErrorPlugin : AbstractPlugin
+    public class ErrorPlugin : AbstractLinePlugin
     {
 
         public override string[] Prefix => new [] { "err", "Error" };
@@ -41,34 +41,8 @@ namespace ext_pp_plugins
             settings.ApplySettings(Info, this);
         }
 
-        public override string OnLoad_LineStage(string source)
-        {
-            return LineStage(source);
-        }
 
-        public override string OnMain_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-        public override string OnFinishUp_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-
-
-        public string LineStage(string source)
+        public override string LineStage(string source)
         {
             if (!Utils.IsStatement(source, ErrorKeyword))
             {
@@ -79,12 +53,7 @@ namespace ext_pp_plugins
             return "";
         }
 
-
-
-        public static bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
-        {
-            return true;
-        }
+        
 
     }
 }

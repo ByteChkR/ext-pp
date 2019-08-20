@@ -8,10 +8,9 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class FakeGenericsPlugin : AbstractPlugin
+    public class FakeGenericsPlugin : AbstractFullScriptPlugin
     {
         public override string[] Prefix => new[] { "gen", "FakeGen" };
-        public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
         public string Stage { get; set; } = "onmain";
         public string GenericKeyword { get; set; } = "#type";
@@ -63,18 +62,8 @@ namespace ext_pp_plugins
             return ret;
         }
 
-        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
 
-        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-
-        public bool FullScriptStage(ISourceScript file, ISourceManager sourceManager, IDefinitions defs)
+        public override bool FullScriptStage(ISourceScript file, ISourceManager sourceManager, IDefinitions defs)
         {
             if (!file.HasValueOfType<string[]>("genParams"))
             {

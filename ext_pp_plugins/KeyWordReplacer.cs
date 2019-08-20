@@ -6,7 +6,7 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class KeyWordReplacer : AbstractPlugin
+    public class KeyWordReplacer : AbstractLinePlugin
     {
         public override PluginType PluginTypeToggle => (Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE);
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
@@ -78,40 +78,7 @@ namespace ext_pp_plugins
 
         }
 
-        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
-            IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
-            IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-        public static bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
-        {
-            return true;
-        }
-
-        public override string OnLoad_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-        public override string OnMain_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-        public override string OnFinishUp_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-
-        public string LineStage(string source)
+        public override string LineStage(string source)
         {
             string ret = source;
             Dictionary<string, string> keywords = _keywords;

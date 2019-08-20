@@ -267,12 +267,12 @@ namespace ext_pp
         /// <summary>
         /// Wrapper that runs a list of line plugins based on the stage that is beeing run.
         /// </summary>
-        /// <param name="_lineStage"></param>
+        /// <param name="lineStage"></param>
         /// <param name="stage"></param>
         /// <param name="source"></param>
-        private static void RunLineStage(List<AbstractPlugin> _lineStage, ProcessStage stage, string[] source)
+        private static void RunLineStage(List<AbstractPlugin> lineStage, ProcessStage stage, string[] source)
         {
-            foreach (var abstractPlugin in _lineStage)
+            foreach (var abstractPlugin in lineStage)
             {
                 for (int i = 0; i < source.Length; i++)
                 {
@@ -294,9 +294,9 @@ namespace ext_pp
         }
 
 
-        private bool RunFullScriptStage(List<AbstractPlugin> _fullScriptStage, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
+        private bool RunFullScriptStage(List<AbstractPlugin> fullScriptStage, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
         {
-            foreach (var abstractPlugin in _fullScriptStage)
+            foreach (var abstractPlugin in fullScriptStage)
             {
                 bool ret = true;
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Running Plugin: {0}: {1} on file {2}", abstractPlugin, stage, Path.GetFileName(script.GetFilePath()));

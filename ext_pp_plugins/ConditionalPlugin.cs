@@ -10,7 +10,7 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class ConditionalPlugin : AbstractPlugin
+    public class ConditionalPlugin : AbstractFullScriptPlugin
     {
 
         private static StringBuilder _sb = new StringBuilder();
@@ -18,7 +18,6 @@ namespace ext_pp_plugins
         public override string[] Cleanup => new [] { DefineKeyword, UndefineKeyword };
         public override string[] Prefix => new [] { "con", "Conditional" };
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
-        public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         public string StartCondition { get; set; } = "#if";
         public string ElseIfCondition { get; set; } = "#elseif";
         public string ElseCondition { get; set; } = "#else";
@@ -70,18 +69,9 @@ namespace ext_pp_plugins
             settings.ApplySettings(Info, this);
 
         }
+        
 
-        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-        public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        public override bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL4, "Starting Condition Solver passes on file: {0}", Path.GetFileName(file.GetFilePath()));
             bool ret = true;

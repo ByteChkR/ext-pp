@@ -5,7 +5,7 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class ToLowerPlugin : AbstractPlugin
+    public class ToLowerPlugin : AbstractLinePlugin
     {
         public override PluginType PluginTypeToggle => (Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE);
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
@@ -22,22 +22,8 @@ namespace ext_pp_plugins
                     "Sets the Stage Type of the Plugin to be Executed OnLoad or OnFinishUp"),
             };
 
-        public override string OnFinishUp_LineStage(string source)
-        {
-            return LineStage(source);
-        }
 
-        public override string OnLoad_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-        public override string OnMain_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-        private static string LineStage(string source)
+        public override string LineStage(string source)
         {
             return source.ToLower(CultureInfo.InvariantCulture);
         }

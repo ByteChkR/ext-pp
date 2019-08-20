@@ -106,8 +106,7 @@ namespace ext_pp_cli
             /// </summary>
 
             public List<PluginInformation> Cache { get; set; } = new List<PluginInformation>();
-
-            public PluginManagerDatabase() { }
+            
         }
         /// <summary>
         /// Directory of the ext_pp_cli.dll library

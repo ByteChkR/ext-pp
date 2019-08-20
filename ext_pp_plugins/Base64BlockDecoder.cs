@@ -32,7 +32,7 @@ namespace ext_pp_plugins
         public override string[] Prefix => new[] { "b64", "Base64BlockDecoder" };
 
 
-        public override List<CommandInfo> Info { get; } = new List<CommandInfo>()
+        public override List<CommandInfo> Info { get; } = new List<CommandInfo>
         {
             new CommandInfo("set-stage","ss", PropertyHelper.GetPropertyInfo(typeof(Base64BlockDecoder), nameof(Stage)),
                 "Sets the Stage Type of the Plugin to be Executed OnLoad or OnMain"),
@@ -178,7 +178,7 @@ namespace ext_pp_plugins
         }
 
 
-        public string LineStage(string source)
+        public static string LineStage(string source)
         {
             return source;
         }

@@ -1,3 +1,3 @@
-#block encode
+#block encode b64
 HelloWASAAAAAAAAAAAABI
 #endblock encode

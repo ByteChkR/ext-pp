@@ -19,7 +19,7 @@ namespace ext_pp.tests
             }
         }
 
-        private static PreProcessor setUp(List<AbstractPlugin> chain)
+        private static PreProcessor SetUp(List<AbstractPlugin> chain)
         {
             PreProcessor pp = new PreProcessor();
             pp.SetFileProcessingChain(chain);
@@ -29,7 +29,7 @@ namespace ext_pp.tests
         public static ISourceScript[] SetUpAndProcess(List<AbstractPlugin> chain, Settings settings, IDefinitions definitions, params string[] fileNames)
         {
 
-            PreProcessor pp = setUp(chain);
+            PreProcessor pp = SetUp(chain);
             return pp.Process(fileNames, settings, definitions);
         }
 
@@ -53,7 +53,7 @@ namespace ext_pp.tests
 
         public static string[] SetUpAndCompile(List<AbstractPlugin> chain, Settings settings, IDefinitions definitions, params string[] fileNames)
         {
-            PreProcessor pp = setUp(chain);
+            PreProcessor pp = SetUp(chain);
             return pp.Compile(fileNames, settings, definitions);
         }
 

@@ -31,7 +31,7 @@ namespace ext_pp_plugins
             public delegate string EncodeDel(string text, string[] parameter);
             public delegate string DecodeDel(string text, string[] parameter);
 
-            public readonly string Key;
+            public string Key { get; private set; }
             private readonly EncodeDel _encode;
             private readonly DecodeDel _decode;
 
@@ -54,8 +54,8 @@ namespace ext_pp_plugins
 
             #region En/Decodings
 
-            public static TextEncoding Base64 = new TextEncoding("b64", Encode_BASE64, Decode_BASE64);
-            public static TextEncoding ROT = new TextEncoding("rot",
+            public static TextEncoding Base64 { get; } = new TextEncoding("b64", Encode_BASE64, Decode_BASE64);
+            public static TextEncoding ROT { get; } = new TextEncoding("rot",
                 (text, parameter) => DeEncode_ROT(text, parameter, true),
                 (text, parameter) => DeEncode_ROT(text, parameter, false));
 
@@ -78,9 +78,7 @@ namespace ext_pp_plugins
 
             private const char SPACE = ' ';
             private const char LOWER_A = 'a';
-            private const char LOWER_Z = 'z';
             private const char UPPER_A = 'A';
-            private const char UPPER_Z = 'Z';
             public static string DeEncode_ROT(string text, string[] parameter, bool encode)
             {
                 int amount = Math.Abs(int.Parse(parameter[0]) % 13);
@@ -135,7 +133,7 @@ namespace ext_pp_plugins
 
         }
 
-        public static List<TextEncoding> Encoders = new List<TextEncoding>
+        private static List<TextEncoding> Encoders = new List<TextEncoding>
         {
             TextEncoding.Base64, TextEncoding.ROT
         };

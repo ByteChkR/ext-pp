@@ -197,6 +197,19 @@ namespace ext_pp_cli
             Debug.RemoveAllOutputStreams();
         }
 
+        private List<string> GenerateReadme(List<AbstractPlugin> plugins)
+        {
+            List<string> ret = new List<string>();
+
+            foreach (var abstractPlugin in plugins)
+            {
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Generating Readme for plugin: {0}", abstractPlugin.GetType().Name);
+                ret.AddRange(abstractPlugin.ToMarkdown());
+            }
+
+            return ret;
+        }
+
         /// <summary>
         /// Constructor that does the parameter analysis.
         /// </summary>
@@ -208,9 +221,11 @@ namespace ext_pp_cli
 
             if (args.Length == 3 && args[0] == "-readme")
             {
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1,"Generating Readme for file: {0}", args[1]);
                 PluginManager pm = new PluginManager();
-                List<string> ht = new List<string>();
-                pm.FromFile(args[1]).ForEach(x => ht.AddRange(x.ToMarkdown()));
+                List<string> ht = GenerateReadme(pm.FromFile(args[1]));
+
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Writing Readme to file: {0}", args[2]);
                 File.WriteAllLines(args[2], ht.ToArray());
                 return;
             }
@@ -739,7 +754,8 @@ namespace ext_pp_cli
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
-
+            float start = Timer.MS; // Load assembly
+            Console.WriteLine(CLIHeader+ "\n{0}ms", start);
 #if DEBUG
 
             if (args.Length == 0)
@@ -754,9 +770,11 @@ namespace ext_pp_cli
             CLI c;
             string[] arf;
             bool exit=false;
+            bool isFirst=true;
             do
             {
-                arf = Console.ReadLine().Pack(" ").ToArray();
+                arf = isFirst? args : Console.ReadLine().Pack(" ").ToArray();
+                isFirst=false;
                 if(arf.Contains("exit"))exit=true;
                 c = new CLI(arf);
                 CLI.Shutdown();

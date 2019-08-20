@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using ext_pp_base;
@@ -12,6 +13,9 @@ namespace ext_pp
     /// </summary>
     public class PreProcessor : ILoggable
     {
+        
+
+
         /// <summary>
         /// List of loaded plugins
         /// </summary>

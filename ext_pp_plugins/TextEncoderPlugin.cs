@@ -213,9 +213,9 @@ namespace ext_pp_plugins
         {
             List<string> lines = file.GetSource().ToList();
             List<int> removeIndices = new List<int>();
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Block Keywords.");
             for (int i = 0; i < lines.Count; i++)
             {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Block Keywords.");
                 if (lines[i].TrimStart().StartsWith(BlockEncodeStartKeyword))
                 {
 

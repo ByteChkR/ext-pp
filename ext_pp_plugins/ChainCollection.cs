@@ -17,6 +17,8 @@ namespace ext_pp_plugins
             typeof(IncludePlugin),
             typeof(ExceptionPlugin),
             typeof(BlankLineRemover),
+            typeof(ChangeCharCase),
+            typeof(TextEncoderPlugin),
         };
     }
 }

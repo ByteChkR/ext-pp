@@ -501,7 +501,7 @@ namespace ext_pp_cli
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}", path);
                 // ignored

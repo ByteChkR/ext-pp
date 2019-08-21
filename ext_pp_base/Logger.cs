@@ -22,7 +22,7 @@ namespace ext_pp_base
         {
             if (level <= VerbosityLevel)
             {
-                ADL.Debug.Log(mask, string.Format("[" + Timer.MS + "ms]" + format, objs));
+                ADL.Debug.Log(mask, string.Format(format, objs));
             }
 
         }

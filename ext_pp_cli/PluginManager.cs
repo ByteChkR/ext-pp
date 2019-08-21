@@ -27,7 +27,7 @@ namespace ext_pp_cli
             public string[] Prefixes { get; set; }
 
             /// <summary>
-            /// Assembly GetName
+            /// Assembly Name
             /// </summary>
             [XmlElement]
             public string Name { get; set; }

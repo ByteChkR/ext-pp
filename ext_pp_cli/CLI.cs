@@ -597,7 +597,7 @@ namespace ext_pp_cli
         {
             if (TryCreateChainCollection(asm, name, out IChainCollection collection))
             {
-                List<AbstractPlugin> r = collection.GetChain()
+                List<AbstractPlugin> r = collection.Chain
                     .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Creating Chain Collection with Plugins: {0}", r.Select(x => x.GetType().Name).Unpack(", "));
                 return r;
@@ -626,7 +626,7 @@ namespace ext_pp_cli
             else
             {
                 collection = types.Where(x => x.GetInterfaces().Contains(typeof(IChainCollection)))
-                    .Select(x => (IChainCollection)Activator.CreateInstance(x)).FirstOrDefault(x => x.GetName() == name);
+                    .Select(x => (IChainCollection)Activator.CreateInstance(x)).FirstOrDefault(x => x.Name == name);
             }
 
             return collection != null;

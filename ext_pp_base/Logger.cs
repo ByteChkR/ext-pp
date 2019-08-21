@@ -6,6 +6,18 @@ namespace ext_pp_base
 {
     public static class Logger
     {
+        public static bool ThrowOnError { get; set; } = true;
+        public static bool ThrowOnWarning { get; set; }
+
+        public static int ErrorCount { get; private set; }
+        public static int WarningCount { get; private set; }
+
+        public static void ResetWarnErrorCounter()
+        {
+            ErrorCount = 0;
+            WarningCount = 0;
+        }
+
         /// <summary>
         /// The Verbosity level
         /// Everything lower than this will be sent to the log output
@@ -53,6 +65,40 @@ namespace ext_pp_base
         {
             Log(mask, level, "[" + obj.GetType().Name + "]" + format, objs);
         }
+
+
+        public static void Warning(this ILoggable obj, string format, params object[] objs)
+        {
+            WarningCount++;
+            if (ThrowOnWarning)
+            {
+                Crash(obj, format, true, objs);
+            }
+            else
+            {
+                Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, format, objs);
+            }
+        }
+
+        public static void Error(this ILoggable obj, string format, params object[] objs)
+        {
+            ErrorCount++;
+            if (ThrowOnError)
+            {
+                Crash(obj, format, true,objs );
+            }
+            else
+            {
+                Log(DebugLevel.ERRORS, Verbosity.SILENT, format, objs);
+            }
+        }
+
+        public static void Crash(this ILoggable obj, string format, bool throwEx, params object[] objs)
+        {
+            Crash(new ProcessorException(string.Format(format, objs)), throwEx);
+        }
+
+        
 
 
         /// <summary>

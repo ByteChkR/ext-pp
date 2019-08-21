@@ -1,0 +1,1 @@
+--chain blr con ex gen inc kwr mlp tenc -i test.txt -o result.txt -v 8 -l2f process_output.log all:false -kwr:ss onload -kwr:o before -kwr:tf hh:mm:ss:ff

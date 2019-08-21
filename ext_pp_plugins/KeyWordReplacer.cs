@@ -16,32 +16,30 @@ namespace ext_pp_plugins
         public string SurroundingChar { get; set; } = "$";
         public override string[] Prefix => new[] { "kwr", "KWReplacer" };
         public string[] Keywords { get; set; }
-        private DateTime time;
-        private Dictionary<string, string> _keywords
+        private Dictionary<string, string> GetKeywords()
         {
-            get
+
+            Dictionary<string, string> ret = new Dictionary<string, string>();
+            if (!NoDefaultKeywords)
             {
-                Dictionary<string, string> ret = new Dictionary<string, string>();
-                if (!NoDefaultKeywords)
-                {
 
-                    ret.Add("DATE_TIME", time.ToString(DateTimeFormatString));
-                    ret.Add("DATE", time.ToString(DateFormatString));
-                    ret.Add("TIME", time.ToString(TimeFormatString));
-                }
+                ret.Add("DATE_TIME", DateTime.Now.ToString(DateTimeFormatString));
+                ret.Add("DATE", DateTime.Now.ToString(DateFormatString));
+                ret.Add("TIME", DateTime.Now.ToString(TimeFormatString));
+            }
 
-                if (Keywords == null)
-                {
-                    return ret;
-                }
-                for (int i = 0; i < Keywords.Length; i++)
-                {
-                    string[] s = Keywords[i].Split(":");
-                    ret.Add(s[0], s[1]);
-                }
-
+            if (Keywords == null)
+            {
                 return ret;
             }
+            for (int i = 0; i < Keywords.Length; i++)
+            {
+                string[] s = Keywords[i].Split(":");
+                ret.Add(s[0], s[1]);
+            }
+
+            return ret;
+
         }
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>
@@ -70,15 +68,13 @@ namespace ext_pp_plugins
         public override void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defs)
         {
             settings.ApplySettings(Info, this);
-            time = DateTime.Now;
 
         }
 
         public override string LineStage(string source)
         {
             string ret = source;
-            Dictionary<string, string> keywords = _keywords;
-            foreach (var keyword in keywords)
+            foreach (var keyword in GetKeywords())
             {
                 string key = SurroundingChar + keyword.Key + SurroundingChar;
                 if (ret.Contains(key))

@@ -319,14 +319,14 @@ namespace ext_pp_cli
             //Error Checking
             if ((Output.Length == 0 && !OutputToConsole) || Input.Length == 0)
             {
-                this.Log(DebugLevel.ERRORS, Verbosity.SILENT, "Not enough arguments specified. Aborting..");
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, HelpText);
+                this.Log(DebugLevel.LOGS, Verbosity.SILENT, HelpText);
+                this.Error("Not enough arguments specified. Aborting..");
                 return true;
             }
 
             if (Input.Length > Output.Length)
             {
-                this.Log(DebugLevel.ERRORS, Verbosity.SILENT, "Not enough outputs specified. Aborting..");
+                this.Error("Not enough outputs specified. Aborting..");
                 return true;
             }
 
@@ -631,7 +631,7 @@ namespace ext_pp_cli
             }
             else
             {
-                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Not plugin chain specified. 0 Plugins Loaded..");
+                this.Error("Not plugin chain specified. 0 Plugins Loaded..");
                 _chain = new List<AbstractPlugin>();
             }
 
@@ -810,7 +810,7 @@ namespace ext_pp_cli
             else
             {
 
-                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}", path);
+                this.Error("Could not load file: {0}", path);
             }
 
             return ret;
@@ -1078,6 +1078,7 @@ namespace ext_pp_cli
                 if(arf.Contains("exit"))exit=true;
                 c = new CLI(arf);
                 Debug.RemoveAllOutputStreams();
+                Logger.ResetWarnErrorCounter();
                 c = null;
             } while (!exit);
 

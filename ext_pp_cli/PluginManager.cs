@@ -114,7 +114,7 @@ namespace ext_pp_cli
             /// </summary>
 
             public List<PluginInformation> Cache { get; set; } = new List<PluginInformation>();
-            
+
         }
         /// <summary>
         /// Directory of the ext_pp_cli.dll library
@@ -246,7 +246,7 @@ namespace ext_pp_cli
             }
             else
             {
-                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Folder does not exist: {0}", folder);
+                this.Error("Folder does not exist: {0}", folder);
             }
 
             Save();
@@ -263,7 +263,7 @@ namespace ext_pp_cli
             if (!File.Exists(file))
             {
 
-                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "File does not exist: {0}", file);
+                this.Error("File does not exist: {0}", file);
 
             }
             else
@@ -457,7 +457,7 @@ namespace ext_pp_cli
             {
                 if (!Directory.Exists(info.IncludedDirectories[i]))
                 {
-                    this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Folder does not exist: {0} Removing..", info.IncludedDirectories[i]);
+                    this.Error("Folder does not exist: {0} Removing..", info.IncludedDirectories[i]);
                     info.IncludedDirectories.RemoveAt(i);
 
                 }
@@ -514,7 +514,7 @@ namespace ext_pp_cli
             }
             catch (Exception)
             {
-                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}", path);
+                this.Error("Could not load file: {0}", path);
                 // ignored
             }
 

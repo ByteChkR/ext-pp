@@ -50,7 +50,7 @@ namespace ext_pp_plugins
                         if (args.Length == 0)
                         {
 
-                            this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "No File Specified");
+                            this.Warning("No File Specified");
                             continue;
                         }
 
@@ -64,7 +64,7 @@ namespace ext_pp_plugins
                         }
                         else
                         {
-                            this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "File does not exist: {0}", args[0]);
+                            this.Warning("File does not exist: {0}", args[0]);
                         }
                     }
                 }
@@ -73,7 +73,7 @@ namespace ext_pp_plugins
 
 
             string[] incs = Utils.FindStatements(source.ToArray(), IncludeKeyword);
-            
+
             foreach (var includes in incs)
             {
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Processing Statement: {0}", includes);
@@ -119,7 +119,7 @@ namespace ext_pp_plugins
                 ImportResult importInfo = manager.GetComputingScheme()(vars, currentPath);
                 if (!importInfo)
                 {
-                    this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Invalid Include Statement");
+                    this.Error("Invalid Include Statement");
                     return false;
 
                 }
@@ -155,7 +155,7 @@ namespace ext_pp_plugins
                     var sourceScript = scripts[index];
                     if (!Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFilePath()))
                     {
-                        this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not find File: {0}", sourceScript.GetFilePath());
+                        this.Error("Could not find File: {0}", sourceScript.GetFilePath());
                         scripts.RemoveAt(index);
                     }
                 }

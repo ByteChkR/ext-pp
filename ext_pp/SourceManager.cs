@@ -254,7 +254,7 @@ namespace ext_pp
             if (LockScriptCreation)
             {
                 script = null;
-                this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
+                this.Warning("A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
                 return false;
             }
 

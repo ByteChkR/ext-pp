@@ -24,6 +24,7 @@ namespace ext_pp.tests
         public static void ExceptionWarningTest()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
+            Logger.ThrowOnWarning = true;
             Settings s = new Settings(new Dictionary<string, string[]>
             {
                 {"-ex:tow", new string[0]}
@@ -42,7 +43,7 @@ namespace ext_pp.tests
         public static void ExceptionErrorTest()
         {
             Directory.SetCurrentDirectory(ResourceFolder);
-            
+            Logger.ThrowOnError = true;
             try
             {
                 TestHelper.SetUpAndProcess(new List<AbstractPlugin> { new ExceptionPlugin() }, "error_test.txt");

@@ -320,7 +320,7 @@ namespace ext_pp
 
                 if (!ret)
                 {
-                    this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Processing was aborted by Plugin: {0}", abstractPlugin);
+                    this.Error("Processing was aborted by Plugin: {0}", abstractPlugin);
                     return false;
                 }
             }

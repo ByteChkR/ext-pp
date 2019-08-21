@@ -9,9 +9,9 @@ namespace ext_pp_plugins
 {
     public class BlankLineRemover : AbstractLinePlugin
     {
-        public string BlankLineRemovalKeyword { get; set; } = "###remove###";
+        public string BlankLineRemovalKeyword { get; set; } = "###REMOVE###";
         public override string[] Prefix => new[] { "blr", "BLRemover" };
-        public override string[] Cleanup => new[] { BlankLineRemovalKeyword };
+        public override string[] Cleanup => new[] { BlankLineRemovalKeyword, BlankLineRemovalKeyword.ToLower(CultureInfo.InvariantCulture) };
 
 
         public override List<CommandInfo> Info { get; } = new List<CommandInfo>

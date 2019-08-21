@@ -89,7 +89,7 @@ $(document).ready(function(){initNavTree('classext__pp__plugins_1_1_key_word_rep
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#properties">Properties</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classext__pp__plugins_1_1_key_word_replacer-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ext_pp_plugins.KeyWordReplacer Class Reference</div>  </div>
@@ -136,7 +136,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ade567f54af9c07a70b49ca47eb0bc74a"><td class="memItemLeft" align="right" valign="top"><a id="ade567f54af9c07a70b49ca47eb0bc74a"></a>
-override string []&#160;</td><td class="memItemRight" valign="bottom"><b>Prefix</b> =&gt; new [] { &quot;kwr&quot;, &quot;KWReplacer&quot; }</td></tr>
+override string []&#160;</td><td class="memItemRight" valign="bottom"><b>Prefix</b> =&gt; new[] { &quot;kwr&quot;, &quot;KWReplacer&quot; }</td></tr>
 <tr class="separator:ade567f54af9c07a70b49ca47eb0bc74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classext__pp__base_1_1_abstract_line_plugin"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classext__pp__base_1_1_abstract_line_plugin')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classext__pp__base_1_1_abstract_line_plugin.html">ext_pp_base.AbstractLinePlugin</a></td></tr>
 <tr class="memitem:a25d44002b09a190d028ed4fda541af68 inherit pub_attribs_classext__pp__base_1_1_abstract_line_plugin"><td class="memItemLeft" align="right" valign="top">override <a class="el" href="namespaceext__pp__base_1_1settings.html#a9e33bd1ea58d31f00e108c43b5b55981">PluginType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_line_plugin.html#a25d44002b09a190d028ed4fda541af68">PluginTypeToggle</a> =&gt; (Order.ToLower(CultureInfo.InvariantCulture) == &quot;after&quot; ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE)</td></tr>
@@ -182,9 +182,6 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>SurroundingChar</b>
 <tr class="memitem:a2ce4a14862c05e051427edcc8249ea2d"><td class="memItemLeft" align="right" valign="top"><a id="a2ce4a14862c05e051427edcc8249ea2d"></a>
 string []&#160;</td><td class="memItemRight" valign="bottom"><b>Keywords</b><code> [get, set]</code></td></tr>
 <tr class="separator:a2ce4a14862c05e051427edcc8249ea2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a637c9a2e405bb8b436749ce4b2e31339"><td class="memItemLeft" align="right" valign="top"><a id="a637c9a2e405bb8b436749ce4b2e31339"></a>
-Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_keywords</b><code> [get]</code></td></tr>
-<tr class="separator:a637c9a2e405bb8b436749ce4b2e31339"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8930380932239eafaec73b129f2a255"><td class="memItemLeft" align="right" valign="top">override List&lt; <a class="el" href="classext__pp__base_1_1_command_info.html">CommandInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Info</b><code> [get]</code></td></tr>
 <tr class="separator:ae8930380932239eafaec73b129f2a255"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header properties_classext__pp__base_1_1_abstract_line_plugin"><td colspan="2" onclick="javascript:toggleInherit('properties_classext__pp__base_1_1_abstract_line_plugin')"><img src="closed.png" alt="-"/>&#160;Properties inherited from <a class="el" href="classext__pp__base_1_1_abstract_line_plugin.html">ext_pp_base.AbstractLinePlugin</a></td></tr>
@@ -199,11 +196,11 @@ string&#160;</td><td class="memItemRight" valign="bottom"><b>Stage</b> = &quot;o
 <tr class="memdesc:a557c61c3fb9338b2c81bf0e279330a17 inherit properties_classext__pp__base_1_1_abstract_plugin"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of prefixes the plugin should be able to listen to when receiving settings  <a href="classext__pp__base_1_1_abstract_plugin.html#a557c61c3fb9338b2c81bf0e279330a17">More...</a><br /></td></tr>
 <tr class="separator:a557c61c3fb9338b2c81bf0e279330a17 inherit properties_classext__pp__base_1_1_abstract_plugin"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:ab150b0d47841f4822d5cbb37fd996ddc"><td class="memItemLeft" align="right" valign="top"><a id="ab150b0d47841f4822d5cbb37fd996ddc"></a>
-DateTime&#160;</td><td class="memItemRight" valign="bottom"><b>time</b></td></tr>
-<tr class="separator:ab150b0d47841f4822d5cbb37fd996ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:af5f1e1f23e7a36218a2bf15a040f4656"><td class="memItemLeft" align="right" valign="top"><a id="af5f1e1f23e7a36218a2bf15a040f4656"></a>
+Dictionary&lt; string, string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetKeywords</b> ()</td></tr>
+<tr class="separator:af5f1e1f23e7a36218a2bf15a040f4656"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>

@@ -117,13 +117,13 @@ namespace ext_pp_plugins
                         }
                         else if (expectEndOrIf)
                         {
-                            this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "A {0} can not be followed by an {1}", ElseCondition, ElseIfCondition);
+                            this.Error("A {0} can not be followed by an {1}", ElseCondition, ElseIfCondition);
                             ret = false;
                             break;
                         }
                         else
                         {
-                            this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "A {0} should be preceeded by a {1}", ElseIfCondition, StartCondition);
+                            this.Error("A {0} should be preceeded by a {1}", ElseIfCondition, StartCondition);
                             ret = false;
                             break;
                         }
@@ -150,7 +150,7 @@ namespace ext_pp_plugins
                         }
                         else
                         {
-                            this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "A {0} should be preceeded by a {1}", ElseCondition, StartCondition);
+                            this.Error("A {0} should be preceeded by a {1}", ElseCondition, StartCondition);
                             ret = false;
                             break;
                         }
@@ -166,7 +166,7 @@ namespace ext_pp_plugins
                         {
                             ret = false;
 
-                            this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "A {0} should be preceeded by a {1}", EndCondition, StartCondition);
+                            this.Error("A {0} should be preceeded by a {1}", EndCondition, StartCondition);
                             break;
                         }
                     }
@@ -337,7 +337,7 @@ namespace ext_pp_plugins
             bool neg = expression.StartsWith(NotOperator);
             if (expression == NotOperator)
             {
-                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Single not Operator found. Will break the compilation.");
+                this.Error("Single not Operator found. Will break the compilation.");
                 return false;
             }
 

@@ -6,6 +6,5 @@ var classext__pp__plugins_1_1_exception_plugin =
     [ "ErrorKeyword", "classext__pp__plugins_1_1_exception_plugin.html#a6eb58760ddc490877aee69cbf171bb56", null ],
     [ "Info", "classext__pp__plugins_1_1_exception_plugin.html#a0c46680c1fee6ca22897d7c66c97a5ea", null ],
     [ "Separator", "classext__pp__plugins_1_1_exception_plugin.html#a0c2c9607005284217513df88a2b915b8", null ],
-    [ "ThrowOnWarning", "classext__pp__plugins_1_1_exception_plugin.html#a5b8b91954243583da04b478df50ff6a4", null ],
     [ "WarningKeyword", "classext__pp__plugins_1_1_exception_plugin.html#a3e3f2c4750ed065f7d39713de7a97830", null ]
 ];

@@ -227,7 +227,7 @@ namespace ext_pp_plugins
                     i++;//Move forward.
                     if (!encodingOk)
                     {
-                        this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load encoder: {0}", lines[i]);
+                        this.Error("Could not load encoder: {0}", lines[i]);
                     }
 
 
@@ -256,7 +256,7 @@ namespace ext_pp_plugins
 
                     if (!decodingOk)
                     {
-                        this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load decoder: {0}", lines[i]);
+                        this.Error("Could not load decoder: {0}", lines[i]);
                     }
 
                     this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Found Block Decode Keyword.");

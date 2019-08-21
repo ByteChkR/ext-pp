@@ -97,9 +97,21 @@ $(document).ready(function(){initNavTree('classext__pp__base_1_1_logger.html',''
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a434ffb2511c14aa0933d3bdfc90553b7"><td class="memItemLeft" align="right" valign="top"><a id="a434ffb2511c14aa0933d3bdfc90553b7"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>ResetWarnErrorCounter</b> ()</td></tr>
+<tr class="separator:a434ffb2511c14aa0933d3bdfc90553b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bfe6bd63c897809ac5bce7e827ffb89"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_logger.html#a0bfe6bd63c897809ac5bce7e827ffb89">Log</a> (this <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html">ILoggable</a> obj, <a class="el" href="namespaceext__pp__base_1_1settings.html#a0d63a2f2bed58029a2772b9c3b7e4fa4">DebugLevel</a> mask, <a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a> level, string format, params object[] objs)</td></tr>
 <tr class="memdesc:a0bfe6bd63c897809ac5bce7e827ffb89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extension of <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html" title="An empty interface that is used to Log where the log is coming from. Just add to any script and you c...">ILoggable</a>. Is used to log "from" an object.  <a href="#a0bfe6bd63c897809ac5bce7e827ffb89">More...</a><br /></td></tr>
 <tr class="separator:a0bfe6bd63c897809ac5bce7e827ffb89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae95134392260c5b7d68427794d1daa73"><td class="memItemLeft" align="right" valign="top"><a id="ae95134392260c5b7d68427794d1daa73"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>Warning</b> (this <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html">ILoggable</a> obj, string format, params object[] objs)</td></tr>
+<tr class="separator:ae95134392260c5b7d68427794d1daa73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fd8bf52eb9dd88600f3568fb2ddc9f8"><td class="memItemLeft" align="right" valign="top"><a id="a6fd8bf52eb9dd88600f3568fb2ddc9f8"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>Error</b> (this <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html">ILoggable</a> obj, string format, params object[] objs)</td></tr>
+<tr class="separator:a6fd8bf52eb9dd88600f3568fb2ddc9f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6672fe01923ab70db8897b1461c3c871"><td class="memItemLeft" align="right" valign="top"><a id="a6672fe01923ab70db8897b1461c3c871"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>Crash</b> (this <a class="el" href="interfaceext__pp__base_1_1_i_loggable.html">ILoggable</a> obj, string format, bool throwEx, params object[] objs)</td></tr>
+<tr class="separator:a6672fe01923ab70db8897b1461c3c871"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e0b904b7f0d5b66e152615d1a2635e6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_logger.html#a9e0b904b7f0d5b66e152615d1a2635e6">Crash</a> (Exception ex, bool throwEx)</td></tr>
 <tr class="memdesc:a9e0b904b7f0d5b66e152615d1a2635e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements ADL.Crash to log a Exeption to the output stream as detailed as possible.  <a href="#a9e0b904b7f0d5b66e152615d1a2635e6">More...</a><br /></td></tr>
 <tr class="separator:a9e0b904b7f0d5b66e152615d1a2635e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -109,6 +121,18 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>Crash</b> (Exc
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
+<tr class="memitem:a702fe8bfcf50b326e132c9702fae8e4c"><td class="memItemLeft" align="right" valign="top"><a id="a702fe8bfcf50b326e132c9702fae8e4c"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>ThrowOnError</b> = true<code> [get, set]</code></td></tr>
+<tr class="separator:a702fe8bfcf50b326e132c9702fae8e4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21cc58c850d6098052f23f6bc0441980"><td class="memItemLeft" align="right" valign="top"><a id="a21cc58c850d6098052f23f6bc0441980"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>ThrowOnWarning</b><code> [get, set]</code></td></tr>
+<tr class="separator:a21cc58c850d6098052f23f6bc0441980"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84549e91a2f5b825c68238f4127621be"><td class="memItemLeft" align="right" valign="top"><a id="a84549e91a2f5b825c68238f4127621be"></a>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>ErrorCount</b><code> [get, private set]</code></td></tr>
+<tr class="separator:a84549e91a2f5b825c68238f4127621be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a785d1684d6480f660f86df6dcf95e2fc"><td class="memItemLeft" align="right" valign="top"><a id="a785d1684d6480f660f86df6dcf95e2fc"></a>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>WarningCount</b><code> [get, private set]</code></td></tr>
+<tr class="separator:a785d1684d6480f660f86df6dcf95e2fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fc8d6fe5d4e2f5deb9aecb97cae563e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_logger.html#a2fc8d6fe5d4e2f5deb9aecb97cae563e">VerbosityLevel</a> = Verbosity.LEVEL2<code> [get, set]</code></td></tr>
 <tr class="memdesc:a2fc8d6fe5d4e2f5deb9aecb97cae563e"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Verbosity level Everything lower than this will be sent to the log output  <a href="#a2fc8d6fe5d4e2f5deb9aecb97cae563e">More...</a><br /></td></tr>
 <tr class="separator:a2fc8d6fe5d4e2f5deb9aecb97cae563e"><td class="memSeparator" colspan="2">&#160;</td></tr>

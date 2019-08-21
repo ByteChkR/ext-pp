@@ -1,0 +1,35 @@
+3 Blank Lines Below
+
+#include test.txt $TIME$
+
+#type0 is awsome
+
+#define VALUE1
+#if VALUE1 && !VALUE2 && !VALUE3
+	Time: $TIME$
+#elseif !VALUE1 && VALUE2 && !VALUE3
+	Date: $DATE$
+	#error Stop right there, you violated the law against Skyrim and its people...
+#else
+	Date Time: $DATE_TIME$
+	#warning Wait, thats illegal.
+#endif
+
+
+THIS WILL BE ONE__
+ LINEEEEEE!!!!!1111!
+
+#block encode rot 2
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+YZABCDEFGHIJKLMNOPQRSTUVWX
+yzabcdefghijklmnopqrstuvwx
+#endblock encode
+
+#block decode rot 2
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+abcdefghijklmnopqrstuvwxyz
+CDEFGHIJKLMNOPQRSTUVWXYZAB
+cdefghijklmnopqrstuvwxyzab
+#endblock decode
+

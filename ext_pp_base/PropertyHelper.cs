@@ -45,7 +45,7 @@ namespace ext_pp_base
             return GetMemberInfo<PropertyInfo, TValue>(selector);
         }
 
-        public static L GetMemberInfo<L, TValue>(
+        private static L GetMemberInfo<L, TValue>(
             Expression<Func<T, TValue>> selector) where L : MemberInfo
         {
             L ret = null;

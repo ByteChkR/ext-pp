@@ -48,17 +48,18 @@ namespace ext_pp_base
         public static L GetMemberInfo<L, TValue>(
             Expression<Func<T, TValue>> selector) where L : MemberInfo
         {
+            L ret = null;
             Expression body = selector;
-            if (body is LambdaExpression expression)
+            if (body is LambdaExpression)
             {
-                body = expression.Body;
+                body = ((LambdaExpression)body).Body;
             }
 
             if (body.NodeType == ExpressionType.MemberAccess)
             {
-                return (L)((MemberExpression)body).Member;
+                ret = ((MemberExpression)body).Member as L;
             }
-            return null;
+            return ret;
 
         }
 

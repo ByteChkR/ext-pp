@@ -593,7 +593,25 @@ namespace ext_pp_cli
 
         }
 
-        private bool TryCreateChainCollection(Assembly asm, string name, out IChainCollection collection)
+        private List<AbstractPlugin> CreateChainCollection(Assembly asm, string name)
+        {
+            if (TryCreateChainCollection(asm, name, out IChainCollection collection))
+            {
+                List<AbstractPlugin> r = collection.GetChain()
+                    .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Creating Chain Collection with Plugins: {0}", r.Select(x => x.GetType().Name).Unpack(", "));
+                return r;
+            }
+            else
+            {
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Could not find a Chain collection in the specified file.");
+
+            }
+
+            return new List<AbstractPlugin>();
+        }
+
+        private static bool TryCreateChainCollection(Assembly asm, string name, out IChainCollection collection)
         {
             Type[] types = asm.GetTypes();
             if (name == "*")
@@ -621,42 +639,20 @@ namespace ext_pp_cli
 
             if (names == null)
             {
-                if (TryCreateChainCollection(asm, "*", out IChainCollection collection))
-                {
-                    List<AbstractPlugin> r = collection.GetChain()
-                        .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
-                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Creating Chain Collection with Plugins: {0}", r.Select(x => x.GetType().Name).Unpack(", "));
-                    ret.AddRange(r);
-                }
-                else
-                {
-                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Could not find a Chain collection in the specified file.");
-
-                }
+                ret.AddRange(CreateChainCollection(asm, "*"));
             }
             else
             {
                 names[0] = names[0].Trim('(', ')');
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Searching Chain Collection: {0}", names[0]);
 
-                if (TryCreateChainCollection(asm, names[0], out IChainCollection collection))
-                {
-                    List<AbstractPlugin> r = collection.GetChain()
-                        .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
-                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Creating Chain Collection with Plugins: {0}", r.Select(x => x.GetType().Name).Unpack(", "));
-                    ret.AddRange(r);
-                }
-                else
-                {
-                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Could not find a Chain collection in the specified file named{0}.", names[0]);
-
-                }
+                ret.AddRange(CreateChainCollection(asm, names[0]));
             }
 
             return ret;
         }
 
-        private List<AbstractPlugin> ProcessPluginChain(string[] names, string path, Assembly asm)
+        private List<AbstractPlugin> ProcessPluginChain(string[] names, string path)
         {
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL4, "Loading {0} in file {1}", names == null ? "all plugins" : names.Unpack(", "), path);
@@ -692,16 +688,16 @@ namespace ext_pp_cli
             if (File.Exists(path))
             {
 
-                Assembly asm = Assembly.LoadFile(Path.GetFullPath(path));
                 bool isCollection = names != null && names.Length == 1 && names[0].StartsWith('(') &&
                                     names[0].EndsWith(')');
                 if ((names == null && !noCollection) || isCollection)
                 {
+                    Assembly asm = Assembly.LoadFile(Path.GetFullPath(path));
                     ret.AddRange(ProcessChainCollection(names, asm));
                 }
                 else
                 {
-                    ret.AddRange(ProcessPluginChain(names, path, asm));
+                    ret.AddRange(ProcessPluginChain(names, path));
                 }
             }
             else
@@ -756,7 +752,7 @@ namespace ext_pp_cli
 
         #region CLIArgumentProcessing
 
-        private List<string> ComputeFileReferences(List<string> args)
+        private static List<string> ComputeFileReferences(List<string> args)
         {
             List<string> ret = args;
             for (int i = 0; i < args.Count; i++)

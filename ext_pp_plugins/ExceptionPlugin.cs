@@ -10,11 +10,6 @@ namespace ext_pp_plugins
     public class ExceptionPlugin : AbstractLinePlugin
     {
         public override string[] Prefix => new[] { "ex", "ExceptionPlugin" };
-        public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onfinishup" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_FINISH_UP;
-        public override PluginType PluginTypeToggle => Order.ToLower(CultureInfo.InvariantCulture) == "after" ? PluginType.LINE_PLUGIN_AFTER : PluginType.LINE_PLUGIN_BEFORE;
-
-        public string Order { get; set; } = "after";
-        public string Stage { get; set; } = "onfinishup";
         public string WarningKeyword { get; set; } = "#warning";
         public string ErrorKeyword { get; set; } = "#error";
         public string Separator { get; set; } = " ";

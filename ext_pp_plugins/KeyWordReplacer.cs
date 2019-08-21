@@ -8,13 +8,13 @@ namespace ext_pp_plugins
 {
     public class KeyWordReplacer : AbstractLinePlugin
     {
-        
+
         public bool NoDefaultKeywords { get; set; }
         public string DateTimeFormatString { get; set; } = "dd/MM/yyyy hh:mm:ss";
         public string DateFormatString { get; set; } = "dd/MM/yyyy";
         public string TimeFormatString { get; set; } = "hh:mm:ss";
         public string SurroundingChar { get; set; } = "$";
-        public override string[] Prefix => new [] { "kwr", "KWReplacer" };
+        public override string[] Prefix => new[] { "kwr", "KWReplacer" };
         public string[] Keywords { get; set; }
         private DateTime time;
         private Dictionary<string, string> _keywords
@@ -25,9 +25,9 @@ namespace ext_pp_plugins
                 if (!NoDefaultKeywords)
                 {
 
-                    ret.Add(SurroundingChar + "DATE_TIME" + SurroundingChar, time.ToString(DateTimeFormatString));
-                    ret.Add(SurroundingChar + "DATE" + SurroundingChar, time.ToString(DateFormatString));
-                    ret.Add(SurroundingChar + "TIME" + SurroundingChar, time.ToString(TimeFormatString));
+                    ret.Add("DATE_TIME", time.ToString(DateTimeFormatString));
+                    ret.Add("DATE", time.ToString(DateFormatString));
+                    ret.Add("TIME", time.ToString(TimeFormatString));
                 }
 
                 if (Keywords == null)

@@ -42,13 +42,12 @@ namespace ext_pp_base
         public static PropertyInfo GetPropertyInfo<TValue>(
             Expression<Func<T, TValue>> selector)
         {
-            return GetMemberInfo<PropertyInfo, TValue>(selector);
+            return GetMemberInfo(selector) as PropertyInfo;
         }
 
-        private static L GetMemberInfo<L, TValue>(
-            Expression<Func<T, TValue>> selector) where L : MemberInfo
+        private static MemberInfo GetMemberInfo<TValue>(
+            Expression<Func<T, TValue>> selector)
         {
-            L ret = null;
             Expression body = selector;
             if (body is LambdaExpression)
             {
@@ -57,9 +56,9 @@ namespace ext_pp_base
 
             if (body.NodeType == ExpressionType.MemberAccess)
             {
-                ret = ((MemberExpression)body).Member as L;
+                return ((MemberExpression)body).Member as MemberInfo;
             }
-            return ret;
+            return null;
 
         }
 
@@ -69,11 +68,11 @@ namespace ext_pp_base
         /// <typeparam name="TValue"></typeparam>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public static FieldInfo GetFieldInfo<L, TValue>(
+        public static FieldInfo GetFieldInfo<TValue>(
             Expression<Func<T, TValue>> selector)
         {
 
-            return GetMemberInfo<FieldInfo, TValue>(selector);
+            return GetMemberInfo(selector) as FieldInfo;
         }
     }
 }

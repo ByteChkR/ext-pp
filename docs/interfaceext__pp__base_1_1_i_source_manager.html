@@ -107,10 +107,10 @@ Inheritance diagram for ext_pp_base.ISourceManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8e04f269196bb55733f83a15091023a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html#a8e04f269196bb55733f83a15091023a8">SetComputingScheme</a> (<a class="el" href="namespaceext__pp__base.html#a836c7b4e130835c72979acee50282ffb">DelKeyComputingScheme</a> scheme)</td></tr>
+<tr class="memitem:a8e04f269196bb55733f83a15091023a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html#a8e04f269196bb55733f83a15091023a8">SetComputingScheme</a> (<a class="el" href="namespaceext__pp__base.html#a30eb32c644d7f7f3daa8915dcdf9c03a">DelKeyComputingScheme</a> scheme)</td></tr>
 <tr class="memdesc:a8e04f269196bb55733f83a15091023a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the computing scheme to a custom scheme that will then be used to assign keys to scripts  <a href="#a8e04f269196bb55733f83a15091023a8">More...</a><br /></td></tr>
 <tr class="separator:a8e04f269196bb55733f83a15091023a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aced03763ce564cec809b48bfc1ba3f3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceext__pp__base.html#a836c7b4e130835c72979acee50282ffb">DelKeyComputingScheme</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html#aced03763ce564cec809b48bfc1ba3f3c">GetComputingScheme</a> ()</td></tr>
+<tr class="memitem:aced03763ce564cec809b48bfc1ba3f3c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceext__pp__base.html#a30eb32c644d7f7f3daa8915dcdf9c03a">DelKeyComputingScheme</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html#aced03763ce564cec809b48bfc1ba3f3c">GetComputingScheme</a> ()</td></tr>
 <tr class="memdesc:aced03763ce564cec809b48bfc1ba3f3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the computing scheme  <a href="#aced03763ce564cec809b48bfc1ba3f3c">More...</a><br /></td></tr>
 <tr class="separator:aced03763ce564cec809b48bfc1ba3f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61344ab839a8b3090b1715c7d143babb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html#a61344ab839a8b3090b1715c7d143babb">FixOrder</a> (<a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script)</td></tr>
@@ -125,9 +125,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:affa1a52026c3ee6decda62d2ae7ba488"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html#affa1a52026c3ee6decda62d2ae7ba488">IndexOfFile</a> (string key)</td></tr>
 <tr class="memdesc:affa1a52026c3ee6decda62d2ae7ba488"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of the file with the matching key returns -1 when the key is not present  <a href="#affa1a52026c3ee6decda62d2ae7ba488">More...</a><br /></td></tr>
 <tr class="separator:affa1a52026c3ee6decda62d2ae7ba488"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7641a8a5c5f37565e4b055dc71ce6781"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html#a7641a8a5c5f37565e4b055dc71ce6781">CreateScript</a> (out <a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script, string separator, string file, string key, Dictionary&lt; string, object &gt; pluginCache)</td></tr>
-<tr class="memdesc:a7641a8a5c5f37565e4b055dc71ce6781"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience wrapper to create a source script without knowing the actual type of the script.  <a href="#a7641a8a5c5f37565e4b055dc71ce6781">More...</a><br /></td></tr>
-<tr class="separator:a7641a8a5c5f37565e4b055dc71ce6781"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e559b0619c23cab1846c230c528a5b7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html#a9e559b0619c23cab1846c230c528a5b7">TryCreateScript</a> (out <a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script, string separator, string file, string key, <a class="el" href="classext__pp__base_1_1_import_result.html">ImportResult</a> importInfo)</td></tr>
+<tr class="memdesc:a9e559b0619c23cab1846c230c528a5b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience wrapper to create a source script without knowing the actual type of the script.  <a href="#a9e559b0619c23cab1846c230c528a5b7">More...</a><br /></td></tr>
+<tr class="separator:a9e559b0619c23cab1846c230c528a5b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Interface that contains all methods for loading and managing source code. </p>
@@ -157,66 +157,6 @@ Public Member Functions</h2></td></tr>
 </dl>
 
 <p>Implemented in <a class="el" href="classext__pp_1_1_source_manager.html#a1ac6e29f4521fb228c97b4493ba57de1">ext_pp.SourceManager</a>.</p>
-
-</div>
-</div>
-<a id="a7641a8a5c5f37565e4b055dc71ce6781"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7641a8a5c5f37565e4b055dc71ce6781">&#9670;&nbsp;</a></span>CreateScript()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ext_pp_base.ISourceManager.CreateScript </td>
-          <td>(</td>
-          <td class="paramtype">out <a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a>&#160;</td>
-          <td class="paramname"><em>script</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>separator</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>key</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Dictionary&lt; string, object &gt;&#160;</td>
-          <td class="paramname"><em>pluginCache</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convenience wrapper to create a source script without knowing the actual type of the script. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">separator</td><td></td></tr>
-    <tr><td class="paramname">file</td><td></td></tr>
-    <tr><td class="paramname">key</td><td></td></tr>
-    <tr><td class="paramname">pluginCache</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-<p>Implemented in <a class="el" href="classext__pp_1_1_source_manager.html#a61cf7ad77ccda6ffce6c372c833fde62">ext_pp.SourceManager</a>.</p>
 
 </div>
 </div>
@@ -255,7 +195,7 @@ Public Member Functions</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceext__pp__base.html#a836c7b4e130835c72979acee50282ffb">DelKeyComputingScheme</a> ext_pp_base.ISourceManager.GetComputingScheme </td>
+          <td class="memname"><a class="el" href="namespaceext__pp__base.html#a30eb32c644d7f7f3daa8915dcdf9c03a">DelKeyComputingScheme</a> ext_pp_base.ISourceManager.GetComputingScheme </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -337,7 +277,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void ext_pp_base.ISourceManager.SetComputingScheme </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceext__pp__base.html#a836c7b4e130835c72979acee50282ffb">DelKeyComputingScheme</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceext__pp__base.html#a30eb32c644d7f7f3daa8915dcdf9c03a">DelKeyComputingScheme</a>&#160;</td>
           <td class="paramname"><em>scheme</em></td><td>)</td>
           <td></td>
         </tr>
@@ -353,6 +293,66 @@ Public Member Functions</h2></td></tr>
 </dl>
 
 <p>Implemented in <a class="el" href="classext__pp_1_1_source_manager.html#a2aaa5024cbd77fdd4e9e41dfc20206a0">ext_pp.SourceManager</a>.</p>
+
+</div>
+</div>
+<a id="a9e559b0619c23cab1846c230c528a5b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e559b0619c23cab1846c230c528a5b7">&#9670;&nbsp;</a></span>TryCreateScript()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_base.ISourceManager.TryCreateScript </td>
+          <td>(</td>
+          <td class="paramtype">out <a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a>&#160;</td>
+          <td class="paramname"><em>script</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>separator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classext__pp__base_1_1_import_result.html">ImportResult</a>&#160;</td>
+          <td class="paramname"><em>importInfo</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convenience wrapper to create a source script without knowing the actual type of the script. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">separator</td><td></td></tr>
+    <tr><td class="paramname">file</td><td></td></tr>
+    <tr><td class="paramname">key</td><td></td></tr>
+    <tr><td class="paramname">pluginCache</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+<p>Implemented in <a class="el" href="classext__pp_1_1_source_manager.html#aa59ba576294e7fa94ebbcb9c63a59835">ext_pp.SourceManager</a>.</p>
 
 </div>
 </div>

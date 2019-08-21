@@ -15,9 +15,10 @@ namespace ext_pp_base
         /// <summary>
         /// Logs a message in the specified mask and verbosity level
         /// </summary>
-        /// <param name="mask"></param>
-        /// <param name="message"></param>
-        /// <param name="level"></param>
+        /// <param name="mask">the mask that is used to log</param>
+        /// <param name="level">the debug level of the log</param>
+        /// <param name="format">the format string(the message)</param>
+        /// <param name="objs">the format params</param>
         private static void Log(int mask, Verbosity level, string format, params object[] objs)
         {
             if (level <= VerbosityLevel)
@@ -30,10 +31,10 @@ namespace ext_pp_base
         /// <summary>
         /// Logs a message in the specified Debug and VerbosityLevel
         /// </summary>
-        /// <param name="mask"></param>
-        /// <param name="level"></param>
-        /// <param name="format"></param>
-        /// <param name="objs"></param>
+        /// <param name="mask">the mask that is used to log</param>
+        /// <param name="level">the debug level of the log</param>
+        /// <param name="format">the format string(the message)</param>
+        /// <param name="objs">the format params</param>
         private static void Log(DebugLevel mask, Verbosity level, string format, params object[] objs)
         {
             Log((int)mask, level, format, objs);
@@ -43,11 +44,11 @@ namespace ext_pp_base
         /// <summary>
         /// Extension of ILoggable. Is used to log "from" an object.
         /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="mask"></param>
-        /// <param name="level"></param>
-        /// <param name="format"></param>
-        /// <param name="objs"></param>
+        /// <param name="obj">The ILoggable that the log is sent from</param>
+        /// <param name="mask">the mask that is used to log</param>
+        /// <param name="level">the debug level of the log</param>
+        /// <param name="format">the format string(the message)</param>
+        /// <param name="objs">the format params</param>
         public static void Log(this ILoggable obj, DebugLevel mask, Verbosity level, string format, params object[] objs)
         {
             Log(mask, level, "[" + obj.GetType().Name + "]" + format, objs);
@@ -57,7 +58,7 @@ namespace ext_pp_base
         /// <summary>
         /// Implements ADL.Crash to log a Exeption to the output stream as detailed as possible.
         /// </summary>
-        /// <param name="ex"></param>
+        /// <param name="ex">The exception</param>
         /// <param name="throwEx">if it should only log and not throw the exception specify this to be false</param>
         public static void Crash(Exception ex, bool throwEx)
         {

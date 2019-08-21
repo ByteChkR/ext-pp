@@ -16,9 +16,9 @@ namespace ext_pp_base
         /// Removes all lines of the source that start with one of the statements
         /// It takes care of possible indentations and spaces
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="statements"></param>
-        /// <returns></returns>
+        /// <param name="source">the input source</param>
+        /// <param name="statements">statements that need to be removed from the source</param>
+        /// <returns>the cleaned list of source code lines</returns>
         public static List<string> RemoveStatements(List<string> source, string[] statements, ILoggable logobj)
         {
             for (var i = source.Count - 1; i >= 0; i--)
@@ -41,13 +41,13 @@ namespace ext_pp_base
         /// <summary>
         /// Removes all the excess spaces around the specified separator
         /// </summary>
-        /// <param name="line"></param>
-        /// <param name="separator"></param>
-        /// <param name="logobj"></param>
-        /// <returns></returns>
+        /// <param name="line">The line to operate on</param>
+        /// <param name="separator">the separator to be used</param>
+        /// <param name="logobj">The object from where all resulting logs come from</param>
+        /// <returns>the fixed line without any excess spaces</returns>
         public static string RemoveExcessSpaces(string line, string separator, ILoggable logobj)
         {
-            string ret = line.Split(' ', StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
+            string ret = line.Split(separator, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
             Logger.Log(logobj, DebugLevel.LOGS, Verbosity.LEVEL7, "Removing Excess Spaces: {0} => {1}", line, ret);
             return ret;
         }
@@ -56,9 +56,9 @@ namespace ext_pp_base
         /// <summary>
         /// Replaces a keyword(single sequence of characters) with a replacement in the source lines supplied.
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="replacement"></param>
-        /// <param name="keyword"></param>
+        /// <param name="source">the source to operate on</param>
+        /// <param name="replacement">the replacement sequence</param>
+        /// <param name="keyword">the keyword that will be pasted for the replacement</param>
         public static void ReplaceKeyWord(string[] source, string replacement, string keyword)
         {
 
@@ -74,9 +74,9 @@ namespace ext_pp_base
         /// <summary>
         /// Returns true if the path is valid relative to the current path(the current script that is processed
         /// </summary>
-        /// <param name="currentPath"></param>
-        /// <param name="file"></param>
-        /// <returns></returns>
+        /// <param name="currentPath">the current path of the program</param>
+        /// <param name="file">the relative file path</param>
+        /// <returns>true if the relative path is pointing towards a valid file.</returns>
         public static bool FileExistsRelativeTo(string currentPath, string file)
         {
             var p = Directory.GetCurrentDirectory();
@@ -89,9 +89,9 @@ namespace ext_pp_base
         /// <summary>
         /// Returns a list of lines where the line start with statement
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="statement"></param>
-        /// <returns></returns>
+        /// <param name="source">the source to operate on</param>
+        /// <param name="statement">the statement to be checked for</param>
+        /// <returns>A list of all lines that start with the specified statements</returns>
         public static string[] FindStatements(string[] source, string statement)
         {
             return source.ToList().Where(x => IsStatement(x, statement)).ToArray();
@@ -100,21 +100,21 @@ namespace ext_pp_base
         /// <summary>
         /// Returns true if the source starts with the statement
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="statement"></param>
+        /// <param name="line">the line to operate on</param>
+        /// <param name="statement">the statement to search for</param>
         /// <returns></returns>
-        public static bool IsStatement(string source, string statement)
+        public static bool IsStatement(string line, string statement)
         {
-            return source.Trim().StartsWith(statement);
+            return line.Trim().StartsWith(statement);
         }
 
         /// <summary>
         /// Splits a line by the separator and removes the first entry
         /// Gets used for include to just be able to get the path
         /// </summary>
-        /// <param name="statement"></param>
-        /// <param name="separator"></param>
-        /// <returns></returns>
+        /// <param name="statement">The statement to operate on</param>
+        /// <param name="separator">the separator used to split</param>
+        /// <returns>the array without the first entry</returns>
         public static string[] SplitAndRemoveFirst(string statement, string separator)
         {
             if (String.IsNullOrEmpty(statement))
@@ -127,8 +127,16 @@ namespace ext_pp_base
             return ret.SubArray(1, ret.Length - 1).ToArray();
         }
 
-
+        /// <summary>
+        /// A Delegate used to create different parsers
+        /// </summary>
+        /// <param name="val">the string input</param>
+        /// <param name="value">the output of the parser</param>
+        /// <returns>success state of the operation</returns>
         private delegate bool TryParse(string val, out object value);
+        /// <summary>
+        /// The List of implemented parsers.
+        /// </summary>
         private static readonly Dictionary<Type, TryParse> _parser = new Dictionary<Type, TryParse>
         {
             {typeof(string), CreateTryParser<string>()},
@@ -141,8 +149,8 @@ namespace ext_pp_base
         /// <summary>
         /// Creates parser from type.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <typeparam name="T">Resulting type of the parser</typeparam>
+        /// <returns>The parser for type T</returns>
         private static TryParse CreateTryParser<T>()
         {
             TryParse ret = null;
@@ -206,10 +214,10 @@ namespace ext_pp_base
         /// <summary>
         /// generic version of parsing an array of string to array of T
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <param name="defaul"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Target array type</typeparam>
+        /// <param name="obj">the array of strings to cast</param>
+        /// <param name="defaul">default value</param>
+        /// <returns>The obj array cast to T</returns>
         public static T[] ParseArray<T>(string[] obj, object defaul)
         {
             return ParseArray(typeof(T), obj, defaul).OfType<T>().ToArray();
@@ -217,12 +225,12 @@ namespace ext_pp_base
 
 
         /// <summary>
-        /// function can parse an array of string to array of type t
+        /// non generic version of parsing an array of string to array of T
         /// </summary>
-        /// <param name="t"></param>
-        /// <param name="obj"></param>
-        /// <param name="defaul"></param>
-        /// <returns></returns>
+        /// <param name="t">The target type</param>
+        /// <param name="obj">the array of strings to cast</param>
+        /// <param name="defaul">default value</param>
+        /// <returns>The obj array cast to T</returns>
         public static object[] ParseArray(Type t, string[] obj, object defaul)
         {
             if (obj == null)
@@ -249,10 +257,10 @@ namespace ext_pp_base
         /// <summary>
         /// parsing a string to object of type T
         /// </summary>
-        /// <param name="t"></param>
-        /// <param name="obj"></param>
-        /// <param name="defaul"></param>
-        /// <returns></returns>
+        /// <param name="t">The target type</param>
+        /// <param name="obj">the string to cast</param>
+        /// <param name="defaul">default value</param>
+        /// <returns>The obj cast to T</returns>
         public static object Parse(Type t, string obj, object defaul)
         {
             if (t.IsEnum)
@@ -266,10 +274,10 @@ namespace ext_pp_base
         /// <summary>
         /// generic version of parsing a string to object of type T
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <param name="defaul"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Target array type</typeparam>
+        /// <param name="obj">the array of strings to cast</param>
+        /// <param name="defaul">default value</param>
+        /// <returns>The obj array cast to T</returns>
         public static T Parse<T>(string obj, object defaul)
         {
             return (T)Parse(typeof(T), obj, defaul);
@@ -279,10 +287,10 @@ namespace ext_pp_base
         /// Parses an input string to an enum.
         /// Supports simple AND/OR operations and can be specified as digit and by name
         /// </summary>
-        /// <param name="enu"></param>
-        /// <param name="input"></param>
-        /// <param name="defaul"></param>
-        /// <returns></returns>
+        /// <param name="enu">The target type</param>
+        /// <param name="input">the string to cast</param>
+        /// <param name="defaul">default value</param>
+        /// <returns>The input cast to T</returns>
         private static object ParseEnum(Type enu, string input, object defaul)
         {
             if (input.IsAllDigits())

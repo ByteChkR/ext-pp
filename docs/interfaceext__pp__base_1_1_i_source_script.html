@@ -154,8 +154,8 @@ Public Member Functions</h2></td></tr>
 <p>Adds a value to the plugin cache to be read later during the processing </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">key</td><td></td></tr>
-    <tr><td class="paramname">value</td><td></td></tr>
+    <tr><td class="paramname">key</td><td>the key</td></tr>
+    <tr><td class="paramname">value</td><td>the value</td></tr>
   </table>
   </dd>
 </dl>
@@ -178,7 +178,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the full filepath of this script. </p>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the filepath of the source</dd></dl>
 
 </div>
 </div>
@@ -198,7 +198,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the key that got assigned to the script </p>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the key of the file/source</dd></dl>
 
 </div>
 </div>
@@ -218,7 +218,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>returns the source that is cached if the source was not loaded before it will load it from the file path specified </p>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the source of the file</dd></dl>
 
 </div>
 </div>
@@ -241,17 +241,17 @@ Public Member Functions</h2></td></tr>
 <p>Returns the value of type T with key. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td></td></tr>
+    <tr><td class="paramname">T</td><td>The typy of the value</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">key</td><td></td></tr>
+    <tr><td class="paramname">key</td><td>the key of the corresponding value</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the value casted to type t</dd></dl>
 
 </div>
 </div>
@@ -274,17 +274,17 @@ Public Member Functions</h2></td></tr>
 <p>Returns true if the plugin cache contains an item of type T with key </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td></td></tr>
+    <tr><td class="paramname">T</td><td>The type to be checked for</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">key</td><td></td></tr>
+    <tr><td class="paramname">key</td><td>the key that is checked.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>false if nonexsistant or not the specified type</dd></dl>
 
 </div>
 </div>
@@ -307,7 +307,7 @@ Public Member Functions</h2></td></tr>
 <p>Sets the cached version of the source </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td></td></tr>
+    <tr><td class="paramname">source</td><td>the updated source</td></tr>
   </table>
   </dd>
 </dl>

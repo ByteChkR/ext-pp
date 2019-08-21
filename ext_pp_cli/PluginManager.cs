@@ -47,10 +47,10 @@ namespace ext_pp_cli
             /// <summary>
             /// Constructor
             /// </summary>
-            /// <param name="prefixes"></param>
-            /// <param name="name"></param>
-            /// <param name="path"></param>
-            /// <param name="data"></param>
+            /// <param name="prefixes">the prefixes of the plugin</param>
+            /// <param name="name">the name</param>
+            /// <param name="path">the path</param>
+            /// <param name="data">the meta data</param>
             public PluginInformation(string[] prefixes, string name, string path, CommandMetaData[] data)
             {
                 Path = path;
@@ -67,18 +67,26 @@ namespace ext_pp_cli
             /// <summary>
             /// returns a description of the plugin
             /// </summary>
-            /// <param name="shortDesc"></param>
-            /// <returns></returns>
+            /// <param name="shortDesc">flag to optionally only return a small description</param>
+            /// <returns>the description of the Plugin</returns>
             public string GetDescription(bool shortDesc)
             {
                 return Name + ": \n" + Path + "\nPrefixes:\n\t" + Prefixes.Unpack("\n\t") + (shortDesc ? "" : "\nCommand Info: \n\t" + Data.Select(x => x.ToString()).Unpack("\n\t"));
             }
 
+            /// <summary>
+            /// returns a description of the plugin
+            /// </summary>
+            /// <returns>the description of the Plugin</returns>
             public string GetDescription()
             {
                 return GetDescription(true);
             }
 
+            /// <summary>
+            /// Overriden tostring method
+            /// </summary>
+            /// <returns>The content of GetDescription()</returns>
             public override string ToString()
             {
                 return GetDescription();
@@ -227,7 +235,7 @@ namespace ext_pp_cli
         /// <summary>
         /// Adds a folder to the PluginManager
         /// </summary>
-        /// <param name="folder"></param>
+        /// <param name="folder">The folder to be added</param>
         public void AddFolder(string folder)
         {
             if (Directory.Exists(folder))
@@ -248,8 +256,8 @@ namespace ext_pp_cli
         /// <summary>
         /// Adds a single file to the PluginManager
         /// </summary>
-        /// <param name="file"></param>
-        /// <param name="save"></param>
+        /// <param name="file">the file to be added</param>
+        /// <param name="save">flag to optionally save after adding</param>
         private void AddFile(string file, bool save)
         {
             if (!File.Exists(file))
@@ -291,9 +299,10 @@ namespace ext_pp_cli
         /// <summary>
         /// Returns the plugin info by name. returns false if not containing
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="val"></param>
-        /// <returns></returns>
+        /// <param name="pmd">The database that is cached</param>
+        /// <param name="name">the name to be searched for</param>
+        /// <param name="val">the out variable containing the plugin information(null if not found)</param>
+        /// <returns>the success state of the operation</returns>
         public static bool TryGetPluginInfoByName(PluginManagerDatabase pmd, string name, out PluginInformation val)
         {
             for (int i = 0; i < pmd.Cache.Count; i++)
@@ -313,9 +322,10 @@ namespace ext_pp_cli
         /// <summary>
         /// Returns the plugin info by prefix. returns false if not containing
         /// </summary>
-        /// <param name="prefix"></param>
-        /// <param name="val"></param>
-        /// <returns></returns>
+        /// <param name="pmd">The database that is cached</param>
+        /// <param name="prefix">The prefix to be searched for</param>
+        /// <param name="val">the out variable containing the plugin information(null if not found)</param>
+        /// <returns>the success state of the operation</returns>
         public static bool TryGetPluginInfoByPrefix(PluginManagerDatabase pmd, string prefix, out PluginInformation val)
         {
             for (int i = 0; i < pmd.Cache.Count; i++)
@@ -336,10 +346,11 @@ namespace ext_pp_cli
         /// <summary>
         /// Returns the plugin info by Path and Prefix. returns false if not containing
         /// </summary>
-        /// <param name="file"></param>
-        /// <param name="prefix"></param>
-        /// <param name="val"></param>
-        /// <returns></returns>
+        /// <param name="pmd">The database that is cached</param>
+        /// <param name="file">the file to be searched for</param>
+        /// <param name="prefix">The prefix to be searched for</param>
+        /// <param name="val">the out variable containing the plugin information(null if not found)</param>
+        /// <returns>the success state of the operation</returns>
         public static bool TryGetPluginInfoByPathAndPrefix(PluginManagerDatabase pmd, string file, string prefix, out PluginInformation val)
         {
 
@@ -361,8 +372,8 @@ namespace ext_pp_cli
         /// <summary>
         /// Returns all cached information about this file.
         /// </summary>
-        /// <param name="pathToLib"></param>
-        /// <returns></returns>
+        /// <param name="pathToLib">the file path to the compiled library</param>
+        /// <returns>the plugin information of each plugin found</returns>
         private PluginInformation[] GetAllInLib(string pathToLib)
         {
             if (!File.Exists(pathToLib))
@@ -385,10 +396,10 @@ namespace ext_pp_cli
         /// <summary>
         /// Displays help for a specific file/plugin
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="names"></param>
-        /// <param name="shortDesc"></param>
-        /// <returns></returns>
+        /// <param name="path">the path of the library containing the plugins</param>
+        /// <param name="names">the names of the plugins to display help for</param>
+        /// <param name="shortDesc">flag to optionally display a short description</param>
+        /// <returns>the success state of the operation</returns>
         public bool DisplayHelp(string path, string[] names, bool shortDesc)
         {
             if (names == null)
@@ -424,7 +435,7 @@ namespace ext_pp_cli
         /// <summary>
         /// Adds a file to the plugin manager
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="file">The file to be added</param>
         public void AddFile(string file)
         {
             AddFile(file, true);
@@ -484,8 +495,8 @@ namespace ext_pp_cli
         /// <summary>
         /// returns all plugins contained in the file.
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
+        /// <param name="path">The path to a compiled assembly containing Absract Plugins</param>
+        /// <returns>A list of all abstract plugins in the file</returns>
         public List<AbstractPlugin> FromFile(string path)
         {
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
@@ -557,9 +568,9 @@ namespace ext_pp_cli
         /// <summary>
         /// Returns the plugin path by name. returns false if not containing
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="path"></param>
-        /// <returns></returns>
+        /// <param name="name">name to be searched for</param>
+        /// <param name="path">the path of the assembly containing the specified plugin</param>
+        /// <returns>the success state of the operation</returns>
         public bool TryGetPathByName(string name, out string path)
         {
             if (TryGetPluginInfoByName(info, name, out var pli))
@@ -575,9 +586,9 @@ namespace ext_pp_cli
         /// <summary>
         /// Returns the plugin path by prefix. returns false if not containing
         /// </summary>
-        /// <param name="prefix"></param>
-        /// <param name="path"></param>
-        /// <returns></returns>
+        /// <param name="prefix">prefix to be searched for</param>
+        /// <param name="path">the path of the assembly containing the specified plugin</param>
+        /// <returns>the success state of the operation</returns>
         public bool TryGetPathByPrefix(string prefix, out string path)
         {
             if (TryGetPluginInfoByPrefix(info, prefix, out var pli))

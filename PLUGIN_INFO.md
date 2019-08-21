@@ -23,20 +23,6 @@ ______________________________________________
 		set-case/sc
 			Sets the Case that will transform the text. Options: tolower(default)/toupper
 ______________________________________________
-#### CLIDebugger Information:
-
-* Prefix: dbg
-* Commands:
-
-		set-breakpoint/bp
-			Sets the breakpoints for the session.
-			Syntax: 
-			file:<filepath> file:<filepath> file:<filepath>
-			file:<filepath>:line:<line_nr>
-			stage:<stage_nr>
-			stage:<stage_nr>:file:<filepath>...
-			StageNrs: 1 = OnLoad; 2 = OnMain; 4 = OnFinishUp
-______________________________________________
 #### ConditionalPlugin Information:
 
 * Prefix: con, Conditional

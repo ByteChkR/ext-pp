@@ -32,7 +32,7 @@ namespace ext_pp
         /// <summary>
         /// Set an array of definitions to true
         /// </summary>
-        /// <param name="keys"></param>
+        /// <param name="keys">The keys that will be set</param>
         public void Set(string[] keys)
         {
             foreach (var key in keys)
@@ -44,7 +44,7 @@ namespace ext_pp
         /// <summary>
         /// Set an array of definitions to false
         /// </summary>
-        /// <param name="keys"></param>
+        /// <param name="keys">The keys that will be unset</param>
         public void Unset(string[] keys)
         {
             foreach (var key in keys)
@@ -56,7 +56,7 @@ namespace ext_pp
         /// <summary>
         /// Set a specific definition to true
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">The key that will be set</param>
         public void Set(string key)
         {
             Change(key, true);
@@ -66,7 +66,7 @@ namespace ext_pp
         /// <summary>
         /// Set a specific definition to false
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">The key that will be unset</param>
         public void Unset(string key)
         {
             Change(key, false);
@@ -77,7 +77,7 @@ namespace ext_pp
         /// Change the definition state.
         /// </summary>
         /// <param name="key">definition name</param>
-        /// <param name="state"></param>
+        /// <param name="state">The state of the key</param>
         private void Change(string key, bool state)
         {
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Setting Key: {0} to value: {1}", key, state);
@@ -94,8 +94,8 @@ namespace ext_pp
         /// <summary>
         /// Returns true if the definition is "set" and returns false if the definition is "unset"
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">The key to be checked</param>
+        /// <returns>returns true when the key is set.</returns>
         public bool Check(string key)
         {
             return _definitions.ContainsKey(key) && _definitions[key];

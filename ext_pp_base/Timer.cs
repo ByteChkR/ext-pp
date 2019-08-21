@@ -4,40 +4,46 @@ namespace ext_pp_base
 {
 
 
-
+    /// <summary>
+    /// A timer class used to measure time during compilation
+    /// </summary>
     public class Timer
     {
+        /// <summary>
+        /// A readonly static timer that will be started as soon as the assembly gets loaded.
+        /// </summary>
         private static Timer GlobalTimer { get; } = new Timer();
+
+        /// <summary>
+        /// A static wrapper for the singleton(showing the total ellapsed milliseconds since assembly load.
+        /// </summary>
         public static long MS => GlobalTimer.StopWatch.ElapsedMilliseconds;
         
-
+        /// <summary>
+        /// The underlying stopwatch
+        /// </summary>
         private Stopwatch StopWatch { get; } = new Stopwatch();
-        public long LastLap { get; private set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public Timer()
         {
             Start();
         }
 
+        /// <summary>
+        /// Starts the Timer
+        /// </summary>
         public void Start()
         {
             StopWatch.Start();
         }
-
-        public long Pause()
-        {
-            StopWatch.Stop();
-            return StopWatch.ElapsedMilliseconds;
-        }
-
-        public long RecordLapReturnDelta()
-        {
-            long old = LastLap;
-
-            LastLap = StopWatch.ElapsedMilliseconds;
-            return LastLap-old;
-        }
-
+        
+        /// <summary>
+        /// Resets and Starts the timer
+        /// </summary>
+        /// <returns>ellapsed milliseconds before reset</returns>
         public long Restart()
         {
             StopWatch.Stop();
@@ -45,7 +51,10 @@ namespace ext_pp_base
             Start();
             return ret;
         }
-
+        /// <summary>
+        /// Resets the Timer.
+        /// </summary>
+        /// <returns>ellapsed milliseconds before reset</returns>
         public long Reset()
         {
             long ret = StopWatch.ElapsedMilliseconds;

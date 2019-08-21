@@ -18,8 +18,8 @@ namespace ext_pp_base
         /// <summary>
         /// Concats the array into a string separated by the separator
         /// </summary>
-        /// <param name="arr"></param>
-        /// <param name="separator"></param>
+        /// <param name="arr">The array to be unpacked</param>
+        /// <param name="separator">the separator that will be used when unpacking</param>
         /// <returns></returns>
         public static string Unpack(this IEnumerable<object> arr, string separator)
         {
@@ -44,8 +44,8 @@ namespace ext_pp_base
         /// <summary>
         /// Turns a string into an array split by the separator
         /// </summary>
-        /// <param name="arr"></param>
-        /// <param name="separator"></param>
+        /// <param name="arr">The array to be packed</param>
+        /// <param name="separator">the separator that will be used when packing</param>
         /// <returns></returns>
         public static IEnumerable<string> Pack(this string arr, string separator)
         {
@@ -56,10 +56,10 @@ namespace ext_pp_base
         /// <summary>
         /// Creates a sub array starting from start to start+length
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="arr"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="arr">Source array</param>
+        /// <param name="start">start index</param>
+        /// <param name="length">length</param>
         /// <returns></returns>
         public static IEnumerable<T> SubArray<T>(this IEnumerable<T> arr, int start, int length)
         {
@@ -76,9 +76,9 @@ namespace ext_pp_base
         /// <summary>
         /// Creates a sub array starting from 0 to length
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="arr"></param>
-        /// <param name="length"></param>
+        /// <typeparam name="T">Type</typeparam>
+        /// <param name="arr">Source array</param>
+        /// <param name="length">length</param>
         /// <returns></returns>
         public static IEnumerable<T> SubArray<T>(this IEnumerable<T> arr, int length)
         {
@@ -89,8 +89,8 @@ namespace ext_pp_base
         /// <summary>
         /// Smart way to determine if a char sequence contains only digits
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
+        /// <param name="str">string to be checked</param>
+        /// <returns>true if the string only contains chars from '0' to '9'</returns>
         public static bool IsAllDigits(this string str)
         {
             if (string.IsNullOrEmpty(str))

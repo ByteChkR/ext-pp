@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['helpallparams',['HelpAllParams',['../classext__pp__cli_1_1_c_l_i.html#aebb38114f919314c999123cfddcca3b0',1,'ext_pp_cli::CLI']]],
-  ['helpparams',['HelpParams',['../classext__pp__cli_1_1_c_l_i.html#a39ca3e5173fdd11ad3c7564e9ec428df',1,'ext_pp_cli::CLI']]],
-  ['helptext',['HelpText',['../classext__pp__cli_1_1_c_l_i.html#a2a11f572b5b7633728fdfdc2f7be036f',1,'ext_pp_cli.CLI.HelpText()'],['../structext__pp__base_1_1_command_meta_data.html#a8c6e967a057c6fc6ff27b74890992ef9',1,'ext_pp_base.CommandMetaData.HelpText()'],['../structext__pp__base_1_1_command_info.html#aa4755887b8fae9a9b358f2f629fd9c72',1,'ext_pp_base.CommandInfo.HelpText()']]]
+  ['ms',['MS',['../classext__pp__base_1_1_timer.html#a65b74ca046243c3b635795171755374c',1,'ext_pp_base::Timer']]]
 ];

@@ -23,8 +23,11 @@ namespace ext_pp_cli
     public class CLI : ILoggable
     {
 
-
-        public delegate bool CommandHandler();
+        /// <summary>
+        /// A delegate used to handle all commands in the Command Line Interface
+        /// </summary>
+        /// <returns></returns>
+        private delegate bool CommandHandler();
 
         /// <summary>
         /// Default helptext to show.
@@ -52,13 +55,11 @@ namespace ext_pp_cli
         private readonly PluginManager _pluginManager;
 
 
-        /// <summary>
-        /// Shuts down the cli by removing all output streams from adl.
-        /// </summary>
-
-
         #region Commands
 
+        /// <summary>
+        /// Sets the order in which the commands get checked/applied
+        /// </summary>
         private List<CommandHandler> CommandApplyOrder => new List<CommandHandler>
         {
             VerbosityLevelCommandHandler,
@@ -121,6 +122,8 @@ namespace ext_pp_cli
                 "--pm-list-manual-files\r\n\t\tLists all Manually Included and Cached Files in Plugin Manager" ),
             new CommandInfo("pm-list-all", "pm-la", PropertyHelper<CLI>.GetPropertyInfo(x=>x.PluginListAllCommandHandler),
                 "--pm-list-all\r\n\t\tLists all Cached data."),
+            new CommandInfo("generate-readme", "gen-r", PropertyHelper<CLI>.GetPropertyInfo(x=>x.ReadmeArgs),
+                "--generate-readme <sourceLib> <targetFile>\r\n\t\tGenerates a Markdown Readme of the Plugins in the source lib."),
         };
 
         #endregion
@@ -236,16 +239,30 @@ namespace ext_pp_cli
 
         #region Help
 
+        /// <summary>
+        /// The command handler that is used for the command --help
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool Help_Command()
         {
             return Help_Command_Unfied(HelpParams, false);
         }
 
+        /// <summary>
+        /// The command handler that is used for the command --help-all
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool HelpAll_Command()
         {
             return Help_Command_Unfied(HelpAllParams, true);
         }
 
+        /// <summary>
+        /// A underlying function to handle the --help and the --help-all command
+        /// </summary>
+        /// <param name="helpParams">Either HelpParams or HelpAllParams</param>
+        /// <param name="extendedDescription">Indicator if the extended description should be used.</param>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool Help_Command_Unfied(string[] helpParams, bool extendedDescription)
         {
             if (helpParams == null)
@@ -292,6 +309,10 @@ namespace ext_pp_cli
 
         #region Input/Output
 
+        /// <summary>
+        /// The command handler that is used for the commands --input --output
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool InOutCommandHandler()
         {
             //No Other code since the input and output arrays are populated with reflection
@@ -315,11 +336,23 @@ namespace ext_pp_cli
         #endregion
 
         #region Readme
-
+        /// <summary>
+        /// The command handler that is used for the command --generate-readme
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool ReadmeCommandHandler()
         {
             if (ReadmeArgs.Length == 2)
             {
+                if (ReadmeArgs[0] == "self")
+                {
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Generating Readme for self.");
+                    List<string> ret = PluginExtensions.ToMarkdown(Info).ToList();
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Writing Readme to file: {0}", ReadmeArgs[1]);
+                    File.WriteAllLines(ReadmeArgs[1], ret.ToArray());
+                    return true;
+                }
+
                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Generating Readme for file: {0}", ReadmeArgs[0]);
                 PluginManager pm = new PluginManager();
                 List<string> ht = GenerateReadme(pm.FromFile(ReadmeArgs[0]));
@@ -332,6 +365,11 @@ namespace ext_pp_cli
             return false;
         }
 
+        /// <summary>
+        /// Appends the Plugin Help Texts to be used in the ReadmeCommandHandler
+        /// </summary>
+        /// <param name="plugins">The plugins used to generate the readme</param>
+        /// <returns>The readme</returns>
         private List<string> GenerateReadme(List<AbstractPlugin> plugins)
         {
             List<string> ret = new List<string>();
@@ -349,6 +387,10 @@ namespace ext_pp_cli
 
         #region ShowVersion
 
+        /// <summary>
+        /// The command handler that is used for the command --version
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool ShowVersionCommandHandler()
         {
             if (ShowVersion)
@@ -365,7 +407,10 @@ namespace ext_pp_cli
         #region PluginManager
 
         #region PluginList
-
+        /// <summary>
+        /// The command handler that is used for the command --pm-list-all
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool ListAllPluginsCommandHandler()
         {
             if (PluginListAllCommandHandler)
@@ -376,7 +421,10 @@ namespace ext_pp_cli
 
             return false;
         }
-
+        /// <summary>
+        /// The command handler that is used for the command --pm-list-dir
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool ListPluginDirsCommandHandler()
         {
             if (PluginListDirs)
@@ -391,6 +439,10 @@ namespace ext_pp_cli
             return false;
         }
 
+        /// <summary>
+        /// The command handler that is used for the command --pm-list-file
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool ListPluginIncsCommandHandler()
         {
             if (PluginListIncs)
@@ -405,6 +457,10 @@ namespace ext_pp_cli
             return false;
         }
 
+        /// <summary>
+        /// The command handler that is used for the command --pm-list-manual-files
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool ListPluginManIncsCommandHandler()
         {
             if (PluginListManIncs)
@@ -423,6 +479,10 @@ namespace ext_pp_cli
 
         #region PluginAddRemove
 
+        /// <summary>
+        /// The command handler that is used for the command --pm-refresh
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool RefreshPluginsCommandHandler()
         {
             if (PluginRefresh)
@@ -434,6 +494,10 @@ namespace ext_pp_cli
             return false;
         }
 
+        /// <summary>
+        /// The command handler that is used for the command --pm-add
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool AddPluginsCommandHandler()
         {
             if (PluginAdd != null && PluginAdd.Length != 0)
@@ -467,6 +531,10 @@ namespace ext_pp_cli
 
         #region LogToFile
 
+        /// <summary>
+        /// The command handler that is used for the command --log-to-file
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool LogToFileCommandHandler()
         {
             if (LogToFile)
@@ -527,7 +595,10 @@ namespace ext_pp_cli
         #endregion
 
         #region Defines
-
+        /// <summary>
+        /// The command handler that is used for the command --defines
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool DefineParamsCommandHandler()
         {
             if (DefinesParams == null)
@@ -547,6 +618,10 @@ namespace ext_pp_cli
 
         #region Chain
 
+        /// <summary>
+        /// The command handler that is used for the command --chain
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool ChainParamsCommandHanlder()
         {
             if (ChainParams != null)
@@ -593,6 +668,12 @@ namespace ext_pp_cli
 
         }
 
+        /// <summary>
+        /// Creates a List of Plugins based on a chain collection in the specified assembly
+        /// </summary>
+        /// <param name="asm">The containing assembly</param>
+        /// <param name="name">The name of the collection(or "*" for any collection)</param>
+        /// <returns></returns>
         private List<AbstractPlugin> CreateChainCollection(Assembly asm, string name)
         {
             if (TryCreateChainCollection(asm, name, out IChainCollection collection))
@@ -611,6 +692,13 @@ namespace ext_pp_cli
             return new List<AbstractPlugin>();
         }
 
+        /// <summary>
+        /// Tries to create a chain collection from a name
+        /// </summary>
+        /// <param name="asm">The containing assembly</param>
+        /// <param name="name">The name of the collection(or "*" for any collection)</param>
+        /// <param name="collection">The out parameter containing the created collection</param>
+        /// <returns>The success state</returns>
         private static bool TryCreateChainCollection(Assembly asm, string name, out IChainCollection collection)
         {
             Type[] types = asm.GetTypes();
@@ -633,6 +721,12 @@ namespace ext_pp_cli
 
         }
 
+        /// <summary>
+        /// Creates a List of Plugins based on a manually created chain.
+        /// </summary>
+        /// <param name="names">The names of the plugins that are specified in the chain</param>
+        /// <param name="asm">The containing assembly</param>
+        /// <returns>The chain from this Assembly</returns>
         private List<AbstractPlugin> ProcessChainCollection(string[] names, Assembly asm)
         {
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
@@ -652,6 +746,12 @@ namespace ext_pp_cli
             return ret;
         }
 
+        /// <summary>
+        /// Creates a List of plugins from a manually created name chain.
+        /// </summary>
+        /// <param name="names">The names of the plugins that are specified in the chain</param>
+        /// <param name="path">File Path of the compiled assembly</param>
+        /// <returns></returns>
         private List<AbstractPlugin> ProcessPluginChain(string[] names, string path)
         {
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
@@ -681,6 +781,13 @@ namespace ext_pp_cli
             return ret;
         }
 
+        /// <summary>
+        /// Returns all Plugins from the specified compiled assembly.
+        /// </summary>
+        /// <param name="path">Path to the compiled assembly</param>
+        /// <param name="names">The names of the plugins or chains</param>
+        /// <param name="noCollection">opt out flag to ignore collections</param>
+        /// <returns></returns>
         private List<AbstractPlugin> GetPluginsFromPath(string path, string[] names, bool noCollection)
         {
             List<AbstractPlugin> ret = new List<AbstractPlugin>();
@@ -713,7 +820,7 @@ namespace ext_pp_cli
         /// <summary>
         /// Creates the Plugin chain based on a argument in ChainSyntax.
         /// </summary>
-        /// <param name="arg"></param>
+        /// <param name="arg">The chain</param>
         /// <param name="noCollection"></param>
         /// <returns></returns>
         private IEnumerable<AbstractPlugin> CreatePluginChain(string[] arg, bool noCollection)
@@ -737,7 +844,10 @@ namespace ext_pp_cli
         #endregion
 
         #region Verbosity
-
+        /// <summary>
+        /// The command handler that is used for the commands --verbosity
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
         private bool VerbosityLevelCommandHandler()
         {
             Logger.VerbosityLevel = DebugLvl;
@@ -752,6 +862,12 @@ namespace ext_pp_cli
 
         #region CLIArgumentProcessing
 
+        /// <summary>
+        /// Implements the @[filename] syntax
+        /// All paths preceeded by an @ will be opened and their content pasted as argument.
+        /// </summary>
+        /// <param name="args">The raw arguments from the Command Line</param>
+        /// <returns>A complete list of arguments with all @ usings beeing resolved.</returns>
         private static List<string> ComputeFileReferences(List<string> args)
         {
             List<string> ret = args;
@@ -778,8 +894,8 @@ namespace ext_pp_cli
         /// <summary>
         /// Turns the args into a dictionary that contains keys and n string values.
         /// </summary>
-        /// <param name="args"></param>
-        /// <returns></returns>
+        /// <param name="args">The arguments of the CLI</param>
+        /// <returns>The dictionary containing all the arguments</returns>
         public static Dictionary<string, string[]> AnalyzeArgs(string[] args)
         {
             Dictionary<string, string[]> ret = new Dictionary<string, string[]>();
@@ -805,9 +921,9 @@ namespace ext_pp_cli
         /// <summary>
         /// Returns the index of the next occurrence of "-..."
         /// </summary>
-        /// <param name="args"></param>
-        /// <param name="start"></param>
-        /// <returns></returns>
+        /// <param name="args">the arguments to search</param>
+        /// <param name="start">the current index</param>
+        /// <returns>the index of the next command.</returns>
         private static int FindNextCommand(string[] args, int start)
         {
             for (int i = start + 1; i < args.Length; i++)
@@ -823,7 +939,11 @@ namespace ext_pp_cli
 
         #endregion
 
-
+        /// <summary>
+        /// Processes all the queued files with the PreProcessor
+        /// </summary>
+        /// <param name="pp">The PreProcessor</param>
+        /// <param name="settings">The settings used in the computation.</param>
         private void Process(PreProcessor pp, Settings settings)
         {
             //Compile/Execute PreProcessor
@@ -856,7 +976,6 @@ namespace ext_pp_cli
         /// <summary>
         /// Applies/Brings the configuration of the CLI up and running so it can start the PreProcessing.
         /// </summary>
-        /// <param name="settings"></param>
         public bool Apply()
         {
 

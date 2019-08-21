@@ -13,9 +13,9 @@ namespace ext_pp_base
         /// <summary>
         /// Returns the plugins that are meant to be run at the specified stage
         /// </summary>
-        /// <param name="plugins"></param>
-        /// <param name="type"></param>
-        /// <param name="stage"></param>
+        /// <param name="plugins">All plugins loaded</param>
+        /// <param name="type">The plugin type</param>
+        /// <param name="stage">the process stage</param>
         /// <returns></returns>
         public static List<AbstractPlugin> GetPluginsForStage(List<AbstractPlugin> plugins, PluginType type, ProcessStage stage)
         {
@@ -52,9 +52,9 @@ namespace ext_pp_base
         /// Looping Through All the Files
         ///     Looping Through All the plugins
         /// </summary>
-        /// <param name="script"></param>
-        /// <param name="sourceManager"></param>
-        /// <param name="defTable"></param>
+        /// <param name="script">the current source script</param>
+        /// <param name="sourceManager">the current source manager</param>
+        /// <param name="defTable">the current definitions</param>
         /// <returns>state of the process(if false will abort processing)</returns>
         public virtual bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
             IDefinitions defTable)
@@ -67,9 +67,9 @@ namespace ext_pp_base
         /// Looping Through All the Files
         ///     Looping Through All the plugins
         /// </summary>
-        /// <param name="script"></param>
-        /// <param name="sourceManager"></param>
-        /// <param name="defTable"></param>
+        /// <param name="script">the current source script</param>
+        /// <param name="sourceManager">the current source manager</param>
+        /// <param name="defTable">the current definitions</param>
         /// <returns>state of the process(if false will abort processing)</returns>
         public virtual bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
             IDefinitions defTable)
@@ -80,8 +80,8 @@ namespace ext_pp_base
         /// <summary>
         /// Gets called once per line on each file.
         /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
+        /// <param name="source">the source line</param>
+        /// <returns>The updated line</returns>
         public virtual string OnLoad_LineStage(string source)
         {
             return source;
@@ -90,8 +90,8 @@ namespace ext_pp_base
         /// <summary>
         /// Gets called once per line on each file.
         /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
+        /// <param name="source">the source line</param>
+        /// <returns>The updated line</returns>
         public virtual string OnMain_LineStage(string source)
         {
             return source;
@@ -100,8 +100,8 @@ namespace ext_pp_base
         /// <summary>
         /// Gets called once per line on each file.
         /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
+        /// <param name="source">the source line</param>
+        /// <returns>The updated line</returns>
         public virtual string OnFinishUp_LineStage(string source)
         {
             return source;
@@ -116,9 +116,9 @@ namespace ext_pp_base
         /// Initialization of the plugin
         /// Set all your changes to the objects here(not in the actual processing)
         /// </summary>
-        /// <param name="settings"></param>
-        /// <param name="sourceManager"></param>
-        /// <param name="defTable"></param>
+        /// <param name="settings">the settings</param>
+        /// <param name="sourceManager">the source manager</param>
+        /// <param name="defTable">the definitions</param>
         public abstract void Initialize(Settings settings, ISourceManager sourceManager, IDefinitions defTable);
 
     }

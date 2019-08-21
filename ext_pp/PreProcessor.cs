@@ -26,8 +26,6 @@ namespace ext_pp
         /// 
         /// </summary>
         private readonly string _sep = " ";
-        //Create Global Definitions
-        //Create Stack for All the processing steps(Stack<List<IPlugin>>
 
         /// <summary>
         /// Returns the List of statements from all the plugins that are remaining in the file and need to be removed as a last step
@@ -51,7 +49,7 @@ namespace ext_pp
         /// Sets the File Processing Chain
         /// 0 => First Plugin that gets executed
         /// </summary>
-        /// <param name="fileProcessors"></param>
+        /// <param name="fileProcessors">The List of Pluugins that will be used when processing files</param>
         public void SetFileProcessingChain(List<AbstractPlugin> fileProcessors)
         {
             _plugins = fileProcessors;
@@ -62,7 +60,7 @@ namespace ext_pp
         /// Compiles a File with the definitions and settings provided
         /// </summary>
         /// <param name="files">FilePaths of the files.</param>
-        /// <param name="settings"></param>
+        /// <param name="settings">The settings used in this compilation</param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
         public string[] Compile(string[] files, Settings settings, IDefinitions defs)
@@ -78,7 +76,6 @@ namespace ext_pp
         /// Compiles a File with the definitions and settings provided
         /// </summary>
         /// <param name="files">FilePaths of the files.</param>
-        /// <param name="settings"></param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
         public string[] Compile(string[] files, IDefinitions defs)
@@ -92,8 +89,7 @@ namespace ext_pp
         /// Compiles a File with the definitions and settings provided
         /// </summary>
         /// <param name="files">FilePaths of the files.</param>
-        /// <param name="settings"></param>
-        /// <param name="defs">Definitions</param>
+        /// <param name="settings">The settings used in this compilation</param>
         /// <returns>Array of Compiled Lines</returns>
         public string[] Compile(string[] files, Settings settings)
         {
@@ -107,9 +103,9 @@ namespace ext_pp
         /// <summary>
         /// Initializing all Plugins with the settings, definitions and the source manager for this compilation
         /// </summary>
-        /// <param name="settings"></param>
-        /// <param name="def"></param>
-        /// <param name="sourceManager"></param>
+        /// <param name="settings">The settings used</param>
+        /// <param name="def">Definitions used</param>
+        /// <param name="sourceManager">Sourcemanager used</param>
         private void InitializePlugins(Settings settings, IDefinitions def, ISourceManager sourceManager)
         {
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Initializing Plugins...");
@@ -124,8 +120,8 @@ namespace ext_pp
         /// <summary>
         /// Compiles the Provided source array into a single file. And removes all remaining statements
         /// </summary>
-        /// <param name="src"></param>
-        /// <returns></returns>
+        /// <param name="src">The Array of Sourcescripts that need to be compiled.</param>
+        /// <returns>A compiled list out of the passed sourcescripts</returns>
         private string[] Compile(ISourceScript[] src)
         {
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Starting Compilation of File Tree...");
@@ -146,9 +142,9 @@ namespace ext_pp
         /// <summary>
         /// Processes the file with the settings, definitions and the source manager specified.
         /// </summary>
-        /// <param name="file"></param>
-        /// <param name="settings"></param>
-        /// <param name="defs"></param>
+        /// <param name="file">the file paths to be processed</param>
+        /// <param name="settings">the settings that are used</param>
+        /// <param name="defs">the definitions that are used</param>
         /// <returns>Returns a list of files that can be compiled in reverse order</returns>
         public ISourceScript[] Process(string[] files, Settings settings, IDefinitions defs)
         {
@@ -208,10 +204,10 @@ namespace ext_pp
         /// <summary>
         /// Runs the specified stage on the passed script
         /// </summary>
-        /// <param name="stage"></param>
-        /// <param name="script"></param>
+        /// <param name="stage">The stage of the current processing</param>
+        /// <param name="script">the script to be processed</param>
         /// <param name="sourceManager"></param>
-        /// <param name="defTable"></param>
+        /// <param name="defTable">the definitions that are used</param>
         /// <returns></returns>
         private static bool RunStages(PreProcessor pp, ProcessStage stage, ISourceScript script, ISourceManager sourceManager,
             IDefinitions defTable)
@@ -236,11 +232,11 @@ namespace ext_pp
         /// Runs the plugin stage with the specififed type
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="stage"></param>
-        /// <param name="script"></param>
+        /// <param name="stage">The stage of the current processing</param>
+        /// <param name="script">the script to be processed</param>
         /// <param name="sourceManager"></param>
-        /// <param name="defTable"></param>
-        /// <returns></returns>
+        /// <param name="defTable">the definitions that are used</param>
+        /// <returns>True if the operation completed successfully</returns>
         private bool RunPluginStage(PluginType type, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
         {
             List<AbstractPlugin> chain = AbstractPlugin.GetPluginsForStage(_plugins, type, stage);
@@ -271,9 +267,9 @@ namespace ext_pp
         /// <summary>
         /// Wrapper that runs a list of line plugins based on the stage that is beeing run.
         /// </summary>
-        /// <param name="lineStage"></param>
-        /// <param name="stage"></param>
-        /// <param name="source"></param>
+        /// <param name="lineStage">The chain for this stage</param>
+        /// <param name="stage">The stage of the current processing</param>
+        /// <param name="source">The source to operate on</param>
         private static void RunLineStage(List<AbstractPlugin> lineStage, ProcessStage stage, string[] source)
         {
             foreach (var abstractPlugin in lineStage)
@@ -297,7 +293,16 @@ namespace ext_pp
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
 
+        /// <param name="fullScriptStage">The chain for this stage</param>
+        /// <param name="stage">The stage of the current processing</param>
+        /// <param name="script">The script to operate on</param>
+        /// <param name="sourceManager">The sourcemanager used.</param>
+        /// <param name="defTable">The definitions used</param>
+        /// <returns></returns>
         private bool RunFullScriptStage(List<AbstractPlugin> fullScriptStage, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
         {
             foreach (var abstractPlugin in fullScriptStage)

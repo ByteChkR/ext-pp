@@ -12,6 +12,9 @@ namespace ext_pp_base
     public class CommandMetaData
     {
 
+        /// <summary>
+        /// The help text of the Command
+        /// </summary>
         [XmlElement]
         public string HelpText { get; set; }
 
@@ -105,32 +108,52 @@ namespace ext_pp_base
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="command"></param>
-        /// <param name="shortcut"></param>
-        /// <param name="field"></param>
-        /// <param name="helpText"></param>
-        /// <param name="defaultIfNotSpecified"></param>
-        /// <param name="global"></param>
+        /// <param name="command">primary command prefix</param>
+        /// <param name="shortcut">shortcut command prefix</param>
+        /// <param name="field">the property info of the corresponding field</param>
+        /// <param name="helpText">the help text of the command</param>
+        /// <param name="defaultIfNotSpecified">the default value</param>
+        /// <param name="global">a flag if this command can be invoked with a global prefix</param>
         public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText, object defaultIfNotSpecified, bool global)
         {
             Field = field;
             Meta = new CommandMetaData(command, shortcut, helpText, global);
             DefaultIfNotSpecified = defaultIfNotSpecified;
         }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="command">primary command prefix</param>
+        /// <param name="shortcut">shortcut command prefix</param>
+        /// <param name="field">the property info of the corresponding field</param>
+        /// <param name="helpText">the help text of the command</param>
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText) : this(command, shortcut, field, helpText, null, false)
+        {
 
-        public CommandInfo(string command, string shortcut, PropertyInfo field, string helptext) : this(command, shortcut, field, helptext, null, false)
+        }
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="command">primary command prefix</param>
+        /// <param name="shortcut">shortcut command prefix</param>
+        /// <param name="field">the property info of the corresponding field</param>
+        /// <param name="defaultIfNotSpecified">the default value</param>
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText,
+            object defaultIfNotSpecified) : this(command, shortcut, field, helpText, defaultIfNotSpecified, false)
         {
 
         }
 
-        public CommandInfo(string command, string shortcut, PropertyInfo field, string helptext,
-            object defaultIfNotSpecified) : this(command, shortcut, field, helptext, defaultIfNotSpecified, false)
-        {
 
-        }
-
-        public CommandInfo(string command, string shortcut, PropertyInfo field, string helptext,
-            bool global) : this(command, shortcut, field, helptext, null, global)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="command">primary command prefix</param>
+        /// <param name="shortcut">shortcut command prefix</param>
+        /// <param name="field">the property info of the corresponding field</param>
+        /// <param name="global">a flag if this command can be invoked with a global prefix</param>
+        public CommandInfo(string command, string shortcut, PropertyInfo field, string helpText,
+            bool global) : this(command, shortcut, field, helpText, null, global)
         {
 
         }
@@ -139,7 +162,7 @@ namespace ext_pp_base
         /// <summary>
         /// Writes the information as readable text.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The string representation fo the command</returns>
         public override string ToString()
         {
             return Meta.ToString();

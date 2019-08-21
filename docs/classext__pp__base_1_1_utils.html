@@ -116,9 +116,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a99cb9177adfae2f08737114a9470ebcd"><td class="memItemLeft" align="right" valign="top">static string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a99cb9177adfae2f08737114a9470ebcd">FindStatements</a> (string[] source, string statement)</td></tr>
 <tr class="memdesc:a99cb9177adfae2f08737114a9470ebcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of lines where the line start with statement  <a href="#a99cb9177adfae2f08737114a9470ebcd">More...</a><br /></td></tr>
 <tr class="separator:a99cb9177adfae2f08737114a9470ebcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab76f64775573b5b0b8cb0a7f8aa2355f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#ab76f64775573b5b0b8cb0a7f8aa2355f">IsStatement</a> (string source, string statement)</td></tr>
-<tr class="memdesc:ab76f64775573b5b0b8cb0a7f8aa2355f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the source starts with the statement  <a href="#ab76f64775573b5b0b8cb0a7f8aa2355f">More...</a><br /></td></tr>
-<tr class="separator:ab76f64775573b5b0b8cb0a7f8aa2355f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa556d3fa71b2defa1d23791c89af36d9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#aa556d3fa71b2defa1d23791c89af36d9">IsStatement</a> (string line, string statement)</td></tr>
+<tr class="memdesc:aa556d3fa71b2defa1d23791c89af36d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the source starts with the statement  <a href="#aa556d3fa71b2defa1d23791c89af36d9">More...</a><br /></td></tr>
+<tr class="separator:aa556d3fa71b2defa1d23791c89af36d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e261422dca8b1413529f57ebbb2f492"><td class="memItemLeft" align="right" valign="top">static string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a6e261422dca8b1413529f57ebbb2f492">SplitAndRemoveFirst</a> (string statement, string separator)</td></tr>
 <tr class="memdesc:a6e261422dca8b1413529f57ebbb2f492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits a line by the separator and removes the first entry Gets used for include to just be able to get the path  <a href="#a6e261422dca8b1413529f57ebbb2f492">More...</a><br /></td></tr>
 <tr class="separator:a6e261422dca8b1413529f57ebbb2f492"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,7 +126,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a82d05e5d0e02ced8157f792dffc20907"><td class="mdescLeft">&#160;</td><td class="mdescRight">generic version of parsing an array of string to array of T  <a href="#a82d05e5d0e02ced8157f792dffc20907">More...</a><br /></td></tr>
 <tr class="separator:a82d05e5d0e02ced8157f792dffc20907"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac28fddd159f55c0cb1e09fb89cd53f26"><td class="memItemLeft" align="right" valign="top">static object []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#ac28fddd159f55c0cb1e09fb89cd53f26">ParseArray</a> (Type t, string[] obj, object defaul)</td></tr>
-<tr class="memdesc:ac28fddd159f55c0cb1e09fb89cd53f26"><td class="mdescLeft">&#160;</td><td class="mdescRight">function can parse an array of string to array of type t  <a href="#ac28fddd159f55c0cb1e09fb89cd53f26">More...</a><br /></td></tr>
+<tr class="memdesc:ac28fddd159f55c0cb1e09fb89cd53f26"><td class="mdescLeft">&#160;</td><td class="mdescRight">non generic version of parsing an array of string to array of T  <a href="#ac28fddd159f55c0cb1e09fb89cd53f26">More...</a><br /></td></tr>
 <tr class="separator:ac28fddd159f55c0cb1e09fb89cd53f26"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaac75ee26949d9f18365c1dad6a4dec3"><td class="memItemLeft" align="right" valign="top">static object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#aaac75ee26949d9f18365c1dad6a4dec3">Parse</a> (Type t, string obj, object defaul)</td></tr>
 <tr class="memdesc:aaac75ee26949d9f18365c1dad6a4dec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">parsing a string to object of type T  <a href="#aaac75ee26949d9f18365c1dad6a4dec3">More...</a><br /></td></tr>
@@ -137,13 +137,13 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:aa6bba6884c83ffcaa467b0256e00f049"><td class="memItemLeft" align="right" valign="top"><a id="aa6bba6884c83ffcaa467b0256e00f049"></a>
-delegate bool&#160;</td><td class="memItemRight" valign="bottom"><b>TryParse</b> (string val, out object value)</td></tr>
+<tr class="memitem:aa6bba6884c83ffcaa467b0256e00f049"><td class="memItemLeft" align="right" valign="top">delegate bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#aa6bba6884c83ffcaa467b0256e00f049">TryParse</a> (string val, out object value)</td></tr>
+<tr class="memdesc:aa6bba6884c83ffcaa467b0256e00f049"><td class="mdescLeft">&#160;</td><td class="mdescRight">A Delegate used to create different parsers  <a href="#aa6bba6884c83ffcaa467b0256e00f049">More...</a><br /></td></tr>
 <tr class="separator:aa6bba6884c83ffcaa467b0256e00f049"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:ae56015848793f78460d5c2dabf6c9815"><td class="memItemLeft" align="right" valign="top">static TryParse&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#ae56015848793f78460d5c2dabf6c9815">CreateTryParser&lt; T &gt;</a> ()</td></tr>
+<tr class="memitem:ae56015848793f78460d5c2dabf6c9815"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classext__pp__base_1_1_utils.html#aa6bba6884c83ffcaa467b0256e00f049">TryParse</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#ae56015848793f78460d5c2dabf6c9815">CreateTryParser&lt; T &gt;</a> ()</td></tr>
 <tr class="memdesc:ae56015848793f78460d5c2dabf6c9815"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates parser from type.  <a href="#ae56015848793f78460d5c2dabf6c9815">More...</a><br /></td></tr>
 <tr class="separator:ae56015848793f78460d5c2dabf6c9815"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f29e4061ee9d35f158baae710a04669"><td class="memItemLeft" align="right" valign="top">static object&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a6f29e4061ee9d35f158baae710a04669">ParseEnum</a> (Type enu, string input, object defaul)</td></tr>
@@ -152,7 +152,8 @@ Static Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:a99109f9bf962c889ed65b0fb10d7bf32"><td class="memItemLeft" align="right" valign="top">static readonly Dictionary&lt; Type, TryParse &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_parser</b></td></tr>
+<tr class="memitem:a99109f9bf962c889ed65b0fb10d7bf32"><td class="memItemLeft" align="right" valign="top">static readonly Dictionary&lt; Type, <a class="el" href="classext__pp__base_1_1_utils.html#aa6bba6884c83ffcaa467b0256e00f049">TryParse</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_utils.html#a99109f9bf962c889ed65b0fb10d7bf32">_parser</a></td></tr>
+<tr class="memdesc:a99109f9bf962c889ed65b0fb10d7bf32"><td class="mdescLeft">&#160;</td><td class="mdescRight">The List of implemented parsers.  <a href="#a99109f9bf962c889ed65b0fb10d7bf32">More...</a><br /></td></tr>
 <tr class="separator:a99109f9bf962c889ed65b0fb10d7bf32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -168,7 +169,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static TryParse ext_pp_base.Utils.CreateTryParser&lt; T &gt; </td>
+          <td class="memname">static <a class="el" href="classext__pp__base_1_1_utils.html#aa6bba6884c83ffcaa467b0256e00f049">TryParse</a> ext_pp_base.Utils.CreateTryParser&lt; T &gt; </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -184,11 +185,11 @@ Static Private Attributes</h2></td></tr>
 <p>Creates parser from type. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td></td></tr>
+    <tr><td class="paramname">T</td><td>Resulting type of the parser</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The parser for type T</dd></dl>
 
 </div>
 </div>
@@ -229,12 +230,12 @@ Static Private Attributes</h2></td></tr>
 <p>Returns true if the path is valid relative to the current path(the current script that is processed </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">currentPath</td><td></td></tr>
-    <tr><td class="paramname">file</td><td></td></tr>
+    <tr><td class="paramname">currentPath</td><td>the current path of the program</td></tr>
+    <tr><td class="paramname">file</td><td>the relative file path</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the relative path is pointing towards a valid file.</dd></dl>
 
 </div>
 </div>
@@ -275,17 +276,17 @@ Static Private Attributes</h2></td></tr>
 <p>Returns a list of lines where the line start with statement </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td></td></tr>
-    <tr><td class="paramname">statement</td><td></td></tr>
+    <tr><td class="paramname">source</td><td>the source to operate on</td></tr>
+    <tr><td class="paramname">statement</td><td>the statement to be checked for</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A list of all lines that start with the specified statements</dd></dl>
 
 </div>
 </div>
-<a id="ab76f64775573b5b0b8cb0a7f8aa2355f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab76f64775573b5b0b8cb0a7f8aa2355f">&#9670;&nbsp;</a></span>IsStatement()</h2>
+<a id="aa556d3fa71b2defa1d23791c89af36d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa556d3fa71b2defa1d23791c89af36d9">&#9670;&nbsp;</a></span>IsStatement()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -297,7 +298,7 @@ Static Private Attributes</h2></td></tr>
           <td class="memname">static bool ext_pp_base.Utils.IsStatement </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>source</em>, </td>
+          <td class="paramname"><em>line</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -321,8 +322,8 @@ Static Private Attributes</h2></td></tr>
 <p>Returns true if the source starts with the statement </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td></td></tr>
-    <tr><td class="paramname">statement</td><td></td></tr>
+    <tr><td class="paramname">line</td><td>the line to operate on</td></tr>
+    <tr><td class="paramname">statement</td><td>the statement to search for</td></tr>
   </table>
   </dd>
 </dl>
@@ -373,13 +374,13 @@ Static Private Attributes</h2></td></tr>
 <p>parsing a string to object of type T </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">t</td><td></td></tr>
-    <tr><td class="paramname">obj</td><td></td></tr>
-    <tr><td class="paramname">defaul</td><td></td></tr>
+    <tr><td class="paramname">t</td><td>The target type</td></tr>
+    <tr><td class="paramname">obj</td><td>the string to cast</td></tr>
+    <tr><td class="paramname">defaul</td><td>default value</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The obj cast to T</dd></dl>
 
 </div>
 </div>
@@ -420,18 +421,18 @@ Static Private Attributes</h2></td></tr>
 <p>generic version of parsing a string to object of type T </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td></td></tr>
+    <tr><td class="paramname">T</td><td>Target array type</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">obj</td><td></td></tr>
-    <tr><td class="paramname">defaul</td><td></td></tr>
+    <tr><td class="paramname">obj</td><td>the array of strings to cast</td></tr>
+    <tr><td class="paramname">defaul</td><td>default value</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The obj array cast to T</dd></dl>
 
 </div>
 </div>
@@ -475,16 +476,16 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>function can parse an array of string to array of type t </p>
+<p>non generic version of parsing an array of string to array of T </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">t</td><td></td></tr>
-    <tr><td class="paramname">obj</td><td></td></tr>
-    <tr><td class="paramname">defaul</td><td></td></tr>
+    <tr><td class="paramname">t</td><td>The target type</td></tr>
+    <tr><td class="paramname">obj</td><td>the array of strings to cast</td></tr>
+    <tr><td class="paramname">defaul</td><td>default value</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The obj array cast to T</dd></dl>
 
 </div>
 </div>
@@ -525,18 +526,18 @@ Static Private Attributes</h2></td></tr>
 <p>generic version of parsing an array of string to array of T </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td></td></tr>
+    <tr><td class="paramname">T</td><td>Target array type</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">obj</td><td></td></tr>
-    <tr><td class="paramname">defaul</td><td></td></tr>
+    <tr><td class="paramname">obj</td><td>the array of strings to cast</td></tr>
+    <tr><td class="paramname">defaul</td><td>default value</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The obj array cast to T</dd></dl>
 
 </div>
 </div>
@@ -583,13 +584,13 @@ Static Private Attributes</h2></td></tr>
 <p>Parses an input string to an enum. Supports simple AND/OR operations and can be specified as digit and by name </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">enu</td><td></td></tr>
-    <tr><td class="paramname">input</td><td></td></tr>
-    <tr><td class="paramname">defaul</td><td></td></tr>
+    <tr><td class="paramname">enu</td><td>The target type</td></tr>
+    <tr><td class="paramname">input</td><td>the string to cast</td></tr>
+    <tr><td class="paramname">defaul</td><td>default value</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The input cast to T</dd></dl>
 
 </div>
 </div>
@@ -636,13 +637,13 @@ Static Private Attributes</h2></td></tr>
 <p>Removes all the excess spaces around the specified separator </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">line</td><td></td></tr>
-    <tr><td class="paramname">separator</td><td></td></tr>
-    <tr><td class="paramname">logobj</td><td></td></tr>
+    <tr><td class="paramname">line</td><td>The line to operate on</td></tr>
+    <tr><td class="paramname">separator</td><td>the separator to be used</td></tr>
+    <tr><td class="paramname">logobj</td><td>The object from where all resulting logs come from</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the fixed line without any excess spaces</dd></dl>
 
 </div>
 </div>
@@ -689,12 +690,12 @@ Static Private Attributes</h2></td></tr>
 <p>Removes all lines of the source that start with one of the statements It takes care of possible indentations and spaces </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td></td></tr>
-    <tr><td class="paramname">statements</td><td></td></tr>
+    <tr><td class="paramname">source</td><td>the input source</td></tr>
+    <tr><td class="paramname">statements</td><td>statements that need to be removed from the source</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the cleaned list of source code lines</dd></dl>
 
 </div>
 </div>
@@ -741,9 +742,9 @@ Static Private Attributes</h2></td></tr>
 <p>Replaces a keyword(single sequence of characters) with a replacement in the source lines supplied. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td></td></tr>
-    <tr><td class="paramname">replacement</td><td></td></tr>
-    <tr><td class="paramname">keyword</td><td></td></tr>
+    <tr><td class="paramname">source</td><td>the source to operate on</td></tr>
+    <tr><td class="paramname">replacement</td><td>the replacement sequence</td></tr>
+    <tr><td class="paramname">keyword</td><td>the keyword that will be pasted for the replacement</td></tr>
   </table>
   </dd>
 </dl>
@@ -787,12 +788,58 @@ Static Private Attributes</h2></td></tr>
 <p>Splits a line by the separator and removes the first entry Gets used for include to just be able to get the path </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">statement</td><td></td></tr>
-    <tr><td class="paramname">separator</td><td></td></tr>
+    <tr><td class="paramname">statement</td><td>The statement to operate on</td></tr>
+    <tr><td class="paramname">separator</td><td>the separator used to split</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the array without the first entry</dd></dl>
+
+</div>
+</div>
+<a id="aa6bba6884c83ffcaa467b0256e00f049"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6bba6884c83ffcaa467b0256e00f049">&#9670;&nbsp;</a></span>TryParse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">delegate bool ext_pp_base.Utils.TryParse </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>val</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out object&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A Delegate used to create different parsers </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">val</td><td>the string input</td></tr>
+    <tr><td class="paramname">value</td><td>the output of the parser</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>success state of the operation</dd></dl>
 
 </div>
 </div>
@@ -807,7 +854,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly Dictionary&lt;Type, TryParse&gt; ext_pp_base.Utils._parser</td>
+          <td class="memname">readonly Dictionary&lt;Type, <a class="el" href="classext__pp__base_1_1_utils.html#aa6bba6884c83ffcaa467b0256e00f049">TryParse</a>&gt; ext_pp_base.Utils._parser</td>
         </tr>
       </table>
   </td>
@@ -816,7 +863,9 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;Type, TryParse&gt;()</div><div class="line">        {</div><div class="line">            {typeof(<span class="keywordtype">string</span>), CreateTryParser&lt;string&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">int</span>), CreateTryParser&lt;int&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">float</span>), CreateTryParser&lt;float&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">char</span>), CreateTryParser&lt;char&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">bool</span>), CreateTryParser&lt;bool&gt;()},</div><div class="line">        }</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">= <span class="keyword">new</span> Dictionary&lt;Type, TryParse&gt;</div><div class="line">        {</div><div class="line">            {typeof(<span class="keywordtype">string</span>), CreateTryParser&lt;string&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">int</span>), CreateTryParser&lt;int&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">float</span>), CreateTryParser&lt;float&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">char</span>), CreateTryParser&lt;char&gt;()},</div><div class="line">            {typeof(<span class="keywordtype">bool</span>), CreateTryParser&lt;bool&gt;()},</div><div class="line">        }</div></div><!-- fragment -->
+<p>The List of implemented parsers. </p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

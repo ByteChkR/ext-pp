@@ -10,7 +10,7 @@ var classext__pp__base_1_1_abstract_plugin =
     [ "Cleanup", "classext__pp__base_1_1_abstract_plugin.html#a35f1ba6bd509c6079da131c3fa7ac683", null ],
     [ "IncludeGlobal", "classext__pp__base_1_1_abstract_plugin.html#aa1a5555ad3f32b0c97036b6a52ef33c1", null ],
     [ "Info", "classext__pp__base_1_1_abstract_plugin.html#aad15e82f7ff22d4f04b9a037af196cc5", null ],
-    [ "PluginType", "classext__pp__base_1_1_abstract_plugin.html#a6b15fd1ed80fb198a908e41d4017fc6f", null ],
+    [ "PluginTypeToggle", "classext__pp__base_1_1_abstract_plugin.html#a105e63273c3d8eb6dbf299110a19ee2c", null ],
     [ "ProcessStages", "classext__pp__base_1_1_abstract_plugin.html#aecb968ce72c52038f526c3ac521f3607", null ],
     [ "Prefix", "classext__pp__base_1_1_abstract_plugin.html#a557c61c3fb9338b2c81bf0e279330a17", null ]
 ];

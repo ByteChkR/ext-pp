@@ -1117,11 +1117,10 @@ namespace ext_pp_cli
                 {
                     new CLI(execution);
                 }
-                return;
             }
             else
             {
-
+                //Not empty... Just special.
 #if RELEASE
                 Console.WriteLine(HelpText);
 #elif DEBUG
@@ -1140,26 +1139,11 @@ namespace ext_pp_cli
                     Debug.RemoveAllOutputStreams();
                     Logger.ResetWarnErrorCounter();
                     c = null;
-                } while (!exit);
 #endif
+                } while (!exit);
+
             }
-
-            
-
-            //if (args.Length == 0)
-            //{
-            //    Console.WriteLine(HelpText);
-            //}
-            //else
-            //{
-            //    string[][] execs = SplitExecutions(args);
-            //    foreach (var execution in execs)
-            //    {
-            //        new CLI(execution);
-            //    }
-            //}
-                //Yeet. Codacy thinks my Entry method is empty.
-            }
-
         }
+
+    }
 }

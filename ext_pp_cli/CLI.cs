@@ -63,6 +63,8 @@ namespace ext_pp_cli
         private List<CommandHandler> CommandApplyOrder => new List<CommandHandler>
         {
             VerbosityLevelCommandHandler,
+            LogToFileCommandHandler,
+            ThrowOnErrorWarningCommandHandler,
             ReadmeCommandHandler,
             ShowVersionCommandHandler,
             ListAllPluginsCommandHandler,
@@ -73,7 +75,6 @@ namespace ext_pp_cli
             RefreshPluginsCommandHandler,
             Help_Command,
             HelpAll_Command,
-            LogToFileCommandHandler,
             DefineParamsCommandHandler,
             ChainParamsCommandHanlder,
             InOutCommandHandler
@@ -122,13 +123,26 @@ namespace ext_pp_cli
                 "--pm-list-manual-files\r\n\t\tLists all Manually Included and Cached Files in Plugin Manager" ),
             new CommandInfo("pm-list-all", "pm-la", PropertyHelper<CLI>.GetPropertyInfo(x=>x.PluginListAllCommandHandler),
                 "--pm-list-all\r\n\t\tLists all Cached data."),
+            new CommandInfo("throw-on-warning", "tow", PropertyHelper<CLI>.GetPropertyInfo(x=>x.ThrowOnWarning),
+                "--throw-on-warning <true|false>\r\n\t\tCrashes the programm if any warnings are occuring."),
+            new CommandInfo("throw-on-error", "toe", PropertyHelper<CLI>.GetPropertyInfo(x=>x.ThrowOnError),
+                "--throw-on-error <true|false>\r\n\t\tCrashes the programm if any errors are occuring."),
             new CommandInfo("generate-readme", "gen-r", PropertyHelper<CLI>.GetPropertyInfo(x=>x.ReadmeArgs),
-                "--generate-readme <sourceLib> <targetFile>\r\n\t\tGenerates a Markdown Readme of the Plugins in the source lib."),
+                "--generate-readme <self|pathToPluginLibrary> <outputfile>\r\n\t\tGenerates a readme file in markdown syntax."),
         };
 
         #endregion
 
         #region CommandFields
+        /// <summary>
+        /// Contains the Parameters for the --throw-on-warning command.
+        /// </summary>
+        public bool ThrowOnWarning { get; set; }
+
+        /// <summary>
+        /// Contains the Parameters for the --throw-on-error command.
+        /// </summary>
+        public bool ThrowOnError { get; set; }
 
         /// <summary>
         /// Contains the Parameters for the -l2f and --logToFile commands.
@@ -504,7 +518,7 @@ namespace ext_pp_cli
             {
                 foreach (var s in PluginAdd)
                 {
-
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Adding: {0}", s);
                     FileAttributes attr = File.GetAttributes(s);
                     if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
                     {
@@ -858,6 +872,22 @@ namespace ext_pp_cli
 
         #endregion
 
+        #region ThrowError/Warning
+
+        /// <summary>
+        /// The command handler that is used for the commands --throw-on-error and --throw-on-warning
+        /// </summary>
+        /// <returns>Returns true if the CLI should exit after this command</returns>
+        private bool ThrowOnErrorWarningCommandHandler()
+        {
+            Logger.ThrowOnWarning = ThrowOnWarning;
+            Logger.ThrowOnError = ThrowOnError;
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "ThrowOnError = {0} ThrowOnWarning = {1}", Logger.ThrowOnError, Logger.ThrowOnWarning);
+            return false;
+        }
+
+        #endregion
+
         #endregion
 
         #region CLIArgumentProcessing
@@ -946,11 +976,11 @@ namespace ext_pp_cli
         /// <param name="settings">The settings used in the computation.</param>
         private void Process(PreProcessor pp, Settings settings)
         {
-            //Compile/Execute PreProcessor
+            //Run/Execute PreProcessor
             for (var index = 0; index < Input.Length; index++)
             {
                 var input = Input[index];
-                string[] src = pp.Compile(input.Split(','), settings, _defs);
+                string[] src = pp.Run(input.Split(','), settings, _defs);
 
                 if (OutputToConsole)
                 {
@@ -1020,16 +1050,23 @@ namespace ext_pp_cli
 
 
 
-
-
         /// <summary>
         /// Constructor that does the parameter analysis.
         /// </summary>
         /// <param name="args"></param>
         public CLI(string[] args)
         {
-            InitAdl();
 
+            _pluginManager = new PluginManager();
+
+
+            DoExecution(args);
+
+
+        }
+
+        private void DoExecution(string[] args)
+        {
             List<string> arf = ComputeFileReferences(args.ToList());
 
             string[] arguments = arf.ToArray();
@@ -1037,8 +1074,6 @@ namespace ext_pp_cli
             Settings settings = new Settings(AnalyzeArgs(arguments));
 
             settings.ApplySettings(Info, this);
-
-            _pluginManager = new PluginManager();
 
 
 
@@ -1048,9 +1083,19 @@ namespace ext_pp_cli
                 pp.SetFileProcessingChain(_chain);
                 Process(pp, settings);
             }
+        }
 
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Finished Task(s) in {0}ms", Timer.MS);
+        private static string[][] SplitExecutions(string[] args)
+        {
+            string argstr = args.Unpack(" ");
+            List<string[]> ret = new List<string[]>();
+            string[] execs = argstr.Split("__", StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < execs.Length; i++)
+            {
+                ret.Add(execs[i].Split(' ', StringSplitOptions.RemoveEmptyEntries));
+            }
 
+            return ret.ToArray();
         }
 
         /// <summary>
@@ -1059,13 +1104,20 @@ namespace ext_pp_cli
         /// <param name="args"></param>
         public static void Main(string[] args)
         {
+
+            InitAdl();
             float start = Timer.MS; // Load assembly
             Console.WriteLine(CliHeader, start);
 #if DEBUG
 
-            if (args.Length == 0)
+            if (args.Length != 0)
             {
-                Console.WriteLine(HelpText);
+                string[][] execs = SplitExecutions(args);
+                foreach (var execution in execs)
+                {
+                    new CLI(execution);
+                }
+                return;
             }
             CLI c;
             string[] arf;
@@ -1088,7 +1140,13 @@ namespace ext_pp_cli
                 Console.WriteLine(HelpText);
             }
             else
-                new CLI(args);
+            {
+                string[][] execs = SplitExecutions(args);
+                foreach (var execution in execs)
+                {
+                    new CLI(execution);
+                }
+            }
 #endif
             //Yeet. Codacy thinks my Entry method is empty.
         }

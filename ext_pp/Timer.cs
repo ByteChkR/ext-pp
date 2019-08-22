@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace ext_pp_base
+namespace ext_pp
 {
 
 
@@ -10,9 +10,9 @@ namespace ext_pp_base
     public class Timer
     {
         /// <summary>
-        /// A readonly static timer that will be started as soon as the assembly gets loaded.
+        /// A internal static timer
         /// </summary>
-        private static Timer GlobalTimer { get; } = new Timer();
+        internal static Timer GlobalTimer { get; } = new Timer();
 
         /// <summary>
         /// A static wrapper for the singleton(showing the total ellapsed milliseconds since assembly load.
@@ -29,7 +29,7 @@ namespace ext_pp_base
         /// </summary>
         public Timer()
         {
-            Start();
+            
         }
 
         /// <summary>

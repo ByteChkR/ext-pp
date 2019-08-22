@@ -1,10 +1,10 @@
 3 Blank Lines Below
 
-#include test.txt $TIME$
+#include test.txt Tim
 
 #type0 is awsome
 
-#define VALUE1
+#define VALUE2
 #if VALUE1 && !VALUE2 && !VALUE3
 	Time: $TIME$
 #elseif !VALUE1 && VALUE2 && !VALUE3

@@ -56,6 +56,16 @@ namespace ext_pp
         }
 
 
+        public ISourceScript[] ProcessFiles(string[] files, Settings settings, IDefinitions definitions)
+        {
+            return Process(files, settings, definitions);
+        }
+
+        public string[] CompileFileList(ISourceScript[] files)
+        {
+            return Compile(files, true);
+        }
+
         /// <summary>
         /// Compiles a File with the definitions and settings provided
         /// </summary>
@@ -63,12 +73,18 @@ namespace ext_pp
         /// <param name="settings">The settings used in this compilation</param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string[] files, Settings settings, IDefinitions defs)
+        public string[] Run(string[] files, Settings settings, IDefinitions defs)
         {
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Pre Processor...");
             ISourceScript[] src = Process(files, settings, defs);
-            return Compile(src);
+            string[] ret = Compile(src, false);
+
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Summary: {1} Errors, {2} Warnings, Finished in {0}ms", Timer.MS, Logger.ErrorCount, Logger.WarningCount);
+
+            Timer.GlobalTimer.Reset();
+
+            return ret;
         }
 
 
@@ -78,10 +94,9 @@ namespace ext_pp
         /// <param name="files">FilePaths of the files.</param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string[] files, IDefinitions defs)
+        public string[] Run(string[] files, IDefinitions defs)
         {
-
-            return Compile(files, null, defs);
+            return Run(files, null, defs);
         }
 
 
@@ -91,10 +106,9 @@ namespace ext_pp
         /// <param name="files">FilePaths of the files.</param>
         /// <param name="settings">The settings used in this compilation</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string[] files, Settings settings)
+        public string[] Run(string[] files, Settings settings)
         {
-
-            return Compile(files, settings, null);
+            return Run(files, settings, null);
         }
 
 
@@ -117,13 +131,21 @@ namespace ext_pp
             }
         }
 
+
+
         /// <summary>
         /// Compiles the Provided source array into a single file. And removes all remaining statements
         /// </summary>
         /// <param name="src">The Array of Sourcescripts that need to be compiled.</param>
         /// <returns>A compiled list out of the passed sourcescripts</returns>
-        private string[] Compile(ISourceScript[] src)
+        private string[] Compile(ISourceScript[] src, bool restartTimer)
         {
+            if (restartTimer)
+            {
+                Timer.GlobalTimer.Restart();
+            }
+
+            long old = Timer.MS;
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Starting Compilation of File Tree...");
             List<string> ret = new List<string>();
             for (var i = src.Length - 1; i >= 0; i--)
@@ -135,6 +157,8 @@ namespace ext_pp
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Cleaning up: {0}", CleanUpList.Unpack(", "));
 
             string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray(), this).ToArray();
+
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Finished Compiling {1} Files({0}ms)", Timer.MS - old, src.Length);
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Total Lines: {0}", rrr.Length);
             return rrr;
         }
@@ -142,19 +166,22 @@ namespace ext_pp
         /// <summary>
         /// Processes the file with the settings, definitions and the source manager specified.
         /// </summary>
-        /// <param name="file">the file paths to be processed</param>
+        /// <param name="files">the file paths to be processed</param>
         /// <param name="settings">the settings that are used</param>
         /// <param name="defs">the definitions that are used</param>
         /// <returns>Returns a list of files that can be compiled in reverse order</returns>
-        public ISourceScript[] Process(string[] files, Settings settings, IDefinitions defs)
+        private ISourceScript[] Process(string[] files, Settings settings, IDefinitions defs)
         {
+            Timer.GlobalTimer.Restart();
             string dir = Directory.GetCurrentDirectory();
             IDefinitions definitions = defs ?? new Definitions();
             SourceManager sm = new SourceManager(_plugins);
 
+            long old = Timer.MS;
             InitializePlugins(settings, definitions, sm);
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Finished Initializing {1} Plugins({0}ms)", Timer.MS-old, _plugins.Count);
 
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Processing of Files: {0}", files.Unpack(", "));
+            old = Timer.MS;
             foreach (var file in files)
             {
                 string f = Path.GetFullPath(file);
@@ -166,6 +193,11 @@ namespace ext_pp
                sm.AddToTodo(sss);
             }
 
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Loaded {1} Files in {0}ms", Timer.MS - old, sm.GetTodoCount());
+
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Processing of Files: {0}", files.Unpack(", "));
+
+            old = Timer.MS;
             ISourceScript ss = sm.NextItem;
 
             do
@@ -196,6 +228,9 @@ namespace ext_pp
                 RunStages(this, ProcessStage.ON_FINISH_UP, finishedScript, sm, definitions);
             }
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finished Processing Files.");
+
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Processed {1} Files into {2} scripts in {0}ms", Timer.MS - old, sm.GetList().Count, ret.Length);
+
             return ret;
 
         }

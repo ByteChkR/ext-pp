@@ -56,6 +56,12 @@
 		pm-list-all/pm-la
 			--pm-list-all
 					Lists all Cached data.
+		throw-on-warning/tow
+			--throw-on-warning <true|false>
+					Crashes the programm if any warnings are occuring.
+		throw-on-error/toe
+			--throw-on-error <true|false>
+					Crashes the programm if any errors are occuring.
 		generate-readme/gen-r
-			--generate-readme <sourceLib> <targetFile>
-					Generates a Markdown Readme of the Plugins in the source lib.
+			--generate-readme <self|pathToPluginLibrary> <outputfile>
+					Generates a readme file in markdown syntax.

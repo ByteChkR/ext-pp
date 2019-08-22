@@ -1139,8 +1139,8 @@ namespace ext_pp_cli
                     Debug.RemoveAllOutputStreams();
                     Logger.ResetWarnErrorCounter();
                     c = null;
-#endif
                 } while (!exit);
+#endif
 
             }
         }

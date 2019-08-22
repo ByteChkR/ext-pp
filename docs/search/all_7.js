@@ -22,6 +22,5 @@ var searchData=
   ['gettodocount',['GetTodoCount',['../classext__pp_1_1_source_manager.html#a4bfbdc7f4e6530ffed1818088621d4a0',1,'ext_pp::SourceManager']]],
   ['getvalue',['GetValue',['../classext__pp__base_1_1_import_result.html#ac58bfe1200b91b05fd987d0f235199e4',1,'ext_pp_base::ImportResult']]],
   ['getvaluefromcache_3c_20t_20_3e',['GetValueFromCache&lt; T &gt;',['../interfaceext__pp__base_1_1_i_source_script.html#a810205b35baf7c5c950447ef93a6f342',1,'ext_pp_base::ISourceScript']]],
-  ['globalsettings',['GlobalSettings',['../classext__pp__base_1_1settings_1_1_settings.html#a3ba35cdb789dc2bd94a720dea6a3397c',1,'ext_pp_base::settings::Settings']]],
-  ['globaltimer',['GlobalTimer',['../classext__pp__base_1_1_timer.html#a863893ee1ae37efe9ef9365be6b87338',1,'ext_pp_base::Timer']]]
+  ['globalsettings',['GlobalSettings',['../classext__pp__base_1_1settings_1_1_settings.html#a3ba35cdb789dc2bd94a720dea6a3397c',1,'ext_pp_base::settings::Settings']]]
 ];

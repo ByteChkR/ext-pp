@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['plugin_5finfo',['PLUGIN_INFO',['../md_ext_pp_cli_bin__debug_netcoreapp2_81__p_l_u_g_i_n__i_n_f_o.html',1,'']]],
   ['pack',['Pack',['../classext__pp__base_1_1_extensions.html#ac6aaf5e958ef5dea1116e34148220a45',1,'ext_pp_base::Extensions']]],
   ['parse',['Parse',['../classext__pp__base_1_1_utils.html#aaac75ee26949d9f18365c1dad6a4dec3',1,'ext_pp_base::Utils']]],
   ['parse_3c_20t_20_3e',['Parse&lt; T &gt;',['../classext__pp__base_1_1_utils.html#a95755725b67a434cd4c4fef77321cbd0',1,'ext_pp_base::Utils']]],
@@ -29,5 +30,5 @@ var searchData=
   ['processpluginchain',['ProcessPluginChain',['../classext__pp__cli_1_1_c_l_i.html#aeb38c8294042bbd315e4b8d61395ef00',1,'ext_pp_cli::CLI']]],
   ['processstage',['ProcessStage',['../namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3',1,'ext_pp_base::settings']]],
   ['processstages',['ProcessStages',['../classext__pp__base_1_1_abstract_line_plugin.html#a0dc5aa96600fd22aa000077e6dce3a1f',1,'ext_pp_base.AbstractLinePlugin.ProcessStages()'],['../classext__pp__base_1_1_abstract_plugin.html#aecb968ce72c52038f526c3ac521f3607',1,'ext_pp_base.AbstractPlugin.ProcessStages()']]],
-  ['propertyhelper',['PropertyHelper',['../classext__pp__base_1_1_property_helper.html',1,'ext_pp_base.PropertyHelper'],['../classext__pp__base_1_1_property_helper.html',1,'ext_pp_base.PropertyHelper&lt; T &gt;']]]
+  ['propertyhelper',['PropertyHelper',['../classext__pp__base_1_1_property_helper.html',1,'ext_pp_base.PropertyHelper&lt; T &gt;'],['../classext__pp__base_1_1_property_helper.html',1,'ext_pp_base.PropertyHelper']]]
 ];

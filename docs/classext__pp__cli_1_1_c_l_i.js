@@ -11,6 +11,7 @@ var classext__pp__cli_1_1_c_l_i =
     [ "CreateChainCollection", "classext__pp__cli_1_1_c_l_i.html#ad8b0a9945e64cbf6f641db52ee18ab12", null ],
     [ "CreatePluginChain", "classext__pp__cli_1_1_c_l_i.html#a3a232b05b0786f0ec2071d01424d36d3", null ],
     [ "DefineParamsCommandHandler", "classext__pp__cli_1_1_c_l_i.html#a4c666d4cf20dee5d71624fc9a7834c29", null ],
+    [ "DoExecution", "classext__pp__cli_1_1_c_l_i.html#a6134e9281e3c3fddace82c634efd9cf5", null ],
     [ "FindNextCommand", "classext__pp__cli_1_1_c_l_i.html#a8e8a53940bdf82acd40ca98df8abcd9e", null ],
     [ "GenerateReadme", "classext__pp__cli_1_1_c_l_i.html#a6239e8b37793b2951d28d1943c78d985", null ],
     [ "GetPluginsFromPath", "classext__pp__cli_1_1_c_l_i.html#ae0a380a2e01667d426bf70d215417cce", null ],
@@ -33,6 +34,8 @@ var classext__pp__cli_1_1_c_l_i =
     [ "ReadmeCommandHandler", "classext__pp__cli_1_1_c_l_i.html#a9530a1983f0778fea16669040e79e2a2", null ],
     [ "RefreshPluginsCommandHandler", "classext__pp__cli_1_1_c_l_i.html#a5696565394d87ffb7ea5b5f11647c29f", null ],
     [ "ShowVersionCommandHandler", "classext__pp__cli_1_1_c_l_i.html#a8c011967eae998d9d15bd267f390a776", null ],
+    [ "SplitExecutions", "classext__pp__cli_1_1_c_l_i.html#acf0f4595844ab31df9628accf1e7930b", null ],
+    [ "ThrowOnErrorWarningCommandHandler", "classext__pp__cli_1_1_c_l_i.html#a06e71153621b735f87d328afc1ea74bd", null ],
     [ "TryCreateChainCollection", "classext__pp__cli_1_1_c_l_i.html#a2d0c57c6dd04090d361f69f025b76ee7", null ],
     [ "VerbosityLevelCommandHandler", "classext__pp__cli_1_1_c_l_i.html#a6775c18e7f67abd7de93148376be578a", null ],
     [ "_chain", "classext__pp__cli_1_1_c_l_i.html#a16c84c8e76ca873576163d08fa112455", null ],
@@ -61,5 +64,7 @@ var classext__pp__cli_1_1_c_l_i =
     [ "PluginRefresh", "classext__pp__cli_1_1_c_l_i.html#a979fb1daf20edc00930b5a7d34ecca37", null ],
     [ "ReadmeArgs", "classext__pp__cli_1_1_c_l_i.html#ac6ed8a4781111338416d8eff3d23882b", null ],
     [ "ShowVersion", "classext__pp__cli_1_1_c_l_i.html#aea24b8e53eead8493c4cb5bf3c4ff964", null ],
+    [ "ThrowOnError", "classext__pp__cli_1_1_c_l_i.html#aadad146bdd33fe45df2b1ec764b768da", null ],
+    [ "ThrowOnWarning", "classext__pp__cli_1_1_c_l_i.html#af655042329cf22425a3e6d6e444007e7", null ],
     [ "Version", "classext__pp__cli_1_1_c_l_i.html#a7c1e99b70521d0987c4a506bd452603c", null ]
 ];

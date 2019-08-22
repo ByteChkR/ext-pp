@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ms',['MS',['../classext__pp__base_1_1_timer.html#a65b74ca046243c3b635795171755374c',1,'ext_pp_base::Timer']]]
+  ['ms',['MS',['../classext__pp_1_1_timer.html#aaf16076c04499dd9bb2f02a2ac0b08ef',1,'ext_pp::Timer']]]
 ];

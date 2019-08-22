@@ -18,6 +18,5 @@ var namespaceext__pp__base =
     [ "Logger", "classext__pp__base_1_1_logger.html", "classext__pp__base_1_1_logger" ],
     [ "ProcessorException", "classext__pp__base_1_1_processor_exception.html", "classext__pp__base_1_1_processor_exception" ],
     [ "PropertyHelper", "classext__pp__base_1_1_property_helper.html", null ],
-    [ "Timer", "classext__pp__base_1_1_timer.html", "classext__pp__base_1_1_timer" ],
     [ "Utils", "classext__pp__base_1_1_utils.html", "classext__pp__base_1_1_utils" ]
 ];

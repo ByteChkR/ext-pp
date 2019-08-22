@@ -15,7 +15,7 @@ var searchData=
   ['silent',['SILENT',['../namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166a7e92d833d7720dbe631730a6cea03346',1,'ext_pp_base::settings']]],
   ['sourcemanager',['SourceManager',['../classext__pp_1_1_source_manager.html',1,'ext_pp.SourceManager'],['../classext__pp_1_1_source_manager.html#a8bbafbd8158830ce4785604a9335be69',1,'ext_pp.SourceManager.SourceManager()']]],
   ['splitandremovefirst',['SplitAndRemoveFirst',['../classext__pp__base_1_1_utils.html#a6e261422dca8b1413529f57ebbb2f492',1,'ext_pp_base::Utils']]],
-  ['start',['Start',['../classext__pp__base_1_1_timer.html#abb658e15d0030e1659e4d9c507cc76ee',1,'ext_pp_base::Timer']]],
-  ['stopwatch',['StopWatch',['../classext__pp__base_1_1_timer.html#abb34691344c02f99c1e379c2500e2392',1,'ext_pp_base::Timer']]],
+  ['start',['Start',['../classext__pp_1_1_timer.html#a15c8d3ce96e8bdb51956b4f04e61cc17',1,'ext_pp::Timer']]],
+  ['stopwatch',['StopWatch',['../classext__pp_1_1_timer.html#a9630d513a0cfa865605f6e827dfac781',1,'ext_pp::Timer']]],
   ['subarray_3c_20t_20_3e',['SubArray&lt; T &gt;',['../classext__pp__base_1_1_extensions.html#a970d9a5ffa1f7494732d7a63ff38fce8',1,'ext_pp_base.Extensions.SubArray&lt; T &gt;(this IEnumerable&lt; T &gt; arr, int start, int length)'],['../classext__pp__base_1_1_extensions.html#aa473f6e24d46c3bf330e07cfd89b522e',1,'ext_pp_base.Extensions.SubArray&lt; T &gt;(this IEnumerable&lt; T &gt; arr, int length)']]]
 ];

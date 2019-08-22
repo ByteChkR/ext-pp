@@ -1108,7 +1108,7 @@ namespace ext_pp_cli
             InitAdl();
             float start = Timer.MS; // Load assembly
             Console.WriteLine(CliHeader, start);
-#if DEBUG
+
 
             if (args.Length != 0)
             {
@@ -1119,37 +1119,47 @@ namespace ext_pp_cli
                 }
                 return;
             }
-            CLI c;
-            string[] arf;
-            bool exit=false;
-            bool isFirst=true;
-            do
-            {
-                arf = isFirst? args : Console.ReadLine().Pack(" ").ToArray();
-                isFirst=false;
-                if(arf.Contains("exit"))exit=true;
-                c = new CLI(arf);
-                Debug.RemoveAllOutputStreams();
-                Logger.ResetWarnErrorCounter();
-                c = null;
-            } while (!exit);
-
-#elif RELEASE
-            if (args.Length == 0)
-            {
-                Console.WriteLine(HelpText);
-            }
             else
             {
-                string[][] execs = SplitExecutions(args);
-                foreach (var execution in execs)
-                {
-                    new CLI(execution);
-                }
-            }
-#endif
-            //Yeet. Codacy thinks my Entry method is empty.
-        }
 
-    }
+#if RELEASE
+                Console.WriteLine(HelpText);
+#elif DEBUG
+
+                CLI c;
+                string[] arf;
+                bool exit = false;
+                do
+                {
+                    arf = Console.ReadLine().Pack(" ").ToArray();
+                    if (arf.Contains("exit"))
+                    {
+                        exit = true;
+                    }
+                    c = new CLI(arf);
+                    Debug.RemoveAllOutputStreams();
+                    Logger.ResetWarnErrorCounter();
+                    c = null;
+                } while (!exit);
+#endif
+            }
+
+            
+
+            //if (args.Length == 0)
+            //{
+            //    Console.WriteLine(HelpText);
+            //}
+            //else
+            //{
+            //    string[][] execs = SplitExecutions(args);
+            //    foreach (var execution in execs)
+            //    {
+            //        new CLI(execution);
+            //    }
+            //}
+                //Yeet. Codacy thinks my Entry method is empty.
+            }
+
+        }
 }

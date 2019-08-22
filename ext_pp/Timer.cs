@@ -24,13 +24,6 @@ namespace ext_pp
         /// </summary>
         private Stopwatch StopWatch { get; } = new Stopwatch();
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public Timer()
-        {
-            
-        }
 
         /// <summary>
         /// Starts the Timer

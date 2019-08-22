@@ -51,12 +51,12 @@ var hierarchy =
     [ "ext_pp.tests.MethodPrecompiler", "classext__pp_1_1tests_1_1_method_precompiler.html", null ],
     [ "ext_pp_cli.PluginManager.PluginInformation", "classext__pp__cli_1_1_plugin_manager_1_1_plugin_information.html", null ],
     [ "ext_pp_cli.PluginManager.PluginManagerDatabase", "classext__pp__cli_1_1_plugin_manager_1_1_plugin_manager_database.html", null ],
-    [ "ext_pp_base.PropertyHelper", "classext__pp__base_1_1_property_helper.html", null ],
     [ "ext_pp_base.PropertyHelper< T >", "classext__pp__base_1_1_property_helper.html", null ],
+    [ "ext_pp_base.PropertyHelper", "classext__pp__base_1_1_property_helper.html", null ],
     [ "ext_pp_base.settings.Settings", "classext__pp__base_1_1settings_1_1_settings.html", null ],
     [ "ext_pp.tests.TestHelper", "classext__pp_1_1tests_1_1_test_helper.html", null ],
     [ "ext_pp.tests.TextEncoderPluginTests", "classext__pp_1_1tests_1_1_text_encoder_plugin_tests.html", null ],
     [ "ext_pp_plugins.TextEncoderPlugin.TextEncoding", "classext__pp__plugins_1_1_text_encoder_plugin_1_1_text_encoding.html", null ],
-    [ "ext_pp_base.Timer", "classext__pp__base_1_1_timer.html", null ],
+    [ "ext_pp.Timer", "classext__pp_1_1_timer.html", null ],
     [ "ext_pp_base.Utils", "classext__pp__base_1_1_utils.html", null ]
 ];

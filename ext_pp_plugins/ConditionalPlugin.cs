@@ -18,12 +18,12 @@ namespace ext_pp_plugins
         public override string[] Cleanup => new[] { DefineKeyword, UndefineKeyword };
         public override string[] Prefix => new[] { "con", "Conditional" };
         public override ProcessStage ProcessStages => Stage.ToLower(CultureInfo.InvariantCulture) == "onload" ? ProcessStage.ON_LOAD_STAGE : ProcessStage.ON_MAIN;
-        public string StartCondition { get; set; } = "#if";
-        public string ElseIfCondition { get; set; } = "#elseif";
+        public string StartCondition { get; set; } = "#if ";
+        public string ElseIfCondition { get; set; } = "#elseif ";
         public string ElseCondition { get; set; } = "#else";
         public string EndCondition { get; set; } = "#endif";
-        public string UndefineKeyword { get; set; } = "#undefine";
-        public string DefineKeyword { get; set; } = "#define";
+        public string UndefineKeyword { get; set; } = "#undefine ";
+        public string DefineKeyword { get; set; } = "#define ";
         public string OrOperator { get; set; } = "||";
         public string NotOperator { get; set; } = "!";
         public string AndOperator { get; set; } = "&&";

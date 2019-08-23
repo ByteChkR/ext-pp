@@ -216,7 +216,8 @@ namespace ext_pp_plugins
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Block Keywords.");
             for (int i = 0; i < lines.Count; i++)
             {
-                if (lines[i].TrimStart().StartsWith(BlockEncodeStartKeyword))
+                string line = lines[i].TrimStart();
+                if (line.StartsWith(BlockEncodeStartKeyword))
                 {
 
                     removeIndices.Add(i);
@@ -246,7 +247,7 @@ namespace ext_pp_plugins
 
                     }
                 }
-                else if (lines[i].TrimStart().StartsWith(BlockDecodeStartKeyword))
+                else if (line.StartsWith(BlockDecodeStartKeyword))
                 {
                     removeIndices.Add(i);
 

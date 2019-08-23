@@ -4,7 +4,7 @@
 
 #type0 is awsome
 
-#define VALUE2
+#define VALUE1
 #if VALUE1 && !VALUE2 && !VALUE3
 	Time: $TIME$
 #elseif !VALUE1 && VALUE2 && !VALUE3
@@ -15,6 +15,9 @@
 	#warning Wait, thats illegal.
 #endif
 
+#if (__gl_h_) || (__GL_H__) || (_GL_H) || (__X_GL_H)
+#error gl.h included before glew.h
+#endif
 
 THIS WILL BE ONE__
  LINEEEEEE!!!!!1111!

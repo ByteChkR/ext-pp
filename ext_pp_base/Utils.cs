@@ -335,5 +335,20 @@ namespace ext_pp_base
 
             return ret;
         }
+
+        public static bool TryResolvePathIncludeParameter(string[] vars)
+        {
+            if (vars.Length == 0)
+            {
+                return false;
+            }
+
+            if (vars[0].StartsWith('\"') && vars[0].EndsWith('\"'))
+            {
+                vars[0] = vars[0].Substring(1, vars[0].Length - 2);
+            }
+
+            return true;
+        }
     }
 }

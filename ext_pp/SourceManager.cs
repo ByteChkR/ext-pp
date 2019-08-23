@@ -83,16 +83,9 @@ namespace ext_pp
         {
             ImportResult ret = new ImportResult();
 
-            if (vars.Length == 0)
+            if (!Utils.TryResolvePathIncludeParameter(vars))
             {
                 return ret;
-            }
-
-            if (vars[0].StartsWith('\"') && vars[0].EndsWith('\"'))
-            {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing \" on include statement.");
-
-                vars[0] = vars[0].Substring(1, vars[0].Length - 2);
             }
 
             string dir = Directory.GetCurrentDirectory();

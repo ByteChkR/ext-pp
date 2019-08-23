@@ -34,22 +34,17 @@ namespace ext_pp_plugins
         }
 
 
+
         private ImportResult ComputeNameAndKey_Generic(string[] vars, string currentPath)
         {
             ImportResult ret = new ImportResult();
 
             string filePath = "";
             string key = "";
-            if (vars.Length == 0)
+
+            if (!Utils.TryResolvePathIncludeParameter(vars))
             {
                 return ret;
-            }
-
-            if (vars[0].StartsWith('\"') && vars[0].EndsWith('\"'))
-            {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing \" on include statement.");
-
-                vars[0] = vars[0].Substring(1, vars[0].Length - 2);
             }
 
             string[] genParams = vars.Length > 1 ?

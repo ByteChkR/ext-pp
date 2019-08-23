@@ -79,7 +79,7 @@ namespace ext_pp
         /// <param name="vars">The import string in a source script</param>
         /// <param name="currentPath">the current path of the preprocessor</param>
         /// <returns>A result object.</returns>
-        private static ImportResult ComputeFileNameAndKey_Default(string[] vars, string currentPath)
+        private ImportResult ComputeFileNameAndKey_Default(string[] vars, string currentPath)
         {
             ImportResult ret = new ImportResult();
 
@@ -87,7 +87,14 @@ namespace ext_pp
             {
                 return ret;
             }
-            
+
+            if (vars[0].StartsWith('\"') && vars[0].EndsWith('\"'))
+            {
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing \" on include statement.");
+
+                vars[0] = vars[0].Substring(1, vars[0].Length - 2);
+            }
+
             string dir = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(currentPath);
 

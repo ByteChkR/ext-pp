@@ -1,1 +1,1 @@
---chain blr con ex gen inc kwr mlp tenc -i glew.txt -o result.txt -v 99 -l2f process_output.log all:false -kwr:ss onload -kwr:o before -kwr:tf hh:mm:ss:ff
+--chain con ex gen inc kwr tenc -i glew.txt -o result.txt -v 99 -l2f process_output.log all:false -kwr:ss onload -kwr:o before -kwr:tf hh:mm:ss:ff

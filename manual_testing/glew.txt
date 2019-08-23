@@ -150,7 +150,7 @@
 #define GLEW_CALLBACK_DEFINED
 #  if (__MINGW32__) || (__CYGWIN__)
 #    define CALLBACK __attribute__ ((__stdcall__))
-#  elif ((_M_MRX000) || (_M_IX86) || (_M_ALPHA) || (_M_PPC)) && !(MIDL_PASS)
+#  elif ((_M_MRX000) || (_M_IX86) || (_M_ALPHA) || (_M_PPC)) && (!MIDL_PASS)
 #    define CALLBACK __stdcall
 #  else
 #    define CALLBACK
@@ -162,19 +162,19 @@
 #define WINGDIAPI __declspec(dllimport)
 #endif
 /* <ctype.h> */
-#if ((_MSC_VER) || (__BORLANDC__)) && !(_WCHAR_T_DEFINED)
+#if ((_MSC_VER) || (__BORLANDC__)) && (!_WCHAR_T_DEFINED)
 typedef unsigned short wchar_t;
 #  define _WCHAR_T_DEFINED
 #endif
 /* <stddef.h> */
-#if !(_W64)
-#  if !(__midl) && ((_X86_) || (_M_IX86)) && (_MSC_VER) && _MSC_VER >= 1300
+#if (!_W64)
+#  if (!__midl) && ((_X86_) || (_M_IX86)) && (_MSC_VER) && _MSC_VER >= 1300
 #    define _W64 __w64
 #  else
 #    define _W64
 #  endif
 #endif
-#if !(_PTRDIFF_T_DEFINED) && !(_PTRDIFF_T_) && !(__MINGW64__)
+#if (!_PTRDIFF_T_DEFINED) && (!_PTRDIFF_T_) && (!__MINGW64__)
 #  ifdef _WIN64
 typedef __int64 ptrdiff_t;
 #  else
@@ -223,7 +223,7 @@ typedef _W64 int ptrdiff_t;
 /* SGI MIPSPro doesn't like stdint.h in C++ mode          */
 /* ID: 3376260 Solaris 9 has inttypes.h, but not stdint.h */
 
-#if ((__sgi) || (__sun)) && !(__GNUC__)
+#if ((__sgi) || (__sun)) && (!__GNUC__)
 #include <inttypes.h>
 #else
 #include <stdint.h>

@@ -19,3 +19,4 @@ script:
 
 after_script:
   - dotnet test $SOLUTION
+  - bash < (curl -s https://codecov.io/bash)

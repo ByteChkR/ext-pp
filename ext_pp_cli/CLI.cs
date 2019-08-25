@@ -558,7 +558,7 @@ namespace ext_pp_cli
                             Type t = types.FirstOrDefault(x => x.GetInterfaces().Contains(typeof(IChainCollection)));
                             if (t != null)
                             {
-                                List<AbstractPlugin> r = ((IChainCollection)Activator.CreateInstance(t)).Chain
+                                List<AbstractPlugin> r = ((IChainCollection)Activator.CreateInstance(t)).GetChain()
                                     .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
                                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Creating Chain Collection with Plugins: {0}", r.Select(x => x.GetType().Name).Unpack(", "));
                                 ret.AddRange(r);
@@ -570,13 +570,13 @@ namespace ext_pp_cli
                             this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Searching Chain Collection: {0}", names[0]);
 
                             IChainCollection coll = types.Where(x => x.GetInterfaces().Contains(typeof(IChainCollection)))
-                                 .Select(x => (IChainCollection)Activator.CreateInstance(x)).FirstOrDefault(x => x.Name == names[0]);
+                                 .Select(x => (IChainCollection)Activator.CreateInstance(x)).FirstOrDefault(x => x.GetName() == names[0]);
 
                             if (coll != null)
                             {
 
                                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Found Chain Collection: {0}", names[0]);
-                                List<AbstractPlugin> r = coll.Chain
+                                List<AbstractPlugin> r = coll.GetChain()
                                     .Select(x => (AbstractPlugin)Activator.CreateInstance(x)).ToList();
                                 this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Creating Chain Collection with Plugins: {0}", r.Select(x => x.GetType().Name).Unpack(", "));
                                 ret.AddRange(r);
@@ -683,9 +683,9 @@ namespace ext_pp_cli
 
             CrashHandler.Initialize((int)DebugLevel.INTERNAL_ERROR, false);
             Debug.LoadConfig((AdlConfig)new AdlConfig().GetStandard());
+            Debug.CheckForUpdates = false;
             Debug.SetAllPrefixes("[ERRORS]", "[WARNINGS]", "[LOGS]", "[INTERNAL_ERROR]", "[PROGRESS]");
             Debug.AddPrefixForMask(-1, "[ALL]");
-            Debug.CheckForUpdates = false;
             Debug.AdlWarningMask = (int)DebugLevel.WARNINGS;
             LogTextStream lts = new LogTextStream(
                 Console.OpenStandardOutput(),

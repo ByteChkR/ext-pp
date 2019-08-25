@@ -6,10 +6,9 @@ using ext_pp_base.settings;
 
 namespace ext_pp_plugins
 {
-    public class IncludePlugin : AbstractPlugin
+    public class IncludePlugin : AbstractFullScriptPlugin
     {
         public override string[] Cleanup => new[] { IncludeKeyword };
-        public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => ProcessStage.ON_MAIN;
         public override string[] Prefix => new[] { "inc", "Include" };
         public string IncludeKeyword { get; set; } = "#include";
@@ -31,12 +30,8 @@ namespace ext_pp_plugins
             settings.ApplySettings(Info, this);
         }
 
-        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
 
-        public bool FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defs)
+        public override bool FullScriptStage(ISourceScript script, ISourceManager sourceManager, IDefinitions defs)
         {
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Disovering Include Statments...");

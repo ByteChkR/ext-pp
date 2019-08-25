@@ -119,9 +119,8 @@ namespace ext_pp_plugins
         }
     }
 
-    public class CLIDebugger : AbstractPlugin
+    public class CLIDebugger : AbstractFullScriptPlugin
     {
-        public override PluginType PluginTypeToggle => PluginType.FULL_SCRIPT_PLUGIN;
         public override ProcessStage ProcessStages => ProcessStage.ON_LOAD_STAGE | ProcessStage.ON_MAIN;
 
         public override string[] Prefix => new[] { "dbg" };
@@ -148,20 +147,8 @@ namespace ext_pp_plugins
             settings.ApplySettings(Info, this);
             _breakpoints = Breakpoint.Parse(Breakpoints,this).ToList();
         }
-
-        public override bool OnLoad_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
-            IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-        public override bool OnMain_FullScriptStage(ISourceScript script, ISourceManager sourceManager,
-            IDefinitions defTable)
-        {
-            return FullScriptStage(script, sourceManager, defTable);
-        }
-
-        public bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
+        
+        public override bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
             List<string> source = file.GetSource().ToList();
 
@@ -219,27 +206,7 @@ namespace ext_pp_plugins
 
             return true;
         }
-
-        public override string OnLoad_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-        public override string OnMain_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-        public override string OnFinishUp_LineStage(string source)
-        {
-            return LineStage(source);
-        }
-
-
-        public static string LineStage(string source)
-        {
-            return source;
-        }
+        
 
     }
 }

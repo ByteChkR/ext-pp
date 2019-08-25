@@ -24,25 +24,25 @@ namespace ext_pp_cli
             /// All the prefixes used by the plugin
             /// </summary>
             [XmlElement]
-            public  string[] Prefixes { get; set; }
+            public string[] Prefixes { get; set; }
 
             /// <summary>
-            /// Assembly Name
+            /// Assembly GetName
             /// </summary>
             [XmlElement]
-            public  string Name { get; set; }
+            public string Name { get; set; }
 
             /// <summary>
             /// Path of the library
             /// </summary>
             [XmlElement]
-            public  string Path { get; set; }
+            public string Path { get; set; }
 
             /// <summary>
             /// The Cached information about each command.
             /// </summary>
             [XmlElement]
-            public  CommandMetaData[] Data { get; set; }
+            public CommandMetaData[] Data { get; set; }
 
             /// <summary>
             /// Constructor
@@ -94,18 +94,19 @@ namespace ext_pp_cli
             /// <summary>
             /// The directories that will be automatically added when refreshed.
             /// </summary>
-            public List<string> IncludedDirectories { get; set; }
+            public List<string> IncludedDirectories { get; set; } = new List<string>();
 
             /// <summary>
             /// the included files that were included manually.
             /// </summary>
-            public List<string> IncludedFiles { get; set; }
+            public List<string> IncludedFiles { get; set; } = new List<string>();
 
             /// <summary>
             /// The cache of the plugin information.
             /// </summary>
+
+            public List<PluginInformation> Cache { get; set; } = new List<PluginInformation>();
             
-            public List<PluginInformation> Cache { get; set; }
         }
         /// <summary>
         /// Directory of the ext_pp_cli.dll library
@@ -293,7 +294,7 @@ namespace ext_pp_cli
         /// <param name="name"></param>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static bool TryGetPluginInfoByName(PluginManagerDatabase pmd,string name, out PluginInformation val)
+        public static bool TryGetPluginInfoByName(PluginManagerDatabase pmd, string name, out PluginInformation val)
         {
             for (int i = 0; i < pmd.Cache.Count; i++)
             {
@@ -410,7 +411,7 @@ namespace ext_pp_cli
 
             foreach (var name in names)
             {
-                if (TryGetPluginInfoByPathAndPrefix(info,path, name, out PluginInformation val))
+                if (TryGetPluginInfoByPathAndPrefix(info, path, name, out PluginInformation val))
                 {
                     this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "\n{0}", val.GetDescription(shortDesc));
                 }
@@ -451,7 +452,7 @@ namespace ext_pp_cli
                 }
                 else
                 {
-                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Discovering Files in {0}" , info.IncludedDirectories[i]);
+                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Discovering Files in {0}", info.IncludedDirectories[i]);
                     string[] files = Directory.GetFiles(info.IncludedDirectories[i], "*.dll");
                     foreach (var file in files)
                     {
@@ -500,9 +501,9 @@ namespace ext_pp_cli
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}" , path);
+                this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load file: {0}", path);
                 // ignored
             }
 
@@ -561,7 +562,7 @@ namespace ext_pp_cli
         /// <returns></returns>
         public bool TryGetPathByName(string name, out string path)
         {
-            if (TryGetPluginInfoByName(info ,name, out var pli))
+            if (TryGetPluginInfoByName(info, name, out var pli))
             {
                 path = pli.Path;
                 return true;
@@ -579,7 +580,7 @@ namespace ext_pp_cli
         /// <returns></returns>
         public bool TryGetPathByPrefix(string prefix, out string path)
         {
-            if (TryGetPluginInfoByPrefix(info,prefix, out var pli))
+            if (TryGetPluginInfoByPrefix(info, prefix, out var pli))
             {
                 path = pli.Path;
                 return true;

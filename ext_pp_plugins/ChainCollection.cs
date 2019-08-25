@@ -6,20 +6,17 @@ namespace ext_pp_plugins
 {
     public class ChainCollection : IChainCollection
     {
-        public string Name { get; } = "NO_NAME";
+        public string GetName() => "Default";
 
-        private readonly List<Type> _defaultList = new List<Type>
-            {
-                typeof(MultiLinePlugin),
-                typeof(KeyWordReplacer),
-                typeof(ConditionalPlugin),
-                typeof(FakeGenericsPlugin),
-                typeof(IncludePlugin),
-                typeof(WarningPlugin),
-                typeof(ErrorPlugin),
-                typeof(BlankLineRemover),
-            };
-
-        public List<Type> Chain => _defaultList;
+        public List<Type> GetChain() => new List<Type>
+        {
+            typeof(MultiLinePlugin),
+            typeof(KeyWordReplacer),
+            typeof(ConditionalPlugin),
+            typeof(FakeGenericsPlugin),
+            typeof(IncludePlugin),
+            typeof(ExceptionPlugin),
+            typeof(BlankLineRemover),
+        };
     }
 }

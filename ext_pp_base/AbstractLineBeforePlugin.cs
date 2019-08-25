@@ -2,6 +2,9 @@
 
 namespace ext_pp_base
 {
+    /// <summary>
+    /// AbstractLinePlugin but with fixed plugin type toggle
+    /// </summary>
     public abstract class AbstractLineBeforePlugin : AbstractLinePlugin
     {
 

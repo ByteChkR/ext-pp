@@ -88,7 +88,7 @@ $(document).ready(function(){initNavTree('classext__pp__cli_1_1_c_l_i.html','');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#properties">Properties</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
@@ -113,171 +113,225 @@ Inheritance diagram for ext_pp_cli.CLI:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0dba982ed8f03430318bc5fffe231184"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a0dba982ed8f03430318bc5fffe231184">Shutdown</a> ()</td></tr>
-<tr class="memdesc:a0dba982ed8f03430318bc5fffe231184"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shuts down the cli by removing all output streams from adl.  <a href="#a0dba982ed8f03430318bc5fffe231184">More...</a><br /></td></tr>
-<tr class="separator:a0dba982ed8f03430318bc5fffe231184"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a855e0a60042905c08c0a46b5b0e3e499"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a855e0a60042905c08c0a46b5b0e3e499">Apply</a> ()</td></tr>
+<tr class="memdesc:a855e0a60042905c08c0a46b5b0e3e499"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies/Brings the configuration of the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> up and running so it can start the PreProcessing.  <a href="#a855e0a60042905c08c0a46b5b0e3e499">More...</a><br /></td></tr>
+<tr class="separator:a855e0a60042905c08c0a46b5b0e3e499"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2b4798380daf1b37e642f2795b19b58"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ad2b4798380daf1b37e642f2795b19b58">CLI</a> (string[] args)</td></tr>
 <tr class="memdesc:ad2b4798380daf1b37e642f2795b19b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor that does the parameter analysis.  <a href="#ad2b4798380daf1b37e642f2795b19b58">More...</a><br /></td></tr>
 <tr class="separator:ad2b4798380daf1b37e642f2795b19b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a910946fb54364a3e689555c4f80f07d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a910946fb54364a3e689555c4f80f07d3">PreApply</a> (<a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings)</td></tr>
-<tr class="memdesc:a910946fb54364a3e689555c4f80f07d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains code to apply important settings first so they can be taken into account on apply.  <a href="#a910946fb54364a3e689555c4f80f07d3">More...</a><br /></td></tr>
-<tr class="separator:a910946fb54364a3e689555c4f80f07d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3fb4ed0dc68a279b103a1f998234de0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ad3fb4ed0dc68a279b103a1f998234de0">Apply</a> (<a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings)</td></tr>
-<tr class="memdesc:ad3fb4ed0dc68a279b103a1f998234de0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies/Brings the configuration of the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> up and running so it can start the PreProcessing.  <a href="#ad3fb4ed0dc68a279b103a1f998234de0">More...</a><br /></td></tr>
-<tr class="separator:ad3fb4ed0dc68a279b103a1f998234de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8acf3444357604db4951b8f397581b9a"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a8acf3444357604db4951b8f397581b9a">CreatePluginChain</a> (IEnumerable&lt; Type &gt; chain)</td></tr>
-<tr class="memdesc:a8acf3444357604db4951b8f397581b9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns a List of Type to a list of abstract plugin.  <a href="#a8acf3444357604db4951b8f397581b9a">More...</a><br /></td></tr>
-<tr class="separator:a8acf3444357604db4951b8f397581b9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0db99a40894dace294fd9f04c80f16d4"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, string[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a0db99a40894dace294fd9f04c80f16d4">AnalyzeArgs</a> (string[] args)</td></tr>
-<tr class="memdesc:a0db99a40894dace294fd9f04c80f16d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns the args into a dictionary that contains keys and n string values.  <a href="#a0db99a40894dace294fd9f04c80f16d4">More...</a><br /></td></tr>
-<tr class="separator:a0db99a40894dace294fd9f04c80f16d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ab8705c52dfffbc1659146d634f5b4192"><td class="memItemLeft" align="right" valign="top">static Dictionary&lt; string, string[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ab8705c52dfffbc1659146d634f5b4192">AnalyzeArgs</a> (string[] args)</td></tr>
+<tr class="memdesc:ab8705c52dfffbc1659146d634f5b4192"><td class="mdescLeft">&#160;</td><td class="mdescRight">Turns the args into a dictionary that contains keys and n string values.  <a href="#ab8705c52dfffbc1659146d634f5b4192">More...</a><br /></td></tr>
+<tr class="separator:ab8705c52dfffbc1659146d634f5b4192"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc1871521a9ba99ce8cc988705f445aa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#afc1871521a9ba99ce8cc988705f445aa">Main</a> (string[] args)</td></tr>
 <tr class="memdesc:afc1871521a9ba99ce8cc988705f445aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main entry point.  <a href="#afc1871521a9ba99ce8cc988705f445aa">More...</a><br /></td></tr>
 <tr class="separator:afc1871521a9ba99ce8cc988705f445aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0df10e4ad08215ffd42bdd44eb352d43"><td class="memItemLeft" align="right" valign="top"><a id="a0df10e4ad08215ffd42bdd44eb352d43"></a>
-static List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateDefineStatements</b> (string defname, int maxNr, int maxDefines)</td></tr>
-<tr class="separator:a0df10e4ad08215ffd42bdd44eb352d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09f78a24552f918b5f31108d88c9cc7b"><td class="memItemLeft" align="right" valign="top"><a id="a09f78a24552f918b5f31108d88c9cc7b"></a>
-static List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateUndefineStatements</b> (string defname, int maxNr, int maxDefines)</td></tr>
-<tr class="separator:a09f78a24552f918b5f31108d88c9cc7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadeb1758edde82bd882ae957f7d3fc6f"><td class="memItemLeft" align="right" valign="top"><a id="aadeb1758edde82bd882ae957f7d3fc6f"></a>
-static string&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateExpression</b> (string defName, int maxDefNr, int maxParams, int chanceToRecurse)</td></tr>
-<tr class="separator:aadeb1758edde82bd882ae957f7d3fc6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7b7f4e91e4a8bc2f0542ac1196a9897"><td class="memItemLeft" align="right" valign="top"><a id="ae7b7f4e91e4a8bc2f0542ac1196a9897"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateFiles</b> (string filename, int amount)</td></tr>
-<tr class="separator:ae7b7f4e91e4a8bc2f0542ac1196a9897"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31ee03781fdb8146c7a24e79d508bffb"><td class="memItemLeft" align="right" valign="top"><a id="a31ee03781fdb8146c7a24e79d508bffb"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>Shuffle&lt; T &gt;</b> (IList&lt; T &gt; list)</td></tr>
-<tr class="separator:a31ee03781fdb8146c7a24e79d508bffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afd03b627d685e291039b156748516b0a"><td class="memItemLeft" align="right" valign="top"><a id="afd03b627d685e291039b156748516b0a"></a>
-static List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateRandomData</b> (int size, int datalength)</td></tr>
-<tr class="separator:afd03b627d685e291039b156748516b0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b2d8539013fdc52c464364573adf51a"><td class="memItemLeft" align="right" valign="top"><a id="a2b2d8539013fdc52c464364573adf51a"></a>
-static List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateIfStatements</b> (string defName, int maxDefNr, int maxNr)</td></tr>
-<tr class="separator:a2b2d8539013fdc52c464364573adf51a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9486a6776e440aefa289298aebc35c3f"><td class="memItemLeft" align="right" valign="top"><a id="a9486a6776e440aefa289298aebc35c3f"></a>
-static List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateGenericIncludes</b> (string file, int maxNr, int maxIncludes, int maxParams)</td></tr>
-<tr class="separator:a9486a6776e440aefa289298aebc35c3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1928fd7470b5371511df6448b67521d0"><td class="memItemLeft" align="right" valign="top"><a id="a1928fd7470b5371511df6448b67521d0"></a>
-static List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GenerateIncludeStatements</b> (string file, int maxNr, int maxIncludes)</td></tr>
-<tr class="separator:a1928fd7470b5371511df6448b67521d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a16f731007e146641249d1264bea9ed7d"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a16f731007e146641249d1264bea9ed7d">LogToFileParams</a> = null</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a2a11f572b5b7633728fdfdc2f7be036f"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a2a11f572b5b7633728fdfdc2f7be036f">HelpText</a> = &quot;To list all available commands type: ext_pp_cli --help or -h&quot;<code> [get]</code></td></tr>
+<tr class="memdesc:a2a11f572b5b7633728fdfdc2f7be036f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default helptext to show.  <a href="#a2a11f572b5b7633728fdfdc2f7be036f">More...</a><br /></td></tr>
+<tr class="separator:a2a11f572b5b7633728fdfdc2f7be036f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bbd455b47b97729668e4fa5db6b2da1"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a7bbd455b47b97729668e4fa5db6b2da1">CliHeader</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7bbd455b47b97729668e4fa5db6b2da1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple header to assert dominance  <a href="#a7bbd455b47b97729668e4fa5db6b2da1">More...</a><br /></td></tr>
+<tr class="separator:a7bbd455b47b97729668e4fa5db6b2da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c1e99b70521d0987c4a506bd452603c"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a7c1e99b70521d0987c4a506bd452603c">Version</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7c1e99b70521d0987c4a506bd452603c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A version string.  <a href="#a7c1e99b70521d0987c4a506bd452603c">More...</a><br /></td></tr>
+<tr class="separator:a7c1e99b70521d0987c4a506bd452603c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af655042329cf22425a3e6d6e444007e7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#af655042329cf22425a3e6d6e444007e7">ThrowOnWarning</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:af655042329cf22425a3e6d6e444007e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the Parameters for the &ndash;throw-on-warning command.  <a href="#af655042329cf22425a3e6d6e444007e7">More...</a><br /></td></tr>
+<tr class="separator:af655042329cf22425a3e6d6e444007e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadad146bdd33fe45df2b1ec764b768da"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#aadad146bdd33fe45df2b1ec764b768da">ThrowOnError</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:aadad146bdd33fe45df2b1ec764b768da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the Parameters for the &ndash;throw-on-error command.  <a href="#aadad146bdd33fe45df2b1ec764b768da">More...</a><br /></td></tr>
+<tr class="separator:aadad146bdd33fe45df2b1ec764b768da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16f731007e146641249d1264bea9ed7d"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a16f731007e146641249d1264bea9ed7d">LogToFileParams</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a16f731007e146641249d1264bea9ed7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the Parameters for the -l2f and &ndash;logToFile commands.  <a href="#a16f731007e146641249d1264bea9ed7d">More...</a><br /></td></tr>
 <tr class="separator:a16f731007e146641249d1264bea9ed7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31270ee2513be87bb7876335bae6ab62"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a31270ee2513be87bb7876335bae6ab62">Input</a> = new string[0]</td></tr>
+<tr class="memitem:a579a898cc6f8d59a3831f92d94a96e76"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a579a898cc6f8d59a3831f92d94a96e76">OutputToConsole</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a579a898cc6f8d59a3831f92d94a96e76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag to output the result to the console.  <a href="#a579a898cc6f8d59a3831f92d94a96e76">More...</a><br /></td></tr>
+<tr class="separator:a579a898cc6f8d59a3831f92d94a96e76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31270ee2513be87bb7876335bae6ab62"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a31270ee2513be87bb7876335bae6ab62">Input</a> = new string[0]<code> [get, set]</code></td></tr>
 <tr class="memdesc:a31270ee2513be87bb7876335bae6ab62"><td class="mdescLeft">&#160;</td><td class="mdescRight">The input files  <a href="#a31270ee2513be87bb7876335bae6ab62">More...</a><br /></td></tr>
 <tr class="separator:a31270ee2513be87bb7876335bae6ab62"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a584980446eab3b633d58723883409dc9"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a584980446eab3b633d58723883409dc9">Output</a> = new string[0]</td></tr>
+<tr class="memitem:ac6ed8a4781111338416d8eff3d23882b"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ac6ed8a4781111338416d8eff3d23882b">ReadmeArgs</a> = new string[0]<code> [get, set]</code></td></tr>
+<tr class="memdesc:ac6ed8a4781111338416d8eff3d23882b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The input files  <a href="#ac6ed8a4781111338416d8eff3d23882b">More...</a><br /></td></tr>
+<tr class="separator:ac6ed8a4781111338416d8eff3d23882b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a584980446eab3b633d58723883409dc9"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a584980446eab3b633d58723883409dc9">Output</a> = new string[0]<code> [get, set]</code></td></tr>
 <tr class="memdesc:a584980446eab3b633d58723883409dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The output files.  <a href="#a584980446eab3b633d58723883409dc9">More...</a><br /></td></tr>
 <tr class="separator:a584980446eab3b633d58723883409dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afed2975cd6623a37c6a2da20ffc52c41"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#afed2975cd6623a37c6a2da20ffc52c41">DefinesParams</a> = null</td></tr>
+<tr class="memitem:afed2975cd6623a37c6a2da20ffc52c41"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#afed2975cd6623a37c6a2da20ffc52c41">DefinesParams</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:afed2975cd6623a37c6a2da20ffc52c41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Predefined definitions from &ndash;defines and -defs  <a href="#afed2975cd6623a37c6a2da20ffc52c41">More...</a><br /></td></tr>
 <tr class="separator:afed2975cd6623a37c6a2da20ffc52c41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2071079e8171f52f4dc026619943341"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ad2071079e8171f52f4dc026619943341">NoCollections</a> = false</td></tr>
+<tr class="memitem:ad2071079e8171f52f4dc026619943341"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ad2071079e8171f52f4dc026619943341">NoCollections</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:ad2071079e8171f52f4dc026619943341"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forces the cli to ignore collections.  <a href="#ad2071079e8171f52f4dc026619943341">More...</a><br /></td></tr>
 <tr class="separator:ad2071079e8171f52f4dc026619943341"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13accba46e4b76b9f11132e228e888de"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a13accba46e4b76b9f11132e228e888de">ChainParams</a> = null</td></tr>
+<tr class="memitem:a13accba46e4b76b9f11132e228e888de"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a13accba46e4b76b9f11132e228e888de">ChainParams</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a13accba46e4b76b9f11132e228e888de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the parameters for the plugin chain  <a href="#a13accba46e4b76b9f11132e228e888de">More...</a><br /></td></tr>
 <tr class="separator:a13accba46e4b76b9f11132e228e888de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39ca3e5173fdd11ad3c7564e9ec428df"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a39ca3e5173fdd11ad3c7564e9ec428df">HelpParams</a> = null</td></tr>
+<tr class="memitem:a39ca3e5173fdd11ad3c7564e9ec428df"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a39ca3e5173fdd11ad3c7564e9ec428df">HelpParams</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a39ca3e5173fdd11ad3c7564e9ec428df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the parameters for the help parameter  <a href="#a39ca3e5173fdd11ad3c7564e9ec428df">More...</a><br /></td></tr>
 <tr class="separator:a39ca3e5173fdd11ad3c7564e9ec428df"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebb38114f919314c999123cfddcca3b0"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#aebb38114f919314c999123cfddcca3b0">HelpAllParams</a> = null</td></tr>
+<tr class="memitem:aebb38114f919314c999123cfddcca3b0"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#aebb38114f919314c999123cfddcca3b0">HelpAllParams</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:aebb38114f919314c999123cfddcca3b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the parameters for the help all parameter  <a href="#aebb38114f919314c999123cfddcca3b0">More...</a><br /></td></tr>
 <tr class="separator:aebb38114f919314c999123cfddcca3b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac205ca9b22616619eb3b12b6b34b58ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ac205ca9b22616619eb3b12b6b34b58ec">DebugLvl</a> = Verbosity.LEVEL1</td></tr>
+<tr class="memitem:ac205ca9b22616619eb3b12b6b34b58ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ac205ca9b22616619eb3b12b6b34b58ec">DebugLvl</a> = Verbosity.LEVEL1<code> [get, set]</code></td></tr>
 <tr class="memdesc:ac205ca9b22616619eb3b12b6b34b58ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Debug level of the process.  <a href="#ac205ca9b22616619eb3b12b6b34b58ec">More...</a><br /></td></tr>
 <tr class="separator:ac205ca9b22616619eb3b12b6b34b58ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea24b8e53eead8493c4cb5bf3c4ff964"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#aea24b8e53eead8493c4cb5bf3c4ff964">ShowVersion</a> = false</td></tr>
+<tr class="memitem:aea24b8e53eead8493c4cb5bf3c4ff964"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#aea24b8e53eead8493c4cb5bf3c4ff964">ShowVersion</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:aea24b8e53eead8493c4cb5bf3c4ff964"><td class="mdescLeft">&#160;</td><td class="mdescRight">Show the version at the start and exit.  <a href="#aea24b8e53eead8493c4cb5bf3c4ff964">More...</a><br /></td></tr>
 <tr class="separator:aea24b8e53eead8493c4cb5bf3c4ff964"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a862ee486d5319a2531c1202b97e24c51"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a862ee486d5319a2531c1202b97e24c51">PluginAdd</a> = null</td></tr>
+<tr class="memitem:a862ee486d5319a2531c1202b97e24c51"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a862ee486d5319a2531c1202b97e24c51">PluginAdd</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a862ee486d5319a2531c1202b97e24c51"><td class="mdescLeft">&#160;</td><td class="mdescRight">parameter for the &ndash;pm-add and -pm-a commands.  <a href="#a862ee486d5319a2531c1202b97e24c51">More...</a><br /></td></tr>
 <tr class="separator:a862ee486d5319a2531c1202b97e24c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a979fb1daf20edc00930b5a7d34ecca37"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a979fb1daf20edc00930b5a7d34ecca37">PluginRefresh</a> = false</td></tr>
+<tr class="memitem:a979fb1daf20edc00930b5a7d34ecca37"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a979fb1daf20edc00930b5a7d34ecca37">PluginRefresh</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a979fb1daf20edc00930b5a7d34ecca37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag if the settings contain the -pm-r/&ndash;pm-refresh command  <a href="#a979fb1daf20edc00930b5a7d34ecca37">More...</a><br /></td></tr>
 <tr class="separator:a979fb1daf20edc00930b5a7d34ecca37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1832ba7294d39a437976abb0567533a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a1832ba7294d39a437976abb0567533a7">PluginListDirs</a> = false</td></tr>
+<tr class="memitem:a1832ba7294d39a437976abb0567533a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a1832ba7294d39a437976abb0567533a7">PluginListDirs</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a1832ba7294d39a437976abb0567533a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag if the settings contain the -pm-ld/&ndash;pm-list-dirr command  <a href="#a1832ba7294d39a437976abb0567533a7">More...</a><br /></td></tr>
 <tr class="separator:a1832ba7294d39a437976abb0567533a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54bc3bc5447c11fc461d95a3cdf16a3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a54bc3bc5447c11fc461d95a3cdf16a3f">PluginListIncs</a> = false</td></tr>
+<tr class="memitem:a54bc3bc5447c11fc461d95a3cdf16a3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a54bc3bc5447c11fc461d95a3cdf16a3f">PluginListIncs</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:a54bc3bc5447c11fc461d95a3cdf16a3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag if the settings contain the -pm-lf/&ndash;pm-list-file command  <a href="#a54bc3bc5447c11fc461d95a3cdf16a3f">More...</a><br /></td></tr>
 <tr class="separator:a54bc3bc5447c11fc461d95a3cdf16a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdaffcd782214006a322fc6a9db03a94"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#acdaffcd782214006a322fc6a9db03a94">PluginListManIncs</a> = false</td></tr>
+<tr class="memitem:acdaffcd782214006a322fc6a9db03a94"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#acdaffcd782214006a322fc6a9db03a94">PluginListManIncs</a><code> [get, set]</code></td></tr>
 <tr class="memdesc:acdaffcd782214006a322fc6a9db03a94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag if the settings contain the -pm-lmf/&ndash;pm-list-manual-files command  <a href="#acdaffcd782214006a322fc6a9db03a94">More...</a><br /></td></tr>
 <tr class="separator:acdaffcd782214006a322fc6a9db03a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09482ba23536af270c68e215015936c5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a09482ba23536af270c68e215015936c5">PluginListAll</a> = false</td></tr>
-<tr class="memdesc:a09482ba23536af270c68e215015936c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag if the settings contain the -pm-a/&ndash;pm-all command  <a href="#a09482ba23536af270c68e215015936c5">More...</a><br /></td></tr>
-<tr class="separator:a09482ba23536af270c68e215015936c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99d989a473101d84c50fb9ce8d619a84"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a99d989a473101d84c50fb9ce8d619a84">PluginListAllCommandHandler</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a99d989a473101d84c50fb9ce8d619a84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag if the settings contain the -pm-a/&ndash;pm-all command  <a href="#a99d989a473101d84c50fb9ce8d619a84">More...</a><br /></td></tr>
+<tr class="separator:a99d989a473101d84c50fb9ce8d619a84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a3556d95646a4adb6142a3a2cc92ecd75"><td class="memItemLeft" align="right" valign="top">KeyValuePair&lt; int, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a3556d95646a4adb6142a3a2cc92ecd75">ParseLogParams</a> (string input)</td></tr>
-<tr class="memdesc:a3556d95646a4adb6142a3a2cc92ecd75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the log params syntax int:bool default: -1:true  <a href="#a3556d95646a4adb6142a3a2cc92ecd75">More...</a><br /></td></tr>
-<tr class="separator:a3556d95646a4adb6142a3a2cc92ecd75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80b98cb9b9417200e57ad7dca6b4cbb0"><td class="memItemLeft" align="right" valign="top">delegate bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a80b98cb9b9417200e57ad7dca6b4cbb0">CommandHandler</a> ()</td></tr>
+<tr class="memdesc:a80b98cb9b9417200e57ad7dca6b4cbb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">A delegate used to handle all commands in the Command Line Interface  <a href="#a80b98cb9b9417200e57ad7dca6b4cbb0">More...</a><br /></td></tr>
+<tr class="separator:a80b98cb9b9417200e57ad7dca6b4cbb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affdc4d085e390cbe914964eff672cecd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#affdc4d085e390cbe914964eff672cecd">Help_Command</a> ()</td></tr>
+<tr class="memdesc:affdc4d085e390cbe914964eff672cecd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;help  <a href="#affdc4d085e390cbe914964eff672cecd">More...</a><br /></td></tr>
+<tr class="separator:affdc4d085e390cbe914964eff672cecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa325ee1852b52ecbc883968525cbcba7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#aa325ee1852b52ecbc883968525cbcba7">HelpAll_Command</a> ()</td></tr>
+<tr class="memdesc:aa325ee1852b52ecbc883968525cbcba7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;help-all  <a href="#aa325ee1852b52ecbc883968525cbcba7">More...</a><br /></td></tr>
+<tr class="separator:aa325ee1852b52ecbc883968525cbcba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3497554c447bedb5837180c539259ace"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a3497554c447bedb5837180c539259ace">Help_Command_Unfied</a> (string[] helpParams, bool extendedDescription)</td></tr>
+<tr class="memdesc:a3497554c447bedb5837180c539259ace"><td class="mdescLeft">&#160;</td><td class="mdescRight">A underlying function to handle the &ndash;help and the &ndash;help-all command  <a href="#a3497554c447bedb5837180c539259ace">More...</a><br /></td></tr>
+<tr class="separator:a3497554c447bedb5837180c539259ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c1eaee3fd8938169638ce83cc68dc37"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a1c1eaee3fd8938169638ce83cc68dc37">InOutCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a1c1eaee3fd8938169638ce83cc68dc37"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the commands &ndash;input &ndash;output  <a href="#a1c1eaee3fd8938169638ce83cc68dc37">More...</a><br /></td></tr>
+<tr class="separator:a1c1eaee3fd8938169638ce83cc68dc37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9530a1983f0778fea16669040e79e2a2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a9530a1983f0778fea16669040e79e2a2">ReadmeCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a9530a1983f0778fea16669040e79e2a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;generate-readme  <a href="#a9530a1983f0778fea16669040e79e2a2">More...</a><br /></td></tr>
+<tr class="separator:a9530a1983f0778fea16669040e79e2a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6239e8b37793b2951d28d1943c78d985"><td class="memItemLeft" align="right" valign="top">List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a6239e8b37793b2951d28d1943c78d985">GenerateReadme</a> (List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt; plugins)</td></tr>
+<tr class="memdesc:a6239e8b37793b2951d28d1943c78d985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends the Plugin Help Texts to be used in the ReadmeCommandHandler  <a href="#a6239e8b37793b2951d28d1943c78d985">More...</a><br /></td></tr>
+<tr class="separator:a6239e8b37793b2951d28d1943c78d985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c011967eae998d9d15bd267f390a776"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a8c011967eae998d9d15bd267f390a776">ShowVersionCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a8c011967eae998d9d15bd267f390a776"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;version  <a href="#a8c011967eae998d9d15bd267f390a776">More...</a><br /></td></tr>
+<tr class="separator:a8c011967eae998d9d15bd267f390a776"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a415ef0f1b31908b5f08558657f8da5ce"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a415ef0f1b31908b5f08558657f8da5ce">ListAllPluginsCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a415ef0f1b31908b5f08558657f8da5ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;pm-list-all  <a href="#a415ef0f1b31908b5f08558657f8da5ce">More...</a><br /></td></tr>
+<tr class="separator:a415ef0f1b31908b5f08558657f8da5ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2df7ca4cd96ad91fb1934347ebe9b76f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a2df7ca4cd96ad91fb1934347ebe9b76f">ListPluginDirsCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a2df7ca4cd96ad91fb1934347ebe9b76f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;pm-list-dir  <a href="#a2df7ca4cd96ad91fb1934347ebe9b76f">More...</a><br /></td></tr>
+<tr class="separator:a2df7ca4cd96ad91fb1934347ebe9b76f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01c885643f91b1e998f816c5ce15032a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a01c885643f91b1e998f816c5ce15032a">ListPluginIncsCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a01c885643f91b1e998f816c5ce15032a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;pm-list-file  <a href="#a01c885643f91b1e998f816c5ce15032a">More...</a><br /></td></tr>
+<tr class="separator:a01c885643f91b1e998f816c5ce15032a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa57dab5fcba0b956662f22277d6dd441"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#aa57dab5fcba0b956662f22277d6dd441">ListPluginManIncsCommandHandler</a> ()</td></tr>
+<tr class="memdesc:aa57dab5fcba0b956662f22277d6dd441"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;pm-list-manual-files  <a href="#aa57dab5fcba0b956662f22277d6dd441">More...</a><br /></td></tr>
+<tr class="separator:aa57dab5fcba0b956662f22277d6dd441"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5696565394d87ffb7ea5b5f11647c29f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a5696565394d87ffb7ea5b5f11647c29f">RefreshPluginsCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a5696565394d87ffb7ea5b5f11647c29f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;pm-refresh  <a href="#a5696565394d87ffb7ea5b5f11647c29f">More...</a><br /></td></tr>
+<tr class="separator:a5696565394d87ffb7ea5b5f11647c29f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a413c220c73c84fe4aa5694a7296d054c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a413c220c73c84fe4aa5694a7296d054c">AddPluginsCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a413c220c73c84fe4aa5694a7296d054c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;pm-add  <a href="#a413c220c73c84fe4aa5694a7296d054c">More...</a><br /></td></tr>
+<tr class="separator:a413c220c73c84fe4aa5694a7296d054c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad859dc5f987ac43a9433ba435486ec52"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ad859dc5f987ac43a9433ba435486ec52">LogToFileCommandHandler</a> ()</td></tr>
+<tr class="memdesc:ad859dc5f987ac43a9433ba435486ec52"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;log-to-file  <a href="#ad859dc5f987ac43a9433ba435486ec52">More...</a><br /></td></tr>
+<tr class="separator:ad859dc5f987ac43a9433ba435486ec52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c666d4cf20dee5d71624fc9a7834c29"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a4c666d4cf20dee5d71624fc9a7834c29">DefineParamsCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a4c666d4cf20dee5d71624fc9a7834c29"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;defines  <a href="#a4c666d4cf20dee5d71624fc9a7834c29">More...</a><br /></td></tr>
+<tr class="separator:a4c666d4cf20dee5d71624fc9a7834c29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23eaed727a7fa6d9348cf95cf6e96e98"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a23eaed727a7fa6d9348cf95cf6e96e98">ChainParamsCommandHanlder</a> ()</td></tr>
+<tr class="memdesc:a23eaed727a7fa6d9348cf95cf6e96e98"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the command &ndash;chain  <a href="#a23eaed727a7fa6d9348cf95cf6e96e98">More...</a><br /></td></tr>
+<tr class="separator:a23eaed727a7fa6d9348cf95cf6e96e98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf6e73521cc27bb5f355deb1ac225775"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#adf6e73521cc27bb5f355deb1ac225775">ParseChainSyntax</a> (string arg, out string path, out string[] names)</td></tr>
 <tr class="memdesc:adf6e73521cc27bb5f355deb1ac225775"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the Chain Syntax path:plugin:plugin:plugin path:collection:plugin prefix:prefix:prefix prefix prefix prefix  <a href="#adf6e73521cc27bb5f355deb1ac225775">More...</a><br /></td></tr>
 <tr class="separator:adf6e73521cc27bb5f355deb1ac225775"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8b0a9945e64cbf6f641db52ee18ab12"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ad8b0a9945e64cbf6f641db52ee18ab12">CreateChainCollection</a> (Assembly asm, string name)</td></tr>
+<tr class="memdesc:ad8b0a9945e64cbf6f641db52ee18ab12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a List of Plugins based on a chain collection in the specified assembly  <a href="#ad8b0a9945e64cbf6f641db52ee18ab12">More...</a><br /></td></tr>
+<tr class="separator:ad8b0a9945e64cbf6f641db52ee18ab12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac0ae5e6b5ba7e78410c58686fc751392"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ac0ae5e6b5ba7e78410c58686fc751392">ProcessChainCollection</a> (string[] names, Assembly asm)</td></tr>
+<tr class="memdesc:ac0ae5e6b5ba7e78410c58686fc751392"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a List of Plugins based on a manually created chain.  <a href="#ac0ae5e6b5ba7e78410c58686fc751392">More...</a><br /></td></tr>
+<tr class="separator:ac0ae5e6b5ba7e78410c58686fc751392"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb38c8294042bbd315e4b8d61395ef00"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#aeb38c8294042bbd315e4b8d61395ef00">ProcessPluginChain</a> (string[] names, string path)</td></tr>
+<tr class="memdesc:aeb38c8294042bbd315e4b8d61395ef00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a List of plugins from a manually created name chain.  <a href="#aeb38c8294042bbd315e4b8d61395ef00">More...</a><br /></td></tr>
+<tr class="separator:aeb38c8294042bbd315e4b8d61395ef00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0a380a2e01667d426bf70d215417cce"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ae0a380a2e01667d426bf70d215417cce">GetPluginsFromPath</a> (string path, string[] names, bool noCollection)</td></tr>
+<tr class="memdesc:ae0a380a2e01667d426bf70d215417cce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all Plugins from the specified compiled assembly.  <a href="#ae0a380a2e01667d426bf70d215417cce">More...</a><br /></td></tr>
+<tr class="separator:ae0a380a2e01667d426bf70d215417cce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a232b05b0786f0ec2071d01424d36d3"><td class="memItemLeft" align="right" valign="top">IEnumerable&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a3a232b05b0786f0ec2071d01424d36d3">CreatePluginChain</a> (string[] arg, bool noCollection)</td></tr>
 <tr class="memdesc:a3a232b05b0786f0ec2071d01424d36d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates the Plugin chain based on a argument in ChainSyntax.  <a href="#a3a232b05b0786f0ec2071d01424d36d3">More...</a><br /></td></tr>
 <tr class="separator:a3a232b05b0786f0ec2071d01424d36d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaaa9b019cbb9cc6b30a9258ab1c1e76a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#aaaa9b019cbb9cc6b30a9258ab1c1e76a">FindNextCommand</a> (string[] args, int start)</td></tr>
-<tr class="memdesc:aaaa9b019cbb9cc6b30a9258ab1c1e76a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of the next occurrence of "-..."  <a href="#aaaa9b019cbb9cc6b30a9258ab1c1e76a">More...</a><br /></td></tr>
-<tr class="separator:aaaa9b019cbb9cc6b30a9258ab1c1e76a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6775c18e7f67abd7de93148376be578a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a6775c18e7f67abd7de93148376be578a">VerbosityLevelCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a6775c18e7f67abd7de93148376be578a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the commands &ndash;verbosity  <a href="#a6775c18e7f67abd7de93148376be578a">More...</a><br /></td></tr>
+<tr class="separator:a6775c18e7f67abd7de93148376be578a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06e71153621b735f87d328afc1ea74bd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a06e71153621b735f87d328afc1ea74bd">ThrowOnErrorWarningCommandHandler</a> ()</td></tr>
+<tr class="memdesc:a06e71153621b735f87d328afc1ea74bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">The command handler that is used for the commands &ndash;throw-on-error and &ndash;throw-on-warning  <a href="#a06e71153621b735f87d328afc1ea74bd">More...</a><br /></td></tr>
+<tr class="separator:a06e71153621b735f87d328afc1ea74bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af48d665cd108a52f1b7c87aa33ae20b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#af48d665cd108a52f1b7c87aa33ae20b5">Process</a> (<a class="el" href="classext__pp_1_1_pre_processor.html">PreProcessor</a> pp, <a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings)</td></tr>
+<tr class="memdesc:af48d665cd108a52f1b7c87aa33ae20b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes all the queued files with the PreProcessor  <a href="#af48d665cd108a52f1b7c87aa33ae20b5">More...</a><br /></td></tr>
+<tr class="separator:af48d665cd108a52f1b7c87aa33ae20b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6134e9281e3c3fddace82c634efd9cf5"><td class="memItemLeft" align="right" valign="top"><a id="a6134e9281e3c3fddace82c634efd9cf5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>DoExecution</b> (string[] args)</td></tr>
+<tr class="separator:a6134e9281e3c3fddace82c634efd9cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:ae9283b6f4c82241a7f6ecb244d759339"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ae9283b6f4c82241a7f6ecb244d759339">InitAdl</a> ()</td></tr>
-<tr class="memdesc:ae9283b6f4c82241a7f6ecb244d759339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function that sets up ADL to operate with the DebugLevel enum and more.  <a href="#ae9283b6f4c82241a7f6ecb244d759339">More...</a><br /></td></tr>
-<tr class="separator:ae9283b6f4c82241a7f6ecb244d759339"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0da9f7c9f3c467b2961b7924765477b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ab0da9f7c9f3c467b2961b7924765477b">AddLogOutput</a> (string file, int mask, bool timestamp)</td></tr>
 <tr class="memdesc:ab0da9f7c9f3c467b2961b7924765477b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a log output to the ADL system that is writing to a file.  <a href="#ab0da9f7c9f3c467b2961b7924765477b">More...</a><br /></td></tr>
 <tr class="separator:ab0da9f7c9f3c467b2961b7924765477b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09e5bae2eb841194e1de75f3ae76e2e0"><td class="memItemLeft" align="right" valign="top">static KeyValuePair&lt; int, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a09e5bae2eb841194e1de75f3ae76e2e0">ParseLogParams</a> (string input)</td></tr>
+<tr class="memdesc:a09e5bae2eb841194e1de75f3ae76e2e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the log params syntax int:bool default: -1:true  <a href="#a09e5bae2eb841194e1de75f3ae76e2e0">More...</a><br /></td></tr>
+<tr class="separator:a09e5bae2eb841194e1de75f3ae76e2e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d0c57c6dd04090d361f69f025b76ee7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a2d0c57c6dd04090d361f69f025b76ee7">TryCreateChainCollection</a> (Assembly asm, string name, out <a class="el" href="interfaceext__pp__base_1_1_i_chain_collection.html">IChainCollection</a> collection)</td></tr>
+<tr class="memdesc:a2d0c57c6dd04090d361f69f025b76ee7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tries to create a chain collection from a name  <a href="#a2d0c57c6dd04090d361f69f025b76ee7">More...</a><br /></td></tr>
+<tr class="separator:a2d0c57c6dd04090d361f69f025b76ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65fa6bc3dbc4a51f3f7985ea34d213b3"><td class="memItemLeft" align="right" valign="top">static List&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a65fa6bc3dbc4a51f3f7985ea34d213b3">ComputeFileReferences</a> (List&lt; string &gt; args)</td></tr>
+<tr class="memdesc:a65fa6bc3dbc4a51f3f7985ea34d213b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the @[filename] syntax All paths preceeded by an @ will be opened and their content pasted as argument.  <a href="#a65fa6bc3dbc4a51f3f7985ea34d213b3">More...</a><br /></td></tr>
+<tr class="separator:a65fa6bc3dbc4a51f3f7985ea34d213b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e8a53940bdf82acd40ca98df8abcd9e"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a8e8a53940bdf82acd40ca98df8abcd9e">FindNextCommand</a> (string[] args, int start)</td></tr>
+<tr class="memdesc:a8e8a53940bdf82acd40ca98df8abcd9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the index of the next occurrence of "-..."  <a href="#a8e8a53940bdf82acd40ca98df8abcd9e">More...</a><br /></td></tr>
+<tr class="separator:a8e8a53940bdf82acd40ca98df8abcd9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9283b6f4c82241a7f6ecb244d759339"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ae9283b6f4c82241a7f6ecb244d759339">InitAdl</a> ()</td></tr>
+<tr class="memdesc:ae9283b6f4c82241a7f6ecb244d759339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function that sets up ADL to operate with the DebugLevel enum and more.  <a href="#ae9283b6f4c82241a7f6ecb244d759339">More...</a><br /></td></tr>
+<tr class="separator:ae9283b6f4c82241a7f6ecb244d759339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf0f4595844ab31df9628accf1e7930b"><td class="memItemLeft" align="right" valign="top"><a id="acf0f4595844ab31df9628accf1e7930b"></a>
+static string [][]&#160;</td><td class="memItemRight" valign="bottom"><b>SplitExecutions</b> (string[] args)</td></tr>
+<tr class="separator:acf0f4595844ab31df9628accf1e7930b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:ad7184e6894715033fbe3bb19f74b7f7e"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="structext__pp__base_1_1_command_info.html">CommandInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ad7184e6894715033fbe3bb19f74b7f7e">Info</a></td></tr>
-<tr class="memdesc:ad7184e6894715033fbe3bb19f74b7f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of Command infos that are directly used by the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> They have no prefix  <a href="#ad7184e6894715033fbe3bb19f74b7f7e">More...</a><br /></td></tr>
-<tr class="separator:ad7184e6894715033fbe3bb19f74b7f7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cc39bb07123aca362405ded3d23bc93"><td class="memItemLeft" align="right" valign="top">readonly <a class="el" href="classext__pp__cli_1_1_plugin_manager.html">PluginManager</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a0cc39bb07123aca362405ded3d23bc93">_pluginManager</a></td></tr>
+<tr class="memdesc:a0cc39bb07123aca362405ded3d23bc93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of the plugin manager.  <a href="#a0cc39bb07123aca362405ded3d23bc93">More...</a><br /></td></tr>
+<tr class="separator:a0cc39bb07123aca362405ded3d23bc93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82d35c5cd0e729d057412620eb799448"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classext__pp__cli_1_1_c_l_i.html#a80b98cb9b9417200e57ad7dca6b4cbb0">CommandHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a82d35c5cd0e729d057412620eb799448">CommandApplyOrder</a></td></tr>
+<tr class="memdesc:a82d35c5cd0e729d057412620eb799448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the order in which the commands get checked/applied  <a href="#a82d35c5cd0e729d057412620eb799448">More...</a><br /></td></tr>
+<tr class="separator:a82d35c5cd0e729d057412620eb799448"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cbd6d2bd21dd91751e34051c40ff88f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a1cbd6d2bd21dd91751e34051c40ff88f">LogToFile</a> =&gt; <a class="el" href="classext__pp__cli_1_1_c_l_i.html#a16f731007e146641249d1264bea9ed7d">LogToFileParams</a> != null &amp;&amp; LogToFileParams.Length != 0</td></tr>
 <tr class="memdesc:a1cbd6d2bd21dd91751e34051c40ff88f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A flag that is used to determine if the log2file flag was set.  <a href="#a1cbd6d2bd21dd91751e34051c40ff88f">More...</a><br /></td></tr>
 <tr class="separator:a1cbd6d2bd21dd91751e34051c40ff88f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a579a898cc6f8d59a3831f92d94a96e76"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a579a898cc6f8d59a3831f92d94a96e76">OutputToConsole</a> = false</td></tr>
-<tr class="memdesc:a579a898cc6f8d59a3831f92d94a96e76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag to output the result to the console.  <a href="#a579a898cc6f8d59a3831f92d94a96e76">More...</a><br /></td></tr>
-<tr class="separator:a579a898cc6f8d59a3831f92d94a96e76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48d0aa4c38d721246e65a1e90fddf3aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classext__pp_1_1_definitions.html">Definitions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a48d0aa4c38d721246e65a1e90fddf3aa">_defs</a></td></tr>
 <tr class="memdesc:a48d0aa4c38d721246e65a1e90fddf3aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Definitions.  <a href="#a48d0aa4c38d721246e65a1e90fddf3aa">More...</a><br /></td></tr>
 <tr class="separator:a48d0aa4c38d721246e65a1e90fddf3aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69c063e6aa82007b8e9168e7a518f90b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classext__pp__cli_1_1_plugin_manager.html">PluginManager</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a69c063e6aa82007b8e9168e7a518f90b">_pluginManager</a></td></tr>
-<tr class="memdesc:a69c063e6aa82007b8e9168e7a518f90b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance of the plugin manager.  <a href="#a69c063e6aa82007b8e9168e7a518f90b">More...</a><br /></td></tr>
-<tr class="separator:a69c063e6aa82007b8e9168e7a518f90b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3bbd6e799811351ce6246c6924911b3"><td class="memItemLeft" align="right" valign="top">readonly <a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ae3bbd6e799811351ce6246c6924911b3">_settings</a></td></tr>
-<tr class="memdesc:ae3bbd6e799811351ce6246c6924911b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Settings for the run.  <a href="#ae3bbd6e799811351ce6246c6924911b3">More...</a><br /></td></tr>
-<tr class="separator:ae3bbd6e799811351ce6246c6924911b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16c84c8e76ca873576163d08fa112455"><td class="memItemLeft" align="right" valign="top">List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a16c84c8e76ca873576163d08fa112455">_chain</a></td></tr>
 <tr class="memdesc:a16c84c8e76ca873576163d08fa112455"><td class="mdescLeft">&#160;</td><td class="mdescRight">the chain used for it.  <a href="#a16c84c8e76ca873576163d08fa112455">More...</a><br /></td></tr>
 <tr class="separator:a16c84c8e76ca873576163d08fa112455"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
-<tr class="memitem:a2a11f572b5b7633728fdfdc2f7be036f"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a2a11f572b5b7633728fdfdc2f7be036f">HelpText</a> = &quot;To list all available commands type: ext_pp_cli --help or -h&quot;</td></tr>
-<tr class="memdesc:a2a11f572b5b7633728fdfdc2f7be036f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default helptext to show.  <a href="#a2a11f572b5b7633728fdfdc2f7be036f">More...</a><br /></td></tr>
-<tr class="separator:a2a11f572b5b7633728fdfdc2f7be036f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a831f78e3c37b9c84953995dc03115000"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a831f78e3c37b9c84953995dc03115000">CLIHeader</a> = &quot;\n\next_pp_cli version: &quot; + Assembly.GetAssembly(typeof(<a class="el" href="classext__pp__cli_1_1_c_l_i.html">CLI</a>)).GetName().<a class="el" href="classext__pp__cli_1_1_c_l_i.html#a7c1e99b70521d0987c4a506bd452603c">Version</a> + &quot;\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n&quot;</td></tr>
-<tr class="memdesc:a831f78e3c37b9c84953995dc03115000"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple header to assert dominance  <a href="#a831f78e3c37b9c84953995dc03115000">More...</a><br /></td></tr>
-<tr class="separator:a831f78e3c37b9c84953995dc03115000"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c1e99b70521d0987c4a506bd452603c"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#a7c1e99b70521d0987c4a506bd452603c">Version</a></td></tr>
-<tr class="memdesc:a7c1e99b70521d0987c4a506bd452603c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A version string.  <a href="#a7c1e99b70521d0987c4a506bd452603c">More...</a><br /></td></tr>
-<tr class="separator:a7c1e99b70521d0987c4a506bd452603c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9e191674cb87b81d05f7b420e49e337"><td class="memItemLeft" align="right" valign="top">static LogTextStream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ab9e191674cb87b81d05f7b420e49e337">lts</a></td></tr>
-<tr class="memdesc:ab9e191674cb87b81d05f7b420e49e337"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains the Stream when logging to console.  <a href="#ab9e191674cb87b81d05f7b420e49e337">More...</a><br /></td></tr>
-<tr class="separator:ab9e191674cb87b81d05f7b420e49e337"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7184e6894715033fbe3bb19f74b7f7e"><td class="memItemLeft" align="right" valign="top">static List&lt; <a class="el" href="classext__pp__base_1_1_command_info.html">CommandInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__cli_1_1_c_l_i.html#ad7184e6894715033fbe3bb19f74b7f7e">Info</a></td></tr>
+<tr class="memdesc:ad7184e6894715033fbe3bb19f74b7f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of Command infos that are directly used by the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> They have no prefix  <a href="#ad7184e6894715033fbe3bb19f74b7f7e">More...</a><br /></td></tr>
+<tr class="separator:ad7184e6894715033fbe3bb19f74b7f7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Command Line Interface of the EXT_PP project. </p>
@@ -361,26 +415,218 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a0db99a40894dace294fd9f04c80f16d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0db99a40894dace294fd9f04c80f16d4">&#9670;&nbsp;</a></span>AnalyzeArgs()</h2>
+<a id="a413c220c73c84fe4aa5694a7296d054c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a413c220c73c84fe4aa5694a7296d054c">&#9670;&nbsp;</a></span>AddPluginsCommandHandler()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Dictionary&lt;string, string[]&gt; ext_pp_cli.CLI.AnalyzeArgs </td>
+          <td class="memname">bool ext_pp_cli.CLI.AddPluginsCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;pm-add </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="ab8705c52dfffbc1659146d634f5b4192"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8705c52dfffbc1659146d634f5b4192">&#9670;&nbsp;</a></span>AnalyzeArgs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static Dictionary&lt;string, string[]&gt; ext_pp_cli.CLI.AnalyzeArgs </td>
           <td>(</td>
           <td class="paramtype">string []&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Turns the args into a dictionary that contains keys and n string values. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">args</td><td></td></tr>
+    <tr><td class="paramname">args</td><td>The arguments of the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The dictionary containing all the arguments</dd></dl>
+
+</div>
+</div>
+<a id="a855e0a60042905c08c0a46b5b0e3e499"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a855e0a60042905c08c0a46b5b0e3e499">&#9670;&nbsp;</a></span>Apply()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.Apply </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Applies/Brings the configuration of the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> up and running so it can start the PreProcessing. </p>
+
+</div>
+</div>
+<a id="a23eaed727a7fa6d9348cf95cf6e96e98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23eaed727a7fa6d9348cf95cf6e96e98">&#9670;&nbsp;</a></span>ChainParamsCommandHanlder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.ChainParamsCommandHanlder </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;chain </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="a80b98cb9b9417200e57ad7dca6b4cbb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80b98cb9b9417200e57ad7dca6b4cbb0">&#9670;&nbsp;</a></span>CommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">delegate bool ext_pp_cli.CLI.CommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A delegate used to handle all commands in the Command Line Interface </p>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a65fa6bc3dbc4a51f3f7985ea34d213b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65fa6bc3dbc4a51f3f7985ea34d213b3">&#9670;&nbsp;</a></span>ComputeFileReferences()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static List&lt;string&gt; ext_pp_cli.CLI.ComputeFileReferences </td>
+          <td>(</td>
+          <td class="paramtype">List&lt; string &gt;&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements the @[filename] syntax All paths preceeded by an @ will be opened and their content pasted as argument. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>The raw arguments from the Command Line</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A complete list of arguments with all @ usings beeing resolved.</dd></dl>
+
+</div>
+</div>
+<a id="ad8b0a9945e64cbf6f641db52ee18ab12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8b0a9945e64cbf6f641db52ee18ab12">&#9670;&nbsp;</a></span>CreateChainCollection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt;<a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a>&gt; ext_pp_cli.CLI.CreateChainCollection </td>
+          <td>(</td>
+          <td class="paramtype">Assembly&#160;</td>
+          <td class="paramname"><em>asm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a List of Plugins based on a chain collection in the specified assembly </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">asm</td><td>The containing assembly</td></tr>
+    <tr><td class="paramname">name</td><td>The name of the collection(or "*" for any collection)</td></tr>
   </table>
   </dd>
 </dl>
@@ -388,34 +634,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad3fb4ed0dc68a279b103a1f998234de0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3fb4ed0dc68a279b103a1f998234de0">&#9670;&nbsp;</a></span>Apply()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ext_pp_cli.CLI.Apply </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a>&#160;</td>
-          <td class="paramname"><em>settings</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Applies/Brings the configuration of the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> up and running so it can start the PreProcessing. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">settings</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a3a232b05b0786f0ec2071d01424d36d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a232b05b0786f0ec2071d01424d36d3">&#9670;&nbsp;</a></span>CreatePluginChain() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a232b05b0786f0ec2071d01424d36d3">&#9670;&nbsp;</a></span>CreatePluginChain()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -451,7 +671,7 @@ Static Private Attributes</h2></td></tr>
 <p>Creates the Plugin chain based on a argument in ChainSyntax. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">arg</td><td></td></tr>
+    <tr><td class="paramname">arg</td><td>The chain</td></tr>
     <tr><td class="paramname">noCollection</td><td></td></tr>
   </table>
   </dd>
@@ -460,35 +680,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a8acf3444357604db4951b8f397581b9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8acf3444357604db4951b8f397581b9a">&#9670;&nbsp;</a></span>CreatePluginChain() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">IEnumerable&lt;<a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a>&gt; ext_pp_cli.CLI.CreatePluginChain </td>
-          <td>(</td>
-          <td class="paramtype">IEnumerable&lt; Type &gt;&#160;</td>
-          <td class="paramname"><em>chain</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Turns a List of Type to a list of abstract plugin. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">chain</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
-
-</div>
-</div>
-<a id="aaaa9b019cbb9cc6b30a9258ab1c1e76a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaaa9b019cbb9cc6b30a9258ab1c1e76a">&#9670;&nbsp;</a></span>FindNextCommand()</h2>
+<a id="a4c666d4cf20dee5d71624fc9a7834c29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c666d4cf20dee5d71624fc9a7834c29">&#9670;&nbsp;</a></span>DefineParamsCommandHandler()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -497,7 +690,35 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int ext_pp_cli.CLI.FindNextCommand </td>
+          <td class="memname">bool ext_pp_cli.CLI.DefineParamsCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;defines </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="a8e8a53940bdf82acd40ca98df8abcd9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e8a53940bdf82acd40ca98df8abcd9e">&#9670;&nbsp;</a></span>FindNextCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int ext_pp_cli.CLI.FindNextCommand </td>
           <td>(</td>
           <td class="paramtype">string []&#160;</td>
           <td class="paramname"><em>args</em>, </td>
@@ -516,7 +737,7 @@ Static Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -524,12 +745,202 @@ Static Private Attributes</h2></td></tr>
 <p>Returns the index of the next occurrence of "-..." </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">args</td><td></td></tr>
-    <tr><td class="paramname">start</td><td></td></tr>
+    <tr><td class="paramname">args</td><td>the arguments to search</td></tr>
+    <tr><td class="paramname">start</td><td>the current index</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the index of the next command.</dd></dl>
+
+</div>
+</div>
+<a id="a6239e8b37793b2951d28d1943c78d985"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6239e8b37793b2951d28d1943c78d985">&#9670;&nbsp;</a></span>GenerateReadme()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt;string&gt; ext_pp_cli.CLI.GenerateReadme </td>
+          <td>(</td>
+          <td class="paramtype">List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td>
+          <td class="paramname"><em>plugins</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appends the Plugin Help Texts to be used in the ReadmeCommandHandler </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">plugins</td><td>The plugins used to generate the readme</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The readme</dd></dl>
+
+</div>
+</div>
+<a id="ae0a380a2e01667d426bf70d215417cce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0a380a2e01667d426bf70d215417cce">&#9670;&nbsp;</a></span>GetPluginsFromPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt;<a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a>&gt; ext_pp_cli.CLI.GetPluginsFromPath </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string []&#160;</td>
+          <td class="paramname"><em>names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>noCollection</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns all Plugins from the specified compiled assembly. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Path to the compiled assembly</td></tr>
+    <tr><td class="paramname">names</td><td>The names of the plugins or chains</td></tr>
+    <tr><td class="paramname">noCollection</td><td>opt out flag to ignore collections</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="affdc4d085e390cbe914964eff672cecd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affdc4d085e390cbe914964eff672cecd">&#9670;&nbsp;</a></span>Help_Command()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.Help_Command </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;help </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="a3497554c447bedb5837180c539259ace"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3497554c447bedb5837180c539259ace">&#9670;&nbsp;</a></span>Help_Command_Unfied()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.Help_Command_Unfied </td>
+          <td>(</td>
+          <td class="paramtype">string []&#160;</td>
+          <td class="paramname"><em>helpParams</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>extendedDescription</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A underlying function to handle the &ndash;help and the &ndash;help-all command </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">helpParams</td><td>Either HelpParams or HelpAllParams</td></tr>
+    <tr><td class="paramname">extendedDescription</td><td>Indicator if the extended description should be used.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="aa325ee1852b52ecbc883968525cbcba7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa325ee1852b52ecbc883968525cbcba7">&#9670;&nbsp;</a></span>HelpAll_Command()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.HelpAll_Command </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;help-all </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
 
 </div>
 </div>
@@ -557,6 +968,174 @@ Static Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Function that sets up ADL to operate with the DebugLevel enum and more. </p>
+
+</div>
+</div>
+<a id="a1c1eaee3fd8938169638ce83cc68dc37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c1eaee3fd8938169638ce83cc68dc37">&#9670;&nbsp;</a></span>InOutCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.InOutCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the commands &ndash;input &ndash;output </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="a415ef0f1b31908b5f08558657f8da5ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a415ef0f1b31908b5f08558657f8da5ce">&#9670;&nbsp;</a></span>ListAllPluginsCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.ListAllPluginsCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;pm-list-all </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="a2df7ca4cd96ad91fb1934347ebe9b76f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2df7ca4cd96ad91fb1934347ebe9b76f">&#9670;&nbsp;</a></span>ListPluginDirsCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.ListPluginDirsCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;pm-list-dir </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="a01c885643f91b1e998f816c5ce15032a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01c885643f91b1e998f816c5ce15032a">&#9670;&nbsp;</a></span>ListPluginIncsCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.ListPluginIncsCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;pm-list-file </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="aa57dab5fcba0b956662f22277d6dd441"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa57dab5fcba0b956662f22277d6dd441">&#9670;&nbsp;</a></span>ListPluginManIncsCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.ListPluginManIncsCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;pm-list-manual-files </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="ad859dc5f987ac43a9433ba435486ec52"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad859dc5f987ac43a9433ba435486ec52">&#9670;&nbsp;</a></span>LogToFileCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.LogToFileCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;log-to-file </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
 
 </div>
 </div>
@@ -646,8 +1225,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3556d95646a4adb6142a3a2cc92ecd75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3556d95646a4adb6142a3a2cc92ecd75">&#9670;&nbsp;</a></span>ParseLogParams()</h2>
+<a id="a09e5bae2eb841194e1de75f3ae76e2e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09e5bae2eb841194e1de75f3ae76e2e0">&#9670;&nbsp;</a></span>ParseLogParams()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -656,7 +1235,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">KeyValuePair&lt;int, bool&gt; ext_pp_cli.CLI.ParseLogParams </td>
+          <td class="memname">static KeyValuePair&lt;int, bool&gt; ext_pp_cli.CLI.ParseLogParams </td>
           <td>(</td>
           <td class="paramtype">string&#160;</td>
           <td class="paramname"><em>input</em></td><td>)</td>
@@ -665,7 +1244,7 @@ Static Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -681,48 +1260,333 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a910946fb54364a3e689555c4f80f07d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a910946fb54364a3e689555c4f80f07d3">&#9670;&nbsp;</a></span>PreApply()</h2>
+<a id="af48d665cd108a52f1b7c87aa33ae20b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af48d665cd108a52f1b7c87aa33ae20b5">&#9670;&nbsp;</a></span>Process()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ext_pp_cli.CLI.PreApply </td>
+          <td class="memname">void ext_pp_cli.CLI.Process </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a>&#160;</td>
-          <td class="paramname"><em>settings</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classext__pp_1_1_pre_processor.html">PreProcessor</a>&#160;</td>
+          <td class="paramname"><em>pp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a>&#160;</td>
+          <td class="paramname"><em>settings</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Contains code to apply important settings first so they can be taken into account on apply. </p>
+<p>Processes all the queued files with the PreProcessor </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">settings</td><td></td></tr>
+    <tr><td class="paramname">pp</td><td>The PreProcessor</td></tr>
+    <tr><td class="paramname">settings</td><td>The settings used in the computation.</td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a0dba982ed8f03430318bc5fffe231184"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0dba982ed8f03430318bc5fffe231184">&#9670;&nbsp;</a></span>Shutdown()</h2>
+<a id="ac0ae5e6b5ba7e78410c58686fc751392"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0ae5e6b5ba7e78410c58686fc751392">&#9670;&nbsp;</a></span>ProcessChainCollection()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ext_pp_cli.CLI.Shutdown </td>
+          <td class="memname">List&lt;<a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a>&gt; ext_pp_cli.CLI.ProcessChainCollection </td>
+          <td>(</td>
+          <td class="paramtype">string []&#160;</td>
+          <td class="paramname"><em>names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Assembly&#160;</td>
+          <td class="paramname"><em>asm</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a List of Plugins based on a manually created chain. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">names</td><td>The names of the plugins that are specified in the chain</td></tr>
+    <tr><td class="paramname">asm</td><td>The containing assembly</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The chain from this Assembly</dd></dl>
+
+</div>
+</div>
+<a id="aeb38c8294042bbd315e4b8d61395ef00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb38c8294042bbd315e4b8d61395ef00">&#9670;&nbsp;</a></span>ProcessPluginChain()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt;<a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a>&gt; ext_pp_cli.CLI.ProcessPluginChain </td>
+          <td>(</td>
+          <td class="paramtype">string []&#160;</td>
+          <td class="paramname"><em>names</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates a List of plugins from a manually created name chain. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">names</td><td>The names of the plugins that are specified in the chain</td></tr>
+    <tr><td class="paramname">path</td><td>File Path of the compiled assembly</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a9530a1983f0778fea16669040e79e2a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9530a1983f0778fea16669040e79e2a2">&#9670;&nbsp;</a></span>ReadmeCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.ReadmeCommandHandler </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Shuts down the cli by removing all output streams from adl. </p>
+<p>The command handler that is used for the command &ndash;generate-readme </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="a5696565394d87ffb7ea5b5f11647c29f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5696565394d87ffb7ea5b5f11647c29f">&#9670;&nbsp;</a></span>RefreshPluginsCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.RefreshPluginsCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;pm-refresh </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="a8c011967eae998d9d15bd267f390a776"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c011967eae998d9d15bd267f390a776">&#9670;&nbsp;</a></span>ShowVersionCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.ShowVersionCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the command &ndash;version </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="a06e71153621b735f87d328afc1ea74bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06e71153621b735f87d328afc1ea74bd">&#9670;&nbsp;</a></span>ThrowOnErrorWarningCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.ThrowOnErrorWarningCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the commands &ndash;throw-on-error and &ndash;throw-on-warning </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
+
+</div>
+</div>
+<a id="a2d0c57c6dd04090d361f69f025b76ee7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d0c57c6dd04090d361f69f025b76ee7">&#9670;&nbsp;</a></span>TryCreateChainCollection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool ext_pp_cli.CLI.TryCreateChainCollection </td>
+          <td>(</td>
+          <td class="paramtype">Assembly&#160;</td>
+          <td class="paramname"><em>asm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out <a class="el" href="interfaceext__pp__base_1_1_i_chain_collection.html">IChainCollection</a>&#160;</td>
+          <td class="paramname"><em>collection</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tries to create a chain collection from a name </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">asm</td><td>The containing assembly</td></tr>
+    <tr><td class="paramname">name</td><td>The name of the collection(or "*" for any collection)</td></tr>
+    <tr><td class="paramname">collection</td><td>The out parameter containing the created collection</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The success state</dd></dl>
+
+</div>
+</div>
+<a id="a6775c18e7f67abd7de93148376be578a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6775c18e7f67abd7de93148376be578a">&#9670;&nbsp;</a></span>VerbosityLevelCommandHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.VerbosityLevelCommandHandler </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The command handler that is used for the commands &ndash;verbosity </p>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> should exit after this command</dd></dl>
 
 </div>
 </div>
@@ -775,8 +1639,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a69c063e6aa82007b8e9168e7a518f90b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a69c063e6aa82007b8e9168e7a518f90b">&#9670;&nbsp;</a></span>_pluginManager</h2>
+<a id="a0cc39bb07123aca362405ded3d23bc93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cc39bb07123aca362405ded3d23bc93">&#9670;&nbsp;</a></span>_pluginManager</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -785,7 +1649,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classext__pp__cli_1_1_plugin_manager.html">PluginManager</a> ext_pp_cli.CLI._pluginManager</td>
+          <td class="memname">readonly <a class="el" href="classext__pp__cli_1_1_plugin_manager.html">PluginManager</a> ext_pp_cli.CLI._pluginManager</td>
         </tr>
       </table>
   </td>
@@ -799,8 +1663,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae3bbd6e799811351ce6246c6924911b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae3bbd6e799811351ce6246c6924911b3">&#9670;&nbsp;</a></span>_settings</h2>
+<a id="a82d35c5cd0e729d057412620eb799448"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82d35c5cd0e729d057412620eb799448">&#9670;&nbsp;</a></span>CommandApplyOrder</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -809,7 +1673,7 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly <a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> ext_pp_cli.CLI._settings</td>
+          <td class="memname">List&lt;<a class="el" href="classext__pp__cli_1_1_c_l_i.html#a80b98cb9b9417200e57ad7dca6b4cbb0">CommandHandler</a>&gt; ext_pp_cli.CLI.CommandApplyOrder</td>
         </tr>
       </table>
   </td>
@@ -818,136 +1682,8 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Settings for the run. </p>
-
-</div>
-</div>
-<a id="a13accba46e4b76b9f11132e228e888de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13accba46e4b76b9f11132e228e888de">&#9670;&nbsp;</a></span>ChainParams</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string [] ext_pp_cli.CLI.ChainParams = null</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Contains the parameters for the plugin chain </p>
-
-</div>
-</div>
-<a id="a831f78e3c37b9c84953995dc03115000"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a831f78e3c37b9c84953995dc03115000">&#9670;&nbsp;</a></span>CLIHeader</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string ext_pp_cli.CLI.CLIHeader = &quot;\n\next_pp_cli version: &quot; + Assembly.GetAssembly(typeof(<a class="el" href="classext__pp__cli_1_1_c_l_i.html">CLI</a>)).GetName().<a class="el" href="classext__pp__cli_1_1_c_l_i.html#a7c1e99b70521d0987c4a506bd452603c">Version</a> + &quot;\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n&quot;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Simple header to assert dominance </p>
-
-</div>
-</div>
-<a id="ac205ca9b22616619eb3b12b6b34b58ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac205ca9b22616619eb3b12b6b34b58ec">&#9670;&nbsp;</a></span>DebugLvl</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a> ext_pp_cli.CLI.DebugLvl = Verbosity.LEVEL1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Debug level of the process. </p>
-
-</div>
-</div>
-<a id="afed2975cd6623a37c6a2da20ffc52c41"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afed2975cd6623a37c6a2da20ffc52c41">&#9670;&nbsp;</a></span>DefinesParams</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string [] ext_pp_cli.CLI.DefinesParams = null</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Predefined definitions from &ndash;defines and -defs </p>
-
-</div>
-</div>
-<a id="aebb38114f919314c999123cfddcca3b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebb38114f919314c999123cfddcca3b0">&#9670;&nbsp;</a></span>HelpAllParams</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string [] ext_pp_cli.CLI.HelpAllParams = null</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Contains the parameters for the help all parameter </p>
-
-</div>
-</div>
-<a id="a39ca3e5173fdd11ad3c7564e9ec428df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39ca3e5173fdd11ad3c7564e9ec428df">&#9670;&nbsp;</a></span>HelpParams</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string [] ext_pp_cli.CLI.HelpParams = null</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Contains the parameters for the help parameter </p>
-
-</div>
-</div>
-<a id="a2a11f572b5b7633728fdfdc2f7be036f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a11f572b5b7633728fdfdc2f7be036f">&#9670;&nbsp;</a></span>HelpText</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">string ext_pp_cli.CLI.HelpText = &quot;To list all available commands type: ext_pp_cli --help or -h&quot;</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Default helptext to show. </p>
+<b>Initial value:</b><div class="fragment"><div class="line">=&gt; <span class="keyword">new</span> List&lt;CommandHandler&gt;</div><div class="line">        {</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a6775c18e7f67abd7de93148376be578a">VerbosityLevelCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#ad859dc5f987ac43a9433ba435486ec52">LogToFileCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a06e71153621b735f87d328afc1ea74bd">ThrowOnErrorWarningCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a9530a1983f0778fea16669040e79e2a2">ReadmeCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a8c011967eae998d9d15bd267f390a776">ShowVersionCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a415ef0f1b31908b5f08558657f8da5ce">ListAllPluginsCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a413c220c73c84fe4aa5694a7296d054c">AddPluginsCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a2df7ca4cd96ad91fb1934347ebe9b76f">ListPluginDirsCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a01c885643f91b1e998f816c5ce15032a">ListPluginIncsCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#aa57dab5fcba0b956662f22277d6dd441">ListPluginManIncsCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a5696565394d87ffb7ea5b5f11647c29f">RefreshPluginsCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#affdc4d085e390cbe914964eff672cecd">Help_Command</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#aa325ee1852b52ecbc883968525cbcba7">HelpAll_Command</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a4c666d4cf20dee5d71624fc9a7834c29">DefineParamsCommandHandler</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a23eaed727a7fa6d9348cf95cf6e96e98">ChainParamsCommandHanlder</a>,</div><div class="line">            <a class="code" href="classext__pp__cli_1_1_c_l_i.html#a1c1eaee3fd8938169638ce83cc68dc37">InOutCommandHandler</a></div><div class="line">        }</div></div><!-- fragment -->
+<p>Sets the order in which the commands get checked/applied </p>
 
 </div>
 </div>
@@ -961,33 +1697,17 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">List&lt;<a class="el" href="structext__pp__base_1_1_command_info.html">CommandInfo</a>&gt; ext_pp_cli.CLI.Info</td>
+          <td class="memname">List&lt;<a class="el" href="classext__pp__base_1_1_command_info.html">CommandInfo</a>&gt; ext_pp_cli.CLI.Info</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>List of Command infos that are directly used by the <a class="el" href="classext__pp__cli_1_1_c_l_i.html" title="Command Line Interface of the EXT_PP project. ">CLI</a> They have no prefix </p>
-
-</div>
-</div>
-<a id="a31270ee2513be87bb7876335bae6ab62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31270ee2513be87bb7876335bae6ab62">&#9670;&nbsp;</a></span>Input</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string [] ext_pp_cli.CLI.Input = new string[0]</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>The input files </p>
 
 </div>
 </div>
@@ -1015,24 +1735,9 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a16f731007e146641249d1264bea9ed7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16f731007e146641249d1264bea9ed7d">&#9670;&nbsp;</a></span>LogToFileParams</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string [] ext_pp_cli.CLI.LogToFileParams = null</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Contains the Parameters for the -l2f and &ndash;logToFile commands. </p>
-
-</div>
-</div>
-<a id="ab9e191674cb87b81d05f7b420e49e337"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9e191674cb87b81d05f7b420e49e337">&#9670;&nbsp;</a></span>lts</h2>
+<h2 class="groupheader">Property Documentation</h2>
+<a id="a13accba46e4b76b9f11132e228e888de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13accba46e4b76b9f11132e228e888de">&#9670;&nbsp;</a></span>ChainParams</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1041,17 +1746,209 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">LogTextStream ext_pp_cli.CLI.lts</td>
+          <td class="memname">string [] ext_pp_cli.CLI.ChainParams</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Contains the Stream when logging to console. </p>
+<p>Contains the parameters for the plugin chain </p>
+
+</div>
+</div>
+<a id="a7bbd455b47b97729668e4fa5db6b2da1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bbd455b47b97729668e4fa5db6b2da1">&#9670;&nbsp;</a></span>CliHeader</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string ext_pp_cli.CLI.CliHeader</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= <span class="stringliteral">&quot;\n\next_pp_cli version: &quot;</span> +</div><div class="line">                                           Assembly.GetAssembly(typeof(<a class="code" href="classext__pp__cli_1_1_c_l_i.html#ad2b4798380daf1b37e642f2795b19b58">CLI</a>)).GetName().Version +</div><div class="line">                                           <span class="stringliteral">&quot;\nCopyright by Tim Akermann\nGithub: https://github.com/ByteChkR/ext-pp\n\n&quot;</span></div></div><!-- fragment -->
+<p>Simple header to assert dominance </p>
+
+</div>
+</div>
+<a id="ac205ca9b22616619eb3b12b6b34b58ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac205ca9b22616619eb3b12b6b34b58ec">&#9670;&nbsp;</a></span>DebugLvl</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceext__pp__base_1_1settings.html#a3ac290b258daf5ed6b982fd1d00d4166">Verbosity</a> ext_pp_cli.CLI.DebugLvl = Verbosity.LEVEL1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Debug level of the process. </p>
+
+</div>
+</div>
+<a id="afed2975cd6623a37c6a2da20ffc52c41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afed2975cd6623a37c6a2da20ffc52c41">&#9670;&nbsp;</a></span>DefinesParams</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string [] ext_pp_cli.CLI.DefinesParams</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Predefined definitions from &ndash;defines and -defs </p>
+
+</div>
+</div>
+<a id="aebb38114f919314c999123cfddcca3b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebb38114f919314c999123cfddcca3b0">&#9670;&nbsp;</a></span>HelpAllParams</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string [] ext_pp_cli.CLI.HelpAllParams</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Contains the parameters for the help all parameter </p>
+
+</div>
+</div>
+<a id="a39ca3e5173fdd11ad3c7564e9ec428df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39ca3e5173fdd11ad3c7564e9ec428df">&#9670;&nbsp;</a></span>HelpParams</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string [] ext_pp_cli.CLI.HelpParams</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Contains the parameters for the help parameter </p>
+
+</div>
+</div>
+<a id="a2a11f572b5b7633728fdfdc2f7be036f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a11f572b5b7633728fdfdc2f7be036f">&#9670;&nbsp;</a></span>HelpText</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string ext_pp_cli.CLI.HelpText = &quot;To list all available commands type: ext_pp_cli --help or -h&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default helptext to show. </p>
+
+</div>
+</div>
+<a id="a31270ee2513be87bb7876335bae6ab62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31270ee2513be87bb7876335bae6ab62">&#9670;&nbsp;</a></span>Input</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string [] ext_pp_cli.CLI.Input = new string[0]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The input files </p>
+
+</div>
+</div>
+<a id="a16f731007e146641249d1264bea9ed7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16f731007e146641249d1264bea9ed7d">&#9670;&nbsp;</a></span>LogToFileParams</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string [] ext_pp_cli.CLI.LogToFileParams</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Contains the Parameters for the -l2f and &ndash;logToFile commands. </p>
 
 </div>
 </div>
@@ -1060,11 +1957,19 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ext_pp_cli.CLI.NoCollections = false</td>
+          <td class="memname">bool ext_pp_cli.CLI.NoCollections</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Forces the cli to ignore collections. </p>
@@ -1076,11 +1981,19 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">string [] ext_pp_cli.CLI.Output = new string[0]</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>The output files. </p>
@@ -1097,12 +2010,12 @@ Static Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ext_pp_cli.CLI.OutputToConsole = false</td>
+          <td class="memname">bool ext_pp_cli.CLI.OutputToConsole</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1116,27 +2029,43 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">string [] ext_pp_cli.CLI.PluginAdd = null</td>
+          <td class="memname">string [] ext_pp_cli.CLI.PluginAdd</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>parameter for the &ndash;pm-add and -pm-a commands. </p>
 
 </div>
 </div>
-<a id="a09482ba23536af270c68e215015936c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a09482ba23536af270c68e215015936c5">&#9670;&nbsp;</a></span>PluginListAll</h2>
+<a id="a99d989a473101d84c50fb9ce8d619a84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99d989a473101d84c50fb9ce8d619a84">&#9670;&nbsp;</a></span>PluginListAllCommandHandler</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ext_pp_cli.CLI.PluginListAll = false</td>
+          <td class="memname">bool ext_pp_cli.CLI.PluginListAllCommandHandler</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Flag if the settings contain the -pm-a/&ndash;pm-all command </p>
@@ -1148,11 +2077,19 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ext_pp_cli.CLI.PluginListDirs = false</td>
+          <td class="memname">bool ext_pp_cli.CLI.PluginListDirs</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Flag if the settings contain the -pm-ld/&ndash;pm-list-dirr command </p>
@@ -1164,11 +2101,19 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ext_pp_cli.CLI.PluginListIncs = false</td>
+          <td class="memname">bool ext_pp_cli.CLI.PluginListIncs</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Flag if the settings contain the -pm-lf/&ndash;pm-list-file command </p>
@@ -1180,11 +2125,19 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ext_pp_cli.CLI.PluginListManIncs = false</td>
+          <td class="memname">bool ext_pp_cli.CLI.PluginListManIncs</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Flag if the settings contain the -pm-lmf/&ndash;pm-list-manual-files command </p>
@@ -1196,14 +2149,46 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ext_pp_cli.CLI.PluginRefresh = false</td>
+          <td class="memname">bool ext_pp_cli.CLI.PluginRefresh</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Flag if the settings contain the -pm-r/&ndash;pm-refresh command </p>
+
+</div>
+</div>
+<a id="ac6ed8a4781111338416d8eff3d23882b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6ed8a4781111338416d8eff3d23882b">&#9670;&nbsp;</a></span>ReadmeArgs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string [] ext_pp_cli.CLI.ReadmeArgs = new string[0]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The input files </p>
 
 </div>
 </div>
@@ -1212,14 +2197,70 @@ Static Private Attributes</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ext_pp_cli.CLI.ShowVersion = false</td>
+          <td class="memname">bool ext_pp_cli.CLI.ShowVersion</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Show the version at the start and exit. </p>
+
+</div>
+</div>
+<a id="aadad146bdd33fe45df2b1ec764b768da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadad146bdd33fe45df2b1ec764b768da">&#9670;&nbsp;</a></span>ThrowOnError</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.ThrowOnError</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Contains the Parameters for the &ndash;throw-on-error command. </p>
+
+</div>
+</div>
+<a id="af655042329cf22425a3e6d6e444007e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af655042329cf22425a3e6d6e444007e7">&#9670;&nbsp;</a></span>ThrowOnWarning</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ext_pp_cli.CLI.ThrowOnWarning</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Contains the Parameters for the &ndash;throw-on-warning command. </p>
 
 </div>
 </div>
@@ -1238,11 +2279,11 @@ Static Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= <span class="stringliteral">&quot;\next_pp_cli: &quot;</span> + Assembly.GetAssembly(typeof(<a class="code" href="classext__pp__cli_1_1_c_l_i.html#ad2b4798380daf1b37e642f2795b19b58">CLI</a>)).GetName().Version +</div><div class="line">                                        <span class="stringliteral">&quot;\next_pp_base: &quot;</span> + Assembly.GetAssembly(typeof(<a class="code" href="namespace_utils.html">Utils</a>)).GetName().Version +</div><div class="line">                                        <span class="stringliteral">&quot;\next_pp: &quot;</span> + Assembly.GetAssembly(typeof(Definitions)).GetName().Version</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">= <span class="stringliteral">&quot;\next_pp_cli: &quot;</span> + Assembly.GetAssembly(typeof(<a class="code" href="classext__pp__cli_1_1_c_l_i.html#ad2b4798380daf1b37e642f2795b19b58">CLI</a>)).GetName().Version +</div><div class="line">                                          <span class="stringliteral">&quot;\next_pp_base: &quot;</span> + Assembly.GetAssembly(typeof(<a class="code" href="namespace_utils.html">Utils</a>)).GetName().Version +</div><div class="line">                                          <span class="stringliteral">&quot;\next_pp: &quot;</span> + Assembly.GetAssembly(typeof(Definitions)).GetName().Version</div></div><!-- fragment -->
 <p>A version string. </p>
 
 </div>

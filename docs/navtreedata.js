@@ -24,6 +24,8 @@ for the JavaScript code in this file
 var NAVTREE =
 [
   [ "ext_pp", "index.html", [
+    [ "commands", "md_ext_pp_cli_bin__debug_netcoreapp2_81_commands.html", null ],
+    [ "PLUGIN_INFO", "md_ext_pp_cli_bin__debug_netcoreapp2_81__p_l_u_g_i_n__i_n_f_o.html", null ],
     [ "Packages", "namespaces.html", [
       [ "Packages", "namespaces.html", "namespaces_dup" ],
       [ "Package Functions", "namespacemembers.html", [
@@ -38,7 +40,7 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
-        [ "Functions", "functions_func.html", null ],
+        [ "Functions", "functions_func.html", "functions_func" ],
         [ "Variables", "functions_vars.html", null ],
         [ "Properties", "functions_prop.html", null ]
       ] ]
@@ -49,7 +51,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"classext__pp__plugins_1_1_conditional_plugin.html#ad6b22f10f222afa95e168110748c75b3"
+"classext__pp__cli_1_1_c_l_i.html#a3a232b05b0786f0ec2071d01424d36d3",
+"functions_p.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

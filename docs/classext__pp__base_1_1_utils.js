@@ -3,7 +3,7 @@ var classext__pp__base_1_1_utils =
     [ "CreateTryParser< T >", "classext__pp__base_1_1_utils.html#ae56015848793f78460d5c2dabf6c9815", null ],
     [ "FileExistsRelativeTo", "classext__pp__base_1_1_utils.html#ac0c1720e0e84a6123db20a2a6c678bc6", null ],
     [ "FindStatements", "classext__pp__base_1_1_utils.html#a99cb9177adfae2f08737114a9470ebcd", null ],
-    [ "IsStatement", "classext__pp__base_1_1_utils.html#ab76f64775573b5b0b8cb0a7f8aa2355f", null ],
+    [ "IsStatement", "classext__pp__base_1_1_utils.html#aa556d3fa71b2defa1d23791c89af36d9", null ],
     [ "Parse", "classext__pp__base_1_1_utils.html#aaac75ee26949d9f18365c1dad6a4dec3", null ],
     [ "Parse< T >", "classext__pp__base_1_1_utils.html#a95755725b67a434cd4c4fef77321cbd0", null ],
     [ "ParseArray", "classext__pp__base_1_1_utils.html#ac28fddd159f55c0cb1e09fb89cd53f26", null ],

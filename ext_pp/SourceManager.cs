@@ -44,7 +44,7 @@ namespace ext_pp
         /// <summary>
         /// Sets the computing scheme to a custom scheme that will then be used to assign keys to scripts
         /// </summary>
-        /// <param name="scheme"></param>
+        /// <param name="scheme">The delegate that will be used to determine the key and path in the source manager</param>
         public void SetComputingScheme(DelKeyComputingScheme scheme)
         {
             if (scheme == null)
@@ -55,6 +55,10 @@ namespace ext_pp
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Changed Computing Scheme to: {0}", scheme.Method.Name);
         }
 
+        /// <summary>
+        /// Returns the Queued items that are waiting for computation
+        /// </summary>
+        /// <returns>Size of the internal queue</returns>
         public int GetTodoCount()
         {
             return _doneState.Count(x => x == ProcessStage.QUEUED);
@@ -63,7 +67,7 @@ namespace ext_pp
         /// <summary>
         /// Returns the computing scheme
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the computing scheme</returns>
         public DelKeyComputingScheme GetComputingScheme()
         {
             return _computeScheme;
@@ -72,20 +76,18 @@ namespace ext_pp
         /// <summary>
         /// The default implementation of the key matching calculation
         /// </summary>
-        /// <param name="vars"></param>
-        /// <param name="filePath"></param>
-        /// <param name="key"></param>
-        /// <param name="pluginCache"></param>
-        /// <returns></returns>
-        private static ImportResult ComputeFileNameAndKey_Default(string[] vars, string currentPath)
+        /// <param name="vars">The import string in a source script</param>
+        /// <param name="currentPath">the current path of the preprocessor</param>
+        /// <returns>A result object.</returns>
+        private ImportResult ComputeFileNameAndKey_Default(string[] vars, string currentPath)
         {
             ImportResult ret = new ImportResult();
 
-            if (vars.Length == 0)
+            if (!Utils.TryResolvePathIncludeParameter(vars))
             {
                 return ret;
             }
-            
+
             string dir = Directory.GetCurrentDirectory();
             Directory.SetCurrentDirectory(currentPath);
 
@@ -124,7 +126,7 @@ namespace ext_pp
         /// Fixes the order of the file tree if a script was being loaded and is now referenced (again)
         /// by removing it from the lower position and readding it at the top
         /// </summary>
-        /// <param name="script"></param>
+        /// <param name="script">The script that got referenced.</param>
         public void FixOrder(ISourceScript script)
         {
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFilePath()));
@@ -141,8 +143,8 @@ namespace ext_pp
         /// <summary>
         /// Returns true if the scripts key is contained in the manager
         /// </summary>
-        /// <param name="script"></param>
-        /// <returns></returns>
+        /// <param name="script">The script to check for</param>
+        /// <returns>True if the script is included.</returns>
         public bool IsIncluded(ISourceScript script)
         {
             return _sources.Any(x => x.GetKey() == script.GetKey());
@@ -152,7 +154,7 @@ namespace ext_pp
         /// Adds a script to the to do list of the source manager.
         /// Will do nothing if already included
         /// </summary>
-        /// <param name="script"></param>
+        /// <param name="script">The script to enqueue for computation</param>
         public void AddToTodo(ISourceScript script)
         {
             if (!IsIncluded(script))
@@ -167,7 +169,7 @@ namespace ext_pp
         /// Sets the processing state of the script to done
         /// it will not be returned by the NextItem property.
         /// </summary>
-        /// <param name="script"></param>
+        /// <param name="script">The script to set the stage for</param>
         public void SetState(ISourceScript script, ProcessStage stage)
         {
             if (IsIncluded(script))
@@ -181,7 +183,7 @@ namespace ext_pp
         /// <summary>
         /// Returns the List of Scripts that are in this Source Manager object
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The internal list of all scripts.</returns>
         public List<ISourceScript> GetList()
         {
             return _sources;
@@ -191,8 +193,8 @@ namespace ext_pp
         /// <summary>
         /// Adds a file to a list while checking for the key
         /// </summary>
-        /// <param name="script"></param>
-        /// <param name="checkForExistingKey"></param>
+        /// <param name="script">The file to be added.</param>
+        /// <param name="checkForExistingKey">A flag to optionally check if the key of the file is already existing</param>
         private void AddFile(ISourceScript script, bool checkForExistingKey)
         {
             if (checkForExistingKey && ContainsFile(script.GetKey()))
@@ -206,8 +208,8 @@ namespace ext_pp
         /// <summary>
         /// Returns true when the source manager contains a script with the key specified
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">the key to search for</param>
+        /// <returns>true if the file is contained in the source manager</returns>
         private bool ContainsFile(string key)
         {
             return IndexOfFile(key) != -1;
@@ -217,8 +219,8 @@ namespace ext_pp
         /// Returns the index of the file with the matching key
         /// returns -1 when the key is not present
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
+        /// <param name="key">the key to search for</param>
+        /// <returns>the index of the file or -1 if not found</returns>
         public int IndexOfFile(string key)
         {
             for (var i = 0; i < _sources.Count; i++)
@@ -242,21 +244,21 @@ namespace ext_pp
         /// <summary>
         /// Convenience wrapper to create a source script without knowing the actual type of the script.
         /// </summary>
-        /// <param name="separator"></param>
-        /// <param name="file"></param>
-        /// <param name="key"></param>
-        /// <param name="pluginCache"></param>
-        /// <returns></returns>
-        public bool TryCreateScript(out ISourceScript script, string separator, string file, string key, ImportResult pluginCache)
+        /// <param name="separator">the separator used.</param>
+        /// <param name="file">the path of the file</param>
+        /// <param name="key">the key of the file</param>
+        /// <param name="importInfo">the import info of the key and path importation</param>
+        /// <returns>the success state of the operation</returns>
+        public bool TryCreateScript(out ISourceScript script, string separator, string file, string key, ImportResult importInfo)
         {
             if (LockScriptCreation)
             {
                 script = null;
-                this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
+                this.Warning("A Plugin is trying to add a file outside of the main stage. Is the configuration correct?");
                 return false;
             }
 
-            script = new SourceScript(separator, file, key, pluginCache);
+            script = new SourceScript(separator, file, key, importInfo);
             return true;
         }
     }

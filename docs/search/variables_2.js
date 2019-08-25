@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['data',['Data',['../structext__pp__cli_1_1_plugin_manager_1_1_plugin_information.html#a9b448c6dd083504af9bd05fb12a3b57a',1,'ext_pp_cli::PluginManager::PluginInformation']]],
-  ['debuglvl',['DebugLvl',['../classext__pp__cli_1_1_c_l_i.html#ac205ca9b22616619eb3b12b6b34b58ec',1,'ext_pp_cli::CLI']]],
-  ['defaultifnotspecified',['DefaultIfNotSpecified',['../structext__pp__base_1_1_command_info.html#a57b69bf6c93531a3baae33aff0a46962',1,'ext_pp_base::CommandInfo']]],
-  ['definesparams',['DefinesParams',['../classext__pp__cli_1_1_c_l_i.html#afed2975cd6623a37c6a2da20ffc52c41',1,'ext_pp_cli::CLI']]]
+  ['helptext',['HelpText',['../classext__pp__base_1_1_command_info.html#aa4755887b8fae9a9b358f2f629fd9c72',1,'ext_pp_base::CommandInfo']]]
 ];

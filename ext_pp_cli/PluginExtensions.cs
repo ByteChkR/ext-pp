@@ -11,9 +11,9 @@ namespace ext_pp_cli
         /// <summary>
         /// Returns a list of all commands with information.
         /// </summary>
-        /// <param name="info"></param>
-        /// <param name="prefix"></param>
-        /// <returns></returns>
+        /// <param name="info">The Commands to list</param>
+        /// <param name="prefix">The prefixes needed for the commands.</param>
+        /// <returns>A list of string containing descriptions for all commands</returns>
         public static List<string> ListAllCommands(this List<CommandInfo> info, string[] prefix)
         {
             List<string> ret = new List<string>();
@@ -28,14 +28,14 @@ namespace ext_pp_cli
         /// <summary>
         /// Returns a list of command info.
         /// </summary>
-        /// <param name="plugin"></param>
-        /// <param name="listCommands"></param>
-        /// <returns></returns>
+        /// <param name="plugin">The plugin to list</param>
+        /// <param name="listCommands">flag to optionally list all commands of the plugin</param>
+        /// <returns>the information of the plugin</returns>
         public static List<string> ListInfo(this AbstractPlugin plugin, bool listCommands)
         {
             List<string> ret = new List<string>
             {
-                "Plugin GetName: " + plugin.GetType().Name,
+                "Plugin Name: " + plugin.GetType().Name,
                 "Plugin Namespace: " + plugin.GetType().Namespace,
                 "Plugin Version: " + plugin.GetType().Assembly.GetName().Version,
                 "Plugin Include Global: " + plugin.IncludeGlobal,
@@ -54,8 +54,8 @@ namespace ext_pp_cli
         /// <summary>
         /// Converts the Plugin to a basic markdown text that can be used to generate readmes.
         /// </summary>
-        /// <param name="plugin"></param>
-        /// <returns></returns>
+        /// <param name="plugin">The plugin to list</param>
+        /// <returns>The plugin description in markdown</returns>
         public static string[] ToMarkdown(this AbstractPlugin plugin)
         {
             List<string> ret = new List<string>
@@ -68,13 +68,19 @@ namespace ext_pp_cli
               ""
             };
 
-            string tab = "\t\t";
+            ret.AddRange(ToMarkdown(plugin.Info));
+            return ret.ToArray();
+        }
 
-            for (int i = 0; i < plugin.Info.Count; i++)
+        public static string[] ToMarkdown(List<CommandInfo> info)
+        {
+            string tab = "\t\t";
+            List<string> ret = new List<string>();
+            for (int i = 0; i < info.Count; i++)
             {
 
-                string[] helpt = plugin.Info[i].HelpText.Split("\n");
-                ret.Add(tab + plugin.Info[i].Command + "/" + plugin.Info[i].ShortCut);
+                string[] helpt = info[i].HelpText.Split("\n");
+                ret.Add(tab + info[i].Command + "/" + info[i].ShortCut);
                 ret.Add(tab + "\t" + helpt.Unpack("\n\t" + tab));
             }
 

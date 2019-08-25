@@ -6,9 +6,9 @@ namespace ext_pp_plugins
 {
     public class ChainCollection : IChainCollection
     {
-        public string GetName() => "Default";
+        public string Name { get; } = "Default";
 
-        public List<Type> GetChain() => new List<Type>
+        public List<Type> Chain { get; } = new List<Type>
         {
             typeof(MultiLinePlugin),
             typeof(KeyWordReplacer),
@@ -17,6 +17,8 @@ namespace ext_pp_plugins
             typeof(IncludePlugin),
             typeof(ExceptionPlugin),
             typeof(BlankLineRemover),
+            typeof(ChangeCharCase),
+            typeof(TextEncoderPlugin),
         };
     }
 }

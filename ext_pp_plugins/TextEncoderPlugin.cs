@@ -213,10 +213,11 @@ namespace ext_pp_plugins
         {
             List<string> lines = file.GetSource().ToList();
             List<int> removeIndices = new List<int>();
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Block Keywords.");
             for (int i = 0; i < lines.Count; i++)
             {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Discovering Block Keywords.");
-                if (lines[i].TrimStart().StartsWith(BlockEncodeStartKeyword))
+                string line = lines[i].TrimStart();
+                if (line.StartsWith(BlockEncodeStartKeyword))
                 {
 
                     removeIndices.Add(i);
@@ -227,7 +228,7 @@ namespace ext_pp_plugins
                     i++;//Move forward.
                     if (!encodingOk)
                     {
-                        this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load encoder: {0}", lines[i]);
+                        this.Error("Could not load encoder: {0}", lines[i]);
                     }
 
 
@@ -246,7 +247,7 @@ namespace ext_pp_plugins
 
                     }
                 }
-                else if (lines[i].TrimStart().StartsWith(BlockDecodeStartKeyword))
+                else if (line.StartsWith(BlockDecodeStartKeyword))
                 {
                     removeIndices.Add(i);
 
@@ -256,7 +257,7 @@ namespace ext_pp_plugins
 
                     if (!decodingOk)
                     {
-                        this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not load decoder: {0}", lines[i]);
+                        this.Error("Could not load decoder: {0}", lines[i]);
                     }
 
                     this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Found Block Decode Keyword.");

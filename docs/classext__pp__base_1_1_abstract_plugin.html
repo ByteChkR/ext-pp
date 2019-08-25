@@ -104,18 +104,20 @@ Inheritance diagram for ext_pp_base.AbstractPlugin:</div>
  <div class="center">
   <img src="classext__pp__base_1_1_abstract_plugin.png" usemap="#ext_5Fpp_5Fbase.AbstractPlugin_map" alt=""/>
   <map id="ext_5Fpp_5Fbase.AbstractPlugin_map" name="ext_5Fpp_5Fbase.AbstractPlugin_map">
-<area href="interfaceext__pp__base_1_1_i_loggable.html" title="An empty interface that is used to Log where the log is coming from. Just add to any script and you c..." alt="ext_pp_base.ILoggable" shape="rect" coords="0,0,214,24"/>
-<area href="classext__pp__plugins_1_1_blank_line_remover.html" alt="ext_pp_plugins.BlankLineRemover" shape="rect" coords="224,112,438,136"/>
-<area href="classext__pp__plugins_1_1_c_l_i_debugger.html" alt="ext_pp_plugins.CLIDebugger" shape="rect" coords="224,168,438,192"/>
-<area href="classext__pp__plugins_1_1_conditional_plugin.html" alt="ext_pp_plugins.ConditionalPlugin" shape="rect" coords="224,224,438,248"/>
-<area href="classext__pp__plugins_1_1_error_plugin.html" alt="ext_pp_plugins.ErrorPlugin" shape="rect" coords="224,280,438,304"/>
-<area href="classext__pp__plugins_1_1_fake_generics_plugin.html" alt="ext_pp_plugins.FakeGenericsPlugin" shape="rect" coords="224,336,438,360"/>
-<area href="classext__pp__plugins_1_1_include_plugin.html" alt="ext_pp_plugins.IncludePlugin" shape="rect" coords="224,392,438,416"/>
-<area href="classext__pp__plugins_1_1_key_word_replacer.html" alt="ext_pp_plugins.KeyWordReplacer" shape="rect" coords="224,448,438,472"/>
-<area href="classext__pp__plugins_1_1_multi_line_plugin.html" alt="ext_pp_plugins.MultiLinePlugin" shape="rect" coords="224,504,438,528"/>
-<area href="classext__pp__plugins_1_1_to_lower_plugin.html" alt="ext_pp_plugins.ToLowerPlugin" shape="rect" coords="224,560,438,584"/>
-<area href="classext__pp__plugins_1_1_to_upper_plugin.html" alt="ext_pp_plugins.ToUpperPlugin" shape="rect" coords="224,616,438,640"/>
-<area href="classext__pp__plugins_1_1_warning_plugin.html" alt="ext_pp_plugins.WarningPlugin" shape="rect" coords="224,672,438,696"/>
+<area href="interfaceext__pp__base_1_1_i_loggable.html" title="An empty interface that is used to Log where the log is coming from. Just add to any script and you c..." alt="ext_pp_base.ILoggable" shape="rect" coords="241,0,472,24"/>
+<area href="classext__pp__base_1_1_abstract_full_script_plugin.html" title="Abstract Plugin but with OnLoad_FullScriptStage and OnMain_FullScriptStage overriden and fixed plugin..." alt="ext_pp_base.AbstractFullScriptPlugin" shape="rect" coords="0,112,231,136"/>
+<area href="classext__pp__base_1_1_abstract_line_plugin.html" title="AbstractLinePlugin but with preconfigured PluginTypeToggle, Process Stages and only one function for ..." alt="ext_pp_base.AbstractLinePlugin" shape="rect" coords="482,112,713,136"/>
+<area href="classext__pp__plugins_1_1_conditional_plugin.html" alt="ext_pp_plugins.ConditionalPlugin" shape="rect" coords="241,168,472,192"/>
+<area href="classext__pp__plugins_1_1_fake_generics_plugin.html" alt="ext_pp_plugins.FakeGenericsPlugin" shape="rect" coords="241,224,472,248"/>
+<area href="classext__pp__plugins_1_1_include_plugin.html" alt="ext_pp_plugins.IncludePlugin" shape="rect" coords="241,280,472,304"/>
+<area href="classext__pp__plugins_1_1_multi_line_plugin.html" alt="ext_pp_plugins.MultiLinePlugin" shape="rect" coords="241,336,472,360"/>
+<area href="classext__pp__plugins_1_1_text_encoder_plugin.html" alt="ext_pp_plugins.TextEncoderPlugin" shape="rect" coords="241,392,472,416"/>
+<area href="classext__pp__base_1_1_abstract_line_after_plugin.html" title="AbstractLinePlugin but with fixed plugin type toggle " alt="ext_pp_base.AbstractLineAfterPlugin" shape="rect" coords="723,168,954,192"/>
+<area href="classext__pp__base_1_1_abstract_line_before_plugin.html" title="AbstractLinePlugin but with fixed plugin type toggle " alt="ext_pp_base.AbstractLineBeforePlugin" shape="rect" coords="723,224,954,248"/>
+<area href="classext__pp__plugins_1_1_blank_line_remover.html" alt="ext_pp_plugins.BlankLineRemover" shape="rect" coords="723,280,954,304"/>
+<area href="classext__pp__plugins_1_1_change_char_case.html" alt="ext_pp_plugins.ChangeCharCase" shape="rect" coords="723,336,954,360"/>
+<area href="classext__pp__plugins_1_1_exception_plugin.html" alt="ext_pp_plugins.ExceptionPlugin" shape="rect" coords="723,392,954,416"/>
+<area href="classext__pp__plugins_1_1_key_word_replacer.html" alt="ext_pp_plugins.KeyWordReplacer" shape="rect" coords="723,448,954,472"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -142,7 +144,7 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a200646a1b9129bef675fd495ef44031e"><td class="memItemLeft" align="right" valign="top">static List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a200646a1b9129bef675fd495ef44031e">GetPluginsForStage</a> (List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt; plugins, <a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a6b15fd1ed80fb198a908e41d4017fc6f">PluginType</a> type, ProcessStage stage)</td></tr>
+<tr class="memitem:a200646a1b9129bef675fd495ef44031e"><td class="memItemLeft" align="right" valign="top">static List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a200646a1b9129bef675fd495ef44031e">GetPluginsForStage</a> (List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt; plugins, <a class="el" href="namespaceext__pp__base_1_1settings.html#a9e33bd1ea58d31f00e108c43b5b55981">PluginType</a> type, <a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a> stage)</td></tr>
 <tr class="memdesc:a200646a1b9129bef675fd495ef44031e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the plugins that are meant to be run at the specified stage  <a href="#a200646a1b9129bef675fd495ef44031e">More...</a><br /></td></tr>
 <tr class="separator:a200646a1b9129bef675fd495ef44031e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -151,13 +153,13 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa1a5555ad3f32b0c97036b6a52ef33c1"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#aa1a5555ad3f32b0c97036b6a52ef33c1">IncludeGlobal</a> =&gt; false</td></tr>
 <tr class="memdesc:aa1a5555ad3f32b0c97036b6a52ef33c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A flag that will, when turned on, redirect all settings that have a global prefix  <a href="#aa1a5555ad3f32b0c97036b6a52ef33c1">More...</a><br /></td></tr>
 <tr class="separator:aa1a5555ad3f32b0c97036b6a52ef33c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b15fd1ed80fb198a908e41d4017fc6f"><td class="memItemLeft" align="right" valign="top">virtual PluginType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a6b15fd1ed80fb198a908e41d4017fc6f">PluginType</a> =&gt; PluginType.FULL_SCRIPT_PLUGIN</td></tr>
-<tr class="memdesc:a6b15fd1ed80fb198a908e41d4017fc6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the plugin type. Fullscript or Line Script  <a href="#a6b15fd1ed80fb198a908e41d4017fc6f">More...</a><br /></td></tr>
-<tr class="separator:a6b15fd1ed80fb198a908e41d4017fc6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aecb968ce72c52038f526c3ac521f3607"><td class="memItemLeft" align="right" valign="top">virtual ProcessStage&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#aecb968ce72c52038f526c3ac521f3607">ProcessStages</a> =&gt; ProcessStage.ON_MAIN</td></tr>
+<tr class="memitem:a105e63273c3d8eb6dbf299110a19ee2c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceext__pp__base_1_1settings.html#a9e33bd1ea58d31f00e108c43b5b55981">PluginType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a105e63273c3d8eb6dbf299110a19ee2c">PluginTypeToggle</a> =&gt; PluginType.FULL_SCRIPT_PLUGIN</td></tr>
+<tr class="memdesc:a105e63273c3d8eb6dbf299110a19ee2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the plugin type. Fullscript or Line Script  <a href="#a105e63273c3d8eb6dbf299110a19ee2c">More...</a><br /></td></tr>
+<tr class="separator:a105e63273c3d8eb6dbf299110a19ee2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecb968ce72c52038f526c3ac521f3607"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#aecb968ce72c52038f526c3ac521f3607">ProcessStages</a> =&gt; ProcessStage.ON_MAIN</td></tr>
 <tr class="memdesc:aecb968ce72c52038f526c3ac521f3607"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies the order on what "event" the plugin should execute  <a href="#aecb968ce72c52038f526c3ac521f3607">More...</a><br /></td></tr>
 <tr class="separator:aecb968ce72c52038f526c3ac521f3607"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad15e82f7ff22d4f04b9a037af196cc5"><td class="memItemLeft" align="right" valign="top">virtual List&lt; <a class="el" href="structext__pp__base_1_1_command_info.html">CommandInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#aad15e82f7ff22d4f04b9a037af196cc5">Info</a> =&gt; new List&lt;<a class="el" href="structext__pp__base_1_1_command_info.html">CommandInfo</a>&gt;()</td></tr>
+<tr class="memitem:aad15e82f7ff22d4f04b9a037af196cc5"><td class="memItemLeft" align="right" valign="top">virtual List&lt; <a class="el" href="classext__pp__base_1_1_command_info.html">CommandInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#aad15e82f7ff22d4f04b9a037af196cc5">Info</a> =&gt; new List&lt;<a class="el" href="classext__pp__base_1_1_command_info.html">CommandInfo</a>&gt;()</td></tr>
 <tr class="memdesc:aad15e82f7ff22d4f04b9a037af196cc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A list of command infos. This list contains all the different commands of the plugin/program  <a href="#aad15e82f7ff22d4f04b9a037af196cc5">More...</a><br /></td></tr>
 <tr class="separator:aad15e82f7ff22d4f04b9a037af196cc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35f1ba6bd509c6079da131c3fa7ac683"><td class="memItemLeft" align="right" valign="top">virtual string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a35f1ba6bd509c6079da131c3fa7ac683">Cleanup</a> =&gt; new string[0]</td></tr>
@@ -191,13 +193,13 @@ Properties</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classext__pp__base_1_1_abstract_plugin.html#a6b15fd1ed80fb198a908e41d4017fc6f">PluginType</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#a9e33bd1ea58d31f00e108c43b5b55981">PluginType</a>&#160;</td>
           <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">ProcessStage&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a>&#160;</td>
           <td class="paramname"><em>stage</em>&#160;</td>
         </tr>
         <tr>
@@ -216,9 +218,9 @@ Properties</h2></td></tr>
 <p>Returns the plugins that are meant to be run at the specified stage </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">plugins</td><td></td></tr>
-    <tr><td class="paramname">type</td><td></td></tr>
-    <tr><td class="paramname">stage</td><td></td></tr>
+    <tr><td class="paramname">plugins</td><td>All plugins loaded</td></tr>
+    <tr><td class="paramname">type</td><td>The plugin type</td></tr>
+    <tr><td class="paramname">stage</td><td>the process stage</td></tr>
   </table>
   </dd>
 </dl>
@@ -269,14 +271,14 @@ Properties</h2></td></tr>
 <p>Initialization of the plugin Set all your changes to the objects here(not in the actual processing) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">settings</td><td></td></tr>
-    <tr><td class="paramname">sourceManager</td><td></td></tr>
-    <tr><td class="paramname">defTable</td><td></td></tr>
+    <tr><td class="paramname">settings</td><td>the settings</td></tr>
+    <tr><td class="paramname">sourceManager</td><td>the source manager</td></tr>
+    <tr><td class="paramname">defTable</td><td>the definitions</td></tr>
   </table>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classext__pp__plugins_1_1_c_l_i_debugger.html#ad118a5512856b97b4c54db47c2914bf2">ext_pp_plugins.CLIDebugger</a>, <a class="el" href="classext__pp__plugins_1_1_key_word_replacer.html#a8b0bb8744b671b744a455d99742ec980">ext_pp_plugins.KeyWordReplacer</a>, <a class="el" href="classext__pp__plugins_1_1_conditional_plugin.html#a3d53149387d550618f8fddc4afe6bf17">ext_pp_plugins.ConditionalPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_to_lower_plugin.html#a036278fa69aefca1979e3b418bd3535c">ext_pp_plugins.ToLowerPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_to_upper_plugin.html#aca3ee8227716eaa720c85fe83e42d50e">ext_pp_plugins.ToUpperPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_error_plugin.html#a92f7d841e4415324fe90177a06cdb62e">ext_pp_plugins.ErrorPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_blank_line_remover.html#a0f74bc2b0c236a1ab3b5c7d1b7278876">ext_pp_plugins.BlankLineRemover</a>, <a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#a3dee1bab45dde242b0e92ba92302e588">ext_pp_plugins.WarningPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_fake_generics_plugin.html#a96b23a26d0d29487d27186be2dd771f1">ext_pp_plugins.FakeGenericsPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_include_plugin.html#ac2a0f9525c3947af13823bc38677ea84">ext_pp_plugins.IncludePlugin</a>, and <a class="el" href="classext__pp__plugins_1_1_multi_line_plugin.html#a4ca1b5b640133bcaa99117b216f1834d">ext_pp_plugins.MultiLinePlugin</a>.</p>
+<p>Implemented in <a class="el" href="classext__pp__plugins_1_1_text_encoder_plugin.html#a02da8a61c4fe358093c848a388b7b9a5">ext_pp_plugins.TextEncoderPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_key_word_replacer.html#a8b0bb8744b671b744a455d99742ec980">ext_pp_plugins.KeyWordReplacer</a>, <a class="el" href="classext__pp__plugins_1_1_conditional_plugin.html#a3d53149387d550618f8fddc4afe6bf17">ext_pp_plugins.ConditionalPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_change_char_case.html#a95f32dcadbcda0f30d698b5a8c944b58">ext_pp_plugins.ChangeCharCase</a>, <a class="el" href="classext__pp__plugins_1_1_exception_plugin.html#a5a35795f3c0c9cb097ac593e80a8eac8">ext_pp_plugins.ExceptionPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_fake_generics_plugin.html#a96b23a26d0d29487d27186be2dd771f1">ext_pp_plugins.FakeGenericsPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_blank_line_remover.html#a0f74bc2b0c236a1ab3b5c7d1b7278876">ext_pp_plugins.BlankLineRemover</a>, <a class="el" href="classext__pp__plugins_1_1_multi_line_plugin.html#a4ca1b5b640133bcaa99117b216f1834d">ext_pp_plugins.MultiLinePlugin</a>, and <a class="el" href="classext__pp__plugins_1_1_include_plugin.html#ac2a0f9525c3947af13823bc38677ea84">ext_pp_plugins.IncludePlugin</a>.</p>
 
 </div>
 </div>
@@ -307,13 +309,13 @@ Properties</h2></td></tr>
 <p>Gets called once per line on each file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td></td></tr>
+    <tr><td class="paramname">source</td><td>the source line</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The updated line</dd></dl>
 
-<p>Reimplemented in <a class="el" href="classext__pp__plugins_1_1_c_l_i_debugger.html#aad990684880ba6365a8e6105ad6c2c02">ext_pp_plugins.CLIDebugger</a>, <a class="el" href="classext__pp__plugins_1_1_key_word_replacer.html#aed93fb440181afebe8c0f35205c1cd85">ext_pp_plugins.KeyWordReplacer</a>, <a class="el" href="classext__pp__plugins_1_1_multi_line_plugin.html#a68b4f7ff5783f77a69d20d918671f5c1">ext_pp_plugins.MultiLinePlugin</a>, <a class="el" href="classext__pp__plugins_1_1_blank_line_remover.html#a53bc647f005edc93ef43efda1314c988">ext_pp_plugins.BlankLineRemover</a>, <a class="el" href="classext__pp__plugins_1_1_error_plugin.html#a38894c6fd1fb608d43a507bf9e66c0e7">ext_pp_plugins.ErrorPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#af86e3accbd5e10509383dcdf53620ca5">ext_pp_plugins.WarningPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_to_lower_plugin.html#a5c56cd6ff88078698e529c09ea3132d2">ext_pp_plugins.ToLowerPlugin</a>, and <a class="el" href="classext__pp__plugins_1_1_to_upper_plugin.html#a56f6acd74cfa1942df699effc71b22e3">ext_pp_plugins.ToUpperPlugin</a>.</p>
+<p>Reimplemented in <a class="el" href="classext__pp__base_1_1_abstract_line_plugin.html#aa9a39279c3b377f834a1617a772ca160">ext_pp_base.AbstractLinePlugin</a>.</p>
 
 </div>
 </div>
@@ -360,15 +362,15 @@ Properties</h2></td></tr>
 <p>Gets called once on each file. Looping Through All the Files Looping Through All the plugins </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">script</td><td></td></tr>
-    <tr><td class="paramname">sourceManager</td><td></td></tr>
-    <tr><td class="paramname">defTable</td><td></td></tr>
+    <tr><td class="paramname">script</td><td>the current source script</td></tr>
+    <tr><td class="paramname">sourceManager</td><td>the current source manager</td></tr>
+    <tr><td class="paramname">defTable</td><td>the current definitions</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>state of the process(if false will abort processing)</dd></dl>
 
-<p>Reimplemented in <a class="el" href="classext__pp__plugins_1_1_c_l_i_debugger.html#a95ef36162b6f7860549e9afd2143867a">ext_pp_plugins.CLIDebugger</a>, <a class="el" href="classext__pp__plugins_1_1_key_word_replacer.html#a49752fe50ffc7072a08bddc6541c7603">ext_pp_plugins.KeyWordReplacer</a>, <a class="el" href="classext__pp__plugins_1_1_conditional_plugin.html#a50cf227539f94865f9e4e33e508ea123">ext_pp_plugins.ConditionalPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_error_plugin.html#adb98efe6f3e8b12efb8c35a4253856bb">ext_pp_plugins.ErrorPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_fake_generics_plugin.html#ac1b207c8c8b2f13ae70ff4d9550a1610">ext_pp_plugins.FakeGenericsPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#ac9ce5abb010636c9d7df7e3176b5237c">ext_pp_plugins.WarningPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_blank_line_remover.html#aebc37fb279c9a8c2128eb4c090699953">ext_pp_plugins.BlankLineRemover</a>, and <a class="el" href="classext__pp__plugins_1_1_multi_line_plugin.html#a700baaa441adc79eabee1bd5402d7445">ext_pp_plugins.MultiLinePlugin</a>.</p>
+<p>Reimplemented in <a class="el" href="classext__pp__base_1_1_abstract_full_script_plugin.html#acfd08a52aba7d690d2d26d22ce05cc8d">ext_pp_base.AbstractFullScriptPlugin</a>.</p>
 
 </div>
 </div>
@@ -399,13 +401,13 @@ Properties</h2></td></tr>
 <p>Gets called once per line on each file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td></td></tr>
+    <tr><td class="paramname">source</td><td>the source line</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The updated line</dd></dl>
 
-<p>Reimplemented in <a class="el" href="classext__pp__plugins_1_1_c_l_i_debugger.html#aee52b5c3562b7871ac1a6d80cb914351">ext_pp_plugins.CLIDebugger</a>, <a class="el" href="classext__pp__plugins_1_1_key_word_replacer.html#a40b6d0faea19f291372cf526f1c3dd50">ext_pp_plugins.KeyWordReplacer</a>, <a class="el" href="classext__pp__plugins_1_1_multi_line_plugin.html#a7805f74423995a18ced7738d999f04ea">ext_pp_plugins.MultiLinePlugin</a>, <a class="el" href="classext__pp__plugins_1_1_blank_line_remover.html#a0ddc9c85e88178cf5230ca0ea2e6227f">ext_pp_plugins.BlankLineRemover</a>, <a class="el" href="classext__pp__plugins_1_1_error_plugin.html#a014dc50e9908bb84df521d92fad1f262">ext_pp_plugins.ErrorPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#af2b641d356266f34c8b1ff2a6b608e7a">ext_pp_plugins.WarningPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_to_lower_plugin.html#a5e5a55280f420e0b2e04e36ad404f9ae">ext_pp_plugins.ToLowerPlugin</a>, and <a class="el" href="classext__pp__plugins_1_1_to_upper_plugin.html#a73c9710686dafc38c5a26fd0522fdb0a">ext_pp_plugins.ToUpperPlugin</a>.</p>
+<p>Reimplemented in <a class="el" href="classext__pp__base_1_1_abstract_line_plugin.html#a2e4cc57ec5419b6bcc1e669d70bf1834">ext_pp_base.AbstractLinePlugin</a>.</p>
 
 </div>
 </div>
@@ -452,15 +454,15 @@ Properties</h2></td></tr>
 <p>Gets called once on each file. Looping Through All the Files Looping Through All the plugins </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">script</td><td></td></tr>
-    <tr><td class="paramname">sourceManager</td><td></td></tr>
-    <tr><td class="paramname">defTable</td><td></td></tr>
+    <tr><td class="paramname">script</td><td>the current source script</td></tr>
+    <tr><td class="paramname">sourceManager</td><td>the current source manager</td></tr>
+    <tr><td class="paramname">defTable</td><td>the current definitions</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>state of the process(if false will abort processing)</dd></dl>
 
-<p>Reimplemented in <a class="el" href="classext__pp__plugins_1_1_c_l_i_debugger.html#af2caacfc868badcaa173fc6681ef2d5c">ext_pp_plugins.CLIDebugger</a>, <a class="el" href="classext__pp__plugins_1_1_key_word_replacer.html#aada46dd4f8fe4179f7bf403c355438b3">ext_pp_plugins.KeyWordReplacer</a>, <a class="el" href="classext__pp__plugins_1_1_conditional_plugin.html#ae80d4677feb2244b5493560c0eaf9fab">ext_pp_plugins.ConditionalPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_error_plugin.html#a5b7e022bb54ce3a7a4f5b4e8f68236be">ext_pp_plugins.ErrorPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_fake_generics_plugin.html#ac485aee6a4c190679fa2d327582f90ce">ext_pp_plugins.FakeGenericsPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#a94410d1e095641137befe1024720c319">ext_pp_plugins.WarningPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_blank_line_remover.html#a88f610979e117370f8cfaf11106ba067">ext_pp_plugins.BlankLineRemover</a>, <a class="el" href="classext__pp__plugins_1_1_multi_line_plugin.html#a14aae8b4bc0d71b00b844567fe5e0cf1">ext_pp_plugins.MultiLinePlugin</a>, and <a class="el" href="classext__pp__plugins_1_1_include_plugin.html#a5f233acfc1c549c9f8fe52d466847fe1">ext_pp_plugins.IncludePlugin</a>.</p>
+<p>Reimplemented in <a class="el" href="classext__pp__base_1_1_abstract_full_script_plugin.html#ae95cba4bc0741a4d1aadf95ca7459cf7">ext_pp_base.AbstractFullScriptPlugin</a>.</p>
 
 </div>
 </div>
@@ -491,13 +493,13 @@ Properties</h2></td></tr>
 <p>Gets called once per line on each file. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">source</td><td></td></tr>
+    <tr><td class="paramname">source</td><td>the source line</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The updated line</dd></dl>
 
-<p>Reimplemented in <a class="el" href="classext__pp__plugins_1_1_c_l_i_debugger.html#aab899090cb486ac7d8df808a3b3e8f11">ext_pp_plugins.CLIDebugger</a>, <a class="el" href="classext__pp__plugins_1_1_key_word_replacer.html#af5317e648b62fa95d258fe998dc32a2a">ext_pp_plugins.KeyWordReplacer</a>, <a class="el" href="classext__pp__plugins_1_1_multi_line_plugin.html#ab442d0a2b6aab0d89b96464a79d72862">ext_pp_plugins.MultiLinePlugin</a>, <a class="el" href="classext__pp__plugins_1_1_blank_line_remover.html#ae50f920cdb1dd7003a0e67b3becca77e">ext_pp_plugins.BlankLineRemover</a>, <a class="el" href="classext__pp__plugins_1_1_error_plugin.html#ada0f89bfe99e336d813c6b6d1a8ec31f">ext_pp_plugins.ErrorPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_warning_plugin.html#a6cd24b53f0ff823d3765c188d6cb61d5">ext_pp_plugins.WarningPlugin</a>, <a class="el" href="classext__pp__plugins_1_1_to_lower_plugin.html#ad08bcc1885afdc0fe3aa01f6fec74f87">ext_pp_plugins.ToLowerPlugin</a>, and <a class="el" href="classext__pp__plugins_1_1_to_upper_plugin.html#acb18d0bbf772e9865d1257f3e52cbbbf">ext_pp_plugins.ToUpperPlugin</a>.</p>
+<p>Reimplemented in <a class="el" href="classext__pp__base_1_1_abstract_line_plugin.html#abb812e1d498ff223e9254bcc17db9ae7">ext_pp_base.AbstractLinePlugin</a>.</p>
 
 </div>
 </div>
@@ -541,7 +543,7 @@ Properties</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual List&lt;<a class="el" href="structext__pp__base_1_1_command_info.html">CommandInfo</a>&gt; ext_pp_base.AbstractPlugin.Info =&gt; new List&lt;<a class="el" href="structext__pp__base_1_1_command_info.html">CommandInfo</a>&gt;()</td>
+          <td class="memname">virtual List&lt;<a class="el" href="classext__pp__base_1_1_command_info.html">CommandInfo</a>&gt; ext_pp_base.AbstractPlugin.Info =&gt; new List&lt;<a class="el" href="classext__pp__base_1_1_command_info.html">CommandInfo</a>&gt;()</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -550,14 +552,14 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a id="a6b15fd1ed80fb198a908e41d4017fc6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b15fd1ed80fb198a908e41d4017fc6f">&#9670;&nbsp;</a></span>PluginType</h2>
+<a id="a105e63273c3d8eb6dbf299110a19ee2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a105e63273c3d8eb6dbf299110a19ee2c">&#9670;&nbsp;</a></span>PluginTypeToggle</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual PluginType ext_pp_base.AbstractPlugin.PluginType =&gt; PluginType.FULL_SCRIPT_PLUGIN</td>
+          <td class="memname">virtual <a class="el" href="namespaceext__pp__base_1_1settings.html#a9e33bd1ea58d31f00e108c43b5b55981">PluginType</a> ext_pp_base.AbstractPlugin.PluginTypeToggle =&gt; PluginType.FULL_SCRIPT_PLUGIN</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -573,7 +575,7 @@ Properties</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">virtual ProcessStage ext_pp_base.AbstractPlugin.ProcessStages =&gt; ProcessStage.ON_MAIN</td>
+          <td class="memname">virtual <a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a> ext_pp_base.AbstractPlugin.ProcessStages =&gt; ProcessStage.ON_MAIN</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -1,5 +1,9 @@
 ﻿namespace ext_pp_base.settings
 {
+
+    /// <summary>
+    /// An enum that contains all possible process stages.
+    /// </summary>
     public enum ProcessStage
     {
         QUEUED = 0,

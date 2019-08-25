@@ -1,1 +1,1 @@
---chain inc -i _README.md -o ../README.md -v 8 -l2f process_output.log all:false
+--chain inc kwr -i _README.md -o ../README.md -v 8 -kwr:sc %

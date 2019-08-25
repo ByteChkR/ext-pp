@@ -7,9 +7,11 @@ var searchData=
   ['parsearray_3c_20t_20_3e',['ParseArray&lt; T &gt;',['../classext__pp__base_1_1_utils.html#a82d05e5d0e02ced8157f792dffc20907',1,'ext_pp_base::Utils']]],
   ['parsechainsyntax',['ParseChainSyntax',['../classext__pp__cli_1_1_c_l_i.html#adf6e73521cc27bb5f355deb1ac225775',1,'ext_pp_cli::CLI']]],
   ['parseenum',['ParseEnum',['../classext__pp__base_1_1_utils.html#a6f29e4061ee9d35f158baae710a04669',1,'ext_pp_base::Utils']]],
-  ['parselogparams',['ParseLogParams',['../classext__pp__cli_1_1_c_l_i.html#a3556d95646a4adb6142a3a2cc92ecd75',1,'ext_pp_cli::CLI']]],
-  ['plugininformation',['PluginInformation',['../structext__pp__cli_1_1_plugin_manager_1_1_plugin_information.html#a8f4835e3ec987d196b4a0442a41a3982',1,'ext_pp_cli::PluginManager::PluginInformation']]],
+  ['parselogparams',['ParseLogParams',['../classext__pp__cli_1_1_c_l_i.html#a09e5bae2eb841194e1de75f3ae76e2e0',1,'ext_pp_cli::CLI']]],
+  ['plugininformation',['PluginInformation',['../classext__pp__cli_1_1_plugin_manager_1_1_plugin_information.html#a8f4835e3ec987d196b4a0442a41a3982',1,'ext_pp_cli::PluginManager::PluginInformation']]],
   ['pluginmanager',['PluginManager',['../classext__pp__cli_1_1_plugin_manager.html#a3ac0a4359bc976f9b69624f1bfcd6633',1,'ext_pp_cli::PluginManager']]],
-  ['preapply',['PreApply',['../classext__pp__cli_1_1_c_l_i.html#a910946fb54364a3e689555c4f80f07d3',1,'ext_pp_cli::CLI']]],
-  ['process',['Process',['../classext__pp_1_1_pre_processor.html#a24d111ea1b8f27ebd3376f03b52b2389',1,'ext_pp::PreProcessor']]]
+  ['process',['Process',['../classext__pp__cli_1_1_c_l_i.html#af48d665cd108a52f1b7c87aa33ae20b5',1,'ext_pp_cli.CLI.Process()'],['../classext__pp_1_1_pre_processor.html#a4b7cf868807d5e64026e803f81973e24',1,'ext_pp.PreProcessor.Process()']]],
+  ['processchaincollection',['ProcessChainCollection',['../classext__pp__cli_1_1_c_l_i.html#ac0ae5e6b5ba7e78410c58686fc751392',1,'ext_pp_cli::CLI']]],
+  ['processorexception',['ProcessorException',['../classext__pp__base_1_1_processor_exception.html#abeeec4708dc11ed5b49ac62a2dda4c16',1,'ext_pp_base::ProcessorException']]],
+  ['processpluginchain',['ProcessPluginChain',['../classext__pp__cli_1_1_c_l_i.html#aeb38c8294042bbd315e4b8d61395ef00',1,'ext_pp_cli::CLI']]]
 ];

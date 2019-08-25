@@ -37,38 +37,42 @@ namespace ext_pp_plugins
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Disovering Include Statments...");
             List<string> source = script.GetSource().ToList();
             string currentPath = Path.GetDirectoryName(Path.GetFullPath(script.GetFilePath()));
-
-            for (int i = source.Count - 1; i >= 0; i--)
+            bool hasIncludedInline;
+            do
             {
-                if (Utils.IsStatement(source[i], IncludeInlineKeyword))
+                hasIncludedInline = false;
+                for (int i = source.Count - 1; i >= 0; i--)
                 {
-                    this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Found Inline Include Statement...");
-                    string[] args = Utils.SplitAndRemoveFirst(source[i], Separator);
-                    if (args.Length == 0)
+                    if (Utils.IsStatement(source[i], IncludeInlineKeyword))
                     {
+                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Found Inline Include Statement...");
+                        string[] args = Utils.SplitAndRemoveFirst(source[i], Separator);
+                        if (args.Length == 0)
+                        {
 
-                        this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "No File Specified");
-                        continue;
-                    }
+                            this.Warning("No File Specified");
+                            continue;
+                        }
 
-                    if (Utils.FileExistsRelativeTo(currentPath, args[0]))
-                    {
-                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Inline Keyword with file content");
-                        source.RemoveAt(i);
+                        if (Utils.FileExistsRelativeTo(currentPath, args[0]))
+                        {
+                            this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Inline Keyword with file content");
+                            source.RemoveAt(i);
 
-                        source.InsertRange(i, File.ReadAllLines(args[0]));
-                    }
-                    else
-                    {
-                        this.Log(DebugLevel.WARNINGS, Verbosity.LEVEL1, "File does not exist: {0}", args[0]);
+                            source.InsertRange(i, File.ReadAllLines(args[0]));
+                            hasIncludedInline = true;
+                        }
+                        else
+                        {
+                            this.Warning("File does not exist: {0}", args[0]);
+                        }
                     }
                 }
-            }
-            script.SetSource(source.ToArray());
+                script.SetSource(source.ToArray());
+            } while (hasIncludedInline);
 
 
             string[] incs = Utils.FindStatements(source.ToArray(), IncludeKeyword);
-
 
             foreach (var includes in incs)
             {
@@ -115,7 +119,7 @@ namespace ext_pp_plugins
                 ImportResult importInfo = manager.GetComputingScheme()(vars, currentPath);
                 if (!importInfo)
                 {
-                    this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Invalid Include Statement");
+                    this.Error("Invalid Include Statement");
                     return false;
 
                 }
@@ -151,7 +155,7 @@ namespace ext_pp_plugins
                     var sourceScript = scripts[index];
                     if (!Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFilePath()))
                     {
-                        this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Could not find File: {0}", currentPath);
+                        this.Error("Could not find File: {0}", sourceScript.GetFilePath());
                         scripts.RemoveAt(index);
                     }
                 }

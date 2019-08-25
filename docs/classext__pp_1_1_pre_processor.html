@@ -89,6 +89,7 @@ $(document).ready(function(){initNavTree('classext__pp_1_1_pre_processor.html','
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#properties">Properties</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classext__pp_1_1_pre_processor-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -113,12 +114,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad62ce9cacefc4ed740ca183c3e24dc91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#ad62ce9cacefc4ed740ca183c3e24dc91">SetFileProcessingChain</a> (List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt; fileProcessors)</td></tr>
 <tr class="memdesc:ad62ce9cacefc4ed740ca183c3e24dc91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the File Processing Chain 0 =&gt; First Plugin that gets executed  <a href="#ad62ce9cacefc4ed740ca183c3e24dc91">More...</a><br /></td></tr>
 <tr class="separator:ad62ce9cacefc4ed740ca183c3e24dc91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff7e0a5f781d44a76ea8da7da3188eb9"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#aff7e0a5f781d44a76ea8da7da3188eb9">Compile</a> (string[] files, <a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings=null, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defs=null)</td></tr>
-<tr class="memdesc:aff7e0a5f781d44a76ea8da7da3188eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a File with the definitions and settings provided  <a href="#aff7e0a5f781d44a76ea8da7da3188eb9">More...</a><br /></td></tr>
-<tr class="separator:aff7e0a5f781d44a76ea8da7da3188eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24d111ea1b8f27ebd3376f03b52b2389"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a24d111ea1b8f27ebd3376f03b52b2389">Process</a> (string[] files, <a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings=null, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defs=null)</td></tr>
-<tr class="memdesc:a24d111ea1b8f27ebd3376f03b52b2389"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the file with the settings, definitions and the source manager specified.  <a href="#a24d111ea1b8f27ebd3376f03b52b2389">More...</a><br /></td></tr>
-<tr class="separator:a24d111ea1b8f27ebd3376f03b52b2389"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4cc1d5886a3f7505bb90fa20599a13e"><td class="memItemLeft" align="right" valign="top"><a id="ab4cc1d5886a3f7505bb90fa20599a13e"></a>
+<a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> []&#160;</td><td class="memItemRight" valign="bottom"><b>ProcessFiles</b> (string[] files, <a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> definitions)</td></tr>
+<tr class="separator:ab4cc1d5886a3f7505bb90fa20599a13e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7279194c0690f5a1cb575cd9f3812fef"><td class="memItemLeft" align="right" valign="top"><a id="a7279194c0690f5a1cb575cd9f3812fef"></a>
+string []&#160;</td><td class="memItemRight" valign="bottom"><b>CompileFileList</b> (<a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a>[] files)</td></tr>
+<tr class="separator:a7279194c0690f5a1cb575cd9f3812fef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae46049cd0f705bb731afd5c84584fa22"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#ae46049cd0f705bb731afd5c84584fa22">Run</a> (string[] files, <a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defs)</td></tr>
+<tr class="memdesc:ae46049cd0f705bb731afd5c84584fa22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a File with the definitions and settings provided  <a href="#ae46049cd0f705bb731afd5c84584fa22">More...</a><br /></td></tr>
+<tr class="separator:ae46049cd0f705bb731afd5c84584fa22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a72dc24a41ee5512811b506f8ad3e9b"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a4a72dc24a41ee5512811b506f8ad3e9b">Run</a> (string[] files, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defs)</td></tr>
+<tr class="memdesc:a4a72dc24a41ee5512811b506f8ad3e9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a File with the definitions and settings provided  <a href="#a4a72dc24a41ee5512811b506f8ad3e9b">More...</a><br /></td></tr>
+<tr class="separator:a4a72dc24a41ee5512811b506f8ad3e9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91aa73b28a850c2591d01693346c7919"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a91aa73b28a850c2591d01693346c7919">Run</a> (string[] files, <a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings)</td></tr>
+<tr class="memdesc:a91aa73b28a850c2591d01693346c7919"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles a File with the definitions and settings provided  <a href="#a91aa73b28a850c2591d01693346c7919">More...</a><br /></td></tr>
+<tr class="separator:a91aa73b28a850c2591d01693346c7919"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -131,21 +141,26 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:acf8ce33efb3609b5a8be7117f12c004b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#acf8ce33efb3609b5a8be7117f12c004b">InitializePlugins</a> (<a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> def, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager)</td></tr>
 <tr class="memdesc:acf8ce33efb3609b5a8be7117f12c004b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializing all Plugins with the settings, definitions and the source manager for this compilation  <a href="#acf8ce33efb3609b5a8be7117f12c004b">More...</a><br /></td></tr>
 <tr class="separator:acf8ce33efb3609b5a8be7117f12c004b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ea43df2a1f577b70690ae791069e53e"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a8ea43df2a1f577b70690ae791069e53e">Compile</a> (<a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a>[] src)</td></tr>
-<tr class="memdesc:a8ea43df2a1f577b70690ae791069e53e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles the Provided source array into a single file. And removes all remaining statements  <a href="#a8ea43df2a1f577b70690ae791069e53e">More...</a><br /></td></tr>
-<tr class="separator:a8ea43df2a1f577b70690ae791069e53e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ca0fed7ec33e1ad0c59584a156e57b6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a9ca0fed7ec33e1ad0c59584a156e57b6">RunStages</a> (ProcessStage stage, <a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defTable)</td></tr>
-<tr class="memdesc:a9ca0fed7ec33e1ad0c59584a156e57b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the specified stage on the passed script  <a href="#a9ca0fed7ec33e1ad0c59584a156e57b6">More...</a><br /></td></tr>
-<tr class="separator:a9ca0fed7ec33e1ad0c59584a156e57b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82dc0063a1487853041f185ea42dcbcb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a82dc0063a1487853041f185ea42dcbcb">RunPluginStage</a> (PluginType type, ProcessStage stage, <a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defTable)</td></tr>
+<tr class="memitem:a2cf18d49f2dc86a77fdbde94ecf2b5be"><td class="memItemLeft" align="right" valign="top">string []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a2cf18d49f2dc86a77fdbde94ecf2b5be">Compile</a> (<a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a>[] src, bool restartTimer)</td></tr>
+<tr class="memdesc:a2cf18d49f2dc86a77fdbde94ecf2b5be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compiles the Provided source array into a single file. And removes all remaining statements  <a href="#a2cf18d49f2dc86a77fdbde94ecf2b5be">More...</a><br /></td></tr>
+<tr class="separator:a2cf18d49f2dc86a77fdbde94ecf2b5be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b7cf868807d5e64026e803f81973e24"><td class="memItemLeft" align="right" valign="top"><a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> []&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a4b7cf868807d5e64026e803f81973e24">Process</a> (string[] files, <a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a> settings, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defs)</td></tr>
+<tr class="memdesc:a4b7cf868807d5e64026e803f81973e24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Processes the file with the settings, definitions and the source manager specified.  <a href="#a4b7cf868807d5e64026e803f81973e24">More...</a><br /></td></tr>
+<tr class="separator:a4b7cf868807d5e64026e803f81973e24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82dc0063a1487853041f185ea42dcbcb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a82dc0063a1487853041f185ea42dcbcb">RunPluginStage</a> (<a class="el" href="namespaceext__pp__base_1_1settings.html#a9e33bd1ea58d31f00e108c43b5b55981">PluginType</a> type, <a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a> stage, <a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defTable)</td></tr>
 <tr class="memdesc:a82dc0063a1487853041f185ea42dcbcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the plugin stage with the specififed type  <a href="#a82dc0063a1487853041f185ea42dcbcb">More...</a><br /></td></tr>
 <tr class="separator:a82dc0063a1487853041f185ea42dcbcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b4a348923f19cba6c0c3a6363958943"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a3b4a348923f19cba6c0c3a6363958943">RunLineStage</a> (List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt; _lineStage, ProcessStage stage, string[] source)</td></tr>
-<tr class="memdesc:a3b4a348923f19cba6c0c3a6363958943"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper that runs a list of line plugins based on the stage that is beeing run.  <a href="#a3b4a348923f19cba6c0c3a6363958943">More...</a><br /></td></tr>
-<tr class="separator:a3b4a348923f19cba6c0c3a6363958943"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbc9089a4a4608c6735668f9e07e164d"><td class="memItemLeft" align="right" valign="top"><a id="abbc9089a4a4608c6735668f9e07e164d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>RunFullScriptStage</b> (List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt; _fullScriptStage, ProcessStage stage, <a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defTable)</td></tr>
-<tr class="separator:abbc9089a4a4608c6735668f9e07e164d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9a4c92362b2c1c342ab8ec3b3a5d93b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#ae9a4c92362b2c1c342ab8ec3b3a5d93b">RunFullScriptStage</a> (List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt; fullScriptStage, <a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a> stage, <a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defTable)</td></tr>
+<tr class="separator:ae9a4c92362b2c1c342ab8ec3b3a5d93b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a2166b4fc4f7967de228d6f3bdd15499a"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a2166b4fc4f7967de228d6f3bdd15499a">RunStages</a> (<a class="el" href="classext__pp_1_1_pre_processor.html">PreProcessor</a> pp, <a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a> stage, <a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> script, <a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a> sourceManager, <a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a> defTable)</td></tr>
+<tr class="memdesc:a2166b4fc4f7967de228d6f3bdd15499a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the specified stage on the passed script  <a href="#a2166b4fc4f7967de228d6f3bdd15499a">More...</a><br /></td></tr>
+<tr class="separator:a2166b4fc4f7967de228d6f3bdd15499a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27a023894b2c955d1ccdaad2bb5d9c05"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classext__pp_1_1_pre_processor.html#a27a023894b2c955d1ccdaad2bb5d9c05">RunLineStage</a> (List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt; lineStage, <a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a> stage, string[] source)</td></tr>
+<tr class="memdesc:a27a023894b2c955d1ccdaad2bb5d9c05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wrapper that runs a list of line plugins based on the stage that is beeing run.  <a href="#a27a023894b2c955d1ccdaad2bb5d9c05">More...</a><br /></td></tr>
+<tr class="separator:a27a023894b2c955d1ccdaad2bb5d9c05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -157,53 +172,8 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"></div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aff7e0a5f781d44a76ea8da7da3188eb9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff7e0a5f781d44a76ea8da7da3188eb9">&#9670;&nbsp;</a></span>Compile() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">string [] ext_pp.PreProcessor.Compile </td>
-          <td>(</td>
-          <td class="paramtype">string []&#160;</td>
-          <td class="paramname"><em>files</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a>&#160;</td>
-          <td class="paramname"><em>settings</em> = <code>null</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a>&#160;</td>
-          <td class="paramname"><em>defs</em> = <code>null</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Compiles a File with the definitions and settings provided </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">files</td><td>FilePaths of the files.</td></tr>
-    <tr><td class="paramname">settings</td><td></td></tr>
-    <tr><td class="paramname">defs</td><td><a class="el" href="classext__pp_1_1_definitions.html" title="Contains the Values on what is Defined as a Variable when Processing the text ">Definitions</a></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Array of Compiled Lines</dd></dl>
-
-</div>
-</div>
-<a id="a8ea43df2a1f577b70690ae791069e53e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ea43df2a1f577b70690ae791069e53e">&#9670;&nbsp;</a></span>Compile() <span class="overload">[2/2]</span></h2>
+<a id="a2cf18d49f2dc86a77fdbde94ecf2b5be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cf18d49f2dc86a77fdbde94ecf2b5be">&#9670;&nbsp;</a></span>Compile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -215,8 +185,18 @@ Private Attributes</h2></td></tr>
           <td class="memname">string [] ext_pp.PreProcessor.Compile </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> []&#160;</td>
-          <td class="paramname"><em>src</em></td><td>)</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>restartTimer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -229,11 +209,11 @@ Private Attributes</h2></td></tr>
 <p>Compiles the Provided source array into a single file. And removes all remaining statements </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">src</td><td></td></tr>
+    <tr><td class="paramname">src</td><td>The Array of Sourcescripts that need to be compiled.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A compiled list out of the passed sourcescripts</dd></dl>
 
 </div>
 </div>
@@ -280,20 +260,23 @@ Private Attributes</h2></td></tr>
 <p>Initializing all Plugins with the settings, definitions and the source manager for this compilation </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">settings</td><td></td></tr>
-    <tr><td class="paramname">def</td><td></td></tr>
-    <tr><td class="paramname">sourceManager</td><td></td></tr>
+    <tr><td class="paramname">settings</td><td>The settings used</td></tr>
+    <tr><td class="paramname">def</td><td><a class="el" href="classext__pp_1_1_definitions.html" title="Contains the Values on what is Defined as a Variable when Processing the text ">Definitions</a> used</td></tr>
+    <tr><td class="paramname">sourceManager</td><td>Sourcemanager used</td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a24d111ea1b8f27ebd3376f03b52b2389"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24d111ea1b8f27ebd3376f03b52b2389">&#9670;&nbsp;</a></span>Process()</h2>
+<a id="a4b7cf868807d5e64026e803f81973e24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b7cf868807d5e64026e803f81973e24">&#9670;&nbsp;</a></span>Process()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a> [] ext_pp.PreProcessor.Process </td>
@@ -305,13 +288,63 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a>&#160;</td>
-          <td class="paramname"><em>settings</em> = <code>null</code>, </td>
+          <td class="paramname"><em>settings</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a>&#160;</td>
-          <td class="paramname"><em>defs</em> = <code>null</code>&#160;</td>
+          <td class="paramname"><em>defs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Processes the file with the settings, definitions and the source manager specified. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">files</td><td>the file paths to be processed</td></tr>
+    <tr><td class="paramname">settings</td><td>the settings that are used</td></tr>
+    <tr><td class="paramname">defs</td><td>the definitions that are used</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns a list of files that can be compiled in reverse order</dd></dl>
+
+</div>
+</div>
+<a id="ae46049cd0f705bb731afd5c84584fa22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae46049cd0f705bb731afd5c84584fa22">&#9670;&nbsp;</a></span>Run() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string [] ext_pp.PreProcessor.Run </td>
+          <td>(</td>
+          <td class="paramtype">string []&#160;</td>
+          <td class="paramname"><em>files</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a>&#160;</td>
+          <td class="paramname"><em>settings</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a>&#160;</td>
+          <td class="paramname"><em>defs</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -321,21 +354,97 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Processes the file with the settings, definitions and the source manager specified. </p>
+<p>Compiles a File with the definitions and settings provided </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">file</td><td></td></tr>
-    <tr><td class="paramname">settings</td><td></td></tr>
-    <tr><td class="paramname">defs</td><td></td></tr>
+    <tr><td class="paramname">files</td><td>FilePaths of the files.</td></tr>
+    <tr><td class="paramname">settings</td><td>The settings used in this compilation</td></tr>
+    <tr><td class="paramname">defs</td><td><a class="el" href="classext__pp_1_1_definitions.html" title="Contains the Values on what is Defined as a Variable when Processing the text ">Definitions</a></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Returns a list of files that can be compiled in reverse order</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Array of Compiled Lines</dd></dl>
 
 </div>
 </div>
-<a id="a3b4a348923f19cba6c0c3a6363958943"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b4a348923f19cba6c0c3a6363958943">&#9670;&nbsp;</a></span>RunLineStage()</h2>
+<a id="a4a72dc24a41ee5512811b506f8ad3e9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a72dc24a41ee5512811b506f8ad3e9b">&#9670;&nbsp;</a></span>Run() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string [] ext_pp.PreProcessor.Run </td>
+          <td>(</td>
+          <td class="paramtype">string []&#160;</td>
+          <td class="paramname"><em>files</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a>&#160;</td>
+          <td class="paramname"><em>defs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compiles a File with the definitions and settings provided </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">files</td><td>FilePaths of the files.</td></tr>
+    <tr><td class="paramname">defs</td><td><a class="el" href="classext__pp_1_1_definitions.html" title="Contains the Values on what is Defined as a Variable when Processing the text ">Definitions</a></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Array of Compiled Lines</dd></dl>
+
+</div>
+</div>
+<a id="a91aa73b28a850c2591d01693346c7919"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91aa73b28a850c2591d01693346c7919">&#9670;&nbsp;</a></span>Run() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">string [] ext_pp.PreProcessor.Run </td>
+          <td>(</td>
+          <td class="paramtype">string []&#160;</td>
+          <td class="paramname"><em>files</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classext__pp__base_1_1settings_1_1_settings.html">Settings</a>&#160;</td>
+          <td class="paramname"><em>settings</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compiles a File with the definitions and settings provided </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">files</td><td>FilePaths of the files.</td></tr>
+    <tr><td class="paramname">settings</td><td>The settings used in this compilation</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Array of Compiled Lines</dd></dl>
+
+</div>
+</div>
+<a id="ae9a4c92362b2c1c342ab8ec3b3a5d93b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9a4c92362b2c1c342ab8ec3b3a5d93b">&#9670;&nbsp;</a></span>RunFullScriptStage()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -344,15 +453,82 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ext_pp.PreProcessor.RunLineStage </td>
+          <td class="memname">bool ext_pp.PreProcessor.RunFullScriptStage </td>
           <td>(</td>
           <td class="paramtype">List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td>
-          <td class="paramname"><em>_lineStage</em>, </td>
+          <td class="paramname"><em>fullScriptStage</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">ProcessStage&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a>&#160;</td>
+          <td class="paramname"><em>stage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_source_script.html">ISourceScript</a>&#160;</td>
+          <td class="paramname"><em>script</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_source_manager.html">ISourceManager</a>&#160;</td>
+          <td class="paramname"><em>sourceManager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="interfaceext__pp__base_1_1_i_definitions.html">IDefinitions</a>&#160;</td>
+          <td class="paramname"><em>defTable</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fullScriptStage</td><td>The chain for this stage</td></tr>
+    <tr><td class="paramname">stage</td><td>The stage of the current processing</td></tr>
+    <tr><td class="paramname">script</td><td>The script to operate on</td></tr>
+    <tr><td class="paramname">sourceManager</td><td>The sourcemanager used.</td></tr>
+    <tr><td class="paramname">defTable</td><td>The definitions used</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a27a023894b2c955d1ccdaad2bb5d9c05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27a023894b2c955d1ccdaad2bb5d9c05">&#9670;&nbsp;</a></span>RunLineStage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void ext_pp.PreProcessor.RunLineStage </td>
+          <td>(</td>
+          <td class="paramtype">List&lt; <a class="el" href="classext__pp__base_1_1_abstract_plugin.html">AbstractPlugin</a> &gt;&#160;</td>
+          <td class="paramname"><em>lineStage</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a>&#160;</td>
           <td class="paramname"><em>stage</em>, </td>
         </tr>
         <tr>
@@ -369,7 +545,7 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -377,9 +553,9 @@ Private Attributes</h2></td></tr>
 <p>Wrapper that runs a list of line plugins based on the stage that is beeing run. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">_lineStage</td><td></td></tr>
-    <tr><td class="paramname">stage</td><td></td></tr>
-    <tr><td class="paramname">source</td><td></td></tr>
+    <tr><td class="paramname">lineStage</td><td>The chain for this stage</td></tr>
+    <tr><td class="paramname">stage</td><td>The stage of the current processing</td></tr>
+    <tr><td class="paramname">source</td><td>The source to operate on</td></tr>
   </table>
   </dd>
 </dl>
@@ -398,13 +574,13 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">bool ext_pp.PreProcessor.RunPluginStage </td>
           <td>(</td>
-          <td class="paramtype">PluginType&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#a9e33bd1ea58d31f00e108c43b5b55981">PluginType</a>&#160;</td>
           <td class="paramname"><em>type</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">ProcessStage&#160;</td>
+          <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a>&#160;</td>
           <td class="paramname"><em>stage</em>, </td>
         </tr>
         <tr>
@@ -442,19 +618,19 @@ Private Attributes</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">type</td><td></td></tr>
-    <tr><td class="paramname">stage</td><td></td></tr>
-    <tr><td class="paramname">script</td><td></td></tr>
+    <tr><td class="paramname">stage</td><td>The stage of the current processing</td></tr>
+    <tr><td class="paramname">script</td><td>the script to be processed</td></tr>
     <tr><td class="paramname">sourceManager</td><td></td></tr>
-    <tr><td class="paramname">defTable</td><td></td></tr>
+    <tr><td class="paramname">defTable</td><td>the definitions that are used</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the operation completed successfully</dd></dl>
 
 </div>
 </div>
-<a id="a9ca0fed7ec33e1ad0c59584a156e57b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ca0fed7ec33e1ad0c59584a156e57b6">&#9670;&nbsp;</a></span>RunStages()</h2>
+<a id="a2166b4fc4f7967de228d6f3bdd15499a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2166b4fc4f7967de228d6f3bdd15499a">&#9670;&nbsp;</a></span>RunStages()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -463,9 +639,15 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ext_pp.PreProcessor.RunStages </td>
+          <td class="memname">static bool ext_pp.PreProcessor.RunStages </td>
           <td>(</td>
-          <td class="paramtype">ProcessStage&#160;</td>
+          <td class="paramtype"><a class="el" href="classext__pp_1_1_pre_processor.html">PreProcessor</a>&#160;</td>
+          <td class="paramname"><em>pp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceext__pp__base_1_1settings.html#afee5f7067a01f6c1440f888a255598d3">ProcessStage</a>&#160;</td>
           <td class="paramname"><em>stage</em>, </td>
         </tr>
         <tr>
@@ -494,7 +676,7 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -502,10 +684,10 @@ Private Attributes</h2></td></tr>
 <p>Runs the specified stage on the passed script </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">stage</td><td></td></tr>
-    <tr><td class="paramname">script</td><td></td></tr>
+    <tr><td class="paramname">stage</td><td>The stage of the current processing</td></tr>
+    <tr><td class="paramname">script</td><td>the script to be processed</td></tr>
     <tr><td class="paramname">sourceManager</td><td></td></tr>
-    <tr><td class="paramname">defTable</td><td></td></tr>
+    <tr><td class="paramname">defTable</td><td>the definitions that are used</td></tr>
   </table>
   </dd>
 </dl>
@@ -532,7 +714,7 @@ Private Attributes</h2></td></tr>
 <p>Sets the File Processing Chain 0 =&gt; First Plugin that gets executed </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">fileProcessors</td><td></td></tr>
+    <tr><td class="paramname">fileProcessors</td><td>The List of Pluugins that will be used when processing files</td></tr>
   </table>
   </dd>
 </dl>

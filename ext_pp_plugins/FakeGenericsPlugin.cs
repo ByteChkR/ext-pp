@@ -34,16 +34,19 @@ namespace ext_pp_plugins
         }
 
 
+
         private ImportResult ComputeNameAndKey_Generic(string[] vars, string currentPath)
         {
             ImportResult ret = new ImportResult();
 
             string filePath = "";
             string key = "";
-            if (vars.Length == 0)
+
+            if (!Utils.TryResolvePathIncludeParameter(vars))
             {
                 return ret;
             }
+
             string[] genParams = vars.Length > 1 ?
                 vars.SubArray(1, vars.Length - 1).ToArray() : new string[0];
             string dir = Directory.GetCurrentDirectory();

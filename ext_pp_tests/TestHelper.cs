@@ -30,7 +30,7 @@ namespace ext_pp.tests
         {
 
             PreProcessor pp = SetUp(chain);
-            return pp.Process(fileNames, settings, definitions);
+            return pp.ProcessFiles(fileNames, settings, definitions);
         }
 
 
@@ -54,7 +54,7 @@ namespace ext_pp.tests
         public static string[] SetUpAndCompile(List<AbstractPlugin> chain, Settings settings, IDefinitions definitions, params string[] fileNames)
         {
             PreProcessor pp = SetUp(chain);
-            return pp.Compile(fileNames, settings, definitions);
+            return pp.Run(fileNames, settings, definitions);
         }
 
         public static string[] SetUpAndCompile(List<AbstractPlugin> chain, params string[] fileNames)

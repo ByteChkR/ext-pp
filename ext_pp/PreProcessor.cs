@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using ext_pp_base;
@@ -12,6 +13,9 @@ namespace ext_pp
     /// </summary>
     public class PreProcessor : ILoggable
     {
+        
+
+
         /// <summary>
         /// List of loaded plugins
         /// </summary>
@@ -22,8 +26,6 @@ namespace ext_pp
         /// 
         /// </summary>
         private readonly string _sep = " ";
-        //Create Global Definitions
-        //Create Stack for All the processing steps(Stack<List<IPlugin>>
 
         /// <summary>
         /// Returns the List of statements from all the plugins that are remaining in the file and need to be removed as a last step
@@ -47,26 +49,42 @@ namespace ext_pp
         /// Sets the File Processing Chain
         /// 0 => First Plugin that gets executed
         /// </summary>
-        /// <param name="fileProcessors"></param>
+        /// <param name="fileProcessors">The List of Pluugins that will be used when processing files</param>
         public void SetFileProcessingChain(List<AbstractPlugin> fileProcessors)
         {
             _plugins = fileProcessors;
         }
 
 
+        public ISourceScript[] ProcessFiles(string[] files, Settings settings, IDefinitions definitions)
+        {
+            return Process(files, settings, definitions);
+        }
+
+        public string[] CompileFileList(ISourceScript[] files)
+        {
+            return Compile(files, true);
+        }
+
         /// <summary>
         /// Compiles a File with the definitions and settings provided
         /// </summary>
         /// <param name="files">FilePaths of the files.</param>
-        /// <param name="settings"></param>
+        /// <param name="settings">The settings used in this compilation</param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string[] files, Settings settings, IDefinitions defs)
+        public string[] Run(string[] files, Settings settings, IDefinitions defs)
         {
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Pre Processor...");
             ISourceScript[] src = Process(files, settings, defs);
-            return Compile(src);
+            string[] ret = Compile(src, false);
+
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Summary: {1} Errors, {2} Warnings, Finished in {0}ms", Timer.MS, Logger.ErrorCount, Logger.WarningCount);
+
+            Timer.GlobalTimer.Reset();
+
+            return ret;
         }
 
 
@@ -74,13 +92,11 @@ namespace ext_pp
         /// Compiles a File with the definitions and settings provided
         /// </summary>
         /// <param name="files">FilePaths of the files.</param>
-        /// <param name="settings"></param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string[] files, IDefinitions defs)
+        public string[] Run(string[] files, IDefinitions defs)
         {
-
-            return Compile(files, null, defs);
+            return Run(files, null, defs);
         }
 
 
@@ -88,13 +104,11 @@ namespace ext_pp
         /// Compiles a File with the definitions and settings provided
         /// </summary>
         /// <param name="files">FilePaths of the files.</param>
-        /// <param name="settings"></param>
-        /// <param name="defs">Definitions</param>
+        /// <param name="settings">The settings used in this compilation</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Compile(string[] files, Settings settings)
+        public string[] Run(string[] files, Settings settings)
         {
-
-            return Compile(files, settings, null);
+            return Run(files, settings, null);
         }
 
 
@@ -103,9 +117,9 @@ namespace ext_pp
         /// <summary>
         /// Initializing all Plugins with the settings, definitions and the source manager for this compilation
         /// </summary>
-        /// <param name="settings"></param>
-        /// <param name="def"></param>
-        /// <param name="sourceManager"></param>
+        /// <param name="settings">The settings used</param>
+        /// <param name="def">Definitions used</param>
+        /// <param name="sourceManager">Sourcemanager used</param>
         private void InitializePlugins(Settings settings, IDefinitions def, ISourceManager sourceManager)
         {
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Initializing Plugins...");
@@ -117,13 +131,21 @@ namespace ext_pp
             }
         }
 
+
+
         /// <summary>
         /// Compiles the Provided source array into a single file. And removes all remaining statements
         /// </summary>
-        /// <param name="src"></param>
-        /// <returns></returns>
-        private string[] Compile(ISourceScript[] src)
+        /// <param name="src">The Array of Sourcescripts that need to be compiled.</param>
+        /// <returns>A compiled list out of the passed sourcescripts</returns>
+        private string[] Compile(ISourceScript[] src, bool restartTimer)
         {
+            if (restartTimer)
+            {
+                Timer.GlobalTimer.Restart();
+            }
+
+            long old = Timer.MS;
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Starting Compilation of File Tree...");
             List<string> ret = new List<string>();
             for (var i = src.Length - 1; i >= 0; i--)
@@ -135,6 +157,8 @@ namespace ext_pp
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Cleaning up: {0}", CleanUpList.Unpack(", "));
 
             string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray(), this).ToArray();
+
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Finished Compiling {1} Files({0}ms)", Timer.MS - old, src.Length);
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Total Lines: {0}", rrr.Length);
             return rrr;
         }
@@ -142,19 +166,22 @@ namespace ext_pp
         /// <summary>
         /// Processes the file with the settings, definitions and the source manager specified.
         /// </summary>
-        /// <param name="file"></param>
-        /// <param name="settings"></param>
-        /// <param name="defs"></param>
+        /// <param name="files">the file paths to be processed</param>
+        /// <param name="settings">the settings that are used</param>
+        /// <param name="defs">the definitions that are used</param>
         /// <returns>Returns a list of files that can be compiled in reverse order</returns>
-        public ISourceScript[] Process(string[] files, Settings settings, IDefinitions defs)
+        private ISourceScript[] Process(string[] files, Settings settings, IDefinitions defs)
         {
+            Timer.GlobalTimer.Restart();
             string dir = Directory.GetCurrentDirectory();
             IDefinitions definitions = defs ?? new Definitions();
             SourceManager sm = new SourceManager(_plugins);
 
+            long old = Timer.MS;
             InitializePlugins(settings, definitions, sm);
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Finished Initializing {1} Plugins({0}ms)", Timer.MS-old, _plugins.Count);
 
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Processing of Files: {0}", files.Unpack(", "));
+            old = Timer.MS;
             foreach (var file in files)
             {
                 string f = Path.GetFullPath(file);
@@ -166,6 +193,11 @@ namespace ext_pp
                sm.AddToTodo(sss);
             }
 
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Loaded {1} Files in {0}ms", Timer.MS - old, sm.GetTodoCount());
+
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Processing of Files: {0}", files.Unpack(", "));
+
+            old = Timer.MS;
             ISourceScript ss = sm.NextItem;
 
             do
@@ -196,6 +228,9 @@ namespace ext_pp
                 RunStages(this, ProcessStage.ON_FINISH_UP, finishedScript, sm, definitions);
             }
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finished Processing Files.");
+
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Processed {1} Files into {2} scripts in {0}ms", Timer.MS - old, sm.GetList().Count, ret.Length);
+
             return ret;
 
         }
@@ -204,10 +239,10 @@ namespace ext_pp
         /// <summary>
         /// Runs the specified stage on the passed script
         /// </summary>
-        /// <param name="stage"></param>
-        /// <param name="script"></param>
+        /// <param name="stage">The stage of the current processing</param>
+        /// <param name="script">the script to be processed</param>
         /// <param name="sourceManager"></param>
-        /// <param name="defTable"></param>
+        /// <param name="defTable">the definitions that are used</param>
         /// <returns></returns>
         private static bool RunStages(PreProcessor pp, ProcessStage stage, ISourceScript script, ISourceManager sourceManager,
             IDefinitions defTable)
@@ -232,11 +267,11 @@ namespace ext_pp
         /// Runs the plugin stage with the specififed type
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="stage"></param>
-        /// <param name="script"></param>
+        /// <param name="stage">The stage of the current processing</param>
+        /// <param name="script">the script to be processed</param>
         /// <param name="sourceManager"></param>
-        /// <param name="defTable"></param>
-        /// <returns></returns>
+        /// <param name="defTable">the definitions that are used</param>
+        /// <returns>True if the operation completed successfully</returns>
         private bool RunPluginStage(PluginType type, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
         {
             List<AbstractPlugin> chain = AbstractPlugin.GetPluginsForStage(_plugins, type, stage);
@@ -267,9 +302,9 @@ namespace ext_pp
         /// <summary>
         /// Wrapper that runs a list of line plugins based on the stage that is beeing run.
         /// </summary>
-        /// <param name="lineStage"></param>
-        /// <param name="stage"></param>
-        /// <param name="source"></param>
+        /// <param name="lineStage">The chain for this stage</param>
+        /// <param name="stage">The stage of the current processing</param>
+        /// <param name="source">The source to operate on</param>
         private static void RunLineStage(List<AbstractPlugin> lineStage, ProcessStage stage, string[] source)
         {
             foreach (var abstractPlugin in lineStage)
@@ -293,7 +328,16 @@ namespace ext_pp
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
 
+        /// <param name="fullScriptStage">The chain for this stage</param>
+        /// <param name="stage">The stage of the current processing</param>
+        /// <param name="script">The script to operate on</param>
+        /// <param name="sourceManager">The sourcemanager used.</param>
+        /// <param name="defTable">The definitions used</param>
+        /// <returns></returns>
         private bool RunFullScriptStage(List<AbstractPlugin> fullScriptStage, ProcessStage stage, ISourceScript script, ISourceManager sourceManager, IDefinitions defTable)
         {
             foreach (var abstractPlugin in fullScriptStage)
@@ -311,7 +355,7 @@ namespace ext_pp
 
                 if (!ret)
                 {
-                    this.Log(DebugLevel.ERRORS, Verbosity.LEVEL1, "Processing was aborted by Plugin: {0}", abstractPlugin);
+                    this.Error("Processing was aborted by Plugin: {0}", abstractPlugin);
                     return false;
                 }
             }

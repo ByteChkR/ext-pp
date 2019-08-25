@@ -1,5 +1,9 @@
 ﻿namespace ext_pp_base.settings
 {
+
+    /// <summary>
+    /// An enum used to give logs an importance.
+    /// </summary>
     public enum Verbosity
     {
         /// <summary>

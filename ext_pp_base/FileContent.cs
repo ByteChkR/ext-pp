@@ -9,6 +9,7 @@ namespace ext_pp_base
         void SetKey(string key);
         string GetFilePath();
 
+
     }
 
 

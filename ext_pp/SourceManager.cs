@@ -129,7 +129,7 @@ namespace ext_pp
         /// <param name="script">The script that got referenced.</param>
         public void FixOrder(ISourceScript script)
         {
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFilePath()));
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Fixing Build Order of file: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
             int idx = IndexOfFile(script.GetKey());
             var a = _sources[idx];
             var ab = _doneState[idx];
@@ -159,7 +159,7 @@ namespace ext_pp
         {
             if (!IsIncluded(script))
             {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Adding Script to Todo List: {0}", Path.GetFileName(script.GetFilePath()));
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Adding Script to Todo List: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
                 AddFile(script, false);
                 _doneState.Add(ProcessStage.QUEUED);
             }
@@ -176,7 +176,7 @@ namespace ext_pp
             {
                 _doneState[IndexOfFile(script.GetKey())] = stage;
 
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Finished Script: {0}", Path.GetFileName(script.GetFilePath()));
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Finished Script: {0}", Path.GetFileName(script.GetFileInterface().GetKey()));
             }
         }
 
@@ -249,7 +249,7 @@ namespace ext_pp
         /// <param name="key">the key of the file</param>
         /// <param name="importInfo">the import info of the key and path importation</param>
         /// <returns>the success state of the operation</returns>
-        public bool TryCreateScript(out ISourceScript script, string separator, string file, string key, ImportResult importInfo)
+        public bool TryCreateScript(out ISourceScript script, string separator, IFileContent file, ImportResult importInfo)
         {
             if (LockScriptCreation)
             {
@@ -258,7 +258,7 @@ namespace ext_pp
                 return false;
             }
 
-            script = new SourceScript(separator, file, key, importInfo);
+            script = new SourceScript(separator, file, importInfo);
             return true;
         }
     }

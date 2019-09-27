@@ -11,7 +11,7 @@ namespace ext_pp
         /// <summary>
         /// The full filepath of the script
         /// </summary>
-        private readonly string _filepath;
+        private readonly IFileContent _filepath;
         /// <summary>
         /// if the source was requested at least once, it remains cached in here
         /// </summary>
@@ -21,12 +21,12 @@ namespace ext_pp
         /// Flag to check if the file was already loaded into memory
         /// </summary>
         public bool IsSourceLoaded => _source != null;
-        
+
 
         /// <summary>
         /// The key that will get assigned to this script.
         /// </summary>
-        private readonly string _key;
+        private string Key => _filepath.GetKey();
 
         /// <summary>
         /// A Cache that is shared with all plugins to exchange information between different processing steps
@@ -41,9 +41,8 @@ namespace ext_pp
         /// <param name="path">the path to the file</param>
         /// <param name="key">the key of the source file</param>
         /// <param name="pluginCache">the plugin cache that is used.</param>
-        public SourceScript(string separator, string path, string key, ImportResult importInfo)
+        public SourceScript(string separator, IFileContent path, ImportResult importInfo)
         {
-            _key = key;
             _importInfo = importInfo;
             _filepath = path;
         }
@@ -52,7 +51,7 @@ namespace ext_pp
         /// Returns the full filepath of this script.
         /// </summary>
         /// <returns>the filepath of the source</returns>
-        public string GetFilePath()
+        public IFileContent GetFileInterface()
         {
             return _filepath;
         }
@@ -64,7 +63,7 @@ namespace ext_pp
         /// <returns>the key of the file/source</returns>
         public string GetKey()
         {
-            return _key;
+            return Key;
         }
 
         /// <summary>
@@ -147,16 +146,7 @@ namespace ext_pp
         /// <returns>the success state of the operation</returns>
         private bool LoadSource()
         {
-
-            _source = new string[0];
-            if (!File.Exists(_filepath))
-            {
-                return false;
-            }
-            _source = File.ReadAllLines(_filepath);
-
-
-            return true;
+            return _filepath.TryGetLines(out _source);
         }
 
     }

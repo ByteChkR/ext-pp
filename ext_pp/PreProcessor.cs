@@ -13,7 +13,7 @@ namespace ext_pp
     /// </summary>
     public class PreProcessor : ILoggable
     {
-        
+
 
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace ext_pp
         }
 
 
-        public ISourceScript[] ProcessFiles(string[] files, Settings settings, IDefinitions definitions)
+        public ISourceScript[] ProcessFiles(IFileContent[] files, Settings settings, IDefinitions definitions)
         {
             return Process(files, settings, definitions);
         }
@@ -73,7 +73,7 @@ namespace ext_pp
         /// <param name="settings">The settings used in this compilation</param>
         /// <param name="defs">Definitions</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Run(string[] files, Settings settings, IDefinitions defs)
+        public string[] Run(IFileContent[] files, Settings settings, IDefinitions defs)
         {
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Starting Pre Processor...");
@@ -96,9 +96,14 @@ namespace ext_pp
         /// <returns>Array of Compiled Lines</returns>
         public string[] Run(string[] files, IDefinitions defs)
         {
-            return Run(files, null, defs);
+            return Run(files.Select(x => new FilePathContent(x)).OfType<IFileContent>().ToArray(), null, defs);
         }
 
+
+        public string[] Run(IFileContent[] content, IDefinitions defs)
+        {
+            return Run(content, null, defs);
+        }
 
         /// <summary>
         /// Compiles a File with the definitions and settings provided
@@ -106,7 +111,7 @@ namespace ext_pp
         /// <param name="files">FilePaths of the files.</param>
         /// <param name="settings">The settings used in this compilation</param>
         /// <returns>Array of Compiled Lines</returns>
-        public string[] Run(string[] files, Settings settings)
+        public string[] Run(IFileContent[] files, Settings settings)
         {
             return Run(files, settings, null);
         }
@@ -170,7 +175,7 @@ namespace ext_pp
         /// <param name="settings">the settings that are used</param>
         /// <param name="defs">the definitions that are used</param>
         /// <returns>Returns a list of files that can be compiled in reverse order</returns>
-        private ISourceScript[] Process(string[] files, Settings settings, IDefinitions defs)
+        private ISourceScript[] Process(IFileContent[] files, Settings settings, IDefinitions defs)
         {
             Timer.GlobalTimer.Restart();
             string dir = Directory.GetCurrentDirectory();
@@ -179,18 +184,16 @@ namespace ext_pp
 
             long old = Timer.MS;
             InitializePlugins(settings, definitions, sm);
-            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Finished Initializing {1} Plugins({0}ms)", Timer.MS-old, _plugins.Count);
+            this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Finished Initializing {1} Plugins({0}ms)", Timer.MS - old, _plugins.Count);
 
             old = Timer.MS;
             foreach (var file in files)
             {
-                string f = Path.GetFullPath(file);
-                Directory.SetCurrentDirectory(Path.GetDirectoryName(f));
 
                 sm.SetLock(false);
-                sm.TryCreateScript(out ISourceScript sss, _sep, f, f, new ImportResult());
+                sm.TryCreateScript(out ISourceScript sss, _sep, file, new ImportResult());
                 sm.SetLock(true);
-               sm.AddToTodo(sss);
+                sm.AddToTodo(sss);
             }
 
             this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Loaded {1} Files in {0}ms", Timer.MS - old, sm.GetTodoCount());
@@ -209,7 +212,7 @@ namespace ext_pp
                 }
 
                 this.Log(DebugLevel.PROGRESS, Verbosity.LEVEL1, "Remaining Files: {0}", sm.GetTodoCount());
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(ss.GetFilePath()));
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(ss.GetFileInterface().GetKey()));
                 //RUN MAIN
                 sm.SetLock(false);
                 RunStages(this, ProcessStage.ON_MAIN, ss, sm, definitions);
@@ -224,7 +227,7 @@ namespace ext_pp
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finishing Up...");
             foreach (var finishedScript in ret)
             {
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(finishedScript.GetFilePath()));
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Selecting File: {0}", Path.GetFileName(finishedScript.GetFileInterface().GetKey()));
                 RunStages(this, ProcessStage.ON_FINISH_UP, finishedScript, sm, definitions);
             }
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finished Processing Files.");
@@ -343,7 +346,7 @@ namespace ext_pp
             foreach (var abstractPlugin in fullScriptStage)
             {
                 bool ret = true;
-                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Running Plugin: {0}: {1} on file {2}", abstractPlugin, stage, Path.GetFileName(script.GetFilePath()));
+                this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Running Plugin: {0}: {1} on file {2}", abstractPlugin, stage, Path.GetFileName(script.GetFileInterface().GetKey()));
                 if (stage == ProcessStage.ON_LOAD_STAGE)
                 {
                     ret = abstractPlugin.OnLoad_FullScriptStage(script, sourceManager, defTable);

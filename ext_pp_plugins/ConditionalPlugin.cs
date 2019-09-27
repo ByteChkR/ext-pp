@@ -73,7 +73,7 @@ namespace ext_pp_plugins
 
         public override bool FullScriptStage(ISourceScript file, ISourceManager todo, IDefinitions defs)
         {
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL4, "Starting Condition Solver passes on file: {0}", Path.GetFileName(file.GetFilePath()));
+            this.Log(DebugLevel.LOGS, Verbosity.LEVEL4, "Starting Condition Solver passes on file: {0}", Path.GetFileName(file.GetFileInterface().GetKey()));
             bool ret = true;
             int openIf = 0;
             bool foundConditions = false;

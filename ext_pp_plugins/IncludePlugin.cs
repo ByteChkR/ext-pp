@@ -36,7 +36,7 @@ namespace ext_pp_plugins
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Disovering Include Statments...");
             List<string> source = script.GetSource().ToList();
-            string currentPath = Path.GetDirectoryName(Path.GetFullPath(script.GetFilePath()));
+            string currentPath = Path.GetDirectoryName(Path.GetFullPath(script.GetFileInterface().GetFilePath()));
             bool hasIncludedInline;
             do
             {
@@ -82,7 +82,7 @@ namespace ext_pp_plugins
                 {
                     foreach (var sourceScript in sources)
                     {
-                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Processing Include: {0}", Path.GetFileName(sourceScript.GetFilePath()));
+                        this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Processing Include: {0}", Path.GetFileName(sourceScript.GetFileInterface().GetKey()));
 
                         if (!sourceManager.IsIncluded(sourceScript))
                         {
@@ -129,13 +129,15 @@ namespace ext_pp_plugins
                 string key = importInfo.GetString("key");
                 importInfo.RemoveEntry("key");
 
+
                 if (filepath.EndsWith("\\*") || filepath.EndsWith("/*"))
                 {
                     string[] files = Directory.GetFiles(filepath.Substring(0, filepath.Length - 2));
                     foreach (var file in files)
                     {
-
-                        if (manager.TryCreateScript(out ISourceScript iss, Separator, file, key.Replace(filepath, file), importInfo))
+                        IFileContent cont = new FilePathContent(file);
+                        cont.SetKey(key);
+                        if (manager.TryCreateScript(out ISourceScript iss, Separator, cont, importInfo))
                         {
                             scripts.Add(iss);
                         }
@@ -143,7 +145,9 @@ namespace ext_pp_plugins
                 }
                 else
                 {
-                    if (manager.TryCreateScript(out ISourceScript iss, Separator, filepath, key, importInfo))
+                    IFileContent cont = new FilePathContent(filepath);
+                    cont.SetKey(key);
+                    if (manager.TryCreateScript(out ISourceScript iss, Separator, cont, importInfo))
                     {
                         scripts.Add(iss);
                     }
@@ -153,9 +157,9 @@ namespace ext_pp_plugins
                 for (var index = scripts.Count - 1; index >= 0; index--)
                 {
                     var sourceScript = scripts[index];
-                    if (!Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFilePath()))
+                    if (!Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFileInterface().GetFilePath()))
                     {
-                        this.Error("Could not find File: {0}", sourceScript.GetFilePath());
+                        this.Error("Could not find File: {0}", sourceScript.GetFileInterface());
                         scripts.RemoveAt(index);
                     }
                 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ext_pp_base;
 using ext_pp_base.settings;
 namespace ext_pp.tests
@@ -30,7 +31,7 @@ namespace ext_pp.tests
         {
 
             PreProcessor pp = SetUp(chain);
-            return pp.ProcessFiles(fileNames, settings, definitions);
+            return pp.ProcessFiles(fileNames.Select(x=>new FilePathContent(Path.GetFullPath(x))).OfType<IFileContent>().ToArray(), settings, definitions);
         }
 
 
@@ -54,7 +55,8 @@ namespace ext_pp.tests
         public static string[] SetUpAndCompile(List<AbstractPlugin> chain, Settings settings, IDefinitions definitions, params string[] fileNames)
         {
             PreProcessor pp = SetUp(chain);
-            return pp.Run(fileNames, settings, definitions);
+            
+            return pp.Run(fileNames.Select(x=>new FilePathContent(x)).OfType<IFileContent>().ToArray(), settings, definitions);
         }
 
         public static string[] SetUpAndCompile(List<AbstractPlugin> chain, params string[] fileNames)

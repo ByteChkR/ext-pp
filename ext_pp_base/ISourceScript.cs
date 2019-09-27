@@ -9,7 +9,7 @@
         /// Returns the full filepath of this script.
         /// </summary>
         /// <returns>the filepath of the source</returns>
-        string GetFilePath();
+        IFileContent GetFileInterface();
 
         /// <summary>
         /// Returns the key that got assigned to the script

@@ -980,7 +980,7 @@ namespace ext_pp_cli
             for (var index = 0; index < Input.Length; index++)
             {
                 var input = Input[index];
-                string[] src = pp.Run(input.Split(','), settings, _defs);
+                string[] src = pp.Run(input.Split(',').Select(x => new FilePathContent(x)).OfType<IFileContent>().ToArray(), settings, _defs);
 
                 if (OutputToConsole)
                 {

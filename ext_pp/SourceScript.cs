@@ -146,7 +146,10 @@ namespace ext_pp
         /// <returns>the success state of the operation</returns>
         private bool LoadSource()
         {
-            return _filepath.TryGetLines(out _source);
+            string dir = Directory.GetCurrentDirectory();
+            bool ret = _filepath.TryGetLines(out _source);
+            Directory.SetCurrentDirectory(dir);
+            return ret;
         }
 
     }

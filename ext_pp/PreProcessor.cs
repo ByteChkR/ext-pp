@@ -180,6 +180,7 @@ namespace ext_pp
             Timer.GlobalTimer.Restart();
             string dir = Directory.GetCurrentDirectory();
             IDefinitions definitions = defs ?? new Definitions();
+            settings = settings ?? new Settings();
             SourceManager sm = new SourceManager(_plugins);
 
             long old = Timer.MS;

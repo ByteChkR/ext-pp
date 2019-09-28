@@ -36,7 +36,7 @@ namespace ext_pp_plugins
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL5, "Disovering Include Statments...");
             List<string> source = script.GetSource().ToList();
-            string currentPath = Path.GetDirectoryName(Path.GetFullPath(script.GetFileInterface().GetFilePath()));
+            string currentPath = Path.GetDirectoryName(script.GetFileInterface().GetFilePath());
             bool hasIncludedInline;
             do
             {
@@ -59,7 +59,7 @@ namespace ext_pp_plugins
                             this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Inline Keyword with file content");
                             source.RemoveAt(i);
 
-                            source.InsertRange(i, File.ReadAllLines(args[0]));
+                            source.InsertRange(i, File.ReadAllLines(Path.GetFullPath(args[0], currentPath)));
                             hasIncludedInline = true;
                         }
                         else

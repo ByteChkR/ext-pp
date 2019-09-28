@@ -10,19 +10,18 @@ namespace ext_pp_base
 
         public FilePathContent(string filePath)
         {
-            _key = _filePath = filePath;
+            _key = _filePath = Path.GetFullPath(filePath);
         }
         public bool TryGetLines(out string[] lines)
         {
 
-            string f = Path.GetFullPath(_filePath);
-            Directory.SetCurrentDirectory(Path.GetDirectoryName(f));
+            
             lines = null;
-            if (!File.Exists(f))
+            if (!File.Exists(_filePath))
             {
                 return false;
             }
-            lines = File.ReadAllLines(f);
+            lines = File.ReadAllLines(_filePath);
 
             return true;
         }

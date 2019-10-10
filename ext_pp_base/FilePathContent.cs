@@ -40,5 +40,10 @@ namespace ext_pp_base
         {
             return Path.GetFullPath(_filePath);
         }
+
+        public override ToString()
+        {
+            return Key;
+        }
     }
 }

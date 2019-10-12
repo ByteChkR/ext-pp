@@ -29,6 +29,10 @@ namespace ext_pp_base
             }
             _sb.Clear();
             var enumerable = arr as object[] ?? arr.ToArray();
+            if (enumerable.Length == 0)
+            {
+                return string.Empty;
+            }
             for (var i = 0; i < enumerable.Count(); i++)
             {
                 _sb.Append(enumerable.ElementAt(i));

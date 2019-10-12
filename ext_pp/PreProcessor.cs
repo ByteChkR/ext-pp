@@ -155,7 +155,9 @@ namespace ext_pp
             List<string> ret = new List<string>();
             for (var i = src.Length - 1; i >= 0; i--)
             {
-                ret.AddRange(src[i].GetSource());
+                string[] sr = src[i].GetSource();
+                if (sr != null && sr.Length != 0)
+                    ret.AddRange(sr);
             }
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Finished Compilation...");

@@ -161,7 +161,7 @@ namespace ext_pp
             }
 
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL2, "Finished Compilation...");
-            this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Cleaning up: {0}", CleanUpList.Unpack(", "));
+            //this.Log(DebugLevel.LOGS, Verbosity.LEVEL3, "Cleaning up: {0}", CleanUpList.Unpack(", "));
 
             string[] rrr = Utils.RemoveStatements(ret, CleanUpList.ToArray(), this).ToArray();
 

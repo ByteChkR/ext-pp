@@ -6,7 +6,7 @@
         string GetKey();
         void SetKey(string key);
         string GetFilePath();
-
+        bool HasValidFilepath { get; }
 
     }
 }

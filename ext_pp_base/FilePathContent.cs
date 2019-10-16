@@ -7,7 +7,7 @@ namespace ext_pp_base
     {
         private readonly string _filePath;
         private string _key;
-
+        public bool HasValidFilepath => true;
         public FilePathContent(string filePath)
         {
             _key = _filePath = Path.GetFullPath(filePath);

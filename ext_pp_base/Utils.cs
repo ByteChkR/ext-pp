@@ -87,6 +87,20 @@ namespace ext_pp_base
         }
 
         /// <summary>
+        /// Returns true if the path is valid relative to the current path(the current script that is processed
+        /// </summary>
+        /// <param name="currentPath">the current path of the program</param>
+        /// <param name="file">the relative file path</param>
+        /// <returns>true if the relative path is pointing towards a valid file.</returns>
+        public static bool FileExistsRelativeTo(string currentPath, IFileContent file)
+        {
+            if (file.HasValidFilepath) return FileExistsRelativeTo(currentPath, file.GetFilePath());
+            return true;
+        }
+
+
+
+        /// <summary>
         /// Returns a list of lines where the line start with statement
         /// </summary>
         /// <param name="source">the source to operate on</param>

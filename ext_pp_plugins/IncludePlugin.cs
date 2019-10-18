@@ -157,7 +157,7 @@ namespace ext_pp_plugins
                 for (var index = scripts.Count - 1; index >= 0; index--)
                 {
                     var sourceScript = scripts[index];
-                    if (!Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFileInterface()))
+                    if (sourceScript.GetFileInterface().HasValidFilepath && !Utils.FileExistsRelativeTo(currentPath, sourceScript.GetFileInterface()))
                     {
                         this.Error("Could not find File: {0}", sourceScript.GetFileInterface());
                         scripts.RemoveAt(index);

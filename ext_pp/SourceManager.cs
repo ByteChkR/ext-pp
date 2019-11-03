@@ -87,14 +87,13 @@ namespace ext_pp
             {
                 return ret;
             }
+            
+            string rel = Path.Combine(currentPath, vars[0]);
+            string key = Path.GetFullPath(rel);
 
-            string dir = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(currentPath);
 
-            string key = Path.GetFullPath(vars[0]);
             ret.SetValue("filename", key);
-
-            Directory.SetCurrentDirectory(dir);
+            
 
             ret.SetValue("key", key);
             ret.SetResult(true);

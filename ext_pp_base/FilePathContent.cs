@@ -17,11 +17,11 @@ namespace ext_pp_base
 
             
             lines = null;
-            if (!File.Exists(_filePath))
+            if (!IOCallbacks.Callback.FileExists(_filePath))
             {
                 return false;
             }
-            lines = File.ReadAllLines(_filePath);
+            lines = IOCallbacks.Callback.ReadAllLines(_filePath);
 
             return true;
         }

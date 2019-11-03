@@ -180,7 +180,7 @@ namespace ext_pp
         private ISourceScript[] Process(IFileContent[] files, Settings settings, IDefinitions defs)
         {
             Timer.GlobalTimer.Restart();
-            string dir = Directory.GetCurrentDirectory();
+            //string dir = Directory.GetCurrentDirectory();
             IDefinitions definitions = defs ?? new Definitions();
             settings = settings ?? new Settings();
             SourceManager sm = new SourceManager(_plugins);
@@ -225,7 +225,7 @@ namespace ext_pp
             } while (ss != null);
 
 
-            Directory.SetCurrentDirectory(dir);
+            //Directory.SetCurrentDirectory(dir);
             ISourceScript[] ret = sm.GetList().ToArray();
             this.Log(DebugLevel.LOGS, Verbosity.LEVEL1, "Finishing Up...");
             foreach (var finishedScript in ret)

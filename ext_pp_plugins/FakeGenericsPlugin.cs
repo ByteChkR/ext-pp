@@ -40,7 +40,6 @@ namespace ext_pp_plugins
             ImportResult ret = new ImportResult();
 
             string filePath = "";
-            string key = "";
 
             if (!Utils.TryResolvePathIncludeParameter(vars))
             {
@@ -49,11 +48,11 @@ namespace ext_pp_plugins
 
             string[] genParams = vars.Length > 1 ?
                 vars.SubArray(1, vars.Length - 1).ToArray() : new string[0];
-            string dir = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(currentPath);
-            filePath = Path.GetFullPath(vars[0]);
-            key = filePath;
-            Directory.SetCurrentDirectory(dir);
+
+            string rel = Path.Combine(currentPath, vars[0]);
+            string key = Path.GetFullPath(rel);
+
+            filePath = key;
             key += (genParams.Length > 0 ? "." + genParams.Unpack(Separator) : "");
             if (genParams.Length != 0)
             {

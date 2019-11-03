@@ -59,7 +59,7 @@ namespace ext_pp_plugins
                             this.Log(DebugLevel.LOGS, Verbosity.LEVEL6, "Replacing Inline Keyword with file content");
                             source.RemoveAt(i);
 
-                            source.InsertRange(i, File.ReadAllLines(Path.GetFullPath(args[0], currentPath)));
+                            source.InsertRange(i, IOCallbacks.Callback.ReadAllLines(Path.GetFullPath(args[0], currentPath)));
                             hasIncludedInline = true;
                         }
                         else
@@ -132,7 +132,7 @@ namespace ext_pp_plugins
 
                 if (filepath.EndsWith("\\*") || filepath.EndsWith("/*"))
                 {
-                    string[] files = Directory.GetFiles(filepath.Substring(0, filepath.Length - 2));
+                    string[] files = IOCallbacks.Callback.GetFiles(filepath.Substring(0, filepath.Length - 2));
                     foreach (var file in files)
                     {
                         IFileContent cont = new FilePathContent(file);

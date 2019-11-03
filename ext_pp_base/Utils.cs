@@ -79,11 +79,12 @@ namespace ext_pp_base
         /// <returns>true if the relative path is pointing towards a valid file.</returns>
         public static bool FileExistsRelativeTo(string currentPath, string file)
         {
-            var p = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(currentPath);
-            var ret = File.Exists(file);
-            Directory.SetCurrentDirectory(p);
-            return ret;
+            bool ret1 = IOCallbacks.Callback.FileExists(Path.Combine(currentPath, file));
+            //var p = Directory.GetCurrentDirectory();
+            //Directory.SetCurrentDirectory(currentPath);
+            //var ret = File.Exists(file);
+            //Directory.SetCurrentDirectory(p);
+            return ret1;
         }
 
         /// <summary>

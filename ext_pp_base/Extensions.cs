@@ -51,7 +51,7 @@ namespace ext_pp_base
         /// <returns></returns>
         public static IEnumerable<string> Pack(this string arr, string separator)
         {
-            return arr.Split(separator);
+            return arr.Split(new []{ separator }, StringSplitOptions.None);
         }
 
 

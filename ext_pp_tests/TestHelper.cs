@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ext_pp;
 using ext_pp_base;
 using ext_pp_base.settings;
-namespace ext_pp.tests
+
+namespace ext_pp_tests
 {
     public static class TestHelper
     {

@@ -1,20 +1,19 @@
-﻿using ADL;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using ADL;
 using ADL.Configs;
 using ADL.Crash;
 using ADL.Streams;
 using ext_pp;
 using ext_pp_base;
 using ext_pp_base.settings;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using MatchType = ADL.MatchType;
 using Utils = ext_pp_base.Utils;
 
-namespace ext_pp_cli
+namespace ext_pp_cli_core
 {
 
     /// <summary>
@@ -589,7 +588,7 @@ namespace ext_pp_cli
         {
             int mask = -1;
             bool timestamp = true;
-            string[] vars = input.Split(":");
+            string[] vars = input.Split(new[] { ':' });
             if (vars.Length > 0)
             {
 
@@ -809,8 +808,8 @@ namespace ext_pp_cli
             if (File.Exists(path))
             {
 
-                bool isCollection = names != null && names.Length == 1 && names[0].StartsWith('(') &&
-                                    names[0].EndsWith(')');
+                bool isCollection = names != null && names.Length == 1 && names[0].StartsWith("(") &&
+                                    names[0].EndsWith(")");
                 if ((names == null && !noCollection) || isCollection)
                 {
                     Assembly asm = Assembly.LoadFile(Path.GetFullPath(path));
@@ -903,7 +902,7 @@ namespace ext_pp_cli
             List<string> ret = args;
             for (int i = 0; i < args.Count; i++)
             {
-                if (args[i].StartsWith('@'))
+                if (args[i].StartsWith("@"))
                 {
                     string path = args[i].TrimStart('@');
                     args.RemoveAt(i);
@@ -958,7 +957,7 @@ namespace ext_pp_cli
         {
             for (int i = start + 1; i < args.Length; i++)
             {
-                if (args[i].StartsWith('-'))
+                if (args[i].StartsWith("-"))
                 {
                     return i;
                 }
@@ -1089,10 +1088,10 @@ namespace ext_pp_cli
         {
             string argstr = args.Unpack(" ");
             List<string[]> ret = new List<string[]>();
-            string[] execs = argstr.Split("__", StringSplitOptions.RemoveEmptyEntries);
+            string[] execs = argstr.Split(new []{ "__" }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < execs.Length; i++)
             {
-                ret.Add(execs[i].Split(' ', StringSplitOptions.RemoveEmptyEntries));
+                ret.Add(execs[i].Split(new []{ ' ' }, StringSplitOptions.RemoveEmptyEntries));
             }
 
             return ret.ToArray();

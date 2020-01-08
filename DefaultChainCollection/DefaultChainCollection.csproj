@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlankLineRemover\BlankLineRemover.csproj" />
+    <ProjectReference Include="..\ChangeCharCase\ChangeCharCase.csproj" />
+    <ProjectReference Include="..\CommandRunner\CommandRunner\CommandRunner.csproj" />
+    <ProjectReference Include="..\ConditionalPlugin\ConditionalPlugin.csproj" />
+    <ProjectReference Include="..\ExceptionPlugin\ExceptionPlugin.csproj" />
+    <ProjectReference Include="..\ext_pp_base\ext_pp_base.csproj" />
+    <ProjectReference Include="..\FakeGenericsPlugin\FakeGenericsPlugin.csproj" />
+    <ProjectReference Include="..\IncludePlugin\IncludePlugin.csproj" />
+    <ProjectReference Include="..\KeyWordReplacer\KeyWordReplacer.csproj" />
+    <ProjectReference Include="..\MultiLinePlugin\MultiLinePlugin.csproj" />
+    <ProjectReference Include="..\TextEncoderPlugin\TextEncoderPlugin.csproj" />
+  </ItemGroup>
+
+</Project>

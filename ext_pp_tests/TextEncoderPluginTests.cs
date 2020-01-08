@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Net.Mime;
 using ext_pp_base;
 using ext_pp_plugins;
 using NUnit.Framework;
 
-namespace ext_pp.tests
+namespace ext_pp_tests
 {
     public static class TextEncoderPluginTests
     {

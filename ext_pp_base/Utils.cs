@@ -47,7 +47,7 @@ namespace ext_pp_base
         /// <returns>the fixed line without any excess spaces</returns>
         public static string RemoveExcessSpaces(string line, string separator, ILoggable logobj)
         {
-            string ret = line.Split(separator, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
+            string ret = line.Split(new []{ separator }, StringSplitOptions.RemoveEmptyEntries).Unpack(separator);
             Logger.Log(logobj, DebugLevel.LOGS, Verbosity.LEVEL7, "Removing Excess Spaces: {0} => {1}", line, ret);
             return ret;
         }
@@ -137,7 +137,7 @@ namespace ext_pp_base
                 return new string[0];
             }
 
-            var ret = statement.Split(separator);
+            var ret = statement.Split(new []{ separator }, StringSplitOptions.None);
 
             return ret.SubArray(1, ret.Length - 1).ToArray();
         }
@@ -320,10 +320,10 @@ namespace ext_pp_base
 
             int ret = -1;
 
-            string[] ands = input.Split('&', StringSplitOptions.RemoveEmptyEntries);
+            string[] ands = input.Split(new []{ '&' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var and in ands)
             {
-                string[] ors = and.Split("|", StringSplitOptions.RemoveEmptyEntries);
+                string[] ors = and.Split(new []{ '|' }, StringSplitOptions.RemoveEmptyEntries);
                 int r = -1;
                 foreach (var or in ors)
                 {
@@ -358,7 +358,7 @@ namespace ext_pp_base
                 return false;
             }
 
-            if (vars[0].StartsWith('\"') && vars[0].EndsWith('\"'))
+            if (vars[0].StartsWith("\"") && vars[0].EndsWith("\""))
             {
                 vars[0] = vars[0].Substring(1, vars[0].Length - 2);
             }

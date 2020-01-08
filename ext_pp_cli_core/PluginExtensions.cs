@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ext_pp_base;
 
-namespace ext_pp_cli
+namespace ext_pp_cli_core
 {
     /// <summary>
     /// Useful extensions for the CLI when working with Plugins
@@ -79,7 +79,7 @@ namespace ext_pp_cli
             for (int i = 0; i < info.Count; i++)
             {
 
-                string[] helpt = info[i].HelpText.Split("\n");
+                string[] helpt = info[i].HelpText.Split(new []{ '\n' });
                 ret.Add(tab + info[i].Command + "/" + info[i].ShortCut);
                 ret.Add(tab + "\t" + helpt.Unpack("\n\t" + tab));
             }

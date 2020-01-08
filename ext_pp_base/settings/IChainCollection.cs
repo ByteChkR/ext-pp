@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ext_pp_base
+namespace ext_pp_base.settings
 {
     /// <summary>
     /// An interface that can be inherited and then used to create predetermined collections of plugins.

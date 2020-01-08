@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CommandRunner\CommandRunner\CommandRunner.csproj" />
+    <ProjectReference Include="..\ext_pp_base\ext_pp_base.csproj" />
+    <ProjectReference Include="..\ext_pp\ext_pp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ADL">
       <HintPath>..\ext_pp\res\ADL.dll</HintPath>
     </Reference>

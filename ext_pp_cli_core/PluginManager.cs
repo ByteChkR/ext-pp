@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using ext_pp_base;
 using ext_pp_base.settings;
 
-namespace ext_pp_cli
+namespace ext_pp_cli_core
 {
     /// <summary>
     /// Manages often used plugins and makes them available by prefix when added to the watched dirs or files.

@@ -9,7 +9,7 @@ matrix:
       mono: none
       env:
         - SOLUTION="ext_pp.sln"
-        - BUILDCONFIG="Release"
+        - BUILDCONFIG="TravisRelease"
 
 install:
   - dotnet restore 
